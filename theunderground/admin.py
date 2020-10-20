@@ -62,5 +62,9 @@ if enabled:
       print('Backing up server just because...')
       shutil.copy('url1','url1_bak_{}'.format(datetime.datetime.now().strftime('%Y-%d-%mT%H:%M:%S')))
       return 'Done'
+    @login_required
+    @app.route('/theunderground/noma/admin')
+    def noma_admin():
+      return render_template('noma_admin.html')
         
     
