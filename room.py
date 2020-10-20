@@ -1,6 +1,19 @@
 from flask import Flask, send_from_directory
+from flask_sqlalchemy import SQLAlchemy
+
+import config
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Ensure DB tables are created.
+db = SQLAlchemy()
+import models
+
+with app.test_request_context():
+    db.init_app(app)
+    db.create_all()
 
 # Import routes here.
 import url2.reginfo

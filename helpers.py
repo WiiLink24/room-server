@@ -45,10 +45,10 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             root.text = d
         elif isinstance(d, int):
             root.text = f"{d}"
-        elif isinstance(d, tuple):
-            # As we're backed by K/V notation, a tuple is useless.
-            # It should only contain our special RepeatedKeys
-            # and RepeatedNodes types.
+        elif isinstance(d, tuple) or isinstance(d, list):
+            # As we're backed by K/V notation,a tuple or a list is useless.
+            # It should only contain our special
+            # RepeatedKeys and RepeatedNodes types.
             for v in d:
                 if isinstance(v, RepeatedElement):
                     # We'd like to duplicate this specific node in its parent.
