@@ -9,12 +9,12 @@ def xml_node_name(node_name):
     def decorator(func):
         @functools.wraps(func)
         def serialization_wrapper(*args, **kwargs):
-            returned_dict = func(*args, **kwargs)
+            returned_value = func(*args, **kwargs)
 
             # Ensure we are truly dealing with a dictionary.
-            if isinstance(returned_dict, dict):
+            if isinstance(returned_value, dict):
                 # First, serialize to an ETree.
-                elements = dict_to_etree(node_name, returned_dict)
+                elements = dict_to_etree(node_name, returned_value)
 
                 # Next, insert a 'ver' key at the very top.
                 # Versions must equate to 3 once divided by 100.
@@ -26,9 +26,8 @@ def xml_node_name(node_name):
                 # We now must convert from ETree to actual XML we can respond with.
                 return etree.tostring(elements, pretty_print=True)
             else:
-                raise ValueError(
-                    "Ensure the xml_node_name decorator is only used with functions returning dicts."
-                )
+                # We only apply XML operations to dicts.
+                return returned_value
 
         return serialization_wrapper
 
@@ -41,14 +40,18 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     def _to_etree(d, root):
         if d is None:
             pass
-        elif isinstance(d, str):
-            root.text = d
+        elif isinstance(d, bool):
+            # We can only accept 0 or 1 as Nintendo's "boolean" types.
+            root.text = "1" if d else "0"
         elif isinstance(d, int):
             root.text = f"{d}"
+        elif isinstance(d, str):
+            root.text = d
         elif isinstance(d, tuple) or isinstance(d, list):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special
             # RepeatedKeys and RepeatedNodes types.
+            should_delete = False
             for v in d:
                 if isinstance(v, RepeatedElement):
                     # We'd like to duplicate this specific node in its parent.
@@ -59,12 +62,17 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
                     new_elem = etree.SubElement(parent_elem, root.tag)
 
                     _to_etree(v.contents, new_elem)
+                    should_delete = True
                 elif isinstance(v, RepeatedKey):
                     # We'd like to duplicate keys within this node.
                     # Retain the parent and operate on the dict.
                     _to_etree(v.contents, root)
                 else:
                     raise ValueError(f"invalid type {type(v).__name__} specified")
+            if should_delete:
+                # Delete ourselves once added as other repeated elements have replaced us.
+                root.getparent().remove(root)
+
         elif isinstance(d, dict):
             for k, v in d.items():
                 assert isinstance(k, str)

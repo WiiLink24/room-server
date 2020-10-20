@@ -1,5 +1,7 @@
+from sqlalchemy import asc
+
 from room import app
-from helpers import current_date, xml_node_name, RepeatedKey
+from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
 from models import Posters
 
 
@@ -7,16 +9,20 @@ from models import Posters
 @xml_node_name("Event")
 def event_today():
     # Retrieve all registered posters.
-    queried_posters = Posters.query.limit(20).all()
+    queried_posters = Posters.query.order_by(asc(Posters.poster_id)).limit(20).all()
     # Create a dictionary and append contents.
-    # We need only one posterinfo, so we use RepeatedKey.
+    # We require separate posterinfos, so we use RepeatedElement.
     posters = []
-    for idx, poster in enumerate(queried_posters):
-        posters.append(RepeatedKey({
-            # Seq is indexed by 1, whereas idx is 0.
-            "seq": idx+1,
-            "posterid": poster.poster_id
-        }))
+    for seq, poster in enumerate(queried_posters):
+        posters.append(
+            RepeatedElement(
+                {
+                    # Seq is indexed by 1, whereas a normal index is 0.
+                    "seq": seq + 1,
+                    "posterid": poster.poster_id,
+                }
+            )
+        )
 
     return {
         "date": current_date(),
