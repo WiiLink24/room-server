@@ -1,6 +1,16 @@
 from room import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
+# ...
 
+class User(db.Model):
+    # Used to login to the Admin Panel
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 class Posters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
