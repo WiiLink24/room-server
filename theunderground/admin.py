@@ -1,5 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import render_template
+from flask import render_template, redirect_to, url_for
+import datetime.datetime
+import shutil
 descrutive_warning = '''
   _____   ____ _______ ______ _   _ _______ _____          _      _  __     __
  |  __ \ / __ \__   __|  ____| \ | |__   __|_   _|   /\   | |    | | \ \   / /
@@ -37,7 +39,7 @@ print('For security, the underground is **disabled** by default')
 print('In order to activate it, please enter the **password** set by the admin into the variable below (line 20)')
 pw = ''
 hash = ''
-if check_password_hash(pw,hash):
+if check_password_hash(pw,hash) and not hash == None:
     print(enabled)
     enabled = True # Yes, I know this is easily circumvented, but the point of this is simple: you can't accidently enter the correct password
 else:
@@ -48,3 +50,17 @@ if enabled:
     @app.route('/theunderground/admin')
     def admin():
         return render_template('underground.html')
+    @login_required
+    @app.route('/theunderground/backup/toadmin')
+    def toadmin():
+      print('Backing up server before returning to admin...')
+      shutil.copy('url1','url1_bak_{}'.format(datetime.datetime.now().strftime('%Y-%d-%mT%H:%M:%S')))
+      return redirect_to(url_for('/theunderground/admin'))
+    @login_required
+    @app.route('/theunderground/backup/justbecause')
+    def toadmin():
+      print('Backing up server just because...')
+      shutil.copy('url1','url1_bak_{}'.format(datetime.datetime.now().strftime('%Y-%d-%mT%H:%M:%S')))
+      return 'Done'
+        
+    
