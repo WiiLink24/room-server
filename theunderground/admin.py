@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import render_template, url_for
 from room import app, db
-from models import ConciergeMii
+from models import ConciergeMii, User
 from flask_login import login_required
 from forms import LoginForm,KillMii,ConciergeForm
 import datetime
@@ -54,7 +54,7 @@ else:
     enabled = False
 if enabled:
     print('hello')
-    @app.route('/theunderground/signin')
+    @app.route('/theunderground/signin',methods=['GET','POST'])
     def signin():
       if current_user.is_authenticated:
           return redirect(url_for('index'))

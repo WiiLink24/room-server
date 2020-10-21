@@ -23,6 +23,7 @@ class ConciergeMii(db.Model):
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     username = db.Column(db.String(100),primary_key=True)
+    password_hash = db.Column(db.String(9999999))
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
