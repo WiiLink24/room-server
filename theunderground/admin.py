@@ -67,7 +67,7 @@ if enabled:
     def noma_admin():
       return render_template('noma_admin.html')
     @login_required
-    @app.route('/theunderground/addposter')
-    def addposter():
+    @app.route('/theunderground/addconcierge')
+    def addconcierge():
       return 'not done yet'
     
