@@ -57,7 +57,7 @@ if enabled:
     @app.route('/theunderground/signin',methods=['GET','POST'])
     def signin():
       if current_user.is_authenticated:
-          return redirect(url_for('index'))
+          return redirect(url_for('admin'))
       form = LoginForm()
       if form.validate_on_submit():
           user = User.query.filter_by(username=form.username.data).first()
@@ -65,7 +65,7 @@ if enabled:
               flash('Invalid username or password')
               return redirect(url_for('signin'))
           login_user(user, remember=False)
-          return redirect(url_for('index'))
+          return redirect(url_for('admin'))
       return render_template('login.html', form=form)
         
     @app.route('/theunderground/admin',methods=['GET','POST'])
