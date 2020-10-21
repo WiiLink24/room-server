@@ -13,6 +13,7 @@ def event_today():
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
+    miiinfos = []
     for seq, poster in enumerate(queried_posters):
         posters.append(
             RepeatedElement(
@@ -23,6 +24,15 @@ def event_today():
                 }
             )
         )
+    for seq, mii in enumerate(queried_posters):
+        miiinfos.append(
+            RepeatedElement(
+                {
+                    "seq": seq + 1
+                    "miiid": mii.miiid
+                }
+            )
+        )
 
     return {
         "date": current_date(),
@@ -30,10 +40,7 @@ def event_today():
         "color": "000000",
         "postertime": 5,
         "posterinfo": posters,
-        "miiinfo": {
-            "seq": 1,
-            "miiid": 1,
-        },
+        "miiinfo": miiinfos,
         "newsinfo": {"page": 1, "news": "Welcome to Wii Room."},
         "adinfo": (
             RepeatedKey(
