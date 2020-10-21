@@ -69,5 +69,10 @@ if enabled:
     @login_required
     @app.route('/theunderground/addconcierge')
     def addconcierge():
-      return 'not done yet'
+      return render_temaplate('concierge.html')
+    @login_required
+    @app.route('/theunderground/removeconcierge')
+    def removeconcierge():
+      return render_template('killmii.html')
+    
     
