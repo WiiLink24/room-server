@@ -9,11 +9,15 @@ def pay_list_category_header():
     filler = []
     for i in range(40):
         # Items must be indexed by 1.
-        filler.append(RepeatedElement({
-            "place": i + 1,
-            "type": i + 10,
-            "text": "Testing...",
-        }))
+        filler.append(
+            RepeatedElement(
+                {
+                    "place": i + 1,
+                    "type": i + 10,
+                    "text": "Testing...",
+                }
+            )
+        )
 
     return {
         "img": 0,
