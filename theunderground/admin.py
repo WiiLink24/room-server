@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import render_template, url_for
+from flask import render_template, url_for, flash, redirect
 from room import app, db
 from models import ConciergeMii, User
 from flask_login import login_required
@@ -63,7 +63,7 @@ if enabled:
           user = User.query.filter_by(username=form.username.data).first()
           if user is None or not user.check_password(form.password.data):
               flash('Invalid username or password')
-              return redirect(url_for('login'))
+              return redirect(url_for('signin'))
           login_user(user, remember=False)
           return redirect(url_for('index'))
       return render_template('login.html', form=form)

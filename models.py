@@ -22,7 +22,8 @@ class ConciergeMii(db.Model):
      movieid = db.Column(db.String(1))
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
-    username = db.Column(db.String(100),primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
     password_hash = db.Column(db.String(9999999))
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
