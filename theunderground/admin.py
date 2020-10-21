@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import render_template, redirect_to, url_for
-from forms import LoginForm
+from forms import LoginForm,KillMii,ConciergeForm
 import datetime.datetime
 import shutil
 descrutive_warning = '''
