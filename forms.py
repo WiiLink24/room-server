@@ -4,6 +4,7 @@ from wtforms.validators import ValidationError, DataRequired
 class KillMii(FlaskForm):
     # Form for deleting a concierge mii
     miiid = StringField('Mii ID',validators=[DataRequired()])
+    submit = SubmitField('Delete!')
 class ConciergeForm(FlaskForm):
     miiid = StringField('Mii ID',validators=[DataRequired()]
     title = StringField('Concierge Mii Title', validators=[DataRequired()])
