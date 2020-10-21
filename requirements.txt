@@ -3,3 +3,4 @@ lxml>=4.6
 psycopg2>=2.8
 flask_sqlalchemy>=2.4
 flask-login
+flask-wtforms
