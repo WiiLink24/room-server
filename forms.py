@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import ValidationError, DataRequired
+class KillMii(FlaskForm):
+    # Form for deleting a concierge mii
+    miiid = StringField('Mii ID',validators=[DataRequired()])
 class ConciergeForm(FlaskForm):
     miiid = StringField('Mii ID',validators=[DataRequired()]
     title = StringField('Concierge Mii Title', validators=[DataRequired()])
