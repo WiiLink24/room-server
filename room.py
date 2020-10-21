@@ -9,13 +9,14 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Ensure DB tables are created.
 db = SQLAlchemy()
+import models
 
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
 
 # Import routes here.
-from url1 import beacon, eula, event_today, paylink, wall_metadata
+from url1 import beacon, eula, event_today, mii, paylink, wall_metadata
 import url1.special.all
 
 import url2.reginfo
@@ -32,8 +33,16 @@ if app.debug:
 
     @app.route("/url1/wall/<name>.img")
     def serve_images(name):
-        return send_from_directory("assets/normal", name + ".img")
+        return send_from_directory("assets/normal-wall", name + ".img")
 
     @app.route("/url3/pay/wall/<name>.img")
     def serve_pay_images(name):
-        return send_from_directory("assets/pay", name + ".img")
+        return send_from_directory("assets/pay-wall", name + ".img")
+
+    @app.route("/url1/intro/<name>.img")
+    def serve_intro(name):
+        return send_from_directory("assets/normal-intro", name + ".img")
+
+    @app.route("/url3/pay/intro/<name>.img")
+    def serve_pay_intro(name):
+        return send_from_directory("assets/pay-intro", name + ".img")
