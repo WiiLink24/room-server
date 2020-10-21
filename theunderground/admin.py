@@ -6,6 +6,7 @@ from flask_login import login_required
 from forms import LoginForm,KillMii,ConciergeForm
 import datetime
 import shutil
+from flask_login import current_user, login_user
 descrutive_warning = '''
   _____   ____ _______ ______ _   _ _______ _____          _      _  __     __
  |  __ \ / __ \__   __|  ____| \ | |__   __|_   _|   /\   | |    | | \ \   / /
@@ -37,18 +38,19 @@ disabled = '''
 '''
 print('You have entered the underground')
 print('!! WARNING !!')
-print('Changes made at /theunderground/admin with a login are')
-print(descrutive_warning)
+print('Changes made at /theunderground/admin with a login are potentially destructive')
+#print(descrutive_warning)
 print('For security, the underground is **disabled** by default')
 print('In order to activate it, please enter the **password** set by the admin into the variable below (line 20)')
 pw = '123'
 #enabled = True
 hash = 'pbkdf2:sha256:150000$isdrNS5h$ee21ae24974917651ba34d249bce5c1f4274f81625b3d4d20ce0cfe9f3293133'
 if check_password_hash(hash,pw) and not hash == None:
-    print(enabled)
+    #print(enabled)
+    print('Admin enabled!')
     enabled = True # Yes, I know this is easily circumvented, but the point of this is simple: you can't accidently enter the correct password
 else:
-    print(disabled)
+    print('Admin off!')
     enabled = False
 if enabled:
     print('hello')
