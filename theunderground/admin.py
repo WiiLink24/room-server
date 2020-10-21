@@ -66,8 +66,8 @@ if enabled:
           return redirect(url_for('index'))
       return render_template('login.html', form=form)
         
-    @login_required
     @app.route('/theunderground/admin',methods=['GET','POST'])
+    @login_required
     def admin():
         #return 'Hello!'
         return render_template('underground.html')
@@ -85,12 +85,12 @@ if enabled:
       shutil.copy('url1','url1_bak_{}'.format(datetime.datetime.now().strftime('%Y-%d-%mT%H:%M:%S')))
       return 'Done'
     '''
-    @login_required
     @app.route('/theunderground/noma/admin')
+    @login_required
     def noma_admin():
       return render_template('noma_admin.html')
-    @login_required
     @app.route('/theunderground/addconcierge',methods=['GET','POST'])
+    @login_required
     def addconcierge():
       form = ConciergeForm()
       if form.validate_on_submit():
@@ -111,8 +111,8 @@ if enabled:
           db.session.add(mii)
           db.session.commit()
       return render_template('concierge.html',form=form)
-    @login_required
     @app.route('/theunderground/removeconcierge')
+    @login_required
     def removeconcierge():
       form = KillMii()
       return render_template('killmii.html',form=form)
