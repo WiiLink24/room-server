@@ -89,13 +89,13 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
 def current_date_and_time():
     """ Returns the current date time in a format usable by Nintendo. """
 
-    return datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def current_date():
     """ Returns the current date in a format usable by Nintendo. """
 
-    return datetime.now().strftime("%Y-%m-%d")
+    return datetime.utcnow().strftime("%Y-%m-%d")
 
 
 class RepeatedKey:

@@ -6,10 +6,6 @@ as the file was served over HTTPS by Nintendo. AES is symmetric and provides no 
 keys are easily found within the channel's contents.
 
 If you want to run `room-server` separately for use with Wii no Ma, you must edit and create a first.bin.
-Configure your web server to serve `/conf/` separately.
-
-`room-server` does not attempt to generate contents for one. You must do this manually.
-However, if you are using Flask in debug mode, it will serve this file. Please do not rely this in production.
 
 ### How to create a first.bin
 

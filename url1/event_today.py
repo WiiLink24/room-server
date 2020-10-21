@@ -1,5 +1,3 @@
-from sqlalchemy import asc
-
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
 from models import Posters, ConciergeMii
@@ -9,7 +7,6 @@ def event_today():
     # Retrieve all registered posters.
     queried_posters = Posters.query.order_by(asc(Posters.poster_id)).limit(20).all()
     queried_miis = ConciergeMii.query.order_by(asc(ConciergeMii.mii_id)).limit(20).all()
-
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []

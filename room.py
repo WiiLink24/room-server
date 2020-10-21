@@ -8,17 +8,33 @@ app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
 # Ensure DB tables are created.
+
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
+import models
 
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
+
 login = LoginManager(app)
-from url1 import beacon, eula, event_today, paylink, wall_metadata, mii
+
+
+# Import routes here.
+from url1 import (
+    beacon,
+    category_n,
+    eula,
+    event_today,
+    mii,
+    movie_metadata,
+    paylink,
+    wall_metadata,
+)
 import url1.special.all
 
-import url2.reginfo
+from url2 import assets, reginfo
+
 
 from url3.pay import event_today, wall_metadata
 from theunderground import admin
@@ -37,5 +53,4 @@ if app.debug:
     @app.route("/url3/pay/wall/<name>.img")
     def serve_pay_images(name):
         return send_from_directory("assets/pay", name + ".img")
-if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=False)
+
