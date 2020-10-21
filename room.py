@@ -2,7 +2,6 @@ from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import config
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -15,6 +14,7 @@ with app.test_request_context():
     db.create_all()
 login = LoginManager(app)
 # Import routes here.
+import theunderground.admin
 from url1 import beacon, eula, event_today, paylink, wall_metadata
 import url1.special.all
 
