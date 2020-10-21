@@ -46,3 +46,14 @@ class MiiMsgInfo(db.Model):
     seq = db.Column(db.Integer, primary_key=True, nullable=False)
     msg = db.Column(db.String, nullable=False)
     face = db.Column(db.Integer, nullable=False)
+
+
+class Movies(db.Model):
+    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
+    title = db.Column(db.String, nullable=False)
+    length = db.Column(db.String(8), nullable=False)
+    aspect = db.Column(db.Boolean, nullable=False)
+    genre = db.Column(db.Integer, nullable=False)
+    sp_page_id = db.Column(db.Integer, nullable=False)
+    ds_dist = db.Column(db.Boolean, nullable=False)
+    staff = db.Column(db.Boolean, nullable=False)
