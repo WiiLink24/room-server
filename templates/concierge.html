@@ -86,6 +86,7 @@
            {{ form.movieid(size=32) }}<br>
            {% for error in form.movieid.errors %}
            <span style="color: red;">[{{ error }}]
+           {% endfor %}
         <p>{{ form.submit() }}</p>
     </form>
   </body>

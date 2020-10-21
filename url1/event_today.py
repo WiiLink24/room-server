@@ -28,7 +28,7 @@ def event_today():
         miiinfos.append(
             RepeatedElement(
                 {
-                    "seq": seq + 1
+                    "seq": seq + 1,
                     "miiid": mii.miiid
                 }
             )

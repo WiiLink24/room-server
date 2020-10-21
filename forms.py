@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from models import ConciergeMii
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import ValidationError, DataRequired
 class LoginForm(FlaskForm):
@@ -23,8 +24,8 @@ class ConciergeForm(FlaskForm):
     movieid = StringField('Movie ID', validators=[DataRequired()])
     submit = SubmitField('Create!')
     def validate_miiid(self,miiid):
-        query = ConciergeMii.query.filter_by(miiid=miiid.data)
-        if query is not None:
+        query = ConciergeMii.query.filter_by(mii_id=miiid.data)
+        if query is None:
             raise ValidationError("Mii ID taken, add 1 to it")
         
         

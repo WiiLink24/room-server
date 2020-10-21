@@ -1,7 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import render_template, url_for
+from room import app, db
+from models import ConciergeMii
+from flask_login import login_required
 from forms import LoginForm,KillMii,ConciergeForm
-import datetime.datetime
+import datetime
 import shutil
 descrutive_warning = '''
   _____   ____ _______ ______ _   _ _______ _____          _      _  __     __
@@ -38,15 +41,17 @@ print('Changes made at /theunderground/admin with a login are')
 print(descrutive_warning)
 print('For security, the underground is **disabled** by default')
 print('In order to activate it, please enter the **password** set by the admin into the variable below (line 20)')
-pw = ''
-hash = ''
-if check_password_hash(pw,hash) and not hash == None:
+pw = '123'
+#enabled = True
+hash = 'pbkdf2:sha256:150000$isdrNS5h$ee21ae24974917651ba34d249bce5c1f4274f81625b3d4d20ce0cfe9f3293133'
+if check_password_hash(hash,pw) and not hash == None:
     print(enabled)
     enabled = True # Yes, I know this is easily circumvented, but the point of this is simple: you can't accidently enter the correct password
 else:
     print(disabled)
     enabled = False
 if enabled:
+    print('hello')
     @app.route('/theunderground/signin')
     def signin():
       if current_user.is_authenticated:
@@ -62,9 +67,11 @@ if enabled:
       return render_template('login.html', form=form)
         
     @login_required
-    @app.route('/theunderground/admin')
+    @app.route('/theunderground/admin',methods=['GET','POST'])
     def admin():
+        #return 'Hello!'
         return render_template('underground.html')
+    '''
     @login_required
     @app.route('/theunderground/backup/toadmin')
     def toadmin():
@@ -77,15 +84,33 @@ if enabled:
       print('Backing up server just because...')
       shutil.copy('url1','url1_bak_{}'.format(datetime.datetime.now().strftime('%Y-%d-%mT%H:%M:%S')))
       return 'Done'
+    '''
     @login_required
     @app.route('/theunderground/noma/admin')
     def noma_admin():
       return render_template('noma_admin.html')
     @login_required
-    @app.route('/theunderground/addconcierge')
+    @app.route('/theunderground/addconcierge',methods=['GET','POST'])
     def addconcierge():
-      form = ConciergeMii()
-      return render_temaplate('concierge.html',form=form)
+      form = ConciergeForm()
+      if form.validate_on_submit():
+          dateformat = "%Y-%m-%dT%H:%M:%S"
+          mii = ConciergeMii(mii_id=form.miiid.data,
+                             title=form.title.data,
+                             color1=form.color1.data,
+                             color2=form.color2.data,
+                             message1=form.message1.data,
+                             message2=form.message2.data,
+                             message3=form.message3.data,
+                             message4=form.message4.data,
+                             message5=form.message5.data,
+                             message6=form.message6.data,
+                             message7=form.message7.data,
+                             updated=datetime.datetime.now().strftime(dateformat),
+                             movieid=form.movieid.data)
+          db.session.add(mii)
+          db.session.commit()
+      return render_template('concierge.html',form=form)
     @login_required
     @app.route('/theunderground/removeconcierge')
     def removeconcierge():
