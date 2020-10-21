@@ -1,0 +1,22 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import ValidationError, DataRequired
+class ConciergeForm(FlaskForm):
+    miiid = StringField('Mii ID',validators=[DataRequired()]
+    title = StringField('Concierge Mii Title', validators=[DataRequired()])
+    color1 = StringField('Shirt Color (RRGGBB)', validators=[DataRequired())])
+    color2 = StringField('Pants Color (RRGGBB)', validators=[DataRequired())])
+    message1 = StringField('Message 1', validators=[DataRequired())])
+    message2 = StringField('Message 2', validators=[DataRequired())])
+    message3 = StringField('Message 3', validators=[DataRequired())])
+    message4 = StringField('Message 4', validators=[DataRequired())])
+    message5 = StringField('Message 5', validators=[DataRequired())])
+    message6 = StringField('Message 6', validators=[DataRequired())])
+    message7 = StringField('Message 7', validators=[DataRequired())])
+    submit = SubmitField('Create!')
+    def validate_miiid(self,miiid):
+        query = ConciergeMii.query.filter_by(miiid=miiid.data)
+        if query is not None:
+            raise ValidationError("Mii ID taken, add 1 to it")
+        
+        
