@@ -13,6 +13,7 @@ class ConciergeForm(FlaskForm):
     message5 = StringField('Message 5', validators=[DataRequired())])
     message6 = StringField('Message 6', validators=[DataRequired())])
     message7 = StringField('Message 7', validators=[DataRequired())])
+    movieid = StringField('Movie ID', validators=[DataRequired())])
     submit = SubmitField('Create!')
     def validate_miiid(self,miiid):
         query = ConciergeMii.query.filter_by(miiid=miiid.data)
