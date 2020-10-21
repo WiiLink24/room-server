@@ -5,7 +5,19 @@ from app import login
 def load_user(id):
     return User.query.get(int(id))
 
-
+class ConciergeMii(db.model):
+     mii_id = db.Column(db.Integer, primary_key=True, unique=True)
+     color1 = db.Column(db.String(6))
+     color2 = db.Column(db.String(6))
+     message1 = db.Column(db.String(100))
+     message2 = db.Column(db.String(100))
+     message3 = db.Column(db.String(100))
+     message4 = db.Column(db.String(100))
+     message5 = db.Column(db.String(100))
+     message6 = db.Column(db.String(100))
+     message7 = db.Column(db.String(100))
+     updated = db.Column(db.String(17))
+     movieid = db.Column(db.String(1))
 class User(db.Model):
     # Used to login to the Admin Panel
 
