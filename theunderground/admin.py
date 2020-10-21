@@ -75,10 +75,12 @@ if enabled:
     @login_required
     @app.route('/theunderground/addconcierge')
     def addconcierge():
-      return render_temaplate('concierge.html')
+      form = ConciergeMii()
+      return render_temaplate('concierge.html',form=form)
     @login_required
     @app.route('/theunderground/removeconcierge')
     def removeconcierge():
-      return render_template('killmii.html')
+      form = KillMii()
+      return render_template('killmii.html',form=form)
     
     
