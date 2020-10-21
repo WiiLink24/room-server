@@ -1,5 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import render_template, redirect_to, url_for
+from forms import LoginForm
 import datetime.datetime
 import shutil
 descrutive_warning = '''
@@ -46,6 +47,11 @@ else:
     print(disabled)
     enabled = False
 if enabled:
+    @app.route('/theunderground/signin')
+    def signin():
+      form = LoginForm()
+      return render_template('login.html',form=form)
+        
     @login_required
     @app.route('/theunderground/admin')
     def admin():
