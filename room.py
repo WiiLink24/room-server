@@ -15,7 +15,7 @@ with app.test_request_context():
     db.init_app(app)
     db.create_all()
 login = LoginManager(app)
-from url1 import beacon, eula, event_today, paylink, wall_metadata
+from url1 import beacon, eula, event_today, paylink, wall_metadata, mii
 import url1.special.all
 
 import url2.reginfo
