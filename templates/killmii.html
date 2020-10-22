@@ -1,0 +1,12 @@
+<html>
+     <body>
+        <p>
+           {{ form.miiid.label }}<br>
+           {{ form.miiid(size=32) }}<br>
+           {% for error in form.miiid.errors %}
+           <span style="color: red;">[{{ error }}]
+         </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+  </body>
+</html>
