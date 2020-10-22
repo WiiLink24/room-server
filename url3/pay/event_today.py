@@ -1,5 +1,3 @@
-from sqlalchemy import asc
-
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement
 from models import PayPosters
@@ -10,7 +8,7 @@ from models import PayPosters
 def pay_event_today():
     # Retrieve all registered posters.
     queried_posters = (
-        PayPosters.query.order_by(asc(PayPosters.poster_id)).limit(20).all()
+        PayPosters.query.order_by(PayPosters.poster_id.asc()).limit(20).all()
     )
 
     posters = []
