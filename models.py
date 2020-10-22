@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from room import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -50,6 +52,7 @@ class Miis(db.Model):
     prof = db.Column(db.String(129), nullable=False)
     name = db.Column(db.String(10), nullable=False)
     movie_id = db.Column(db.Integer, nullable=False)
+    update_date = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class MiiData(db.Model):
