@@ -74,5 +74,5 @@ def obtain_mii(mii_id):
         "name": mii_metadata.name,
         "msginfo": msginfo,
         "movieid": mii_metadata.movie_id,
-        "upddt": current_date_and_time(),
+        "upddt": mii_metadata.update_date.strftime("%Y-%m-%dT%H:%M:%S"),
     }
