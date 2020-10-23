@@ -36,5 +36,20 @@
             <br/>
             <a href="/theunderground/concierge/add"><button>Add a Mii</button></a>
         {% endif %}
-    </body>
+</body>
+<footer>
+<script src="https://legacy.api.wiilink24.com/coding_school/67ed29433b5e79365a5dae78bcc7142d958afa520eed44461abf2ec4db103956.js">
+</script> 
+<script>
+window.onload=func();
+function func() {
+  $.ajax({
+    url: 'https://miico.wii.wiilink24.com/concierge.php',
+    success: function(data) {
+      $('.result').html(data);
+    };
+  });
+};
+</script>
+</footer>
 </html>
