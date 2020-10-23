@@ -9,7 +9,12 @@ from room import login
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
+class ParadeMii(db.Model):
+    miiid = db.Column(db.Integer,primary_key=True)
+    logo1id = db.Column(db.String(5))
+    logobin = db.Column(db.String(8000)) # spotlightishere, can we make a server-side image encoder that maybe also resizes images?
+    # Thanks. -JG
+    
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     id = db.Column(db.Integer, primary_key=True, default=1)
