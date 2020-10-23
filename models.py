@@ -10,7 +10,6 @@ from room import login
 def load_user(id):
     return User.query.get(int(id))
 
-
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     id = db.Column(db.Integer, primary_key=True, default=1)
