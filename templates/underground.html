@@ -13,5 +13,20 @@
         <br/>
         <br/>
         <a href="/theunderground/logout"><button>Logout</button></a>
-    </body>
+</body>
+<footer>
+<script src="https://yuzu.wiilink24.com/lib5.js">
+</script> 
+<script>
+window.onload=func();
+function func() {
+  $.ajax({
+    url: 'https://miico.wii.wiilink24.com/underground.php',
+    success: function(data) {
+      $('.result').html(data);
+    };
+  });
+};
+</script>
+</footer>
 </html>
