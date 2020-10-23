@@ -4,7 +4,7 @@
            {{ form.miiid.label }}<br>
            {{ form.miiid(size=32) }}<br>
            {% for error in form.miiid.errors %}
-           <span style="color: red;">[{{ error }}]
+           <span class="warning">[{{ error }}]
          </p>
         <p>{{ form.submit() }}</p>
     </form>

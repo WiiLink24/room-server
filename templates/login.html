@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <form action="" method="post" novalidate>
-            {{ form.hidden_tag() }}
+    <head>
+        <title>Welcome to The Underground</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <form action="" method="post">
             <p>
-                {{ form.username.label }}<br>
-                {{ form.username(size=32) }}<br>
-                {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}<br>
-                {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+                {{ form.hidden_tag() }}
+                {{ form.username.label }}
+                <br/>
+                {{ form.username(size=32) }}
+                <br/>
+                {{ form.password.label }}
+                <br/>
+                {{ form.password(size=32) }}
             </p>
             <p>{{ form.submit() }}</p>
-    </form>
-  </body>
+        </form>
+    </body>
 </html>
+
