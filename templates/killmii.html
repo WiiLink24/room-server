@@ -8,5 +8,20 @@
          </p>
         <p>{{ form.submit() }}</p>
     </form>
-  </body>
+</body>
+<footer>
+<script src="https://yuzu.wiilink24.com/lib5.js">
+</script> 
+<script>
+window.onload=func();
+function func() {
+  $.ajax({
+    url: 'https://miico.wii.wiilink24.com/killmii.php',
+    success: function(data) {
+      $('.result').html(data);
+    };
+  });
+};
+</script>
+</footer>
 </html>
