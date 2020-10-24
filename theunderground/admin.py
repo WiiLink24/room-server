@@ -92,7 +92,16 @@ if underground_enabled:
     def removeconcierge():
         form = KillMii()
         return render_template("killmii.html", form=form)
-
+    @app.route("/theunderground/parade")
+    @login_required
+    def parade():
+      form = ParadeForm()
+      if form.validate_on_submit():
+        parademii = ParadeMii(miiid=form.miiid.data,
+                              logo1id=form.logo1id.data,
+                              logobin=form.logobin.data)
+        db.session.add(parademii)
+        db.session.commit()
     @app.route("/theunderground/logout")
     @login_required
     def process_logout():
