@@ -7,7 +7,11 @@ class LoginForm(FlaskForm):
     username = StringField("Username")
     password = PasswordField("Password")
     submit = SubmitField("Enter the underground")
-
+class ParadeForm(FlaskForm):
+    miiid = StringField("Mii ID", validators=[DataRequired()])
+    company = StringField("Company",validators=[DataRequired()])
+    image = StringField("Image in Base64",validators=[DataRequired()])
+    submit = SubmitField("Create")
 
 class KillMii(FlaskForm):
     # Form for deleting a concierge mii
