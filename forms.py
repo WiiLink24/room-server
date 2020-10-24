@@ -1,12 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import ValidationError, DataRequired
+from flask_wtf.file import FileRequired
+from wtforms import StringField, SubmitField, PasswordField, FileField
+from wtforms.validators import DataRequired
 
 
 class LoginForm(FlaskForm):
     username = StringField("Username")
     password = PasswordField("Password")
     submit = SubmitField("Enter the underground")
+
+
+class MiiUploadForm(FlaskForm):
+    mii = FileField("Mii Selection", validators=[FileRequired()])
+    upload = SubmitField("Add Mii")
 
 
 class ParadeForm(FlaskForm):
