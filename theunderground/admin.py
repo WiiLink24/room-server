@@ -92,7 +92,7 @@ if underground_enabled:
     def removeconcierge():
         form = KillMii()
         return render_template("killmii.html", form=form)
-    @app.route("/theunderground/parade")
+    @app.route("/theunderground/parade",methods=['GET','POST'])
     @login_required
     def parade():
       form = ParadeForm()
