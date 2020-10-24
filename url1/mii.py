@@ -2,7 +2,7 @@ from werkzeug import exceptions
 
 from room import app
 from helpers import xml_node_name, RepeatedKey, RepeatedElement, current_date_and_time
-from models import Miis, MiiData, MiiMsgInfo
+from models import ConciergeMiis, MiiData, MiiMsgInfo
 
 
 @app.route("/url1/mii/<int:mii_id>.mii")
@@ -25,7 +25,7 @@ def mii_met(mii_id):
 @xml_node_name("ConciergeMii")
 def obtain_mii(mii_id):
     # Do we have this Mii?
-    mii_metadata = Miis.query.filter_by(mii_id=mii_id).first()
+    mii_metadata = ConciergeMiis.query.filter_by(mii_id=mii_id).first()
     if mii_metadata is None:
         return exceptions.NotFound()
 
@@ -36,7 +36,7 @@ def obtain_mii(mii_id):
         .order_by(MiiMsgInfo.seq.asc())
     )
     if db_msginfo is None:
-        print(f"Mii #{mii_id} lacks msginfo data. Was it inserted properly?")
+        # A Mii doesn't have to be a concierge Mii.
         return exceptions.NotFound()
 
     # Separate by type and seq.

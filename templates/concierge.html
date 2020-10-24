@@ -2,12 +2,12 @@
 <html>
     <head>
         <title>Concierge Miis</title>
-        <link rel="stylesheet" href="https://yuzu.api.wiilink24.com/css0.css"/>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
         <h1>Manage Concierge Miis</h1>
         {% if miis | length == 0 %}
-            <span class="warning">You have no Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
+            <span class="warning">You have no Concierge Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
         {% elif miis | length == 1 %}
             There is currently <strong>1</strong> Mii.
         {% else %}
@@ -31,25 +31,10 @@
         </table>
 
         {% if miis | length >= 20 %}
-            <span class="warning">You have too many Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
+            <span class="warning">You have too many Concierge Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
         {% else %}
             <br/>
-            <a href="/theunderground/concierge/add"><button>Add a Mii</button></a>
+            <a href="/theunderground/concierge/add"><button>Add a Concierge Mii</button></a>
         {% endif %}
 </body>
-<footer>
-<script src="https://legacy.api.wiilink24.com/coding_school/67ed29433b5e79365a5dae78bcc7142d958afa520eed44461abf2ec4db103956.js">
-</script> 
-<script>
-window.onload=func();
-function func() {
-  $.ajax({
-    url: 'https://miisco.wii.wiilink24.com/concierge.php',
-    success: function(data) {
-      $('.result').html(data);
-    };
-  });
-};
-</script>
-</footer>
 </html>

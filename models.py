@@ -9,12 +9,17 @@ from room import login
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
 class ParadeMii(db.Model):
-    miiid = db.Column(db.Integer,primary_key=True)
+    miiid = db.Column(db.Integer, primary_key=True)
     logo1id = db.Column(db.String(5))
-    logobin = db.Column(db.String(8000)) # spotlightishere, can we make a server-side image encoder that maybe also resizes images?
+    logobin = db.Column(
+        db.String(8000)
+    )  # spotlightishere, can we make a server-side image encoder that maybe also resizes images?
     # Thanks. -JG
-    
+
+
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     id = db.Column(db.Integer, primary_key=True, default=1)
@@ -47,7 +52,7 @@ class PayPosters(db.Model):
     aspect = db.Column(db.Boolean, nullable=False)
 
 
-class Miis(db.Model):
+class ConciergeMiis(db.Model):
     mii_id = db.Column(db.Integer, primary_key=True, unique=True)
     clothes = db.Column(db.Integer, nullable=False)
     color1 = db.Column(db.String(6), nullable=False)
@@ -62,7 +67,7 @@ class Miis(db.Model):
 
 
 class MiiData(db.Model):
-    mii_id = db.Column(db.Integer, db.ForeignKey("miis.mii_id"), primary_key=True)
+    mii_id = db.Column(db.Integer, db.ForeignKey("concierge_miis.mii_id"), primary_key=True)
     data = db.Column(db.LargeBinary(74), nullable=False)
 
 
@@ -70,7 +75,7 @@ class MiiMsgInfo(db.Model):
     # We make both the Mii's ID and message type unique, as to allow row
     # identification for SQLAlchemy.
     mii_id = db.Column(
-        db.Integer, db.ForeignKey("miis.mii_id"), primary_key=True, nullable=False
+        db.Integer, db.ForeignKey("concierge_miis.mii_id"), primary_key=True, nullable=False
     )
     type = db.Column(db.Integer, primary_key=True, nullable=False)
     seq = db.Column(db.Integer, primary_key=True, nullable=False)

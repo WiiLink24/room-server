@@ -1,7 +1,7 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db
-from models import User, Miis
+from models import User, ConciergeMiis, MiiMsgInfo
 from flask_login import login_required, logout_user
 from forms import LoginForm, KillMii, ConciergeForm
 from flask_login import current_user, login_user
@@ -51,16 +51,17 @@ if underground_enabled:
     @app.route("/theunderground/concierge")
     @login_required
     def list_concierge():
-        miis = Miis.query.all()
+        concierge_miis = ConciergeMiis.query.all()
+        # db.select([ConciergeMiis, MiiMsgInfo]).where()
 
-        return render_template("concierge.html", miis=miis, mii_count=len(miis))
+        return render_template("concierge.html", miis=concierge_miis)
 
     @app.route("/theunderground/concierge/add")
     @login_required
     def add_concierge():
-        miis = Miis.query.all()
+        miis = ConciergeMiis.query.all()
 
-        return render_template("concierge.html", miis=miis, mii_count=len(miis))
+        return render_template("concierge.html")
 
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
     @login_required
@@ -87,21 +88,25 @@ if underground_enabled:
             # db.session.commit()
         return render_template("concierge.html", form=form)
 
-    @app.route("/theunderground/removeconcierge")
+    @app.route("/theunderground/concierge/<mii_id>/remove")
     @login_required
     def removeconcierge():
         form = KillMii()
         return render_template("killmii.html", form=form)
-    @app.route("/theunderground/parade",methods=['GET','POST'])
+
+    @app.route("/theunderground/parade", methods=["GET", "POST"])
     @login_required
     def parade():
-      form = ParadeForm()
-      if form.validate_on_submit():
-        parademii = ParadeMii(miiid=form.miiid.data,
-                              logo1id=form.logo1id.data,
-                              logobin=form.logobin.data)
-        db.session.add(parademii)
-        db.session.commit()
+        form = ParadeForm()
+        if form.validate_on_submit():
+            parademii = ParadeMii(
+                miiid=form.miiid.data,
+                logo1id=form.logo1id.data,
+                logobin=form.logobin.data,
+            )
+            db.session.add(parademii)
+            db.session.commit()
+
     @app.route("/theunderground/logout")
     @login_required
     def process_logout():
