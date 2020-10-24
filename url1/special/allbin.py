@@ -17,7 +17,7 @@ def allbin():
   </bininfo>
 </SpPageBin>
     '''
-@app.route('url1/special/1/page.xml')
+@app.route('/url1/special/1/page.xml')
 def page():
     return '''
 <SpPage>
