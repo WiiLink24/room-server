@@ -1,7 +1,7 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db
-from models import User, ConciergeMiis, MiiMsgInfo
+from models import User, ConciergeMiis, MiiMsgInfo, MiiData
 from flask_login import login_required, logout_user
 from forms import LoginForm, KillMii, ConciergeForm
 from flask_login import current_user, login_user
@@ -22,6 +22,11 @@ if underground_enabled:
     print("!! WARNING !!")
     print("You have entered the underground.")
     print("Changes made within the underground are potentially destructive")
+
+    @app.route("/theunderground")
+    @app.route("/theunderground/")
+    def root():
+        return redirect(url_for("login"))
 
     @app.route("/theunderground/login", methods=["GET", "POST"])
     def login():
@@ -52,16 +57,15 @@ if underground_enabled:
     @login_required
     def list_concierge():
         concierge_miis = ConciergeMiis.query.all()
-        # db.select([ConciergeMiis, MiiMsgInfo]).where()
 
         return render_template("concierge.html", miis=concierge_miis)
 
-    @app.route("/theunderground/concierge/add")
+    @app.route("/theunderground/miis")
     @login_required
-    def add_concierge():
-        miis = ConciergeMiis.query.all()
+    def list_miis():
+        miis = MiiData.query.all()
 
-        return render_template("concierge.html")
+        return render_template("list_miis.html", miis=miis)
 
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
     @login_required
@@ -88,11 +92,20 @@ if underground_enabled:
             # db.session.commit()
         return render_template("concierge.html", form=form)
 
-    @app.route("/theunderground/concierge/<mii_id>/remove")
+    @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
-    def removeconcierge():
+    def remove_concierge(mii_id):
         form = KillMii()
-        return render_template("killmii.html", form=form)
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == mii_id:
+                db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
+                db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
+                db.session.commit()
+                return redirect("/theunderground/concierge")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_concierge.html", form=form, mii_id=mii_id)
 
     @app.route("/theunderground/parade", methods=["GET", "POST"])
     @login_required

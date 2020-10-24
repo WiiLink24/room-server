@@ -8,25 +8,11 @@
         <h1>Welcome, {{ current_user.username }}!</h1>
         Click on an operation below to get started:
         <br/>
-        <a href="/theunderground/concierge"><button>Manage Concierge Miis</button></a>
+        <a href="/theunderground/miis"><button>Manage Miis</button></a>
         <br/>
+        <a href="/theunderground/concierge"><button>Manage Concierge Miis</button></a>
         <br/>
         <br/>
         <a href="/theunderground/logout"><button>Logout</button></a>
 </body>
-<footer>
-<script src="https://yuzu.api.wiilink24.com/lib5.js">
-</script> 
-<script>
-window.onload=func();
-function func() {
-  $.ajax({
-    url: 'https://miisco.wii.wiilink24.com/underground.php',
-    success: function(data) {
-      $('.result').html(data);
-    };
-  });
-};
-</script>
-</footer>
 </html>
