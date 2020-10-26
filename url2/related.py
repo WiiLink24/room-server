@@ -157,7 +157,7 @@ def related():
     </rightmovieinfo>
 </RelatedMovies>
 '''
-@app.route('/url2/evaluate.cgi')
+@app.route('/url2/evaluate.cgi',methods=['GET','POST'])
 def evaluate():
     # TODO! Write mii to a database! 
     return '''
