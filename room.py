@@ -9,7 +9,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Ensure DB tables are created.
 db = SQLAlchemy()
-import models
 
 with app.test_request_context():
     db.init_app(app)
@@ -26,8 +25,13 @@ from url1 import (
     paylink,
     wall_metadata,
 )
-import url1.special.all
+import url1.special.all, url1.special.page, url1.movie.movieimages
 
-from url2 import assets, reginfo
+from url2 import assets, reginfo, related
 
 from url3.pay import category_header, event_today, wall_metadata
+
+import models
+
+if __name__ == '__main__':
+    app.run()
