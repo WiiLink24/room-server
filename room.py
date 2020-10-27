@@ -33,5 +33,3 @@ from url3.pay import category_header, event_today, wall_metadata
 
 import models
 
-if __name__ == '__main__':
-    app.run()
