@@ -1,4 +1,11 @@
 from room import app
+@app.route('/url2/miiinfo.cgi')
+def miiinfo():
+    return '''
+<MiiInfo>
+    <code>0</code>
+    <msg>thanks</msg>
+</MiiInfo>'''
 @app.route('/url2/related.cgi')
 def related():
     # Hardcoded for now
