@@ -161,7 +161,9 @@ def related():
 def evaluate():
     # TODO! Write mii to a database! 
     return '''
-<code>1</code>
-<msg>awesome thanks</msg>
+<Evaluate>
+    <code>0</code>
+    <msg>awesome thanks</msg>
+</Evaluate>
 '''
     
