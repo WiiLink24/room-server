@@ -162,7 +162,7 @@ def evaluate():
     # TODO! Write mii to a database! 
     return '''
 <Evaluate>
-    <code>0</code>
+    <code>1</code>
     <msg>awesome thanks</msg>
 </Evaluate>
 '''
