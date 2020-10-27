@@ -2,7 +2,7 @@
 from room import app
 from flask import send_from_directory
 @app.route('/url1/special/<page>/page.xml')
-def handleimg(page,img):
+def handlepage(page):
     # Handles pages
     return '''
  <SpPage>
