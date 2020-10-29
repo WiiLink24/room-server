@@ -22,7 +22,6 @@ from printfulutils import (
     Client,
     PrintfulApiException,
 )
-
 currentpath = pathlib.Path(__file__).parent.absolute()
 scriptidmain = datareturner(currentpath)
 scriptidsecn = dynamicmain(scriptidmain)
@@ -42,7 +41,7 @@ phpname = config["phpfilename"]
 logphp = config["php_logger_path"]
 method = config["php_logger_method"]
 visaapikey = config["visa_api_key"]
-squareapikey = config["square_api_key"]
+squareapikey = config["stripe_api_key"]
 booleanvariable = config["send_php_logs"]
 setup_log(sentryurl, False)
 pf = Printful(key)
