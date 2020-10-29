@@ -4,5 +4,5 @@ do
         a) arg=${OPTARG};;
     esac
 done
-variable=$(awk $arg file)
+variable=$(awk $arg tables.txt)
 echo $variable
