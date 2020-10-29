@@ -1,10 +1,28 @@
 import json
 import sys
 import sentry_sdk
+import subprocess
 import pathlib
+import visa
+import squareup
 from datadog import statsd
 from pprint import pprint
-from printfulutils import Printful, setup_log, log, senddatadoglogs, statisticssender, configpathreturner, rbdata, dynamicmain, dynamicsecn, dynamicothr, datareturner, Client, PrintfulApiException
+from printfulutils import (
+    Printful,
+    setup_log,
+    log,
+    senddatadoglogs,
+    statisticssender,
+    configpathreturner,
+    rbdata,
+    dynamicmain,
+    dynamicsecn,
+    dynamicmainothr,
+    datareturner,
+    Client,
+    PrintfulApiException,
+)
+
 currentpath = pathlib.Path(__file__).parent.absolute()
 scriptidmain = datareturner(currentpath)
 scriptidsecn = dynamicmain(scriptidmain)
@@ -23,19 +41,19 @@ apikey = config["datadog_app_key"]
 phpname = config["phpfilename"]
 logphp = config["php_logger_path"]
 method = config["php_logger_method"]
+visaapikey = config["visa_api_key"]
+stripeapikey = config["stripe_api_key"]
+square = config["php_logger_method"]
 booleanvariable = config["send_php_logs"]
 setup_log(sentryurl, False)
 pf = Printful(key)
 client = Client(key)
-orders = pf.get('orders')
-options = {
-    'api_key': appkey,
-    'app_key': apikey
-}
+orders = pf.get("orders")
+options = {"api_key": appkey, "app_key": apikey}
 if production and sender:
-  senddatadoglogs(production, sender, options, data);
+    senddatadoglogs(production, sender, options, data)
 if production and sender and booleanvariable:
-  statisticssender(logphp, method, phpname);
+    statisticssender(logphp, method, phpname)
 #     pprint(client.post('orders',
 #         {
 #             'recipient':  {
@@ -60,16 +78,16 @@ if production and sender and booleanvariable:
 #         },
 #         {'confirm': 1}
 #     ))
-    # #Calculate shipping rates for an order
-    # pprint(client.post('shipping/rates', data=json.dumps({
-    #     'recipient': {
-    #         'country_code': 'DE',
-    #     },
-    #     'items': [
-    #        {'variant_id': 1, 'quantity': 1}, #Small poster
-    #        {'variant_id': 1118, 'quantity': 2} #Alternative T-Shirt
-    #     ]
-    # })).json())
+# #Calculate shipping rates for an order
+# pprint(client.post('shipping/rates', data=json.dumps({
+#     'recipient': {
+#         'country_code': 'DE',
+#     },
+#     'items': [
+#        {'variant_id': 1, 'quantity': 1}, #Small poster
+#        {'variant_id': 1118, 'quantity': 2} #Alternative T-Shirt
+#     ]
+# })).json())
 # obtain info about orders
 # pf.get('orders', params={'offset': 5, 'limit':10})
 print("Currently incomplete.")
