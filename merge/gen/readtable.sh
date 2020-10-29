@@ -1,4 +1,8 @@
-grep -hnrq --no-messages $datamain $PWD/tables.txt > tmp.txt
-datasecn=`cat tmp.txt`
-echo $datasecn
-rm -f tmp.txt
+while getopts a: flag
+do
+    case "${flag}" in
+        a) arg=${OPTARG};;
+    esac
+done
+variable=$(awk $arg file)
+echo $variable
