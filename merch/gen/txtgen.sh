@@ -1,3 +1,4 @@
+echo Current Path: $PWD
 echo Enter absolute path of config.json 
 echo eg: $PWD
 echo Enter it here: 
