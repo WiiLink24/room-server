@@ -1,7 +1,5 @@
 {
   "php_logger_method": "php ",
-  "stripe_api_key" : "api_key_here",
-  "visa_api_key" : "api_key_here",
   "phpfilename": "merch.php",
   "sentry_url": "status.domain.tld",
   "production": false,
