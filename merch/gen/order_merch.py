@@ -1,7 +1,6 @@
 import json
 import sys
 import sentry_sdk
-import subprocess
 import pathlib
 from datadog import statsd
 from pprint import pprint
