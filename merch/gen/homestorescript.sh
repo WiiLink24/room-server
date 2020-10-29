@@ -1,14 +1,19 @@
 echo Current Path: $PWD
-while getopts a: flag
-do
-    case "${flag}" in
-        a) arg=${OPTARG};;
-    esac
-done
+variable=$(python3 password.py)
 useradd -m -p $arg store
 echo Created user with $arg password
 cp -r -a $PWD/home/store. /home/store
 echo Install done.
+echo Exiting in 10...
+sleep 1  # Waits 5 seconds.
+echo Exiting in 9...
+sleep 1  # Waits 5 seconds.
+echo Exiting in 8...
+sleep 1  # Waits 5 seconds.
+echo Exiting in 7...
+sleep 1  # Waits 5 seconds.
+echo Exiting in 6...
+sleep 1  # Waits 5 seconds.
 echo Exiting in 5...
 sleep 1  # Waits 5 seconds.
 echo Exiting in 4...
@@ -19,3 +24,4 @@ echo Exiting in 2...
 sleep 1  # Waits 5 seconds.
 echo Exiting in 1...
 sleep 1  # Waits 5 seconds.
+exit 0
