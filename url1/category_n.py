@@ -1,6 +1,7 @@
 from room import app
 from helpers import xml_node_name, RepeatedElement
 
+
 @app.route("/url1/list/category/<list_id>.xml")
 @xml_node_name("CategoryList")
 def list_category_n(list_id):

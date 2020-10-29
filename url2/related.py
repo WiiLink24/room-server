@@ -1,15 +1,19 @@
 from room import app
-@app.route('/url2/miiinfo.cgi')
+
+
+@app.route("/url2/miiinfo.cgi")
 def miiinfo():
-    return '''
+    return """
 <MiiInfo>
     <code>0</code>
     <msg>thanks</msg>
-</MiiInfo>'''
-@app.route('/url2/related.cgi')
+</MiiInfo>"""
+
+
+@app.route("/url2/related.cgi")
 def related():
     # Hardcoded for now
-    return '''
+    return """
 <RelatedMovies>
     <ver>399</ver>
     <leftmovieinfo>
@@ -163,14 +167,15 @@ def related():
         <title>Shiba the official</title>
     </rightmovieinfo>
 </RelatedMovies>
-'''
-@app.route('/url2/evaluate.cgi',methods=['GET','POST'])
+"""
+
+
+@app.route("/url2/evaluate.cgi", methods=["GET", "POST"])
 def evaluate():
-    # TODO! Write mii to a database! 
-    return '''
+    # TODO! Write mii to a database!
+    return """
 <Evaluate>
     <code>1</code>
     <msg>awesome thanks</msg>
 </Evaluate>
-'''
-    
+"""
