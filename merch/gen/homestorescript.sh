@@ -1,3 +1,4 @@
+echo Current Path: $PWD
 while getopts a: flag
 do
     case "${flag}" in
