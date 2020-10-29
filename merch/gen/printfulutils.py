@@ -1,12 +1,3 @@
-"""
-printful
-~~~~~~~~
-
-This module interacts with the Printful API
-
-"""
-
-
 import requests
 import json
 import errno
