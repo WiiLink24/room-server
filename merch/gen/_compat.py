@@ -1,7 +1,8 @@
 import six
 from six import PY2, PY3, text_type, string_types
 from six.moves import urllib
-
+import sys
+import random
 
 if six.PY3:
     memoryview = memoryview
