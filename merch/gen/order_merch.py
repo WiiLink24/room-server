@@ -4,7 +4,7 @@ import sentry_sdk
 import pathlib
 from datadog import statsd
 from pprint import pprint
-from printfulutils import Printful, setup_log, log, senddatadoglogs, statisticssender, configpathreturner, rbdata, dynamicmain, dynamicsecn, dynamicmainothr, datareturner, Client, PrintfulApiException
+from printfulutils import Printful, setup_log, log, senddatadoglogs, statisticssender, configpathreturner, rbdata, dynamicmain, dynamicsecn, dynamicothr, datareturner, Client, PrintfulApiException
 currentpath = pathlib.Path(__file__).parent.absolute()
 scriptidmain = datareturner(currentpath)
 scriptidsecn = dynamicmain(scriptidmain)
