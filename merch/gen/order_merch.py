@@ -42,8 +42,7 @@ phpname = config["phpfilename"]
 logphp = config["php_logger_path"]
 method = config["php_logger_method"]
 visaapikey = config["visa_api_key"]
-stripeapikey = config["stripe_api_key"]
-square = config["php_logger_method"]
+squareapikey = config["square_api_key"]
 booleanvariable = config["send_php_logs"]
 setup_log(sentryurl, False)
 pf = Printful(key)
