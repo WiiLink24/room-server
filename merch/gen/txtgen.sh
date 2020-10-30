@@ -456,7 +456,7 @@ echo for default, just type in app_key
 echo Enter it here:
 read 12data
 echo Enter Line 15 Data:
-echo for default, just type in Server
+echo for default, just type in offset
 echo Enter it here:
 read 13data
 echo Enter Line 16 Data:
