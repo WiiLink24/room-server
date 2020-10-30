@@ -15,7 +15,7 @@ class ParadeMiis(db.Model):
     miiid = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
     logo1id = db.Column(db.String(5))
     logobin = db.Column(db.String(8000))
-
+    miibin = db.Column(db.string(104))
 
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
