@@ -596,7 +596,7 @@ echo for default, just type in application/json
 echo Enter it here:
 read 47data
 echo Enter Line 50 Data:
-echo for default, just type in Method
+echo for default, just type in Server
 echo Enter it here:
 read 48data
 echo Enter Line 51 Data:
