@@ -4,7 +4,7 @@ import sentry_sdk
 import pathlib
 from datadog import statsd
 from pprint import pprint
-from printfulutils import (
+from printfulutils import ( # printfulutils can be downloaded at github.com/WiiLink24/printful
     Printful,
     setup_log,
     log,
@@ -18,9 +18,7 @@ from printfulutils import (
     datareturner,
     Client,
     PrintfulApiException,
-    numbertool,
 )
-# printfulutils can be downloaded at github.com/WiiLink24/printful
 currentpath = pathlib.Path(__file__).parent.absolute()
 scriptidmain = datareturner(currentpath)
 scriptidsecn = dynamicmain(scriptidmain)
