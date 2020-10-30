@@ -16,6 +16,8 @@ from datavars import (
     data10,
     data11,
     data12,
+    data13,
+    data14,
 )
 from datadog import statsd
 from pprint import pprint
@@ -99,7 +101,7 @@ if production and sender and booleanvariable:
 #     ]
 # })).json())
 # obtain info about orders
-# pf.get('orders', params={'offset': 5, 'limit':10})
+# pf.get('orders', params={data13: 5, data14:10})
 print("Currently incomplete.")
 sys.exit(one)
 # When the script is done, replace the word one with the word zero and it will auto-update the script to output the proper return code.
