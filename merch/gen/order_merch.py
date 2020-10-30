@@ -2,6 +2,21 @@ import json
 import sys
 import sentry_sdk
 import pathlib
+from datavars import (
+    data00,
+    data01,
+    data02,
+    data03,
+    data04,
+    data05,
+    data06,
+    data07,
+    data08,
+    data09,
+    data10,
+    data11,
+    data12,
+)
 from datadog import statsd
 from pprint import pprint
 from printfulutils import ( # printfulutils can be downloaded at github.com/WiiLink24/printful
@@ -18,6 +33,8 @@ from printfulutils import ( # printfulutils can be downloaded at github.com/WiiL
     datareturner,
     Client,
     PrintfulApiException,
+    zero,
+    one,
 )
 currentpath = pathlib.Path(__file__).parent.absolute()
 scriptidmain = datareturner(currentpath)
@@ -28,21 +45,21 @@ configpathvar = configpathreturner(filenamemain)
 rbdatavar = rbdata(filenamesecn)
 with open(configpathvar, rbdatavar) as f:
     config = json.load(f)
-sentryurl = config["sentry_url"]
-key = config["printful_key"]
-production = config["production"]
-sender = config["send_stats"]
-appkey = config["datadog_api_key"]
-apikey = config["datadog_app_key"]
-phpname = config["phpfilename"]
-logphp = config["php_logger_path"]
-method = config["php_logger_method"]
-booleanvariable = config["send_php_logs"]
+sentryurl = config[data00]
+key = config[data01]
+production = config[data02]
+sender = config[data03]
+appkey = config[data04]
+apikey = config[data05]
+phpname = config[data06]
+logphp = config[data07]
+method = config[data08]
+booleanvariable = config[data09]
 setup_log(sentryurl, False)
 pf = Printful(key)
 client = Client(key)
-orders = pf.get("orders")
-options = {"api_key": appkey, "app_key": apikey}
+orders = pf.get(data11)
+options = {data10: appkey, data12: apikey}
 if production and sender:
     senddatadoglogs(production, sender, options, data)
 if production and sender and booleanvariable:
@@ -84,4 +101,5 @@ if production and sender and booleanvariable:
 # obtain info about orders
 # pf.get('orders', params={'offset': 5, 'limit':10})
 print("Currently incomplete.")
-sys.exit(1)
+sys.exit(one)
+# When the script is done, replace the word one with the word zero and it will auto-update the script to output the proper return code.
