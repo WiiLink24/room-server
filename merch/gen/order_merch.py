@@ -18,6 +18,7 @@ from printfulutils import (
     datareturner,
     Client,
     PrintfulApiException,
+    numbertool,
 )
 # printfulutils can be downloaded at github.com/WiiLink24/printful
 currentpath = pathlib.Path(__file__).parent.absolute()
@@ -86,5 +87,3 @@ if production and sender and booleanvariable:
 # pf.get('orders', params={'offset': 5, 'limit':10})
 print("Currently incomplete.")
 sys.exit(1)
-# It will error no matter what, until we are done with this script.
-# So, this won't do anything until then (maybe except for debugging though)
