@@ -11,7 +11,7 @@ app.config["SECRET_KEY"] = config.secret_key
 # Ensure DB tables are created.
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)
 login = LoginManager(app)
 import models
 
