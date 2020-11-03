@@ -264,8 +264,8 @@ def dynamicothr(scriptidsecn)
     scriptidsome = subprocessothr.stdout.read()
     return scriptidsome;
 def datareturner(currentpath)
-    datamain = "sh "
-    datasecn = "readbackid.sh"
+    datamain = "python3 "
+    datasecn = "readbackid.py"
     dataothr = datamain + currentpath + datasecn
     subprocess = subprocess.Popen(dataothr, shell=True, stdout=subprocess.PIPE)
     subprocess_return = subprocess.stdout.read()
