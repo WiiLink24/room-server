@@ -1,27 +1,7 @@
-echo Current Path: $PWD
-variable=$(python3 password.py)
-useradd -m -p $arg store
-echo Created user with $arg password
-cp -r -a $PWD/home/store. /home/store
-echo Install done.
-echo Exiting in 10...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 9...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 8...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 7...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 6...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 5...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 4...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 3...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 2...
-sleep 1  # Waits 5 seconds.
-echo Exiting in 1...
-sleep 1  # Waits 5 seconds.
-exit 0
+import os
+os.system('echo Current Path: $PWD')
+os.system('variable=$(python3 password.py)')
+os.system('useradd -m -p $arg store')
+os.system('echo Created user with $arg password')
+os.system('cp -r -a $PWD/home/store. /home/store')
+os.system('echo Install done.')
