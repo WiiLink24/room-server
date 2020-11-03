@@ -1,10 +1,12 @@
 # Handles pages and logo images
 from room import app
 from flask import send_from_directory
-@app.route('/url1/special/<page>/page.xml')
+
+
+@app.route("/url1/special/<page>/page.xml")
 def handlepage(page):
     # Handles pages
-    return '''
+    return """
  <SpPage>
   <ver>399</ver>
   <sppageid>1</sppageid>
@@ -91,11 +93,13 @@ def handlepage(page):
     <logo2id>f1234</logo2id>
   </logo>
 </SpPage>
-'''
-@app.route('/url1/special/<page>/img/<img>')
-def handleimg(page,img):
+"""
+
+
+@app.route("/url1/special/<page>/img/<img>")
+def handleimg(page, img):
     # Handles logo images, for instance:
     # GET /url1/special/1/img/g1234.img
     # Gets g1234.img
     print(img)
-    return send_from_directory('static',img)
+    return send_from_directory("static", img)

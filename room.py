@@ -14,6 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 import models
+
 db = SQLAlchemy()
 
 with app.test_request_context():
@@ -23,6 +24,7 @@ with app.test_request_context():
 
 # Import routes here.
 from url1 import (
+    allbin,
     beacon,
     category_n,
     eula,
@@ -32,7 +34,7 @@ from url1 import (
     paylink,
     wall_metadata,
 )
-import url1.special.all, url1.special.page, url1.movie.movieimages, url1.special.allbin
+import url1.special.all, url1.special.page, url1.movie.movieimages
 
 from url2 import assets, reginfo, related
 
@@ -41,4 +43,3 @@ from url3.pay import category_header, event_today, wall_metadata
 from theunderground import admin
 
 import models
-

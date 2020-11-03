@@ -1,7 +1,7 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db
-from models import User, ConciergeMiis, MiiMsgInfo, MiiData
+from models import User, ConciergeMiis, MiiMsgInfo, MiiData, ParadeMiis
 from flask_login import login_required, logout_user
 from forms import LoginForm, KillMii, ConciergeForm, MiiUploadForm
 from flask_login import current_user, login_user
@@ -53,6 +53,12 @@ if underground_enabled:
     @login_required
     def admin():
         return render_template("underground.html")
+
+    @app.route("/theunderground/parade")
+    @login_required
+    def parade():
+        parade_miis = ParadeMiis.query.all()
+        return render_template("parade.html", miis=parade_miis)
 
     @app.route("/theunderground/concierge")
     @login_required
@@ -139,19 +145,6 @@ if underground_enabled:
             else:
                 flash("Incorrect Mii ID!")
         return render_template("delete_concierge.html", form=form, mii_id=mii_id)
-
-    @app.route("/theunderground/parade", methods=["GET", "POST"])
-    @login_required
-    def parade():
-        form = ParadeForm()
-        if form.validate_on_submit():
-            parademii = ParadeMii(
-                miiid=form.miiid.data,
-                logo1id=form.logo1id.data,
-                logobin=form.logobin.data,
-            )
-            db.session.add(parademii)
-            db.session.commit()
 
     @app.route("/theunderground/logout")
     @login_required

@@ -12,10 +12,11 @@ def load_user(id):
 
 
 class ParadeMiis(db.Model):
-    miiid = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
-    logo1id = db.Column(db.String(5))
-    logobin = db.Column(db.String(8000))
-    miibin = db.Column(db.string(104))
+    # We need to be able to select by both the Mii's ID and the logo.
+    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
+    logo_id = db.Column(db.String(5), primary_key=True)
+    logo_bin = db.Column(db.String(8000))
+
 
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
