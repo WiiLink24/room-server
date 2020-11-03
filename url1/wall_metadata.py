@@ -1,3 +1,4 @@
+from flask import send_from_directory
 from werkzeug import exceptions
 
 from room import app
@@ -19,3 +20,10 @@ def wall_metadata(met_id: int):
         "movieid": poster_metadata.movie_id,
         "title": poster_metadata.title,
     }
+
+
+if app.debug:
+
+    @app.route("/url1/wall/<name>.img")
+    def serve_images(name):
+        return send_from_directory("assets/normal-wall", name + ".img")

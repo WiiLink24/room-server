@@ -34,12 +34,15 @@ from url1 import (
     paylink,
     wall_metadata,
 )
-import url1.special.all, url1.special.page, url1.movie.movieimages
+import url1.special.all, url1.special.page
 
-from url2 import assets, reginfo, related
-
+from url2 import reginfo, related
 
 from url3.pay import category_header, event_today, wall_metadata
 from theunderground import admin
 
-import models
+if app.debug:
+
+    @app.route("/conf/first.bin")
+    def conf_first_bin():
+        return send_from_directory("conf", "first.bin")

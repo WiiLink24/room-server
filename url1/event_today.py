@@ -1,3 +1,5 @@
+from flask import send_from_directory
+
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
 from models import Posters, ConciergeMiis
@@ -60,3 +62,10 @@ def event_today():
             "linktype": 0,
         },
     }
+
+
+if app.debug:
+
+    @app.route("/url1/intro/<name>.img")
+    def serve_intro(name):
+        return send_from_directory("assets/normal-intro", name + ".img")

@@ -96,10 +96,10 @@ def handlepage(page):
 """
 
 
-@app.route("/url1/special/<page>/img/<img>")
-def handleimg(page, img):
-    # Handles logo images, for instance:
-    # GET /url1/special/1/img/g1234.img
-    # Gets g1234.img
-    print(img)
-    return send_from_directory("static", img)
+if app.debug:
+    @app.route("/url1/special/<page>/img/<img>")
+    def handleimg(page, img):
+        # Handles logo images, for instance:
+        # GET /url1/special/1/img/g1234.img
+        # Gets g1234.img
+        return send_from_directory("static", img)

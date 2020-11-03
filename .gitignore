@@ -8,4 +8,4 @@ config.py
 
 # Ensure .gitkeep is recognized
 assets/*/*
-!assets/*/.*
+!assets/*/.gitkeep
