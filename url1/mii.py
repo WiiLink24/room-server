@@ -1,6 +1,6 @@
 from werkzeug import exceptions
 
-from room import app
+from room import app, db
 from helpers import xml_node_name, RepeatedElement
 from models import ConciergeMiis, MiiData, MiiMsgInfo
 
@@ -25,9 +25,19 @@ def mii_met(mii_id):
 @xml_node_name("ConciergeMii")
 def obtain_mii(mii_id):
     # Do we have this Mii?
-    mii_metadata = ConciergeMiis.query.filter_by(mii_id=mii_id).first()
-    if mii_metadata is None:
+    retrieved_data = (
+        db.session.query(ConciergeMiis, MiiData)
+        .filter(MiiData.mii_id == mii_id)
+        .filter(ConciergeMiis.mii_id == MiiData.mii_id)
+        .order_by(ConciergeMiis.mii_id)
+        .first()
+    )
+
+    # While one should cause the other to not exist, you never know.
+    if retrieved_data is None:
         return exceptions.NotFound()
+
+    concierge_mii, mii_metadata = retrieved_data
 
     # Next, ensure we have msginfo data for this Mii.
     db_msginfo = (
@@ -66,13 +76,13 @@ def obtain_mii(mii_id):
 
     return {
         "miiid": mii_id,
-        "clothes": mii_metadata.clothes,
+        "clothes": concierge_mii.clothes,
         "color1": mii_metadata.color1,
         "color2": mii_metadata.color2,
-        "action": mii_metadata.action,
-        "prof": mii_metadata.prof,
+        "action": concierge_mii.action,
+        "prof": concierge_mii.prof,
         "name": mii_metadata.name,
         "msginfo": msginfo,
-        "movieid": mii_metadata.movie_id,
-        "upddt": mii_metadata.update_date.strftime("%Y-%m-%dT%H:%M:%S"),
+        "movieid": concierge_mii.movie_id,
+        "upddt": concierge_mii.update_date.strftime("%Y-%m-%dT%H:%M:%S"),
     }

@@ -16,6 +16,8 @@ class ParadeMiis(db.Model):
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
     logo_id = db.Column(db.String(5), primary_key=True)
     logo_bin = db.Column(db.Binary(8000))
+    news = db.Column(db.String)
+    level = db.Column(db.Integer, default=1)
 
 
 class User(db.Model, UserMixin):
@@ -55,20 +57,21 @@ class ConciergeMiis(db.Model):
         db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True, unique=True
     )
     clothes = db.Column(db.Integer, nullable=False)
-    color1 = db.Column(db.String(6), nullable=False)
-    color2 = db.Column(db.String(6), nullable=False)
     action = db.Column(db.Integer, nullable=False)
     prof = db.Column(db.String(129), nullable=False)
-    name = db.Column(db.String(10), nullable=False)
     movie_id = db.Column(db.Integer, nullable=False)
     update_date = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
 
 
+# MiiData provides the genuine Mii alongside other common information.
 class MiiData(db.Model):
     mii_id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.LargeBinary(74), nullable=False)
+    name = db.Column(db.String(10), nullable=False)
+    color1 = db.Column(db.String(6), nullable=False)
+    color2 = db.Column(db.String(6), nullable=False)
 
 
 class MiiMsgInfo(db.Model):

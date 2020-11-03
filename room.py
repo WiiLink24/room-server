@@ -8,15 +8,19 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
-# Ensure DB tables are created.
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db, compare_type=True)
 login = LoginManager(app)
+
+# Ensure DB tables are created.
+# Importing models must occur after the DB is instantiated.
+# It must not initialize around an app so that we can create
+# models automatically within a test context.
+db = SQLAlchemy()
 import models
 
-db = SQLAlchemy()
 
+# Ensure the DB is able to determine migration needs.
+migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
