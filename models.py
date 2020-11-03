@@ -1,6 +1,8 @@
 from room import db
 
-
+class TestShoppingBag(db.Model):
+    wii_number = db.Column(db.Integer, primary_key=True,unique=True)
+    points = db.Column(db.Integer)
 class Posters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
