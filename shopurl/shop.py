@@ -1,1 +1,1 @@
-import flappy
+import pyswf
