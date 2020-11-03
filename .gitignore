@@ -1,8 +1,11 @@
 .idea
 .DS_Store
 __pycache__
-assets
 virtualenv
 
 conf/first.bin
 config.py
+
+# Ensure .gitkeep is recognized
+assets/*/*
+!assets/*/.*
