@@ -221,8 +221,8 @@ def rbdata(filenamesecn):
 def dynamicmain(scriptidmain)
     scriptidsecn = scriptidmain + 1
     scriptidothr = scriptidmain + 2
-    datamain = "./readtables.sh"
-    datasecn = " -a "
+    datamain = "python3 "
+    datasecn = "readtables.py "
     dataothr = datamain + datasecn + scriptidmain
     datarest = datamain + datasecn + scriptidsecn
     datamore = datamain + datasecn + scriptidothr
@@ -236,8 +236,8 @@ def dynamicmain(scriptidmain)
 def dynamicsecn(scriptidsecn)
     scriptidrest = scriptidsecn + 1
     scriptidothr = scriptidsecn + 2
-    datamain = "./readtables.sh"
-    datasecn = " -a "
+    datamain = "python3 "
+    datasecn = "readtables.py "
     dataothr = datamain + datasecn + scriptidsecn
     datarest = datamain + datasecn + scriptidrest
     datamore = datamain + datasecn + scriptidothr
@@ -251,8 +251,8 @@ def dynamicsecn(scriptidsecn)
 def dynamicothr(scriptidsecn)
     scriptidrest = scriptidsecn + 1
     scriptidothr = scriptidsecn + 2
-    datamain = "./readtables.sh"
-    datasecn = " -a "
+    datamain = "python3 "
+    datasecn = "readtables.py "
     dataothr = datamain + datasecn + scriptidsecn
     datarest = datamain + datasecn + scriptidrest
     datamore = datamain + datasecn + scriptidothr
