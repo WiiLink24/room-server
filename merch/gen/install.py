@@ -6,20 +6,27 @@ import io as e
 import os as f
 import binascii as g
 import collections as h
-import utilsbylarsen.u8 as j
-import utilsbylarsen.u32 as l
-import utilsbylarsen.pad as m
-import utilsbylarsen.setup_log as n
-import utilsbylarsen.log as o
+import utilsbylarsen as nwcsutils
 import json as p
-import utilsbylarsen.u16 as q
-import shutil.copyfile as secn
+import shutil as othr #Imports the base class of shutil
+import time as misc
+secn = othr.copyfile #Selectively imports copyfile from the base class of shutil.
+j = nwcsutils.u8 # This line will import u8 from utilsbylarsen.py.
+l = nwcsutils.u32 # This line will import u32 from utilsbylarsen.py.
+m = nwcsutils.pad # This line will import pad from utilsbylarsen.py.
+n = nwcsutils.setup_log # This line will import setup_log from utilsbylarsen.py.
+o = nwcsutils.log # This line will import log from utilsbylarsen.py.
+q = nwcsutils.u16 # This line will import u16 from utilsbylarsen.py.
 currentpath = main.Path(__file__).parent.absolute() #Obtains current path
 b = "rb" #Generic JSON Opcode
+generic = "production" #Production Mode Parent Data
 with open("./nwcs.json", b) as f:
     r = p.load(f)
-if r["production"] and r["send_logs"]:
+if r[generic] and r["send_logs"]:
     n(r["sentry_url"], False)
+if r[generic]:
+  directorycreationdata = r["nwcspathdata"]
+  f.mkdir(directorycreationdata)
 argdata0 = a.argv[0] #Python Filename
 argdata1 = a.argv[1] #Mode Specification Data
 argdata2 = a.argv[2] #Line Number
@@ -64,7 +71,30 @@ elif argdata1 == 3: #Mode 3 Identifier Software Check
   f.system('echo Created user with $arg password')
   f.system('cp -r -a $PWD/home/store. /home/store')
   f.system('echo Install done.')
-  f._exit(0)
+  print("Exiting in 11...")
+  misc.sleep(1)
+  print("Exiting in 10...")
+  misc.sleep(1)
+  print("Exiting in 9...")
+  misc.sleep(1)
+  print("Exiting in 8...")
+  misc.sleep(1)
+  print("Exiting in 7...")
+  misc.sleep(1)
+  print("Exiting in 6...")
+  misc.sleep(1)
+  print("Exiting in 5...")
+  misc.sleep(1)
+  print("Exiting in 4...")
+  misc.sleep(1)
+  print("Exiting in 3...")
+  misc.sleep(1)
+  print("Exiting in 2...")
+  misc.sleep(1)
+  print("Exiting in 1...")
+  misc.sleep(1)
+  normal = 0 #Success Notification Data
+  f._exit(normal)
 elif argdata1 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Available bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
