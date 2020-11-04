@@ -488,18 +488,17 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
             else:
                 raise Exception("Error Code 1 Occured.")
                 print ("Error: Invalid selection")
-                v = e.StringIO("Error: Invalid selection")
                 o("Error: Invalid selection: %s" % v, "WARNING")
     else:
         raise Exception("Error Code 1 Occured.")
         print ("Error: Invalid amount, skipping")
-        v = e.StringIO("Error: Invalid amount, skipping")
         o("Error: Invalid amount, skipping: %s" % v, "WARNING")
         amnt = 0
   else:
     print("Not doing fish....")
     header["fish_tables"] = m(240 - (amnt * 16))
-    header["object_tables"] = m(160)  # TODO: Add in object tables
+    header["object_tables"] = m(160) 
+    # TODO: Add in object tables
     print ("Processing ...")
     f = e.BytesIO()
     for k, v in header.items(): f.write(v)
@@ -508,7 +507,8 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
     copy = f.read()
     crc32 = format(g.crc32(copy) & 0xFFFFFFFF, '08x')
     f.close()
-    file = open('a0014682.dat', 'wb')  # Not sure how the name is generated yet
+    file = open('a0014682.dat', 'wb')  
+    # Not sure how the name is generated yet
     file.write(g.unhexlify('08051400'))  # Magic Value
     file.write(g.unhexlify(crc32))  # CRC32
     file.write(copy)  # Rest of File
