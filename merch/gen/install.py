@@ -121,7 +121,6 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   configlist = list(configrange) #Outputs the Preset Line Number Range to a list
   outF1 = open(argdata6, y)
   for line in configlist:
-    # write line data to primary storage file
     outF1.write(line)
     outF1.write("\n")
   outF1.close()
@@ -325,7 +324,6 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   s(var97)
   outF2 = open(argdata7, y)
   for line in variablelist:
-    # write variable data to secondary storage file
     outF2.write(line)
     outF2.write("\n")
   outF2.close()
@@ -488,11 +486,14 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
                 print ("\n")
                 print ("Completed Successfully")
             else:
-                raise Exception("Error code 1 Occured.")
+                raise Exception("Error Code 1 Occured.")
                 print ("Error: Invalid selection")
+                v = e.StringIO("Error: Invalid selection")
                 o("Error: Invalid selection: %s" % v, "WARNING")
     else:
+        raise Exception("Error Code 1 Occured.")
         print ("Error: Invalid amount, skipping")
+        v = e.StringIO("Error: Invalid amount, skipping")
         o("Error: Invalid amount, skipping: %s" % v, "WARNING")
         amnt = 0
   else:
@@ -524,7 +525,6 @@ else:
   o("You did not specify args: %s" % u, "WARNING")
   f._exit(127)
 raise Exception("Unknown Error Occured") #It should never get here, but if it does, it lets you know.
-unknownerrorcode = 1
 unknownerrormsg = e.StringIO("Error Code 1 Occured")
 o("Unknown Error Occured: %s" % unknownerrormsg, "WARNING")
-f._exit(unknownerrorcode)
+f._exit(1)
