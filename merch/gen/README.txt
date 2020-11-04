@@ -1,8 +1,5 @@
 To setup the purely configurable enviroment 6100m made, simply do
-sudo chmod 777 txtgen.sh
-python3 homestorescript.py
-python3 add_to_tables.py
-sudo ./txtgen.sh
+python3 setup.py (Note that the setup file isn't ready yet!)
 Be sure to follow all prompts.
 -WL24
 Crushing the WC24 service competition!
