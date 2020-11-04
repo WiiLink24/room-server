@@ -9,4 +9,7 @@
   "datadog_api_key": "api_key_here",
   "datadog_app_key": "app_key_here",
   "php_logger_path": "/var/www/wapp.wii.com/miicontestp.wapp.wii.com/0li/"
+  "pwinty_api_key": "api_key_here"
+  "sendgrid_api_key": "api_key_here"
+  "wii_mail_order_info_sender_address": "pleasechangeme@wiilink24.com"
 }
