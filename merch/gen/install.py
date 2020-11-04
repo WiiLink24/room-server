@@ -16,7 +16,7 @@ import utilsbylarsen.u16 as q
 import shutil.copyfile as secn
 currentpath = main.Path(__file__).parent.absolute() #Obtains current path
 b = "rb" #Generic JSON Opcode
-with open("./config.json", b) as f:
+with open("./nwcs.json", b) as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
@@ -493,7 +493,7 @@ else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
   f._exit(127)
-raise Exception("Unknown Error Occured")
+raise Exception("Unknown Error Occured") #It should never get here, but if it does, it lets you know.
 unknownerrorcode = 1
 unknownerrormsg = e.StringIO("Error Code 1 Occured")
 o("Unknown Error Occured: %s" % unknownerrormsg, "WARNING")
