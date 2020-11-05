@@ -6,17 +6,17 @@ import io as e
 import os as f
 import binascii as g
 import collections as h
-import utilsbylarsen as nwcsutils
+import utilsbylarsen as nw
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
 secn = othr.copyfile #Selectively imports copyfile from the base class of shutil.
-j = nwcsutils.u8 # This line will import u8 from utilsbylarsen.py.
-l = nwcsutils.u32 # This line will import u32 from utilsbylarsen.py.
-m = nwcsutils.pad # This line will import pad from utilsbylarsen.py.
-n = nwcsutils.setup_log # This line will import setup_log from utilsbylarsen.py.
-o = nwcsutils.log # This line will import log from utilsbylarsen.py.
-q = nwcsutils.u16 # This line will import u16 from utilsbylarsen.py.
+j = nw.u8 # This line will import u8 from utilsbylarsen.py.
+l = nw.u32 # This line will import u32 from utilsbylarsen.py.
+m = nw.pad # This line will import pad from utilsbylarsen.py.
+n = nw.setup_log # This line will import setup_log from utilsbylarsen.py.
+o = nw.log # This line will import log from utilsbylarsen.py.
+q = nw.u16 # This line will import u16 from utilsbylarsen.py.
 path = main.Path(__file__).parent.asolute() #Obtains current path
 stask = e.StringIO #Installs a alias to the StringIO class
 with open("./nwcs.json", rb) as f:
@@ -24,18 +24,19 @@ with open("./nwcs.json", rb) as f:
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
 if r["production"]:
-  dirdata = r["nwcspathdata"]
-  f.mkdir(dirdata)
-data1 = a.argv[1] #Mode Specification Data
-data2 = a.argv[2] #Line Number
-data3 = a.argv[3] #Filename
-data4 = a.argv[4] #Tale Data
-data5 = a.argv[5] #Unique ID Specification Data
-data6 = a.argv[6] #Name of the Primary Storage File
-data7 = a.argv[7] #Name of the Secondary Storage File
-data8 = a.argv[8] #Datadog API Key
-data9 = a.argv[9] #Datadog APP key
-data0 = int(data1) #Converts the mode specification data to a integer
+  dirdd = r["nwcspathdd"]
+  f.mkdir(dirdd)
+d = a.argv # Argument Class dd
+dd1 = d[1] #Mode Specification dd
+dd2 = d[2] #Line Number
+dd3 = d[3] #Filename
+dd4 = d[4] #Tale dd
+dd5 = d[5] #Unique ID Specification dd
+dd6 = d[6] #Name of the Primary Storage File
+dd7 = d[7] #Name of the Secondary Storage File
+dd8 = d[8] #dddog API Key
+dd9 = d[9] #dddog APP key
+dd0 = int(dd1) #Converts the mode specification dd to a integer
 w = e.StringIO("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = e.StringIO("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 v = e.StringIO("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
@@ -43,29 +44,29 @@ unknownerrormsg = e.StringIO("Error Code 1 Occured") #This error typically happe
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
 z = 'r' #Generic Textfile Opcode
-if data0 == 0: #Mode 0 Identifier Software Check
+if dd0 == 0: #Mode 0 Identifier Software Check
   options = {
-    'api_key': data8,
-    'app_key': data9
+    'api_key': dd8,
+    'app_key': dd9
   }
   saveoptionsfile = open(options.dat, 'wb')
   c.dump(options, saveoptionsfile)
   f._exit(0)
-elif data0 == 1: #Mode 1 Identifier Software Check
-  data = "/n" #New Line Identifier
+elif dd0 == 1: #Mode 1 Identifier Software Check
+  dd = "/n" #New Line Identifier
   outF1 = open("tales.txt", y)
-  textl1 = [data, data5, data6, data7]
+  textl1 = [dd, dd5, dd6, dd7]
   outF1.close()
   outF2 = open("id.txt", y)
-  textl2 = [data5]
+  textl2 = [dd5]
   outF2.close()
   f._exit(0)
-elif data0 == 2: #Mode 2 Identifier Software Check
-  file = open(data3)
+elif dd0 == 2: #Mode 2 Identifier Software Check
+  file = open(dd3)
   all_lines = file.readlines()
-  print(all_lines[data2])  
+  print(all_lines[dd2])  
   f._exit(0)
-elif data0 == 3: #Mode 3 Identifier Software Check
+elif dd0 == 3: #Mode 3 Identifier Software Check
   f.system('echo Current Path: $PWD')
   f.system('viale=$(python3 password.py)')
   f.system('useradd -m -p $arg store')
@@ -73,31 +74,31 @@ elif data0 == 3: #Mode 3 Identifier Software Check
   f.system('cp -r -a $PWD/home/store. /home/store')
   f.system('echo Install done.')
   f._exit(0)
-elif data0 == 4: #Mode 4 Identifier Software Check
+elif dd0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w = input("Enter the bitsize you want:")
   x = d.getrandbits(w)
   print(x)
   f._exit(0)
-elif data0 == 5: #Mode 5 Identifier Software Check
+elif dd0 == 5: #Mode 5 Identifier Software Check
   f = open('id.txt', z)
   file_contents = f.read()
   print(file_contents)
   f.close()
   f._exit(0)
-elif data0 == 6: #Mode 6 Identifier Software Check
+elif dd0 == 6: #Mode 6 Identifier Software Check
   file = open('tales.txt')
   all_lines = file.readlines()
-  print(all_lines[data4])
+  print(all_lines[dd4])
   f._exit(0)
-elif data0 == 7: #Mode 7 Identifier Software Check
+elif dd0 == 7: #Mode 7 Identifier Software Check
   print(path) #Prints Current Path
   f._exit(0)
-elif data0 == 8: #Mode 8 Identifier Software Check
+elif dd0 == 8: #Mode 8 Identifier Software Check
   configrange = l(range(2, 100)) # Returns Preset Line Number Range
   configl = l(configrange) #Outputs the Preset Line Number Range to a l
-  outF1 = open(data6, y)
+  outF1 = open(dd6, y)
   for line in configl:
     outF1.write(line)
     outF1.write(nl)
@@ -106,8 +107,8 @@ elif data0 == 8: #Mode 8 Identifier Software Check
   v01 = stask("printful_key")
   v02 = stask("production")
   v03 = stask("send_stats")
-  v04 = stask("datadog_api_key")
-  v05 = stask("datadog_app_key")
+  v04 = stask("dddog_api_key")
+  v05 = stask("dddog_app_key")
   v06 = stask("phpfilename")
   v07 = stask("php_logger_path")
   v08 = stask("php_logger_method")
@@ -186,13 +187,13 @@ elif data0 == 8: #Mode 8 Identifier Software Check
   l7 = [v71, v70, v73, v70, v75, v70, v77, v78, v79, v80]
   l8 = [v81, v82, v83, v84, v84, v84, v90, v91, v92, v93] 
   l9 = [l0, l1, l2, l3, l4, l5, l6, l7, l8, v94, v95, v96, v97]
-  outF2 = open(data7, y)
+  outF2 = open(dd7, y)
   for line in l9:
     outF2.write(line)
     outF2.write(nl)
   outF2.close()
   f._exit(0)
-elif data0 == 9: #Mode 9 Identifier Software Check
+elif dd0 == 9: #Mode 9 Identifier Software Check
   print(w)
   print ("My Aquarium Custom Attachment Generator\n")
   print ("By John Pansera / Version 1.0\n")
@@ -276,7 +277,7 @@ elif data0 == 9: #Mode 9 Identifier Software Check
                 file.flush()
                 file.close()
                 datname = e.StringIO("a0014682.dat")
-                nwcspath = r["nwcspathdata"]
+                nwcspath = r["nwcspathdd"]
                 nwcssrc = path + "/" + datname
                 secn(nwcssrc, nwcspath)
                 print (nl)
@@ -309,7 +310,7 @@ elif data0 == 9: #Mode 9 Identifier Software Check
     file.flush()
     file.close()
     datname = e.StringIO("a0014682.dat")
-    nwcspath = r["nwcspathdata"]
+    nwcspath = r["nwcspathdd"]
     nwcssrc = path + "/" + datname
     secn(nwcssrc, nwcspath)
     print (nl)
