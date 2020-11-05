@@ -7,7 +7,6 @@ import os as f
 import binascii as g
 import collections as h
 import utilsbylarsen as nwcsutils
-import utilsbygloom as myutils
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
@@ -18,26 +17,25 @@ m = nwcsutils.pad # This line will import pad from utilsbylarsen.py.
 n = nwcsutils.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nwcsutils.log # This line will import log from utilsbylarsen.py.
 q = nwcsutils.u16 # This line will import u16 from utilsbylarsen.py.
-rest = utilsbygloom.tablereturner # This line will import tablereturner from utilsbygloom.py.
-currentpath = main.Path(__file__).parent.absolute() #Obtains current path
+path = main.Path(__file__).parent.asolute() #Obtains current path
 stask = e.StringIO #Installs a alias to the StringIO class
 with open("./nwcs.json", rb) as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
 if r["production"]:
-  directorycreationdata = r["nwcspathdata"]
-  f.mkdir(directorycreationdata)
-argdata1 = a.argv[1] #Mode Specification Data
-argdata2 = a.argv[2] #Line Number
-argdata3 = a.argv[3] #Filename
-argdata4 = a.argv[4] #Table Data
-argdata5 = a.argv[5] #Unique ID Specification Data
-argdata6 = a.argv[6] #Name of the Primary Storage File
-argdata7 = a.argv[7] #Name of the Secondary Storage File
-argdata8 = a.argv[8] #Datadog API Key
-argdata9 = a.argv[9] #Datadog APP key
-argdata0 = int(argdata1) #Converts the mode specification data to a integer
+  dirdata = r["nwcspathdata"]
+  f.mkdir(dirdata)
+data1 = a.argv[1] #Mode Specification Data
+data2 = a.argv[2] #Line Number
+data3 = a.argv[3] #Filename
+data4 = a.argv[4] #Tale Data
+data5 = a.argv[5] #Unique ID Specification Data
+data6 = a.argv[6] #Name of the Primary Storage File
+data7 = a.argv[7] #Name of the Secondary Storage File
+data8 = a.argv[8] #Datadog API Key
+data9 = a.argv[9] #Datadog APP key
+data0 = int(data1) #Converts the mode specification data to a integer
 w = e.StringIO("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = e.StringIO("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 v = e.StringIO("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
@@ -45,61 +43,61 @@ unknownerrormsg = e.StringIO("Error Code 1 Occured") #This error typically happe
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
 z = 'r' #Generic Textfile Opcode
-if argdata0 == 0: #Mode 0 Identifier Software Check
+if data0 == 0: #Mode 0 Identifier Software Check
   options = {
-    'api_key': argdata8,
-    'app_key': argdata9
+    'api_key': data8,
+    'app_key': data9
   }
   saveoptionsfile = open(options.dat, 'wb')
   c.dump(options, saveoptionsfile)
   f._exit(0)
-elif argdata0 == 1: #Mode 1 Identifier Software Check
+elif data0 == 1: #Mode 1 Identifier Software Check
   data = "/n" #New Line Identifier
-  outF1 = open("tables.txt", y)
-  textl1 = [data, argdata5, argdata6, argdata7]
+  outF1 = open("tales.txt", y)
+  textl1 = [data, data5, data6, data7]
   outF1.close()
   outF2 = open("id.txt", y)
-  textl2 = [argdata5]
+  textl2 = [data5]
   outF2.close()
   f._exit(0)
-elif argdata0 == 2: #Mode 2 Identifier Software Check
-  file = open(argdata3)
+elif data0 == 2: #Mode 2 Identifier Software Check
+  file = open(data3)
   all_lines = file.readlines()
-  print(all_lines[argdata2])  
+  print(all_lines[data2])  
   f._exit(0)
-elif argdata0 == 3: #Mode 3 Identifier Software Check
+elif data0 == 3: #Mode 3 Identifier Software Check
   f.system('echo Current Path: $PWD')
-  f.system('viable=$(python3 password.py)')
+  f.system('viale=$(python3 password.py)')
   f.system('useradd -m -p $arg store')
   f.system('echo Created user with $arg password')
   f.system('cp -r -a $PWD/home/store. /home/store')
   f.system('echo Install done.')
   f._exit(0)
-elif argdata0 == 4: #Mode 4 Identifier Software Check
+elif data0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
-  print("Available bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
+  print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w = input("Enter the bitsize you want:")
   x = d.getrandbits(w)
   print(x)
   f._exit(0)
-elif argdata0 == 5: #Mode 5 Identifier Software Check
+elif data0 == 5: #Mode 5 Identifier Software Check
   f = open('id.txt', z)
   file_contents = f.read()
   print(file_contents)
   f.close()
   f._exit(0)
-elif argdata0 == 6: #Mode 6 Identifier Software Check
-  file = open('tables.txt')
+elif data0 == 6: #Mode 6 Identifier Software Check
+  file = open('tales.txt')
   all_lines = file.readlines()
-  print(all_lines[argdata4])
+  print(all_lines[data4])
   f._exit(0)
-elif argdata0 == 7: #Mode 7 Identifier Software Check
-  print(currentpath) #Prints Current Path
+elif data0 == 7: #Mode 7 Identifier Software Check
+  print(path) #Prints Current Path
   f._exit(0)
-elif argdata0 == 8: #Mode 8 Identifier Software Check
+elif data0 == 8: #Mode 8 Identifier Software Check
   configrange = l(range(2, 100)) # Returns Preset Line Number Range
   configl = l(configrange) #Outputs the Preset Line Number Range to a l
-  outF1 = open(argdata6, y)
+  outF1 = open(data6, y)
   for line in configl:
     outF1.write(line)
     outF1.write(nl)
@@ -133,7 +131,7 @@ elif argdata0 == 8: #Mode 8 Identifier Software Check
   v26 = stask("INFO")
   v27 = stask("WARNING")
   v28 = stask("CRITICAL")
-  v36 = stask("./readtables.sh")
+  v36 = stask("./readtales.sh")
   v42 = stask("utf-8")
   v43 = stask("https://api.theprintful.com/")
   v44 = stask("Printful API Python Library 1.0")
@@ -178,7 +176,6 @@ elif argdata0 == 8: #Mode 8 Identifier Software Check
   v94 = stask("128")
   v95 = stask("512")
   v96 = l(range(3, 4))
-  v97 = rest(v94, v95, v96)
   l0 = [v00, v01, v02, v03, v04, v05, v06, v07, v08, v09]
   l1 = [v10, v11, v12, v13, v14, v15, v16, v17, v18, v19]
   l2 = [v20, v21, v22, v23, v24, v25, v26, v27, v28, v26]
@@ -188,14 +185,14 @@ elif argdata0 == 8: #Mode 8 Identifier Software Check
   l6 = [v61, v62, v63, v64, v65, v66, v67, v68, v69, v70]
   l7 = [v71, v70, v73, v70, v75, v70, v77, v78, v79, v80]
   l8 = [v81, v82, v83, v84, v84, v84, v90, v91, v92, v93] 
-  l9 = [l0, l1, l2, l3, l4, l5, l6, l7, l8, v97]
-  outF2 = open(argdata7, y)
+  l9 = [l0, l1, l2, l3, l4, l5, l6, l7, l8, v94, v95, v96, v97]
+  outF2 = open(data7, y)
   for line in l9:
     outF2.write(line)
     outF2.write(nl)
   outF2.close()
   f._exit(0)
-elif argdata0 == 9: #Mode 9 Identifier Software Check
+elif data0 == 9: #Mode 9 Identifier Software Check
   print(w)
   print ("My Aquarium Custom Attachment Generator\n")
   print ("By John Pansera / Version 1.0\n")
@@ -214,19 +211,19 @@ elif argdata0 == 9: #Mode 9 Identifier Software Check
   decisionoffset = d.randint(1, 2) #My Aquarium Add Fish Decisional Offset
   maximumfish = d.randint(1, 15) #My Aquarium Maximum Fish Offset
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
-  ab0 = "{0:0>2}"
-  formatjob = ab0.format
-  ab1 = formatjob(1)
-  ab2 = formatjob(2)
-  ab3 = formatjob(3)
-  ab4 = formatjob(4)
-  ab5 = formatjob(5)
-  ab6 = formatjob(6)
-  ab7 = formatjob(7)
-  ab8 = formatjob(8)
-  ab9 = formatjob(9)
+  a0 = "{0:0>2}"
+  aa = a0.format
+  a1 = aa(1)
+  a2 = aa(2)
+  a3 = aa(3)
+  a4 = aa(4)
+  a5 = aa(5)
+  a6 = aa(6)
+  a7 = aa(7)
+  a8 = aa(8)
+  a9 = aa(9)
   numl = l(range(10, 40))
-  test_l1 = [ab0, ab1, ab2, ab3, ab4, ab5, ab6, ab7, ab8, ab9]
+  test_l1 = [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   fishidl = test_l1 + numl
   header = h.OrderedDict()
   header["unknown"] = j(0)  # Version?
@@ -262,8 +259,8 @@ elif argdata0 == 9: #Mode 9 Identifier Software Check
                 header["fish_mding_%s" % i] = q(1)
                 header["fish_birthday_%s" % i] = l(1)  # Birthday is day 1
                 header["current_day_%s" % i] = l(1)  # Current day set to 1
-                header["fish_tables"] = m(240 - (amnt * 16))
-                header["object_tables"] = m(160)  # TODO: Add in object tables
+                header["fish_tales"] = m(240 - (amnt * 16))
+                header["object_tales"] = m(160)  # TODO: Add in object tales
                 print ("Processing ...")
                 f = e.BytesIO()
                 for k, v in header.items(): f.write(v)
@@ -278,10 +275,10 @@ elif argdata0 == 9: #Mode 9 Identifier Software Check
                 file.write(copy)  # Rest of File
                 file.flush()
                 file.close()
-                datfilename = e.StringIO("a0014682.dat")
-                nwcspathviable = r["nwcspathdata"]
-                nwcssrcviable = currentpath + "/" + datfilename
-                secn(nwcssrcviable, nwcspathviable)
+                datname = e.StringIO("a0014682.dat")
+                nwcspath = r["nwcspathdata"]
+                nwcssrc = path + "/" + datname
+                secn(nwcssrc, nwcspath)
                 print (nl)
                 print ("Completed Successfully")
             else:
@@ -293,9 +290,9 @@ elif argdata0 == 9: #Mode 9 Identifier Software Check
         amnt = 0
   else:
     print("Not doing fish....")
-    header["fish_tables"] = m(240 - (amnt * 16))
-    header["object_tables"] = m(160) 
-    # TODO: Add in object tables
+    header["fish_tales"] = m(240 - (amnt * 16))
+    header["object_tales"] = m(160) 
+    # TODO: Add in object tales
     print ("Processing ...")
     f = e.BytesIO()
     for k, v in header.items(): f.write(v)
@@ -311,10 +308,10 @@ elif argdata0 == 9: #Mode 9 Identifier Software Check
     file.write(copy)  # Rest of File
     file.flush()
     file.close()
-    datfilename = e.StringIO("a0014682.dat")
-    nwcspathviable = r["nwcspathdata"]
-    nwcssrcviable = currentpath + "/" + datfilename
-    secn(nwcssrcviable, nwcspathviable)
+    datname = e.StringIO("a0014682.dat")
+    nwcspath = r["nwcspathdata"]
+    nwcssrc = path + "/" + datname
+    secn(nwcssrc, nwcspath)
     print (nl)
     print ("Completed Successfully")
 else:
