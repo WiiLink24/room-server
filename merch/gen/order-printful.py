@@ -22,11 +22,11 @@ def orderprintful(a, b, c, d, e, f, g, h, i, j, k):
     options = pickle.load(load_file1)
   if config["production"] and config["send_logs"] and config["use_pickle"]:
     setup_log(config["sentry_url"], False)
-  if config["production"] and config["use_private_key"]:
+  if config["production"] and config["use_private_key"] and config["execute_all"]:
     load_file2 = open(password.dat, 'rb')
     privatekey = pickle.load(load_file2)
-    path = pathlib.Path(__file__).parent.absolute()
-    imgpath = config["printful_cdn_url"] + "/" + jpgname
+   path = pathlib.Path(__file__).parent.absolute()
+   imgpath = config["printful_cdn_url"] + "/" + jpgname
     a = jpgname
     b = variantid
     c = productname
