@@ -13,7 +13,7 @@ from datadog import (
 from utilsbylarsen import (
   setup_log,
 )
-def orderprintful(a, b, c, d, e, f, g, h, i, j, k):
+def orderprintful(a, b, c, d, e, f, g, h, i, j, k, l):
   if config["execute_all"]:
     with open("./config.json", "rb") as f:
     config = json.load(f)
@@ -37,6 +37,7 @@ def orderprintful(a, b, c, d, e, f, g, h, i, j, k):
     h = shippingcity
     i = countrycode
     j = zipno
+    l = statecode
     pyminizip.uncompress("offset.enc", privatekey, path, int(withoutpath))
     load_file3 = open(offset.dat, 'rb')
     confirmoffset = pickle.load(load_file3)
@@ -49,7 +50,7 @@ def orderprintful(a, b, c, d, e, f, g, h, i, j, k):
                   'name': shippingname,
                   'address1': address,
                   'city': shippingcity,
-                  'state_code': countrycode,
+                  'state_code': statecode,
                   'country_code': countrycode,
                   'zip': zipno
               },
