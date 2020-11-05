@@ -18,13 +18,11 @@ n = nwcsutils.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nwcsutils.log # This line will import log from utilsbylarsen.py.
 q = nwcsutils.u16 # This line will import u16 from utilsbylarsen.py.
 currentpath = main.Path(__file__).parent.absolute() #Obtains current path
-b = "rb" #Generic JSON Opcode
-generic = "production" #Production Mode Parent Data
-with open("./nwcs.json", b) as f:
+with open("./nwcs.json", rb) as f:
     r = p.load(f)
-if r[generic] and r["send_logs"]:
+if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
-if r[generic]:
+if r["production"]:
   directorycreationdata = r["nwcspathdata"]
   f.mkdir(directorycreationdata)
 argdata0 = a.argv[0] #Python Filename
@@ -71,30 +69,7 @@ elif argdata1 == 3: #Mode 3 Identifier Software Check
   f.system('echo Created user with $arg password')
   f.system('cp -r -a $PWD/home/store. /home/store')
   f.system('echo Install done.')
-  print("Exiting in 11...")
-  misc.sleep(1)
-  print("Exiting in 10...")
-  misc.sleep(1)
-  print("Exiting in 9...")
-  misc.sleep(1)
-  print("Exiting in 8...")
-  misc.sleep(1)
-  print("Exiting in 7...")
-  misc.sleep(1)
-  print("Exiting in 6...")
-  misc.sleep(1)
-  print("Exiting in 5...")
-  misc.sleep(1)
-  print("Exiting in 4...")
-  misc.sleep(1)
-  print("Exiting in 3...")
-  misc.sleep(1)
-  print("Exiting in 2...")
-  misc.sleep(1)
-  print("Exiting in 1...")
-  misc.sleep(1)
-  normal = 0 #Success Notification Data
-  f._exit(normal)
+  f._exit(0)
 elif argdata1 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Available bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
@@ -124,8 +99,6 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
     outF1.write(line)
     outF1.write("\n")
   outF1.close()
-  variablelist = []
-  s = variablelist.append
   var00 = e.StringIO("sentry_url")
   var01 = e.StringIO("printful_key")
   var02 = e.StringIO("production")
@@ -224,106 +197,19 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   var95 = e.StringIO("512")
   var96 = e.StringIO("3")
   var97 = e.StringIO("4")
-  s(var00)
-  s(var01)
-  s(var02)
-  s(var03)
-  s(var04)
-  s(var05)
-  s(var06)
-  s(var07)
-  s(var08)
-  s(var09)
-  s(var10)
-  s(var11)
-  s(var12)
-  s(var13)
-  s(var14)
-  s(var15)
-  s(var16)
-  s(var17)
-  s(var18)
-  s(var19)
-  s(var20)
-  s(var21)
-  s(var22)
-  s(var23)
-  s(var24)
-  s(var25)
-  s(var26)
-  s(var27)
-  s(var28)
-  s(var29)
-  s(var30)
-  s(var31)
-  s(var32)
-  s(var33)
-  s(var34)
-  s(var35)
-  s(var36)
-  s(var37)
-  s(var38)
-  s(var39)
-  s(var40)
-  s(var41)
-  s(var42)
-  s(var43)
-  s(var44)
-  s(var45)
-  s(var46)
-  s(var47)
-  s(var48)
-  s(var49)
-  s(var50)
-  s(var51)
-  s(var52)
-  s(var53)
-  s(var54)
-  s(var55)
-  s(var56)
-  s(var57)
-  s(var58)
-  s(var59)
-  s(var60)
-  s(var61)
-  s(var62)
-  s(var63)
-  s(var64)
-  s(var65)
-  s(var66)
-  s(var67)
-  s(var68)
-  s(var69)
-  s(var70)
-  s(var71)
-  s(var72)
-  s(var73)
-  s(var74)
-  s(var75)
-  s(var76)
-  s(var77)
-  s(var78)
-  s(var79)
-  s(var80)
-  s(var81)
-  s(var82)
-  s(var83)
-  s(var84)
-  s(var85)
-  s(var86)
-  s(var87)
-  s(var88)
-  s(var89)
-  s(var90)
-  s(var91)
-  s(var92)
-  s(var93)
-  s(var94)
-  s(var95)
-  s(var96)
-  s(var97)
+  list0 = [var00, var01, var02, var03, var04, var05, var06, var07, var08, var09]
+  list1 = [var10, var11, var12, var13, var14, var15, var16, var17, var18, var19]
+  list2 = [var20, var21, var22, var23, var24, var25, var26, var27, var28, var29]
+  list3 = [var30, var31, var32, var33, var34, var35, var36, var37, var38, var39]
+  list4 = [var40, var41, var42, var43, var44, var45, var46, var47, var48, var49]
+  list5 = [var50, var51, var62, var53, var54, var55, var56, var57, var58, var59]
+  list6 = [var60, var61, var62, var63, var64, var65, var66, var67, var68, var69]
+  list7 = [var70, var71, var72, var73, var74, var75, var76, var77, var78, var79]
+  list8 = [var80, var81, var82, var83, var84, var85, var86, var87, var88, var89]
+  list9 = [var90, var91, var92, var93, var94, var95, var96, var97, var98, var99]
+  list = list0 + list1 + list2 + list3 + list4 + list5 + list6 + list7 + list8 + list9
   outF2 = open(argdata7, y)
-  for line in variablelist:
+  for line in list:
     outF2.write(line)
     outF2.write("\n")
   outF2.close()
@@ -388,47 +274,11 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
   idmisc7 = 37
   idmisc8 = 38
   idmisc9 = 39
-  fishidlist = []
-  t = fishidlist.append
-  t(idmain1)
-  t(idmain2)
-  t(idmain3)
-  t(idmain4)
-  t(idmain5)
-  t(idmain6)
-  t(idmain7)
-  t(idmain8)
-  t(idmain9)
-  t(idsecn0)
-  t(idsecn1)
-  t(idsecn2)
-  t(idsecn3)
-  t(idsecn4)
-  t(idsecn5)
-  t(idsecn6)
-  t(idsecn7)
-  t(idsecn8)
-  t(idsecn9)
-  t(idothr0)
-  t(idothr1)
-  t(idothr2)
-  t(idothr3)
-  t(idothr4)
-  t(idothr5)
-  t(idothr6)
-  t(idothr7)
-  t(idothr8)
-  t(idothr9)
-  t(idmisc0)
-  t(idmisc1)
-  t(idmisc2)
-  t(idmisc3)
-  t(idmisc4)
-  t(idmisc5)
-  t(idmisc6)
-  t(idmisc7)
-  t(idmisc8)
-  t(idmisc9)
+  test_list1 = [idmain0, idmain1, idmain2, idmain3, idmain4, idmain5, idmain6, idmain7, idmain8, idmain9]
+  test_list2 = [idsecn0, idsecn1, idsecn2, idsecn3, idsecn4, idsecn5, idsecn6, idsecn7, idsecn8, idsecn9]
+  test_list3 = [idothr0, idothr1, idothr2, idothr3, idothr4, idothr5, idothr6, idothr7, idothr8, idothr9]
+  test_list4 = [idmisc0, idmisc1, idmisc2, idmisc3, idmisc4, idmisc5, idmisc6, idmisc7, idmisc8, idmisc9]
+  fishidlist = test_list1 + test_list2 + test_list3 + test_list4
   header = h.OrderedDict()
   header["unknown"] = j(0)  # Version?
   header["aquarium_size"] = j(int(aquarium_size))
