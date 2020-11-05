@@ -24,7 +24,7 @@ with open("./nwcs.json", rb) as f:
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
 if r["production"]:
-  dirdd = r["nwcspathdd"]
+  dirdd = r["nwcspathdata"]
   f.mkdir(dirdd)
 d = a.argv # Argument Class dd
 dd1 = d[1] #Mode Specification dd
@@ -277,7 +277,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 file.flush()
                 file.close()
                 datname = e.StringIO("a0014682.dat")
-                nwcspath = r["nwcspathdd"]
+                nwcspath = r["nwcspathdata"]
                 nwcssrc = path + "/" + datname
                 secn(nwcssrc, nwcspath)
                 print (nl)
@@ -310,7 +310,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     file.flush()
     file.close()
     datname = e.StringIO("a0014682.dat")
-    nwcspath = r["nwcspathdd"]
+    nwcspath = r["nwcspathdata"]
     nwcssrc = path + "/" + datname
     secn(nwcssrc, nwcspath)
     print (nl)
