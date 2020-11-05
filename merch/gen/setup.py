@@ -3,10 +3,6 @@ import calendar
 import os
 import sys
 import pathlib
-from utilsbylarsen import (
-  setup_log,
-  log,
-)
 import pyminizip
 import pickle
 import random
@@ -55,6 +51,10 @@ if d1 == 8:
 if d1 == 9:
   print("Congrats, you accessed the secret feature!\n")
   print("Code by Larsen, I take ZERO credit.\n")
+  print("Credits also go to:\n")
+  print("Aurum for making ACWC24. The BIN files were generated with ACDLC, also made by the same person.\n")
+  print("Techincabor for helping me figure out the name of the DLC domain.\n")
+  print("\n")
   print("so do not go saying I stole credit, as I take no credit and we will...\n")
   print("Just virtually ignore you if you say it.\n")
   items = ["anniversary_cake",
@@ -137,3 +137,4 @@ if d1 == 9:
   webhook = open(discord.dat, 'rb')
   webhook_url = pickle.load(webhook)
   post_webhook = requests.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
+  webhook.close()
