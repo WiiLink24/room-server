@@ -17,7 +17,7 @@ m = nw.pad # This line will import pad from utilsbylarsen.py.
 n = nw.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nw.log # This line will import log from utilsbylarsen.py.
 q = nw.u16 # This line will import u16 from utilsbylarsen.py.
-path = main.Path(__file__).parent.asolute() #Obtains current path
+path = main.Path(__file__).parent.absolute() #Obtains current path
 stask = e.StringIO #Installs a alias to the StringIO class
 with open("./nwcs.json", "rb") as f:
     r = p.load(f)
