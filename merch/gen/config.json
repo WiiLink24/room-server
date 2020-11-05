@@ -1,15 +1,14 @@
-{
-  "php_logger_method": "php ",
-  "phpfilename": "merch.php",
-  "sentry_url": "status.domain.tld",
+ {
   "production": false,
   "send_stats": false,
-  "send_php_logs": false,
-  "printful_key": "api_key_here",
-  "datadog_api_key": "api_key_here",
-  "datadog_app_key": "app_key_here",
-  "php_logger_path": "/var/www/wapp.wii.com/miicontestp.wapp.wii.com/0li/",
-  "pwinty_api_key": "api_key_here",
-  "sendgrid_api_key": "api_key_here",
-  "wii_mail_order_info_sender_address": "pleasechangeme@wiilink24.com"
+  "send_logs": false,
+  "load_options_file": true,
+  "use_pickle": true,
+  "sentry_url": "status.domain.tld",
+  "printful_cdn_url": "status.domain.tld",
+  "printful_api_key": "pleasechangeme",
+  "pwinty_cdn_url": "status.domain.tld",
+  "pwinty_api_key": "pleasechangeme",
+  "use_private_key": true,
+  "execute_all": true,
 }
