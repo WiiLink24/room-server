@@ -1,9 +1,9 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db
-from models import User, ConciergeMiis, MiiMsgInfo, MiiData, ParadeMiis
+from models import User, ConciergeMiis, MiiMsgInfo, MiiData, ParadeMiis, Posters
 from flask_login import login_required, logout_user
-from forms import LoginForm, KillMii, ConciergeForm, MiiUploadForm
+from forms import LoginForm, KillMii, ConciergeForm, MiiUploadForm, PosterForm
 from flask_login import current_user, login_user
 import crc16
 
@@ -151,3 +151,11 @@ if underground_enabled:
     def process_logout():
         logout_user()
         return redirect(url_for("login"))
+   @app.route("/theunderground/posters")
+   @login_required
+   def posters():
+    # How the heck did I forget this?
+    # Displays a table of posters with options to add and remove them
+    posters = Posters.query.all()
+    return render_template("poster.html")
+    
