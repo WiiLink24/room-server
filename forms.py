@@ -18,7 +18,7 @@ class MiiUploadForm(FlaskForm):
 class ParadeForm(FlaskForm):
     miiid = StringField("Mii ID", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
-    image = StringField("Image in Base64", validators=[DataRequired()])
+    mii = FileField("Image Selection", validators=[FileRequired()])
     submit = SubmitField("Create")
 
 
