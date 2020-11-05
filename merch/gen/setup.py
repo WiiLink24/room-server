@@ -16,13 +16,17 @@ import time
 from datetime import datetime
 d = sys.argv
 currentfile = d[1] #Filename of Script that is being run
-d1 = d[2] #Mode Identifier Data
+d1 = int(d[2]) #Mode Identifier Data
 path = pathlib.Path(__file__).parent.absolute()
 if d1 == 0:
   subprocess.run('python3 setup.py 1', shell=True)
   subprocess.run('python3 setup.py 2', shell=True)
   subprocess.run('python3 setup.py 3', shell=True)
   subprocess.run('python3 setup.py 4', shell=True)
+  url = input("Please enter the Discord Webhook URL:")
+  savefile = open('discord.dat', 'wb')
+  pickle.dump(url, savefile)
+  savefile.close()
 if d1 == 1:
   subprocess.run('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
 if d1 == 2:
