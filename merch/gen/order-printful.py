@@ -5,7 +5,6 @@ import os
 import printful
 import pprint
 import pyminizip
-import subprocess
 import time
 from datadog import (
   initialize,
