@@ -1,0 +1,12 @@
+ {
+  "production": false,
+  "send_stats": false,
+  "send_logs": false,
+  "load_options_file": true,
+  "use_pickle": true,
+  "sentry_url": "status.domain.tld",
+  "pwinty_cdn_url": "status.domain.tld",
+  "pwinty_api_key": "pleasechangeme",
+  "use_private_key": true,
+  "execute_all": true,
+}
