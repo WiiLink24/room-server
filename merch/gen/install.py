@@ -19,7 +19,7 @@ o = nw.log # This line will import log from utilsbylarsen.py.
 q = nw.u16 # This line will import u16 from utilsbylarsen.py.
 path = main.Path(__file__).parent.asolute() #Obtains current path
 stask = e.StringIO #Installs a alias to the StringIO class
-with open("./nwcs.json", rb) as f:
+with open("./nwcs.json", "rb") as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
@@ -54,7 +54,7 @@ if dd0 == 0: #Mode 0 Identifier Software Check
   f._exit(0)
 elif dd0 == 1: #Mode 1 Identifier Software Check
   dd = "/n" #New Line Identifier
-  outF1 = open("tales.txt", y)
+  outF1 = open("tables.txt", y)
   textl1 = [dd, dd5, dd6, dd7]
   outF1.close()
   outF2 = open("id.txt", y)
@@ -88,7 +88,7 @@ elif dd0 == 5: #Mode 5 Identifier Software Check
   f.close()
   f._exit(0)
 elif dd0 == 6: #Mode 6 Identifier Software Check
-  file = open('tales.txt')
+  file = open('tables.txt')
   all_lines = file.readlines()
   print(all_lines[dd4])
   f._exit(0)
@@ -132,7 +132,7 @@ elif dd0 == 8: #Mode 8 Identifier Software Check
   v26 = stask("INFO")
   v27 = stask("WARNING")
   v28 = stask("CRITICAL")
-  v36 = stask("./readtales.sh")
+  v36 = stask("./readtables.sh")
   v42 = stask("utf-8")
   v43 = stask("https://api.theprintful.com/")
   v44 = stask("Printful API Python Library 1.0")
@@ -260,8 +260,8 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 header["fish_mding_%s" % i] = q(1)
                 header["fish_birthday_%s" % i] = l(1)  # Birthday is day 1
                 header["current_day_%s" % i] = l(1)  # Current day set to 1
-                header["fish_tales"] = m(240 - (amnt * 16))
-                header["object_tales"] = m(160)  # TODO: Add in object tales
+                header["fish_tables"] = m(240 - (amnt * 16))
+                header["object_tables"] = m(160)  # TODO: Add in object tables
                 print ("Processing ...")
                 f = e.BytesIO()
                 for k, v in header.items(): f.write(v)
@@ -291,9 +291,9 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
         amnt = 0
   else:
     print("Not doing fish....")
-    header["fish_tales"] = m(240 - (amnt * 16))
-    header["object_tales"] = m(160) 
-    # TODO: Add in object tales
+    header["fish_tables"] = m(240 - (amnt * 16))
+    header["object_tables"] = m(160) 
+    # TODO: Add in object tables
     print ("Processing ...")
     f = e.BytesIO()
     for k, v in header.items(): f.write(v)
