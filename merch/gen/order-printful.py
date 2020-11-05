@@ -13,7 +13,7 @@ from datadog import (
 from utilsbylarsen import (
   setup_log,
 )
-def orderprintful(a, b, c, d, e, f, g, h, i, j, k, privatekey):
+def orderprintful(a, b, c, d, e, f, g, h, i, j, k):
   if config["execute_all"]:
     with open("./config.json", "rb") as f:
     config = json.load(f)
