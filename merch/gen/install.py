@@ -183,20 +183,14 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   var81 = e.StringIO("32767")
   var82 = e.StringIO("-2147483648")
   var83 = e.StringIO("2147483647")
-  var84 = e.StringIO("1")
-  var85 = e.StringIO("2")
-  var86 = e.StringIO("1")
-  var87 = e.StringIO("2")
-  var88 = e.StringIO("1")
-  var89 = e.StringIO("2")
+  var84 = list(range(1, 2))
   var90 = e.StringIO("200")
   var91 = e.StringIO("301")
   var92 = e.StringIO("ascii")
   var93 = e.StringIO("256")
   var94 = e.StringIO("128")
   var95 = e.StringIO("512")
-  var96 = e.StringIO("3")
-  var97 = e.StringIO("4")
+  var96 = list(range(3, 4))
   list0 = [var00, var01, var02, var03, var04, var05, var06, var07, var08, var09]
   list1 = [var10, var11, var12, var13, var14, var15, var16, var17, var18, var19]
   list2 = [var20, var21, var22, var23, var24, var25, var26, var27, var28, var29]
@@ -205,8 +199,8 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   list5 = [var50, var51, var62, var53, var54, var55, var56, var57, var58, var59]
   list6 = [var60, var61, var62, var63, var64, var65, var66, var67, var68, var69]
   list7 = [var70, var71, var72, var73, var74, var75, var76, var77, var78, var79]
-  list8 = [var80, var81, var82, var83, var84, var85, var86, var87, var88, var89]
-  list9 = [var90, var91, var92, var93, var94, var95, var96, var97, var98, var99]
+  list8 = [var80, var81, var82, var83, var84, var84, var84]
+  list9 = [var90, var91, var92, var93, var94, var95, var96]
   list = list0 + list1 + list2 + list3 + list4 + list5 + list6 + list7 + list8 + list9
   outF2 = open(argdata7, y)
   for line in list:
