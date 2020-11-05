@@ -4,6 +4,7 @@
   "send_logs": false,
   "load_options_file": true,
   "use_pickle": true,
+  "datadog_file": "options-alt.dat",
   "sentry_url": "status.domain.tld",
   "pwinty_cdn_url": "status.domain.tld",
   "pwinty_api_key": "pleasechangeme",
