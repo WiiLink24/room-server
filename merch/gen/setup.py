@@ -1,4 +1,4 @@
-#import acwc24
+import acwc24
 import calendar
 import os
 import sys
