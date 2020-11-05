@@ -161,9 +161,7 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   var70 = e.StringIO("0")
   var71 = e.StringIO("255")
   var73 = e.StringIO("65535")
-  var74 = e.StringIO("0")
   var75 = e.StringIO("4294967295")
-  var76 = e.StringIO("0")
   var77 = e.StringIO("4294967295")
   var78 = e.StringIO("-128")
   var79 = e.StringIO("127")
@@ -186,7 +184,7 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   list4 = [var39, var41, var42, var43, var44, var45, var46, var47, var48, var49]
   list5 = [var50, var51, var62, var53, var54, var55, var57, var58, var59]
   list6 = [var60, var61, var62, var63, var64, var65, var66, var67, var68, var69]
-  list7 = [var70, var71, var70, var73, var74, var75, var76, var77, var78, var79]
+  list7 = [var70, var71, var70, var73, var70, var75, var70, var77, var78, var79]
   list8 = [var80, var81, var82, var83, var84, var84, var84]
   list9 = [var90, var91, var92, var93, var94, var95, var96]
   list = list0 + list1 + list2 + list3 + list4 + list5 + list6 + list7 + list8 + list9
