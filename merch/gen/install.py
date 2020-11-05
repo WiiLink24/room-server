@@ -25,7 +25,6 @@ if r["production"] and r["send_logs"]:
 if r["production"]:
   directorycreationdata = r["nwcspathdata"]
   f.mkdir(directorycreationdata)
-argdata0 = a.argv[0] #Python Filename
 argdata1 = a.argv[1] #Mode Specification Data
 argdata2 = a.argv[2] #Line Number
 argdata3 = a.argv[3] #Filename
@@ -154,8 +153,7 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   var52 = e.StringIO("/")
   var53 = e.StringIO("fixtures")
   var54 = e.StringIO("utf-8")
-  var55 = e.StringIO("0")
-  var56 = e.StringIO("1")
+  var55 = list(range(0, 1))
   var57 = e.StringIO("API response was not valid JSON.")
   var58 = e.StringIO("GET")
   var59 = e.StringIO("POST")
@@ -196,7 +194,7 @@ elif argdata1 == 8: #Mode 8 Identifier Software Check
   list2 = [var20, var21, var22, var23, var24, var25, var26, var27, var28, var29]
   list3 = [var30, var31, var32, var33, var34, var35, var36, var37, var38, var39]
   list4 = [var40, var41, var42, var43, var44, var45, var46, var47, var48, var49]
-  list5 = [var50, var51, var62, var53, var54, var55, var56, var57, var58, var59]
+  list5 = [var50, var51, var62, var53, var54, var55, var57, var58, var59]
   list6 = [var60, var61, var62, var63, var64, var65, var66, var67, var68, var69]
   list7 = [var70, var71, var72, var73, var74, var75, var76, var77, var78, var79]
   list8 = [var80, var81, var82, var83, var84, var84, var84]
