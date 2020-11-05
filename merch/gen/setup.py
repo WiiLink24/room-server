@@ -3,10 +3,6 @@ import calendar
 import os
 import sys
 import pathlib
-from utilsbylarsen import (
-  setup_log,
-  log,
-)
 import pyminizip
 import pickle
 import random
