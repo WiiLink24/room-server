@@ -7,6 +7,7 @@ import os as f
 import binascii as g
 import collections as h
 import utilsbylarsen as nwcsutils
+import utilsbygloom as myutils
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
@@ -17,7 +18,9 @@ m = nwcsutils.pad # This line will import pad from utilsbylarsen.py.
 n = nwcsutils.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nwcsutils.log # This line will import log from utilsbylarsen.py.
 q = nwcsutils.u16 # This line will import u16 from utilsbylarsen.py.
+rest = utilsbygloom.tablereturner # This line will import tablereturner from utilsbygloom.py.
 currentpath = main.Path(__file__).parent.absolute() #Obtains current path
+stask = e.StringIO #Installs a alias to the StringIO class
 with open("./nwcs.json", rb) as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
@@ -34,12 +37,15 @@ argdata6 = a.argv[6] #Name of the Primary Storage File
 argdata7 = a.argv[7] #Name of the Secondary Storage File
 argdata8 = a.argv[8] #Datadog API Key
 argdata9 = a.argv[9] #Datadog APP key
+argdata0 = int(argdata1) #Converts the mode specification data to a integer
 w = e.StringIO("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = e.StringIO("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 v = e.StringIO("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
+unknownerrormsg = e.StringIO("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
+nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
 z = 'r' #Generic Textfile Opcode
-if argdata1 == 0: #Mode 0 Identifier Software Check
+if argdata0 == 0: #Mode 0 Identifier Software Check
   options = {
     'api_key': argdata8,
     'app_key': argdata9
@@ -47,156 +53,151 @@ if argdata1 == 0: #Mode 0 Identifier Software Check
   saveoptionsfile = open(options.dat, 'wb')
   c.dump(options, saveoptionsfile)
   f._exit(0)
-elif argdata1 == 1: #Mode 1 Identifier Software Check
+elif argdata0 == 1: #Mode 1 Identifier Software Check
   data = "/n" #New Line Identifier
   outF1 = open("tables.txt", y)
-  textList1 = [data, argdata5, argdata6, argdata7]
+  textl1 = [data, argdata5, argdata6, argdata7]
   outF1.close()
   outF2 = open("id.txt", y)
-  textList2 = [argdata5]
+  textl2 = [argdata5]
   outF2.close()
   f._exit(0)
-elif argdata1 == 2: #Mode 2 Identifier Software Check
+elif argdata0 == 2: #Mode 2 Identifier Software Check
   file = open(argdata3)
   all_lines = file.readlines()
   print(all_lines[argdata2])  
   f._exit(0)
-elif argdata1 == 3: #Mode 3 Identifier Software Check
+elif argdata0 == 3: #Mode 3 Identifier Software Check
   f.system('echo Current Path: $PWD')
-  f.system('variable=$(python3 password.py)')
+  f.system('viable=$(python3 password.py)')
   f.system('useradd -m -p $arg store')
   f.system('echo Created user with $arg password')
   f.system('cp -r -a $PWD/home/store. /home/store')
   f.system('echo Install done.')
   f._exit(0)
-elif argdata1 == 4: #Mode 4 Identifier Software Check
+elif argdata0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Available bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w = input("Enter the bitsize you want:")
   x = d.getrandbits(w)
   print(x)
   f._exit(0)
-elif argdata1 == 5: #Mode 5 Identifier Software Check
+elif argdata0 == 5: #Mode 5 Identifier Software Check
   f = open('id.txt', z)
   file_contents = f.read()
   print(file_contents)
   f.close()
   f._exit(0)
-elif argdata1 == 6: #Mode 6 Identifier Software Check
+elif argdata0 == 6: #Mode 6 Identifier Software Check
   file = open('tables.txt')
   all_lines = file.readlines()
   print(all_lines[argdata4])
   f._exit(0)
-elif argdata1 == 7: #Mode 7 Identifier Software Check
+elif argdata0 == 7: #Mode 7 Identifier Software Check
   print(currentpath) #Prints Current Path
   f._exit(0)
-elif argdata1 == 8: #Mode 8 Identifier Software Check
-  configrange = range(2, 100) # Returns Preset Line Number Range
-  configlist = list(configrange) #Outputs the Preset Line Number Range to a list
+elif argdata0 == 8: #Mode 8 Identifier Software Check
+  configrange = l(range(2, 100)) # Returns Preset Line Number Range
+  configl = l(configrange) #Outputs the Preset Line Number Range to a l
   outF1 = open(argdata6, y)
-  for line in configlist:
+  for line in configl:
     outF1.write(line)
-    outF1.write("\n")
+    outF1.write(nl)
   outF1.close()
-  var00 = e.StringIO("sentry_url")
-  var01 = e.StringIO("printful_key")
-  var02 = e.StringIO("production")
-  var03 = e.StringIO("send_stats")
-  var04 = e.StringIO("datadog_api_key")
-  var05 = e.StringIO("datadog_app_key")
-  var06 = e.StringIO("phpfilename")
-  var07 = e.StringIO("php_logger_path")
-  var08 = e.StringIO("php_logger_method")
-  var09 = e.StringIO("send_php_logs")
-  var10 = e.StringIO("api_key")
-  var11 = e.StringIO("orders")
-  var12 = e.StringIO("app_key")
-  var13 = e.StringIO("offset")
-  var14 = e.StringIO("limit")
-  var15 = e.StringIO("code")
-  var16 = e.StringIO("result")
-  var17 = e.StringIO("https://api.theprintful.com/")
-  var18 = e.StringIO("Printful API Python Library 1.2")
-  var19 = e.StringIO("Authorization")
-  var20 = e.StringIO("User-Agent")
-  var21 = e.StringIO("Content-Type")
-  var22 = e.StringIO("application/json")
-  var23 = e.StringIO("paging")
-  var24 = e.StringIO("total")
-  var25 = e.StringIO("VERBOSE")
-  var26 = e.StringIO("INFO")
-  var27 = e.StringIO("WARNING")
-  var28 = e.StringIO("CRITICAL")
-  var29 = e.StringIO("INFO")
-  var36 = e.StringIO("./readtables.sh")
-  var39 = e.StringIO("paging")
-  var41 = e.StringIO("total")
-  var42 = e.StringIO("utf-8")
-  var43 = e.StringIO("https://api.theprintful.com/")
-  var44 = e.StringIO("Printful API Python Library 1.0")
-  var45 = e.StringIO("User-Agent")
-  var46 = e.StringIO("Content-Type")
-  var47 = e.StringIO("application/json")
-  var48 = e.StringIO("Server")
-  var49 = e.StringIO("headers")
-  var50 = e.StringIO("auth")
-  var51 = e.StringIO("headers")
-  var52 = e.StringIO("/")
-  var53 = e.StringIO("fixtures")
-  var54 = e.StringIO("utf-8")
-  var55 = list(range(0, 1))
-  var57 = e.StringIO("API response was not valid JSON.")
-  var58 = e.StringIO("GET")
-  var59 = e.StringIO("POST")
-  var60 = e.StringIO("PUT")
-  var61 = e.StringIO("DELETE")
-  var62 = e.StringIO("API response did not contain paginated results.")
-  var63 = e.StringIO(">B")
-  var64 = e.StringIO(">H")
-  var65 = e.StringIO(">I")
-  var66 = e.StringIO("<I")
-  var67 = e.StringIO(">b")
-  var68 = e.StringIO(">h")
-  var69 = e.StringIO(">i")
-  var70 = e.StringIO("0")
-  var71 = e.StringIO("255")
-  var73 = e.StringIO("65535")
-  var75 = e.StringIO("4294967295")
-  var77 = e.StringIO("4294967295")
-  var78 = e.StringIO("-128")
-  var79 = e.StringIO("127")
-  var80 = e.StringIO("-32768")
-  var81 = e.StringIO("32767")
-  var82 = e.StringIO("-2147483648")
-  var83 = e.StringIO("2147483647")
-  var84 = list(range(1, 2))
-  var90 = e.StringIO("200")
-  var91 = e.StringIO("301")
-  var92 = e.StringIO("ascii")
-  var93 = e.StringIO("256")
-  var94 = e.StringIO("128")
-  var95 = e.StringIO("512")
-  var96 = list(range(3, 4))
-  list0 = [var00, var01, var02, var03, var04, var05, var06, var07, var08, var09]
-  list1 = [var10, var11, var12, var13, var14, var15, var16, var17, var18, var19]
-  list2 = [var20, var21, var22, var23, var24, var25, var26, var27, var28, var29]
-  list3 = [var29, var29, var29, var29, var29, var29, var36, var36, var36, var39]
-  list4 = [var39, var41, var42, var43, var44, var45, var46, var47, var48, var49]
-  list5 = [var50, var51, var62, var53, var54, var55, var57, var58, var59]
-  list6 = [var60, var61, var62, var63, var64, var65, var66, var67, var68, var69]
-  list7 = [var70, var71, var70, var73, var70, var75, var70, var77, var78, var79]
-  list8 = [var80, var81, var82, var83, var84, var84, var84]
-  list9 = [var90, var91, var92, var93, var94, var95, var96]
-  list = list0 + list1 + list2 + list3 + list4 + list5 + list6 + list7 + list8 + list9
+  v00 = stask("sentry_url")
+  v01 = stask("printful_key")
+  v02 = stask("production")
+  v03 = stask("send_stats")
+  v04 = stask("datadog_api_key")
+  v05 = stask("datadog_app_key")
+  v06 = stask("phpfilename")
+  v07 = stask("php_logger_path")
+  v08 = stask("php_logger_method")
+  v09 = stask("send_php_logs")
+  v10 = stask("api_key")
+  v11 = stask("orders")
+  v12 = stask("app_key")
+  v13 = stask("offset")
+  v14 = stask("limit")
+  v15 = stask("code")
+  v16 = stask("result")
+  v17 = stask("https://api.theprintful.com/")
+  v18 = stask("Printful API Python Library 1.2")
+  v19 = stask("Authorization")
+  v20 = stask("User-Agent")
+  v21 = stask("Content-Type")
+  v22 = stask("application/json")
+  v23 = stask("paging")
+  v24 = stask("total")
+  v25 = stask("VERBOSE")
+  v26 = stask("INFO")
+  v27 = stask("WARNING")
+  v28 = stask("CRITICAL")
+  v36 = stask("./readtables.sh")
+  v42 = stask("utf-8")
+  v43 = stask("https://api.theprintful.com/")
+  v44 = stask("Printful API Python Library 1.0")
+  v45 = stask("User-Agent")
+  v46 = stask("Content-Type")
+  v47 = stask("application/json")
+  v48 = stask("Server")
+  v49 = stask("headers")
+  v50 = stask("auth")
+  v52 = stask("/")
+  v53 = stask("fixtures")
+  v55 = l(range(0, 1))
+  v57 = stask("API response was not valid JSON.")
+  v58 = stask("GET")
+  v59 = stask("POST")
+  v60 = stask("PUT")
+  v61 = stask("DELETE")
+  v62 = stask("API response did not contain paginated results.")
+  v63 = stask(">B")
+  v64 = stask(">H")
+  v65 = stask(">I")
+  v66 = stask("<I")
+  v67 = stask(">b")
+  v68 = stask(">h")
+  v69 = stask(">i")
+  v70 = stask("0")
+  v71 = stask("255")
+  v73 = stask("65535")
+  v75 = stask("4294967295")
+  v77 = stask("4294967295")
+  v78 = stask("-128")
+  v79 = stask("127")
+  v80 = stask("-32768")
+  v81 = stask("32767")
+  v82 = stask("-2147483648")
+  v83 = stask("2147483647")
+  v84 = l(range(1, 2))
+  v90 = stask("200")
+  v91 = stask("301")
+  v92 = stask("ascii")
+  v93 = stask("256")
+  v94 = stask("128")
+  v95 = stask("512")
+  v96 = l(range(3, 4))
+  v97 = rest(v94, v95, v96)
+  l0 = [v00, v01, v02, v03, v04, v05, v06, v07, v08, v09]
+  l1 = [v10, v11, v12, v13, v14, v15, v16, v17, v18, v19]
+  l2 = [v20, v21, v22, v23, v24, v25, v26, v27, v28, v26]
+  l3 = [v29, v29, v29, v29, v29, v29, v36, v36, v36, v23]
+  l4 = [v39, v24, v42, v43, v44, v45, v46, v47, v48, v49]
+  l5 = [v50, v49, v62, v53, v42, v55, v57, v58, v59, v60]
+  l6 = [v61, v62, v63, v64, v65, v66, v67, v68, v69, v70]
+  l7 = [v71, v70, v73, v70, v75, v70, v77, v78, v79, v80]
+  l8 = [v81, v82, v83, v84, v84, v84, v90, v91, v92, v93] 
+  l9 = [l0, l1, l2, l3, l4, l5, l6, l7, l8, v97]
   outF2 = open(argdata7, y)
-  for line in list:
+  for line in l9:
     outF2.write(line)
-    outF2.write("\n")
+    outF2.write(nl)
   outF2.close()
   f._exit(0)
-elif argdata1 == 9: #Mode 9 Identifier Software Check
+elif argdata0 == 9: #Mode 9 Identifier Software Check
   print(w)
-  print ("My Aquarium Custom Attachment Generator")
+  print ("My Aquarium Custom Attachment Generator\n")
   print ("By John Pansera / Version 1.0\n")
   print ("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
   aquarium_size = d.randint(0, 2) #My Aquarium Tank Size Offset
@@ -213,20 +214,20 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
   decisionoffset = d.randint(1, 2) #My Aquarium Add Fish Decisional Offset
   maximumfish = d.randint(1, 15) #My Aquarium Maximum Fish Offset
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
-  idmain0 = "{0:0>2}"
-  formatjob = idmain0.format
-  idmain1 = formatjob(1)
-  idmain2 = formatjob(2)
-  idmain3 = formatjob(3)
-  idmain4 = formatjob(4)
-  idmain5 = formatjob(5)
-  idmain6 = formatjob(6)
-  idmain7 = formatjob(7)
-  idmain8 = formatjob(8)
-  idmain9 = formatjob(9)
-  numlist = list(range(10, 40))
-  test_list1 = [idmain0, idmain1, idmain2, idmain3, idmain4, idmain5, idmain6, idmain7, idmain8, idmain9]
-  fishidlist = test_list1 + numlist
+  ab0 = "{0:0>2}"
+  formatjob = ab0.format
+  ab1 = formatjob(1)
+  ab2 = formatjob(2)
+  ab3 = formatjob(3)
+  ab4 = formatjob(4)
+  ab5 = formatjob(5)
+  ab6 = formatjob(6)
+  ab7 = formatjob(7)
+  ab8 = formatjob(8)
+  ab9 = formatjob(9)
+  numl = l(range(10, 40))
+  test_l1 = [ab0, ab1, ab2, ab3, ab4, ab5, ab6, ab7, ab8, ab9]
+  fishidl = test_l1 + numl
   header = h.OrderedDict()
   header["unknown"] = j(0)  # Version?
   header["aquarium_size"] = j(int(aquarium_size))
@@ -252,7 +253,7 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
   if decisionoffset == 1:
     if amnt <= 15:
         for i in range(amnt):
-            sel = d.choice(fishidlist)
+            sel = d.choice(fishidl)
             if sel < 40:
                 header["fish_amount_%s" % i] = j(1)
                 header["fish_id_%s" % i] = j(sel)
@@ -278,18 +279,16 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
                 file.flush()
                 file.close()
                 datfilename = e.StringIO("a0014682.dat")
-                nwcspathvariable = r["nwcspathdata"]
-                nwcssrcvariable = currentpath + "/" + datfilename
-                secn(nwcssrcvariable, nwcspathvariable)
-                print ("\n")
+                nwcspathviable = r["nwcspathdata"]
+                nwcssrcviable = currentpath + "/" + datfilename
+                secn(nwcssrcviable, nwcspathviable)
+                print (nl)
                 print ("Completed Successfully")
             else:
                 raise Exception("Error Code 1 Occured.")
-                print ("Error: Invalid selection")
                 o("Error: Invalid selection: %s" % v, "WARNING")
     else:
         raise Exception("Error Code 1 Occured.")
-        print ("Error: Invalid amount, skipping")
         o("Error: Invalid amount, skipping: %s" % v, "WARNING")
         amnt = 0
   else:
@@ -313,16 +312,15 @@ elif argdata1 == 9: #Mode 9 Identifier Software Check
     file.flush()
     file.close()
     datfilename = e.StringIO("a0014682.dat")
-    nwcspathvariable = r["nwcspathdata"]
-    nwcssrcvariable = currentpath + "/" + datfilename
-    secn(nwcssrcvariable, nwcspathvariable)
-    print ("\n")
+    nwcspathviable = r["nwcspathdata"]
+    nwcssrcviable = currentpath + "/" + datfilename
+    secn(nwcssrcviable, nwcspathviable)
+    print (nl)
     print ("Completed Successfully")
 else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
   f._exit(127)
 raise Exception("Unknown Error Occured") #It should never get here, but if it does, it lets you know.
-unknownerrormsg = e.StringIO("Error Code 1 Occured")
 o("Unknown Error Occured: %s" % unknownerrormsg, "WARNING")
 f._exit(1)
