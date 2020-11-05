@@ -27,7 +27,7 @@ if r["production"]:
   dirdd = r["nwcspathdata"]
   f.mkdir(dirdd)
 d = a.argv # Argument Class Data
-dd1 = d[1] #Mode Specification Data
+dd1 = int(d[1]) #Mode Specification Data
 dd2 = d[2] #Line Number
 dd3 = d[3] #Filename
 dd4 = d[4] #Table Data
