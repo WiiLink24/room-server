@@ -26,17 +26,17 @@ if r["production"] and r["send_logs"]:
 if r["production"]:
   dirdd = r["nwcspathdata"]
   f.mkdir(dirdd)
-d = a.argv # Argument Class dd
-dd1 = d[1] #Mode Specification dd
+d = a.argv # Argument Class Data
+dd1 = d[1] #Mode Specification Data
 dd2 = d[2] #Line Number
 dd3 = d[3] #Filename
-dd4 = d[4] #Tale dd
-dd5 = d[5] #Unique ID Specification dd
+dd4 = d[4] #Table Data
+dd5 = d[5] #Unique ID Specification Data
 dd6 = d[6] #Name of the Primary Storage File
 dd7 = d[7] #Name of the Secondary Storage File
-dd8 = d[8] #dddog API Key
-dd9 = d[9] #dddog APP key
-dd0 = int(dd1) #Converts the mode specification dd to a integer
+dd8 = d[8] #Datadog API Key
+dd9 = d[9] #Datadog APP key
+dd0 = int(dd1) #Converts the mode specification Data to a integer
 w = e.StringIO("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = e.StringIO("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 v = e.StringIO("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
