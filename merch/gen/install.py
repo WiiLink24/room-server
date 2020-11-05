@@ -209,7 +209,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   specialdate2_day = d.randint(1, 30) #My Aquarium Special Date 2 Day Offset
   specialdate3_month = d.randint(1, 12) #My Aquarium Special Date 3 Month Offset
   specialdate3_day = d.randint(1, 30) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = d.randint(1, 2) #My Aquarium Add Fish Decisional Offset
+  decisionoffset = d.randint(1, 12) #My Aquarium Add Fish Decisional Offset
   maximumfish = d.randint(1, 15) #My Aquarium Maximum Fish Offset
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   a0 = "{0:0>2}"
@@ -248,7 +248,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   header["special_date_3_month"] = j(int(specialdate3_month))
   header["special_date_3_day"] = j(int(specialdate3_day))
   header["special_date_3_mding_1"] = j(0)
-  if decisionoffset == 1:
+  if decisionoffset == 1 or decisionoffset == 3 or decisionoffset == 5 or decisionoffset == 7 or decisionoffset == 9 or decisionoffset == 11:
     if amnt <= 15:
         for i in range(amnt):
             sel = d.choice(fishidl)
