@@ -23,23 +23,23 @@ if d1 == 0:
   savefile = open('discord.dat', 'wb')
   pickle.dump(url, savefile)
   savefile.close()
-if d1 == 1:
+elif d1 == 1:
   subprocess.run('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
-if d1 == 2:
+elif d1 == 2:
   subprocess.run('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
-if d1 == 3:
+elif d1 == 3:
   subprocess.run('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
-if d1 == 4:
+elif d1 == 4:
   subprocess.run('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
-if d1 == 5:
+elif d1 == 5:
   t = time.localtime()
   current_time = time.strftime("%H:%M:%S", t)
   print(current_time)
-if d1 == 6:
+elif d1 == 6:
   print(currentfile)
-if d1 == 7:
+elif d1 == 7:
   print(path)
-if d1 == 8:
+elif d1 == 8:
   data = int(1)
   save = open('offset.dat', 'wb')
   load = open('password.dat', 'rb')
@@ -48,7 +48,7 @@ if d1 == 8:
   pyminizip.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
   save.close()
   load.close()
-if d1 == 9:
+elif d1 == 9:
   print("Congrats, you accessed the secret feature!\n")
   print("Code by Larsen, I take ZERO credit.\n")
   print("Credits also go to:\n")
