@@ -211,10 +211,6 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   specialdate3_day = rn.randint(1, 30) #My Aquarium Special Date 3 Day Offset
   decisionoffset = rn.randint(1, 24) #My Aquarium Add Fish Decisional Offset
   maximumfish = rn.randint(1, 15) #My Aquarium Maximum Fish Offset
-  debug0 = aquarium_size + glass_type + floor_type + background_type + light_type
-  debug1 = specialdate1_day + specialdate1_month + specialdate2_day + specialdate2_month
-  debug2 = debug0 + debug1 + specialdate3_day + specialdate3_month
-  print(debug2)
   df = int(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   a0 = "{0:0>2}"
@@ -228,7 +224,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   a7 = aa(7)
   a8 = aa(8)
   a9 = aa(9)
-  numl = l(range(10, 40))
+  numl = list(range(10, 40))
   test_l1 = [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   fishidl = test_l1 + numl
   header = h.OrderedDict()
