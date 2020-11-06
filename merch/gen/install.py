@@ -40,7 +40,7 @@ dd0 = u1(dd1) #Converts the mode specification Data to a integer
 stg = e.StringIO #Installs a alias to the StringIO class
 w = stg("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
-v = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
+vv = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
 unknownerrormsg = stg("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
 ext = f._exit
 nl = "/n" #New line Opcode
@@ -289,10 +289,10 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 print ("Completed Successfully")
             else:
                 raise Exception("Error Code 1 Occured.")
-                o("Error: Invalid selection: %s" % v, "WARNING")
+                o("Error: Invalid selection: %s" % vv, "WARNING")
     else:
         raise Exception("Error Code 1 Occured.")
-        o("Error: Invalid amount, skipping: %s" % v, "WARNING")
+        o("Error: Invalid amount, skipping: %s" % vv, "WARNING")
         amnt = 0
   else:
     print("Not doing fish....")
