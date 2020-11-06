@@ -40,7 +40,8 @@ stg = e.StringIO #Installs a alias to the StringIO class
 w = stg("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 v = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
-unknownerrormsg = e.StringIO("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
+unknownerrormsg = stg("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
+ext = f._exit
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
 z = 'r' #Generic Textfile Opcode
@@ -51,7 +52,7 @@ if dd0 == 0: #Mode 0 Identifier Software Check
   }
   saveoptionsfile = open(options.dat, 'wb')
   c.dump(options, saveoptionsfile)
-  f._exit(0)
+  ext(0)
 elif dd0 == 1: #Mode 1 Identifier Software Check
   dd = "/n" #New Line Identifier
   outF1 = open("tables.txt", y)
@@ -60,12 +61,12 @@ elif dd0 == 1: #Mode 1 Identifier Software Check
   outF2 = open("id.txt", y)
   textl2 = [dd5]
   outF2.close()
-  f._exit(0)
+  ext(0)
 elif dd0 == 2: #Mode 2 Identifier Software Check
   file = open(dd3)
   all_lines = file.readlines()
   print(all_lines[dd2])  
-  f._exit(0)
+  ext(0)
 elif dd0 == 3: #Mode 3 Identifier Software Check
   un = f.system
   un('echo Current Path: $PWD')
@@ -74,28 +75,28 @@ elif dd0 == 3: #Mode 3 Identifier Software Check
   un('echo Created user with $arg password')
   un('cp -r -a $PWD/home/store. /home/store')
   un('echo Install done.')
-  f._exit(0)
+  ext(0)
 elif dd0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w = input("Enter the bitsize you want:")
   x = d.getrandbits(w)
   print(x)
-  f._exit(0)
+  ext(0)
 elif dd0 == 5: #Mode 5 Identifier Software Check
   f = open('id.txt', z)
   file_contents = f.read()
   print(file_contents)
   f.close()
-  f._exit(0)
+  ext(0)
 elif dd0 == 6: #Mode 6 Identifier Software Check
   file = open('tables.txt')
   all_lines = file.readlines()
   print(all_lines[dd4])
-  f._exit(0)
+  ext(0)
 elif dd0 == 7: #Mode 7 Identifier Software Check
   print(path) #Prints Current Path
-  f._exit(0)
+  ext(0)
 elif dd0 == 8: #Mode 8 Identifier Software Check
   configrange = list(range(2, 100)) # Returns Preset Line Number Range
   configl = list(configrange) #Outputs the Preset Line Number Range to a list
@@ -193,7 +194,7 @@ elif dd0 == 8: #Mode 8 Identifier Software Check
     outF2.write(line)
     outF2.write(nl)
   outF2.close()
-  f._exit(0)
+  ext(0)
 elif dd0 == 9: #Mode 9 Identifier Software Check
   print(w)
   print ("My Aquarium Custom Attachment Generator\n")
@@ -321,7 +322,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
 else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
-  f._exit(127)
+  ext(127)
 raise Exception("Unknown Error Occured") #It should never get here, but if it does, it lets you know.
 o("Unknown Error Occured: %s" % unknownerrormsg, "WARNING")
-f._exit(1)
+ext(1)
