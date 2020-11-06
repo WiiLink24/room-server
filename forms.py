@@ -47,3 +47,7 @@ class ConciergeForm(FlaskForm):
     #     query = ConciergeMii.query.filter_by(mii_id=miiid.data).first()
     #     if query is not None:
     #         raise ValidationError("Mii ID taken, add 1 to it")
+
+
+class PosterForm(FlaskForm):
+    pass

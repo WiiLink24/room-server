@@ -151,11 +151,10 @@ if underground_enabled:
     def process_logout():
         logout_user()
         return redirect(url_for("login"))
-   @app.route("/theunderground/posters")
-   @login_required
-   def posters():
-    # How the heck did I forget this?
-    # Displays a table of posters with options to add and remove them
-    posters = Posters.query.all()
-    return render_template("poster.html")
-    
+
+    @app.route("/theunderground/posters")
+    @login_required
+    def list_posters():
+        # Displays a table of posters with options to add and remove them
+        posters = Posters.query.all()
+        return render_template("poster.html", posters=posters)
