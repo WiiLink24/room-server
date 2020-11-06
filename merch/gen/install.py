@@ -256,7 +256,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   if df == 1 or df == 3 or df == 5 or df == 7 or df == 9 or df == 11 or df == 13 or df == 15 or df == 17 or df == 19 or df == 21 or df == 23:
     if amnt <= 15:
         for i in range(amnt):
-            sel = d.choice(fishidl)
+            sel = rn.choice(fishidl)
             if sel < 40:
                 header["fish_amount_%s" % i] = j(1)
                 header["fish_id_%s" % i] = j(sel)
