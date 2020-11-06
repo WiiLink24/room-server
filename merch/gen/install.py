@@ -224,7 +224,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   a7 = aa(7)
   a8 = aa(8)
   a9 = aa(9)
-  numl = l(range(10, 40))
+  numl = list(range(10, 40))
   test_l1 = [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   fishidl = test_l1 + numl
   header = h.OrderedDict()
