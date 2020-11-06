@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Concierge Miis</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        <h1>Manage Concierge Miis</h1>
+        {% if miis | length == 0 %}
+            <span class="warning">You have no Concierge Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
+        {% elif miis | length == 1 %}
+            There is currently <strong>1</strong> Mii.
+        {% else %}
+            There are currently <strong>{{ miis | length }}</strong> Miis.
+        {% endif %}
+        <table>
+            <tr>
+                <th scope="col">Mii ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Action</th>
+            </tr>
+        {% for mii in miis %}
+            <tr>
+                <td>{{ mii.mii_id }}</td>
+                <td>{{ mii.name }}</td>
+                <td>TODO</td>
+                <td style="text-align: center;">
+                    <a href="/theunderground/concierge/{{ mii.mii_id }}">Edit</a>
+                    <br/>
+                    <a href="/theunderground/concierge/{{ mii.mii_id }}/remove">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if miis | length >= 20 %}
+            <span class="warning">You have too many Concierge Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
+        {% else %}
+            <br/>
+            <a href="/theunderground/miis"><button>Add a Concierge Mii</button></a>
+        {% endif %}
+</body>
+</html>

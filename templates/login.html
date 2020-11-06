@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to The Underground</title>
+        <link rel="stylesheet" href="https://legacy.api.wiilink24.com/css1.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <form action="" method="post">
+            <p>
+                {{ form.hidden_tag() }}
+                {{ form.username.label }}
+                <br/>
+                {{ form.username(size=32) }}
+                <br/>
+                {{ form.password.label }}
+                <br/>
+                {{ form.password(size=32) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>

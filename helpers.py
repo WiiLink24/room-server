@@ -1,3 +1,4 @@
+import base64
 import functools
 from datetime import datetime
 from lxml import etree
@@ -47,6 +48,9 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             root.text = f"{d}"
         elif isinstance(d, str):
             root.text = d
+        elif isinstance(d, bytes):
+            # We're going to assume this needs to be Base64 encoded.
+            root.text = base64.b64encode(d)
         elif isinstance(d, tuple) or isinstance(d, list):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special

@@ -1,3 +1,5 @@
+from flask import send_from_directory
+
 from room import app
 from helpers import xml_node_name, RepeatedElement
 
@@ -23,3 +25,10 @@ def pay_list_category_header():
         "img": 0,
         "listinfo": filler,
     }
+
+
+if app.debug:
+
+    @app.route("/url3/pay/list/category/img/<name>.img")
+    def serve_pay_category_images(name):
+        return send_from_directory("assets/pay-category", name + ".img")

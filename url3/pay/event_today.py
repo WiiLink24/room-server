@@ -1,3 +1,5 @@
+from flask import send_from_directory
+
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement
 from models import PayPosters
@@ -38,3 +40,10 @@ def pay_event_today():
             "linkid": 1,
         },
     }
+
+
+if app.debug:
+
+    @app.route("/url3/pay/intro/<name>.img")
+    def serve_pay_intro(name):
+        return send_from_directory("assets/pay-intro", name + ".img")
