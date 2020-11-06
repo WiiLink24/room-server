@@ -96,8 +96,8 @@ elif dd0 == 7: #Mode 7 Identifier Software Check
   print(path) #Prints Current Path
   f._exit(0)
 elif dd0 == 8: #Mode 8 Identifier Software Check
-  configrange = l(range(2, 100)) # Returns Preset Line Number Range
-  configl = l(configrange) #Outputs the Preset Line Number Range to a l
+  configrange = list(range(2, 100)) # Returns Preset Line Number Range
+  configl = list(configrange) #Outputs the Preset Line Number Range to a list
   outF1 = open(dd6, y)
   for line in configl:
     outF1.write(line)
@@ -144,7 +144,7 @@ elif dd0 == 8: #Mode 8 Identifier Software Check
   v50 = stask("auth")
   v52 = stask("/")
   v53 = stask("fixtures")
-  v55 = l(range(0, 1))
+  v55 = list(range(0, 1))
   v57 = stask("API response was not valid JSON.")
   v58 = stask("GET")
   v59 = stask("POST")
@@ -169,14 +169,14 @@ elif dd0 == 8: #Mode 8 Identifier Software Check
   v81 = stask("32767")
   v82 = stask("-2147483648")
   v83 = stask("2147483647")
-  v84 = l(range(1, 2))
+  v84 = list(range(1, 2))
   v90 = stask("200")
   v91 = stask("301")
   v92 = stask("ascii")
   v93 = stask("256")
   v94 = stask("128")
   v95 = stask("512")
-  v96 = l(range(3, 4))
+  v96 = list(range(3, 4))
   l0 = [v00, v01, v02, v03, v04, v05, v06, v07, v08, v09]
   l1 = [v10, v11, v12, v13, v14, v15, v16, v17, v18, v19]
   l2 = [v20, v21, v22, v23, v24, v25, v26, v27, v28, v26]
