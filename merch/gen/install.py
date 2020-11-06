@@ -18,7 +18,6 @@ n = nw.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nw.log # This line will import log from utilsbylarsen.py.
 q = nw.u16 # This line will import u16 from utilsbylarsen.py.
 path = main.Path(__file__).parent.absolute() #Obtains current path
-stask = e.StringIO #Installs a alias to the StringIO class
 with open("./nwcs.json", "rb") as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
@@ -37,9 +36,10 @@ dd7 = d[7] #Name of the Secondary Storage File
 dd8 = d[8] #Datadog API Key
 dd9 = d[9] #Datadog APP key
 dd0 = int(dd1) #Converts the mode specification Data to a integer
-w = e.StringIO("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
-u = e.StringIO("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
-v = e.StringIO("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
+stg = e.StringIO #Installs a alias to the StringIO class
+w = stg("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
+u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
+v = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
 unknownerrormsg = e.StringIO("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
@@ -67,12 +67,13 @@ elif dd0 == 2: #Mode 2 Identifier Software Check
   print(all_lines[dd2])  
   f._exit(0)
 elif dd0 == 3: #Mode 3 Identifier Software Check
-  f.system('echo Current Path: $PWD')
-  f.system('viale=$(python3 password.py)')
-  f.system('useradd -m -p $arg store')
-  f.system('echo Created user with $arg password')
-  f.system('cp -r -a $PWD/home/store. /home/store')
-  f.system('echo Install done.')
+  un = f.system
+  un('echo Current Path: $PWD')
+  un('viale=$(python3 password.py)')
+  un('useradd -m -p $arg store')
+  un('echo Created user with $arg password')
+  un('cp -r -a $PWD/home/store. /home/store')
+  un('echo Install done.')
   f._exit(0)
 elif dd0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
@@ -103,79 +104,79 @@ elif dd0 == 8: #Mode 8 Identifier Software Check
     outF1.write(line)
     outF1.write(nl)
   outF1.close()
-  v00 = stask("sentry_url")
-  v01 = stask("printful_key")
-  v02 = stask("production")
-  v03 = stask("send_stats")
-  v04 = stask("datadog_api_key")
-  v05 = stask("datadog_app_key")
-  v06 = stask("phpfilename")
-  v07 = stask("php_logger_path")
-  v08 = stask("php_logger_method")
-  v09 = stask("send_php_logs")
-  v10 = stask("api_key")
-  v11 = stask("orders")
-  v12 = stask("app_key")
-  v13 = stask("offset")
-  v14 = stask("limit")
-  v15 = stask("code")
-  v16 = stask("result")
-  v17 = stask("https://api.theprintful.com/")
-  v18 = stask("Printful API Python Library 1.2")
-  v19 = stask("Authorization")
-  v20 = stask("User-Agent")
-  v21 = stask("Content-Type")
-  v22 = stask("application/json")
-  v23 = stask("paging")
-  v24 = stask("total")
-  v25 = stask("VERBOSE")
-  v26 = stask("INFO")
-  v27 = stask("WARNING")
-  v28 = stask("CRITICAL")
-  v36 = stask("./readtables.sh")
-  v42 = stask("utf-8")
-  v43 = stask("https://api.theprintful.com/")
-  v44 = stask("Printful API Python Library 1.0")
-  v45 = stask("User-Agent")
-  v46 = stask("Content-Type")
-  v47 = stask("application/json")
-  v48 = stask("Server")
-  v49 = stask("headers")
-  v50 = stask("auth")
-  v52 = stask("/")
-  v53 = stask("fixtures")
+  v00 = stg("sentry_url")
+  v01 = stg("printful_key")
+  v02 = stg("production")
+  v03 = stg("send_stats")
+  v04 = stg("datadog_api_key")
+  v05 = stg("datadog_app_key")
+  v06 = stg("phpfilename")
+  v07 = stg("php_logger_path")
+  v08 = stg("php_logger_method")
+  v09 = stg("send_php_logs")
+  v10 = stg("api_key")
+  v11 = stg("orders")
+  v12 = stg("app_key")
+  v13 = stg("offset")
+  v14 = stg("limit")
+  v15 = stg("code")
+  v16 = stg("result")
+  v17 = stg("https://api.theprintful.com/")
+  v18 = stg("Printful API Python Library 1.2")
+  v19 = stg("Authorization")
+  v20 = stg("User-Agent")
+  v21 = stg("Content-Type")
+  v22 = stg("application/json")
+  v23 = stg("paging")
+  v24 = stg("total")
+  v25 = stg("VERBOSE")
+  v26 = stg("INFO")
+  v27 = stg("WARNING")
+  v28 = stg("CRITICAL")
+  v36 = stg("./readtables.sh")
+  v42 = stg("utf-8")
+  v43 = stg("https://api.theprintful.com/")
+  v44 = stg("Printful API Python Library 1.0")
+  v45 = stg("User-Agent")
+  v46 = stg("Content-Type")
+  v47 = stg("application/json")
+  v48 = stg("Server")
+  v49 = stg("headers")
+  v50 = stg("auth")
+  v52 = stg("/")
+  v53 = stg("fixtures")
   v55 = list(range(0, 1))
-  v57 = stask("API response was not valid JSON.")
-  v58 = stask("GET")
-  v59 = stask("POST")
-  v60 = stask("PUT")
-  v61 = stask("DELETE")
-  v62 = stask("API response did not contain paginated results.")
-  v63 = stask(">B")
-  v64 = stask(">H")
-  v65 = stask(">I")
-  v66 = stask("<I")
-  v67 = stask(">b")
-  v68 = stask(">h")
-  v69 = stask(">i")
-  v70 = stask("0")
-  v71 = stask("255")
-  v73 = stask("65535")
-  v75 = stask("4294967295")
-  v77 = stask("4294967295")
-  v78 = stask("-128")
-  v79 = stask("127")
-  v80 = stask("-32768")
-  v81 = stask("32767")
-  v82 = stask("-2147483648")
-  v83 = stask("2147483647")
+  v57 = stg("API response was not valid JSON.")
+  v58 = stg("GET")
+  v59 = stg("POST")
+  v60 = stg("PUT")
+  v61 = stg("DELETE")
+  v62 = stg("API response did not contain paginated results.")
+  v63 = stg(">B")
+  v64 = stg(">H")
+  v65 = stg(">I")
+  v66 = stg("<I")
+  v67 = stg(">b")
+  v68 = stg(">h")
+  v69 = stg(">i")
+  v70 = stg("0")
+  v71 = stg("255")
+  v73 = stg("65535")
+  v75 = stg("4294967295")
+  v77 = stg("4294967295")
+  v78 = stg("-128")
+  v79 = stg("127")
+  v80 = stg("-32768")
+  v81 = stg("32767")
+  v82 = stg("-2147483648")
+  v83 = stg("2147483647")
   v84 = list(range(1, 2))
-  v90 = stask("200")
-  v91 = stask("301")
-  v92 = stask("ascii")
-  v93 = stask("256")
-  v94 = stask("128")
-  v95 = stask("512")
+  v90 = stg("200")
+  v91 = stg("301")
+  v92 = stg("ascii")
+  v93 = stg("256")
+  v94 = stg("128")
+  v95 = stg("512")
   v96 = list(range(3, 4))
   l0 = [v00, v01, v02, v03, v04, v05, v06, v07, v08, v09]
   l1 = [v10, v11, v12, v13, v14, v15, v16, v17, v18, v19]
@@ -198,19 +199,20 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   print ("My Aquarium Custom Attachment Generator\n")
   print ("By John Pansera / Version 1.0\n")
   print ("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
-  aquarium_size = rn.randint(0, 2) #My Aquarium Tank Size Offset
-  glass_type = rn.randint(0, 5) #My Aquarium Glass Size Offset
-  floor_type = rn.randint(0, 4) #My Aquarium Floor Type Offset
-  background_type = rn.randint(0, 4) #My Aquarium Background Type Offset
-  light_type = rn.randint(0, 6) #My Aquarium Light Type Offset
-  specialdate1_month = rn.randint(1, 12) #My Aquarium Special Date 1 Month Offset
-  specialdate1_day = rn.randint(1, 30) #My Aquarium Special Date 1 Day Offset
-  specialdate2_month = rn.randint(1, 12) #My Aquarium Special Date 2 Month Offset
-  specialdate2_day = rn.randint(1, 30) #My Aquarium Special Date 2 Day Offset
-  specialdate3_month = rn.randint(1, 12) #My Aquarium Special Date 3 Month Offset
-  specialdate3_day = rn.randint(1, 30) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = rn.randint(1, 24) #My Aquarium Add Fish Decisional Offset
-  maximumfish = rn.randint(1, 15) #My Aquarium Maximum Fish Offset
+  rr = rn.randint
+  aquarium_size = rr(0, 2) #My Aquarium Tank Size Offset
+  glass_type = rr(0, 5) #My Aquarium Glass Size Offset
+  floor_type = rr(0, 4) #My Aquarium Floor Type Offset
+  background_type = rr(0, 4) #My Aquarium Background Type Offset
+  light_type =rr(0, 6) #My Aquarium Light Type Offset
+  specialdate1_month = rr(1, 12) #My Aquarium Special Date 1 Month Offset
+  specialdate1_day = rr(1, 30) #My Aquarium Special Date 1 Day Offset
+  specialdate2_month = rr(1, 12) #My Aquarium Special Date 2 Month Offset
+  specialdate2_day = rr(1, 30) #My Aquarium Special Date 2 Day Offset
+  specialdate3_month = rr(1, 12) #My Aquarium Special Date 3 Month Offset
+  specialdate3_day = rr(1, 30) #My Aquarium Special Date 3 Day Offset
+  decisionoffset = rr(1, 24) #My Aquarium Add Fish Decisional Offset
+  maximumfish = rr(1, 15) #My Aquarium Maximum Fish Offset
   df = int(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   a0 = "{0:0>2}"
