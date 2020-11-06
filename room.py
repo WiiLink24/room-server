@@ -27,7 +27,7 @@ from url1 import (
 )
 import url1.special.all, url1.special.page, url1.movie.movieimages, url1.special.allbin
 
-from url2 import assets, reginfo, related
+from url2 import assets, reginfo, related, search
 
 from url3.pay import category_header, event_today, wall_metadata
 
