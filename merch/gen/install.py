@@ -1,7 +1,7 @@
 import sys as a
 import pathlib as main
 import pickle as c
-import random as d
+import random as rn
 import io as e
 import os as f
 import binascii as g
@@ -198,19 +198,23 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   print ("My Aquarium Custom Attachment Generator\n")
   print ("By John Pansera / Version 1.0\n")
   print ("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
-  aquarium_size = d.randint(0, 2) #My Aquarium Tank Size Offset
-  glass_type = d.randint(0, 5) #My Aquarium Glass Size Offset
-  floor_type = d.randint(0, 4) #My Aquarium Floor Type Offset
-  background_type = d.randint(0, 4) #My Aquarium Background Type Offset
-  light_type = d.randint(0, 6) #My Aquarium Light Type Offset
-  specialdate1_month = d.randint(1, 12) #My Aquarium Special Date 1 Month Offset
-  specialdate1_day = d.randint(1, 30) #My Aquarium Special Date 1 Day Offset
-  specialdate2_month = d.randint(1, 12) #My Aquarium Special Date 2 Month Offset
-  specialdate2_day = d.randint(1, 30) #My Aquarium Special Date 2 Day Offset
-  specialdate3_month = d.randint(1, 12) #My Aquarium Special Date 3 Month Offset
-  specialdate3_day = d.randint(1, 30) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = d.randint(1, 24) #My Aquarium Add Fish Decisional Offset
-  maximumfish = d.randint(1, 15) #My Aquarium Maximum Fish Offset
+  aquarium_size = rn.randint(0, 2) #My Aquarium Tank Size Offset
+  glass_type = rn.randint(0, 5) #My Aquarium Glass Size Offset
+  floor_type = rn.randint(0, 4) #My Aquarium Floor Type Offset
+  background_type = rn.randint(0, 4) #My Aquarium Background Type Offset
+  light_type = rn.randint(0, 6) #My Aquarium Light Type Offset
+  specialdate1_month = rn.randint(1, 12) #My Aquarium Special Date 1 Month Offset
+  specialdate1_day = rn.randint(1, 30) #My Aquarium Special Date 1 Day Offset
+  specialdate2_month = rn.randint(1, 12) #My Aquarium Special Date 2 Month Offset
+  specialdate2_day = rn.randint(1, 30) #My Aquarium Special Date 2 Day Offset
+  specialdate3_month = rn.randint(1, 12) #My Aquarium Special Date 3 Month Offset
+  specialdate3_day = rn.randint(1, 30) #My Aquarium Special Date 3 Day Offset
+  decisionoffset = rn.randint(1, 24) #My Aquarium Add Fish Decisional Offset
+  maximumfish = rn.randint(1, 15) #My Aquarium Maximum Fish Offset
+  debug0 = aquarium_size + glass_type + floor_type + background_type + light_type
+  debug1 = specialdate1_day + specialdate1_month + specialdate2_day + specialdate2_month
+  debug2 = debug0 + debug1 + specialdate3_day + specialdate3_month
+  print(debug2)
   df = int(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   a0 = "{0:0>2}"
@@ -224,7 +228,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   a7 = aa(7)
   a8 = aa(8)
   a9 = aa(9)
-  numl = list(range(10, 40))
+  numl = l(range(10, 40))
   test_l1 = [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   fishidl = test_l1 + numl
   header = h.OrderedDict()
@@ -237,18 +241,18 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   header["unknown_1"] = q(0)
   header["breeding_date_counter"] = l(0)
   header["unknown_date_counter"] = l(0)
-  header["special_date_1_mding"] = j(0)
+  header["special_date_1_padding"] = j(0)
   header["special_date_1_month"] = j(int(specialdate1_month))
   header["special_date_1_day"] = j(int(specialdate1_day))
-  header["special_date_1_mding_1"] = j(0)
-  header["special_date_2_mding"] = j(0)
+  header["special_date_1_padding_1"] = j(0)
+  header["special_date_2_padding"] = j(0)
   header["special_date_2_month"] = j(int(specialdate2_month))
   header["special_date_2_day"] = j(int(specialdate2_day))
-  header["special_date_2_mding_2"] = j(0)
-  header["special_date_3_mding"] = j(0)
+  header["special_date_2_padding_2"] = j(0)
+  header["special_date_3_padding"] = j(0)
   header["special_date_3_month"] = j(int(specialdate3_month))
   header["special_date_3_day"] = j(int(specialdate3_day))
-  header["special_date_3_mding_1"] = j(0)
+  header["special_date_3_padding_1"] = j(0)
   if df == 1 or df == 3 or df == 5 or df == 7 or df == 9 or df == 11 or df == 13 or df == 15 or df == 17 or df == 19 or df == 21 or df == 23:
     if amnt <= 15:
         for i in range(amnt):
@@ -258,7 +262,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 header["fish_id_%s" % i] = j(sel)
                 header["fish_growth_level_%s" % i] = q(0)
                 header["fish_hungry_degree_%s" % i] = q(0)
-                header["fish_mding_%s" % i] = q(1)
+                header["fish_padding_%s" % i] = q(1)
                 header["fish_birthday_%s" % i] = l(1)  # Birthday is day 1
                 header["current_day_%s" % i] = l(1)  # Current day set to 1
                 header["fish_tables"] = m(240 - (amnt * 16))
