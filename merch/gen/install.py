@@ -3,7 +3,7 @@ import pathlib as main
 import pickle as c
 import random as rn
 import io as e
-import os as f
+import os as ff
 import binascii as g
 import collections as h
 import utilsbylarsen as nw
@@ -42,7 +42,7 @@ w = stg("Congrats, you accessed the secret feature!") #This script can also func
 u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 vv = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
 unknownerrormsg = stg("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
-ext = f._exit
+ext = ff._exit
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
 z = 'r' #Generic Textfile Opcode
@@ -256,7 +256,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   if df == 1 or df == 3 or df == 5 or df == 7 or df == 9 or df == 11 or df == 13 or df == 15 or df == 17 or df == 19 or df == 21 or df == 23:
     if amnt <= 15:
         for i in range(amnt):
-            sel = rn.choice(fishidl)
+            sel = int(rn.choice(fishidl))
             if sel < 40:
                 header["fish_amount_%s" % i] = j(1)
                 header["fish_id_%s" % i] = j(sel)
@@ -269,7 +269,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 header["object_tables"] = m(160)  # TODO: Add in object tables
                 print ("Processing ...")
                 f = e.BytesIO()
-                for k, v in header.items(): f.write(v)
+                for k, v in header.items(): f.write(bytes(v, encoding='utf-8'))
                 f.flush()
                 f.seek(0)
                 copy = f.read()
@@ -281,7 +281,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 file.write(copy)  # Rest of File
                 file.flush()
                 file.close()
-                datname = e.StringIO("a0014682.dat")
+                datname = stg("a0014682.dat")
                 nwcspath = r["nwcspathdata"]
                 nwcssrc = path + "/" + datname
                 secn(nwcssrc, nwcspath)
@@ -301,7 +301,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     # TODO: Add in object tables
     print ("Processing ...")
     f = e.BytesIO()
-    for k, v in header.items(): f.write(v)
+    for k, v in header.items(): f.write(bytes(v, encoding='utf-8'))
     f.flush()
     f.seek(0)
     copy = f.read()
@@ -314,7 +314,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     file.write(copy)  # Rest of File
     file.flush()
     file.close()
-    datname = e.StringIO("a0014682.dat")
+    datname = stg("a0014682.dat")
     nwcspath = r["nwcspathdata"]
     nwcssrc = path + "/" + datname
     secn(nwcssrc, nwcspath)
