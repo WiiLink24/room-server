@@ -10,6 +10,7 @@ import utilsbylarsen as nw
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
+u1 = int
 secn = othr.copyfile #Selectively imports copyfile from the base class of shutil.
 j = nw.u8 # This line will import u8 from utilsbylarsen.py.
 l = nw.u32 # This line will import u32 from utilsbylarsen.py.
@@ -26,7 +27,7 @@ if r["production"]:
   dirdd = r["nwcspathdata"]
   f.mkdir(dirdd)
 d = a.argv # Argument Class Data
-dd1 = int(d[1]) #Mode Specification Data
+dd1 = u1(d[1]) #Mode Specification Data
 dd2 = d[2] #Line Number
 dd3 = d[3] #Filename
 dd4 = d[4] #Table Data
@@ -35,7 +36,7 @@ dd6 = d[6] #Name of the Primary Storage File
 dd7 = d[7] #Name of the Secondary Storage File
 dd8 = d[8] #Datadog API Key
 dd9 = d[9] #Datadog APP key
-dd0 = int(dd1) #Converts the mode specification Data to a integer
+dd0 = u1(dd1) #Converts the mode specification Data to a integer
 stg = e.StringIO #Installs a alias to the StringIO class
 w = stg("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
@@ -205,7 +206,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   glass_type = rr(0, 5) #My Aquarium Glass Size Offset
   floor_type = rr(0, 4) #My Aquarium Floor Type Offset
   background_type = rr(0, 4) #My Aquarium Background Type Offset
-  light_type =rr(0, 6) #My Aquarium Light Type Offset
+  light_type = rr(0, 6) #My Aquarium Light Type Offset
   specialdate1_month = rr(1, 12) #My Aquarium Special Date 1 Month Offset
   specialdate1_day = rr(1, 30) #My Aquarium Special Date 1 Day Offset
   specialdate2_month = rr(1, 12) #My Aquarium Special Date 2 Month Offset
@@ -214,8 +215,8 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   specialdate3_day = rr(1, 30) #My Aquarium Special Date 3 Day Offset
   decisionoffset = rr(1, 24) #My Aquarium Add Fish Decisional Offset
   maximumfish = rr(1, 15) #My Aquarium Maximum Fish Offset
-  df = int(decisionoffset) #Obsufcates variable to be shorter via aliasing
-  amnt = int(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
+  df = u1(decisionoffset) #Obsufcates variable to be shorter via aliasing
+  amnt = u1(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   a0 = "{0:0>2}"
   aa = a0.format
   a1 = aa(1)
