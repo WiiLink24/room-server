@@ -25,7 +25,7 @@ def search():
                         'rank':rank,
                         'movieid':i,
                         'title':show_ids[i],
-                        'genre':1
+                        'genre':1,
                         'strdt':current_date(),
                         'pop':0
                     }
