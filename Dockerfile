@@ -1,33 +1,24 @@
-
 FROM python:3.8-alpine
 
 RUN adduser -D server
-
 WORKDIR /home/server
 
-COPY ./* ./
+# Copy requirements first as to not disturb cache for other changes.
+COPY requirements.txt .
 
-RUN ls
+# Required base dependencies for psycopg2, lxml, and pillow.
+RUN apk add -U --no-cache libpq libxslt-dev libxml2-dev jpeg-dev zlib-dev
 
-RUN chmod +x boot.sh
-
-ENV FLASK_APP room.py
-
-RUN chown -R server:server ./
-
-RUN apk add -U --no-cache postgresql-dev libxslt-dev libxml2-dev
-
-RUN apk add --no-cache --virtual .build-deps build-base && \
+RUN apk add --no-cache --virtual .build-deps build-base postgresql-dev && \
   pip3 install -r requirements.txt && \
+  pip3 install gunicorn && \
   apk del .build-deps
-
-RUN pip3 install -r requirements.txt
-
-RUN pip3 install gunicorn
 
 USER server
 
+# Finally, copy the entire source.
+COPY ./* ./
+
+ENV FLASK_APP room.py
 EXPOSE 5000
-
-ENTRYPOINT ["./boot.sh"]
-
+ENTRYPOINT ["gunicorn", "-b", ":5000", "--access-logfile", "-", "--error-logfile", "-", "room:app"]
