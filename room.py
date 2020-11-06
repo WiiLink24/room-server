@@ -32,4 +32,3 @@ from url2 import assets, reginfo, related
 from url3.pay import category_header, event_today, wall_metadata
 
 import models
-
