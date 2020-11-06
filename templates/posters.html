@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Posters</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        <h1>Manage Concierge Miis</h1>
+        {% if posters | length == 0 %}
+            <span class="warning">You have no Posters. Wii no Ma will break processing these files. Please add some Posters.</span>
+        {% elif posters | length == 1 %}
+            There is currently <strong>1</strong> Poster.
+        {% else %}
+            There are currently <strong>{{ posters | length }}</strong> Miis.
+        {% endif %}
+        <table>
+            <tr>
+                <th scope="col">Poster ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Message</th>
+                <th scope="col">Movie ID</th>
+            </tr>
+        {% for poster in posters %}
+            <tr>
+                <td>{{ poster.posterid }}</td>
+                <td>{{ poster.title }}</td>
+                <td>TODO</td>
+                <td style="text-align: center;">
+                    <a href="/theunderground/poster/{{ mii.mii_id }}">Edit</a>
+                    <br/>
+                    <a href="/theunderground/poster/{{ mii.mii_id }}/remove">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if posters | length >= 20 %}
+            <!-- spotlightishere, does this same rule apply to posters? --!>
+            <span class="warning">You have too many Posters. Wii no Ma will break processing these files. Please remove some posters.</span>
+        {% else %}
+            <br/>
+            <a href="/theunderground/posters"><button>Add a Poster</button></a>
+        {% endif %}
+</body>
+</html>
