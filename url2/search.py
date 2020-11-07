@@ -1,15 +1,19 @@
+from config import elasticsearch_url
 from elasticsearch import Elasticsearch
 from flask import request
 from helpers import xml_node_name, RepeatedElement, current_date
 from room import app
 
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch(elasticsearch_url)
 
 
 @app.route("/url2/search.cgi")
 @xml_node_name("SearchMovies")
 def search():
     q = request.args.get("q")
+    if q is None:
+        return {"num": 1, "categid": 12345}
+
     s = es.search(index="tv_index", body={"query": {"match": {"title": q}}})
     shows = s["hits"]["hits"]
 
