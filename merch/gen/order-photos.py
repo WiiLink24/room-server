@@ -39,9 +39,6 @@ def orderpwinty(a, b, c, d, e, f, g, h, i, j, k, l, m):
     k = md5Hash1
     l = copies1
     m = sizing1
-    pyminizip.uncompress("offset.enc", privatekey, path, int(withoutpath))
-    load_file3 = open(offset.dat, 'rb')
-    confirmoffset = pickle.load(load_file3)
     if config["production"]
       order = pwinty.Order.create(
           recipient_name =         	recipient_name1,
