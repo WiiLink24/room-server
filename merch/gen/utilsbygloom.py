@@ -44,6 +44,9 @@ def returnnumber(offset):
   elif offset == 8:
     data = 9
     return data
+  elif offset == 9:
+    data = "Hi"
+    return data
 def secnoc(ocdatamain, ocdatasecn):
   data = ocdatamain + ocdatasecn
   return data
