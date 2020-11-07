@@ -36,7 +36,7 @@ def search():
                         "title": show_ids[i],
                         "genre": 1,
                         "strdt": current_date_and_time(),
-                        "pop": 0,
+                        "pop": 0
                     }
                 )
             )
