@@ -17,7 +17,7 @@ RUN apk add --no-cache --virtual .build-deps build-base postgresql-dev && \
 USER server
 
 # Finally, copy the entire source.
-COPY ./* ./
+COPY . .
 
 ENV FLASK_APP room.py
 EXPOSE 5000
