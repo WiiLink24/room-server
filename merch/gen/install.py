@@ -202,19 +202,19 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   print ("By John Pansera / Version 1.0\n")
   print ("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
   rr = rn.randint
-  aquarium_size = rr(0, 2) #My Aquarium Tank Size Offset
-  glass_type = rr(0, 5) #My Aquarium Glass Size Offset
-  floor_type = rr(0, 4) #My Aquarium Floor Type Offset
-  background_type = rr(0, 4) #My Aquarium Background Type Offset
-  light_type = rr(0, 6) #My Aquarium Light Type Offset
-  specialdate1_month = rr(1, 12) #My Aquarium Special Date 1 Month Offset
-  specialdate1_day = rr(1, 30) #My Aquarium Special Date 1 Day Offset
-  specialdate2_month = rr(1, 12) #My Aquarium Special Date 2 Month Offset
-  specialdate2_day = rr(1, 30) #My Aquarium Special Date 2 Day Offset
-  specialdate3_month = rr(1, 12) #My Aquarium Special Date 3 Month Offset
-  specialdate3_day = rr(1, 30) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = rr(1, 24) #My Aquarium Add Fish Decisional Offset
-  maximumfish = rr(1, 15) #My Aquarium Maximum Fish Offset
+  aquarium_size = rr(0, 3) #My Aquarium Tank Size Offset
+  glass_type = rr(0, 6) #My Aquarium Glass Size Offset
+  floor_type = rr(0, 5) #My Aquarium Floor Type Offset
+  background_type = rr(0, 5) #My Aquarium Background Type Offset
+  light_type = rr(0, 7) #My Aquarium Light Type Offset
+  specialdate1_month = rr(1, 13) #My Aquarium Special Date 1 Month Offset
+  specialdate1_day = rr(1, 32) #My Aquarium Special Date 1 Day Offset
+  specialdate2_month = rr(1, 13) #My Aquarium Special Date 2 Month Offset
+  specialdate2_day = rr(1, 32) #My Aquarium Special Date 2 Day Offset
+  specialdate3_month = rr(1, 13) #My Aquarium Special Date 3 Month Offset
+  specialdate3_day = rr(1, 32) #My Aquarium Special Date 3 Day Offset
+  decisionoffset = rr(1, 25) #My Aquarium Add Fish Decisional Offset
+  maximumfish = rr(1, 16) #My Aquarium Maximum Fish Offset
   df = u1(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = u1(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
   numl = list(range(1, 40))
