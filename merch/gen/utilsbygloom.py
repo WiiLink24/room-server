@@ -54,4 +54,6 @@ def miscutil(returndata):
   import this
   return returndata;
 def spotlightutil(echodata):
+  print(echodata)
   utilsbyspotlight.startbreakfast()
+  return echodata
