@@ -27,7 +27,7 @@ def send(to, fromdata, subjectdata, nameofattachment, key, filetype, offset):
     response = sg.send(message)
     print(response.status_code, response.body, response.headers)
     sys.exit(0)
-  elif offset == 0:
+  elif offset == 1:
     print("Congrats, you accessed the secret feature!")
     offset = 9
     echodata = returnnumber(offset)
