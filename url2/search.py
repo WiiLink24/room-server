@@ -1,7 +1,7 @@
 from config import elasticsearch_url
 from elasticsearch import Elasticsearch
 from flask import request
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
+from helpers import xml_node_name, RepeatedElement, current_date
 from room import app
 
 es = Elasticsearch(elasticsearch_url)
