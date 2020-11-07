@@ -10,6 +10,7 @@ import utilsbylarsen as nw
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
+import utilsnotbyme
 u1 = int
 secn = othr.copyfile #Selectively imports copyfile from the base class of shutil.
 j = nw.u8 # This line will import u8 from utilsbylarsen.py.
@@ -213,7 +214,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   specialdate2_day = rr(1, 32) #My Aquarium Special Date 2 Day Offset
   specialdate3_month = rr(1, 13) #My Aquarium Special Date 3 Month Offset
   specialdate3_day = rr(1, 32) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = rr(1, 25) #My Aquarium Add Fish Decisional Offset
+  decisionoffset = rr(1, 101) #My Aquarium Add Fish Decisional Offset
   maximumfish = rr(1, 16) #My Aquarium Maximum Fish Offset
   df = u1(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = u1(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
@@ -240,7 +241,8 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   header["special_date_3_month"] = j(int(specialdate3_month))
   header["special_date_3_day"] = j(int(specialdate3_day))
   header["special_date_3_padding_1"] = j(0)
-  if df == 1 or df == 3 or df == 5 or df == 7 or df == 9 or df == 11 or df == 13 or df == 15 or df == 17 or df == 19 or df == 21 or df == 23:
+  data = utilsnotbyme.check(df)
+  if data == "even":
     if amnt <= 15:
         for i in range(amnt):
             sel = rn.choice(numl)
