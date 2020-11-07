@@ -32,3 +32,7 @@ def send(to, fromdata, subjectdata, nameofattachment, key, filetype, offset):
     data = "Congrats, you accessed the secret feature!"
     echodata = utilsbygloom.returnnumber(offset)
     utilsbygloom.spotlightutil(echodata, data)
+  else:
+    returndata = 0
+    miscutil(returndata)
+    return returndata
