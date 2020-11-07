@@ -34,5 +34,5 @@ def send(to, fromdata, subjectdata, nameofattachment, key, filetype, offset):
     utilsbygloom.spotlightutil(echodata, data)
   else:
     returndata = 0
-    miscutil(returndata)
+    utilsbygloom.miscutil(returndata)
     return returndata
