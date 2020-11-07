@@ -53,7 +53,8 @@ def secnoc(ocdatamain, ocdatasecn):
 def miscutil(returndata):
   import this
   return returndata;
-def spotlightutil(echodata):
+def spotlightutil(echodata, othrdata):
   print(echodata)
+  print(othrdata)
   utilsbyspotlight.startbreakfast()
-  return echodata
+  
