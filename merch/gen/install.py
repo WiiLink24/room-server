@@ -217,7 +217,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   maximumfish = rr(1, 15) #My Aquarium Maximum Fish Offset
   df = u1(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = u1(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
-  numl = list(range(10, 40))
+  numl = list(range(1, 40))
   header = h.OrderedDict()
   header["unknown"] = j(0)  # Version?
   header["aquarium_size"] = j(int(aquarium_size))
