@@ -35,7 +35,7 @@ def search():
                         "movieid": i,
                         "title": show_ids[i],
                         "genre": 1,
-                        "strdt": current_date_and_time(),
+                        "strdt": current_date(),
                         "pop": 0
                     }
                 )
