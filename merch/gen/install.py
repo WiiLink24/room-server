@@ -20,7 +20,7 @@ n = nw.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nw.log # This line will import log from utilsbylarsen.py.
 q = nw.u16 # This line will import u16 from utilsbylarsen.py.
 path = main.Path(__file__).parent.absolute() #Obtains current path
-with open("./nwcs.json", "rb") as f:
+with open("./config.json", "rb") as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
