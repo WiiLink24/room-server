@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome to The Underground</title>
+        <title>Posters</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
-        {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-                <p>
-                    <span class="warning">{{ message }}</span>
-                </p>
+        <h1>Manage Parade Miis</h1>
+        {% if posters | length == 0 %}
+            <span class="warning">You have no Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
+        {% elif posters | length == 1 %}
+            There is currently <strong>1</strong> Mii.
+        {% else %}
+            There are currently <strong>{{ posters | length }}</strong> Miis.
+        {% endif %}
+        <table>
+            <tr>
+                <th scope="col">Mii ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Page ID</th>
+                <th scope="col">News</th>
+            </tr>
+        {% for mii in miis %}
+            <tr>
+                <td>{{ mii.mii_id }}</td>
+                <td>{{ mii.name }}</td>
+                <td>{{ mii.page_id }}</td>
+                <td>{{ mii.news }}</td>
+                <td>TODO</td>
+                <td style="text-align: center;">
+                    <a href="/theunderground/parade/{{ mii.mii_id }}">Edit</a>
+                    <br/>
+                    <a href="/theunderground/parade/{{ mii.mii_id }}/remove">Delete</a>
+                </td>
+            </tr>
             {% endfor %}
-        {% endwith %}
-        <form action="" method="post">
-            <p>
-                {{ form.hidden_tag() }}
-                {{ form.miiid.label }}
-                <br/>
-                {{ form.miiid(size=32) }}
-                <br/>
-                {{ form.logo1id.label }}
-                <br/>
-                {{ form.logo1id(size=5) }}
-                 {{ form.bin.label }}
-                <br/>
-                {{ form.logo1id(size=8000) }}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
+        </table>
+
+        {% if posters | length >= 30 %}
+            <span class="warning">You have too many Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
+        {% else %}
+            <br/>
+            <a href="/theunderground/parade/add"><button>Add a Mii</button></a>
+        {% endif %}
 </body>
 </html>
