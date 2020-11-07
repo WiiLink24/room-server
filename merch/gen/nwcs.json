@@ -1,6 +1,0 @@
- {
-  "production": false,
-  "send_stats": false,
-  "sentry_url": "status.domain.tld",
-  "nwcspathdata": "pleasechangeme"
-}
