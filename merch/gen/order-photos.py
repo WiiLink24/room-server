@@ -58,13 +58,11 @@ def orderpwinty(a, b, c, d, e, f, g, h, i, j, k, l, m):
         copies = 	copies1,
         sizing = 	sizing1
       )
-      if os.path.exists("offset.dat"):
-        os.remove("offset.dat")
       initialize(**options)
       t = time.localtime()
       timevar = time.strftime("%H:%M:%S", t)
       title = "Latest Order Script Status @ " + timevar
-      text = 'Order Script for Printful was ran!'
+      text = 'Order Script for Photos was ran!'
       tags = ['version:1', 'application:python']
       api.Event.create(title=title, text=text, tags=tags)
       os._exit(0)
