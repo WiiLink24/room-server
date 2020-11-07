@@ -16,6 +16,7 @@ login = LoginManager(app)
 # It must not initialize around an app so that we can create
 # models automatically within a test context.
 db = SQLAlchemy()
+import models
 
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
