@@ -28,9 +28,9 @@ def send(to, fromdata, subjectdata, nameofattachment, key, filetype, offset):
     print(response.status_code, response.body, response.headers)
     sys.exit(0)
   elif offset == 1:
-    offset = 9
+    offset2 = 9
     data = "Congrats, you accessed the secret feature!"
-    echodata = utilsbygloom.returnnumber(offset)
+    echodata = utilsbygloom.returnnumber(offset2)
     utilsbygloom.spotlightutil(echodata, data)
   else:
     returndata = 0
