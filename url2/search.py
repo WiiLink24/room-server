@@ -1,7 +1,7 @@
 from config import elasticsearch_url
 from elasticsearch import Elasticsearch
 from flask import request
-from helpers import xml_node_name, RepeatedElement, current_date
+from helpers import xml_node_name, RepeatedElement, current_date_and_time
 from room import app
 
 es = Elasticsearch(elasticsearch_url)
@@ -35,7 +35,7 @@ def search():
                         "movieid": i,
                         "title": show_ids[i],
                         "genre": 1,
-                        "strdt": current_date(),
+                        "strdt": current_date_and_time(),
                         "pop": 0,
                     }
                 )
