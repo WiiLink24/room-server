@@ -16,7 +16,8 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 g.packages.urllib4.disable_warnings()  # This is so we don't get some warning about SSL.
 production = False
 p_errors = False
-def setup_log(sentry_w, print_errors):
+bc=print
+def setup_log(sentry_w, bc_errors):
     global logger, production
     sentry_logging = LoggingIntegration(
         level=f.INFO,
@@ -24,12 +25,12 @@ def setup_log(sentry_w, print_errors):
     )
     e.init(dsn=sentry_w, integrations=[sentry_logging])
     logger = logging.getLogger(__name__)
-    p_errors = print_errors
+    p_errors = bc_errors
     production = True
 def log(msg, level):  
     # TODO: Use bgber levels, strings are annoying
     if p_errors:
-        print(msg)
+        bc(msg)
     if production:
         if level == "VERBOSE":
             logger.debug(msg)
@@ -108,11 +109,10 @@ class Waffles(BreakfastType):
 		iron.switchPower(True)
 		cooktime = iron.fill(b)
 		cm, cs = divmod(cooktime,60)
-    		bd=print
 		if cm > 0:
-			bd("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
+			bc("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
 		else:
-			bd("Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1)))
+			bc("Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1)))
 		while not iron.contentsAreCooked():
 			left = iron.getTimeLeft()
 			m,s = divmod(left+0.99,60)
@@ -121,6 +121,7 @@ class Waffles(BreakfastType):
 			r.sleep(0.5)
 			s.stdout.write("\x08"*5)
 			s.stdout.flush()
+		bc
 		waffle = iron.getContents()
 		iron.switchPower(False)
 		return waffle
@@ -135,23 +136,22 @@ class BreakfastMaker:
 		breakfast = maker().make()
 		return breakfast
 def startbreakfast():
-  bd=print
-  bd("Breakfast Maker v0.2")
+  bc("Breakfast Maker v0.2")
   user = input("Please enter your username: ")
   maker = BreakfastMaker()
-  bd("Making breakfast for %s..."%user)
+  bc("Making breakfast for %s..."%user)
   breakfast = maker.makeBreakfastFor(user)
-  bd("Your breakfast is ready!")
+  bc("Your breakfast is ready!")
   breakfast.display()
-  bd("\a")
+  bc("\a")
 def check(bg):
   bg2 = int(bg)
   if (bg2 % 2) == 0:
-    print("{0} is Even".format(bg2))
+    bc("{0} is Even".format(bg2))
     v = "even"
     return v
   else:
-    print("{0} is Odd".format(bg2))
+    bc("{0} is Odd".format(bg2))
     v = "odd"
     return v
 def t(k, x):
@@ -241,7 +241,7 @@ def ac(othrk):
       h.write(f)
       h.close()
     elif othrk == 1:
-      print(f)
+      bc(f)
 def u(bhk):
   if bhk == 0:
     t(2, 0)
