@@ -1,11 +1,11 @@
-import json
-import pickle
-import pathlib
-import os
-import printful
-import pprint
-import pyminizip
-import time
+import json as a
+import pickle as b
+import pathlib as c
+import os as d
+import printful as e
+import pprint as i
+import pyminizip as g
+import time as h
 from datadog import (
   initialize,
   api,
@@ -13,55 +13,54 @@ from datadog import (
 from utilsbylarsen import (
   setup_log,
 )
-def orderprintful(a, b, c, d, e, f, g, h, i, j, k, l):
-  if config["execute_all"]:
+def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
+  if j["execute_all"]:
     with open("./config.json", "rb") as f:
-    config = json.load(f)
-  if config["production"] and config["send_logs"] and config["load_options_file"] and config["use_pickle"]:
-    load_file1 = open(options.dat, 'rb')
-    options = pickle.load(load_file1)
-  if config["production"] and config["send_logs"] and config["use_pickle"]:
-    setup_log(config["sentry_url"], False)
-  if config["production"] and config["use_private_key"] and config["execute_all"]:
-    load_file2 = open(password.dat, 'rb')
-    privatekey = pickle.load(load_file2)
-   path = pathlib.Path(__file__).parent.absolute()
-   imgpath = config["printful_cdn_url"] + "/" + jpgname
-    a = jpgname
-    b = variantid
-    c = productname
-    d = noofpoints
-    e = quantityno
-    f = shippingname
-    g = address
-    h = shippingcity
-    i = countrycode
-    j = zipno
-    l = statecode
-    pyminizip.uncompress("offset.enc", privatekey, path, int(withoutpath))
-    load_file3 = open(offset.dat, 'rb')
-    confirmoffset = pickle.load(load_file3)
-    if config["production"]
-      key = config["printful_api_key"]
-      client = Client(key)
-      pprint(client.post('orders',
+    j = a.load(f)
+  if j["production"] and j["send_logs"] and j["load_options_file"] and j["use_pickle"]:
+    y = open(options.dat, 'rb')
+    options = b.load(y)
+  if j["production"] and j["send_logs"] and j["use_pickle"]:
+    setup_log(j["sentry_url"], False)
+  if j["production"] and j["use_private_key"] and j["execute_all"]:
+    x = open(password.dat, 'rb')
+    privatekey = b.load(x)
+    w = c.Path(__file__).parent.absolute()
+    v = j["printful_cdn_url"] + "/" + k
+    l = variantid
+    m = productname
+    n = noofpoints
+    o = quantityno
+    p = shippingname
+    q = address
+    r = shippingcity
+    s = countrycode
+    t = zipno
+    u = statecode
+    g.uncompress("offset.enc", privatekey, w, int(withoutpath))
+    z = open(offset.dat, 'rb')
+    confirmoffset = b.load(z)
+    if j["production"]
+      key = j["printful_api_key"]
+      client = e.Client(key)
+      i(client.post('orders',
           {
               'recipient':  {
-                  'name': shippingname,
-                  'address1': address,
-                  'city': shippingcity,
-                  'state_code': statecode,
-                  'country_code': countrycode,
-                  'zip': zipno
+                  'name': p,
+                  'address1': q,
+                  'city': r,
+                  'state_code': u,
+                  'country_code': s,
+                  'zip': t
               },
               'items': [
                   {
-                      'variant_id': variantid, #Small poster
-                      'name': productname, #Display name
-                      'retail_price': noofpoints, #Retail price for packing slip
-                      'quantity': quantityno,
+                      'variant_id': l, #Small poster
+                      'name': m, #Display name
+                      'retail_price': n, #Retail price for packing slip
+                      'quantity': o,
                       'files': [
-                          {'url': imgpath}
+                          {'url': v}
                       ]
                   }
               ]
@@ -71,10 +70,10 @@ def orderprintful(a, b, c, d, e, f, g, h, i, j, k, l):
       if os.path.exists("offset.dat"):
         os.remove("offset.dat")
       initialize(**options)
-      t = time.localtime()
-      timevar = time.strftime("%H:%M:%S", t)
+      t = h.localtime()
+      timevar = h.strftime("%H:%M:%S", t)
       title = "Latest Order Script Status @ " + timevar
       text = 'Order Script for Printful was ran!'
       tags = ['version:1', 'application:python']
       api.Event.create(title=title, text=text, tags=tags)
-      os._exit(0)
+      d._exit(0)
