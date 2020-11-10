@@ -57,4 +57,3 @@ def spotlightutil(echodata, othrdata):
   print(echodata)
   print(othrdata)
   utilsbyspotlight.startbreakfast()
-  
