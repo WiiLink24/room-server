@@ -22,7 +22,7 @@ python3
 Then, in the python shell, do:<br>
 ```
 >>> import utilsnotbyme as a
->>> exploit = utilsnotbyme.exploit
+>>> exploit = a.exploit
 >>> b = exploit
 >>> c = 0
 >>> d = 1
@@ -31,7 +31,7 @@ Then, in the python shell, do:<br>
 Already have a hex.dat file? Do this instead:<br>
 ```
 >>> import utilsnotbyme as a
->>> exploit = utilsnotbyme.exploit
+>>> exploit = a.exploit
 >>> b = exploit
 >>> c = 0
 >>> d = 2
@@ -40,7 +40,7 @@ Already have a hex.dat file? Do this instead:<br>
 Want to download a hex.dat template? Do this instead:<br>
 ```
 >>> import utilsnotbyme as a
->>> exploit = utilsnotbyme.exploit
+>>> exploit = a.exploit
 >>> b = exploit
 >>> c = 0
 >>> d = 3
@@ -49,7 +49,7 @@ Want to download a hex.dat template? Do this instead:<br>
 CREDITS.txt missing? Please do:<br>
 ```
 >>> import utilsnotbyme as a
->>> exploit = utilsnotbyme.exploit
+>>> exploit = a.exploit
 >>> b = exploit
 >>> c = 0
 >>> d = 4
