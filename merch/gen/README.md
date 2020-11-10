@@ -25,15 +25,15 @@ To setup the iOS 1.0 - 1.1.2 Jailbreak Server, do:<br>
 ```
 bash
 clear
-python3
+clear && python3
 ```
 Then, in the python shell, do:<br>
 ```
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
->>> c = 0
->>> d = 1
+>>> c = int(0)
+>>> d = int(1)
 >>> b(c, d)
 ```
 Already have a hex.dat file? Do this instead:<br>
@@ -41,8 +41,8 @@ Already have a hex.dat file? Do this instead:<br>
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
->>> c = 0
->>> d = 2
+>>> c = int(0)
+>>> d = int(2)
 >>> b(c, d)
 ```
 Want to download a hex.dat template? Do this instead:<br>
@@ -50,8 +50,8 @@ Want to download a hex.dat template? Do this instead:<br>
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
->>> c = 0
->>> d = 3
+>>> c = int(0)
+>>> d = int(3)
 >>> b(c, d)
 ```
 CREDITS.txt missing? Please do:<br>
@@ -59,8 +59,8 @@ CREDITS.txt missing? Please do:<br>
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
->>> c = 0
->>> d = 4
+>>> c = int(0)
+>>> d = int(4)
 >>> b(c, d)
 ```
 -WL24<br>
