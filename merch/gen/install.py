@@ -9,13 +9,14 @@ import collections as h
 import json as p
 import utilsnotbyme as ad
 ag=int
+ap=print
 j=ad.u8 # This line will import u8 from utilsbylarsen.py.
 l=ad.u32 # This line will import u32 from utilsbylarsen.py.
 m=ad.pad # This line will import pad from utilsbylarsen.py.
 n=ad.setup_log # This line will import setup_log from utilsbylarsen.py.
 o=ad.log # This line will import log from utilsbylarsen.py.
 q=ad.u16 # This line will import u16 from utilsbylarsen.py.
-path=af.Path(__file__).parent.absolute() #Obtains current path
+path=af.Path(__ar__).parent.absolute() #Obtains current path
 with open("./config.json", "rb") as f:
     r=p.load(f)
 if r["production"] and r["send_logs"]:
@@ -26,11 +27,11 @@ if r["production"]:
 d=a.argv # Argument Class Data
 ai=ag(d[1]) #Mode Specification Data
 aj=d[2] #Line Number
-ak=d[3] #Filename
+ak=d[3] #arname
 al=d[4] #Table Data
 am=d[5] #Unique ID Specification Data
-an=d[6] #Name of the Primary Storage File
-ao=d[7] #Name of the Secondary Storage File
+an=d[6] #Name of the Primary Storage ar
+ao=d[7] #Name of the Secondary Storage ar
 ap=d[8] #Datadog API Key
 aq=d[9] #Datadog APP key
 ar=ag(ai) #Converts the mode specification Data to a ageger
@@ -42,28 +43,28 @@ au="Error Code 1 Occured" #This error typically happens when the exit code fails
 av=a.exit
 aw="/n" #New line Opcode
 y="w" #Tav Writing Opcode
-z='r' #Generic Tavfile Opcode
+z='r' #Generic Tavar Opcode
 if ar == 0: #Mode 0 Identifier Software Check
   options={
     'api_key': ap,
     'app_key': aq
   }
-  saveoptionsfile=open(options.dat, 'wb')
-  c.dump(options, saveoptionsfile)
+  saveoptionsar=open(options.dat, 'wb')
+  c.dump(options, saveoptionsar)
   av(0)
 elif ar == 1: #Mode 1 Identifier Software Check
   dd="/n" #New Line Identifier
-  outF1=open("tables.txt", y)
+  am=open("tables.txt", y)
   tavl1=[dd, am, an, ao]
-  outF1.close()
-  outF2=open("id.txt", y)
+  am.close()
+  al=open("id.txt", y)
   tavl2=[am]
-  outF2.close()
+  al.close()
   av(0)
 elif ar == 2: #Mode 2 Identifier Software Check
-  file=open(ak)
-  all_lines=file.readlines()
-  print((all_lines[aj]))  
+  ar=open(ak)
+  aq=ar.readlines()
+  ap((aq[aj]))  
   av(0)
 elif ar == 3: #Mode 3 Identifier Software Check
   un=ac.system
@@ -75,107 +76,107 @@ elif ar == 3: #Mode 3 Identifier Software Check
   un('echo Install done.')
   av(0)
 elif ar == 4: #Mode 4 Identifier Software Check
-  print("The more bits, the more secure it is!")
-  print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
+  ap("The more bits, the more secure it is!")
+  ap("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w=eval(input("Enter the bitsize you want:"))
   x=d.getrandbits(w)
-  print(x)
+  ap(x)
   av(0)
 elif ar == 5: #Mode 5 Identifier Software Check
   f=open('id.txt', z)
-  file_contents=f.read()
-  print(file_contents)
+  ar_contents=f.read()
+  ap(ar_contents)
   f.close()
   av(0)
 elif ar == 6: #Mode 6 Identifier Software Check
-  file=open('tables.txt')
-  all_lines=file.readlines()
-  print((all_lines[al]))
+  ar=open('tables.txt')
+  aq=ar.readlines()
+  ap((aq[al]))
   av(0)
 elif ar == 7: #Mode 7 Identifier Software Check
-  print(path) #prints Current Path
+  ap(path) #aps Current Path
   av(0)
 elif ar == 8: #Mode 8 Identifier Software Check
-  c9range=list(range(2, 100)) # Returns Preset Line Number Range
-  c9l=list(c9range) #Outputs the Preset Line Number Range to a list
-  outF1=open(an, y)
-  for line in c9l:
-    outF1.write(line)
-    outF1.write(aw)
-  outF1.close()
-  a0=as("sentry_url")
-  a1=as("printful_key")
-  a2=as("production")
-  a3=as("send_stats")
-  a4=as("datadog_api_key")
-  a5=as("datadog_app_key")
-  a6=as("phpfilename")
-  a7=as("php_logger_path")
-  a8=as("php_logger_method")
-  a9=as("send_php_logs")
-  b0=as("api_key")
-  b1=as("orders")
-  b2=as("app_key")
-  b3=as("offset")
-  b4=as("limit")
-  b5=as("code")
-  b6=as("result")
-  b7=as("https://api.theprintful.com/")
-  b8=as("printful API Python Library 1.2")
-  b9=as("Authorization")
-  c0=as("User-Agent")
-  c1=as("Content-Type")
-  c2=as("application/json")
-  c3=as("paging")
-  c4=as("total")
-  c5=as("VERBOSE")
-  c6=as("INFO")
-  c7=as("WARNING")
-  c8=as("CRITICAL")
-  d6=as("./readtables.sh")
-  e2=as("utf-8")
-  e3=as("https://api.theprintful.com/")
-  e4=as("printful API Python Library 1.0")
-  e5=as("User-Agent")
-  e6=as("Content-Type")
-  e7=as("application/json")
-  e8=as("Server")
-  e9=as("headers")
-  f0=as("auth")
-  f2=as("/")
-  f3=as("fixtures")
+  an=list(range(2, 100)) # Returns Preset Line Number Range
+  ao=list(an) #Outputs the Preset Line Number Range to a list
+  am=open(an, y)
+  for line in ao:
+    am.write(line)
+    am.write(aw)
+  am.close()
+  a0="sentry_url"
+  a1="apful_key"
+  a2="production"
+  a3="send_stats"
+  a4="datadog_api_key"
+  a5="datadog_app_key"
+  a6="phparname"
+  a7="php_logger_path"
+  a8="php_logger_method"
+  a9="send_php_logs"
+  b0="api_key"
+  b1="orders"
+  b2="app_key"
+  b3="offset"
+  b4="limit"
+  b5="code"
+  b6="result"
+  b7="https://api.theapful.com/"
+  b8="apful API Python Library 1.2"
+  b9="Authorization"
+  c0="User-Agent"
+  c1="Content-Type"
+  c2="application/json"
+  c3="paging"
+  c4="total"
+  c5="VERBOSE"
+  c6="INFO"
+  c7="WARNING"
+  c8="CRITICAL"
+  d6="./readtables.sh"
+  e2="utf-8"
+  e3="https://api.theapful.com/"
+  e4="apful API Python Library 1.0"
+  e5="User-Agent"
+  e6="Content-Type"
+  e7="application/json"
+  e8="Server"
+  e9="headers"
+  f0="auth"
+  f2="/"
+  f3="fixtures"
   f5=list(range(0, 1))
-  f7=as("API response was not valid JSON.")
-  f8=as("GET")
-  f9=as("POST")
-  g0=as("PUT")
-  g1=as("DELETE")
-  g2=as("API response did not contain paginated results.")
-  g3=as(">B")
-  g4=as(">H")
-  g5=as(">I")
-  g6=as("<I")
-  g7=as(">b")
-  g8=as(">h")
-  g9=as(">i")
-  h0=as("0")
-  h1=as("255")
-  h3=as("65535")
-  h5=as("4294967295")
-  h7=as("4294967295")
-  h8=as("-128")
-  h9=as("127")
-  i0=as("-32768")
-  i1=as("32767")
-  i2=as("-2147483648")
-  i3=as("2147483647")
+  f7="API response was not valid JSON."
+  f8="GET"
+  f9="POST"
+  g0="PUT"
+  g1="DELETE"
+  g2="API response did not contain paginated results."
+  g3=">B"
+  g4=">H"
+  g5=">I"
+  g6="<I"
+  g7=">b"
+  g8=">h"
+  g9=">i"
+  h0="0"
+  h1="255"
+  h3="65535"
+  h5="4294967295"
+  h7="4294967295"
+  h8="-128"
+  h9="127"
+  i0="-32768"
+  i1="32767"
+  i2="-2147483648"
+  i3="2147483647"
   i4=list(range(1, 2))
-  j0=as("200")
-  j1=as("301")
-  j2=as("ascii")
-  j3=as("256")
-  j4=as("128")
-  j5=as("512")
+  j0="200"
+  j1="301"
+  j2="ascii"
+  j3="256"
+  j4="128"
+  j5="512"
   j6=list(range(3, 4))
   l0=[a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   l1=[b0, b1, b2, b3, b4, b5, b6, b7, b8, b9]
@@ -187,17 +188,17 @@ elif ar == 8: #Mode 8 Identifier Software Check
   l7=[h1, h0, h3, h0, h5, h0, h7, h8, h9, i0]
   l8=[i1, i2, i3, i4, i4, i4, j0, j1, j2, j3] 
   l9=[l0, l1, l2, l3, l4, l5, l6, l7, l8, j4, j5, j6, j7]
-  outF2=open(ao, y)
+  al=open(ao, y)
   for line in l9:
-    outF2.write(line)
-    outF2.write(aw)
-  outF2.close()
+    al.write(line)
+    al.write(aw)
+  al.close()
   av(0)
 elif ar == 9: #Mode 9 Identifier Software Check
-  print(w)
-  print("My Aquarium Custom Attachment Generator\n")
-  print("By John Pansera / Version 1.0\n")
-  print("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
+  ap(w)
+  ap("My Aquarium Custom Attachment Generator\n")
+  ap("By John Pansera / Version 1.0\n")
+  ap("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
   ab=aa.randag
   aquarium_size=ab(0, 2) #My Aquarium Tank Size Offset
   glass_type=ab(0, 5) #My Aquarium Glass Size Offset
@@ -252,7 +253,7 @@ elif ar == 9: #Mode 9 Identifier Software Check
                 header["current_day_%s" % i]=l(1)  # Current day set to 1
                 header["fish_tables"]=m(240 - (az * 16))
                 header["object_tables"]=m(160)  # TODO: Add in object tables
-                print("Processing ...")
+                ap("Processing ...")
                 f=e.BytesIO()
                 for k, v in list(header.items()): f.write(v)
                 f.flush()
@@ -260,18 +261,18 @@ elif ar == 9: #Mode 9 Identifier Software Check
                 copy=f.read()
                 crc32=format(g.crc32(copy) & 0xFFFFFFFF, '08x')
                 f.close()
-                file=open('a0014682.dat', 'wb')  # Not sure how the name is generated yet
-                file.write(g.unhexlify('08051400'))  # Magic Value
-                file.write(g.unhexlify(crc32))  # CRC32
-                file.write(copy)  # Rest of File
-                file.flush()
-                file.close()
+                ar=open('a0014682.dat', 'wb')  # Not sure how the name is generated yet
+                ar.write(g.unhexlify('08051400'))  # Magic Value
+                ar.write(g.unhexlify(crc32))  # CRC32
+                ar.write(copy)  # Rest of ar
+                ar.flush()
+                ar.close()
                 datname="a0014682.dat"
                 nwcspath=r["nwcs_path_data"]
                 nwcssrc=str(path) + "/" + str(datname)
                 os.rename("nwcssrc", "nwcspath")
-                print(aw)
-                print("Completed Successfully")
+                ap(aw)
+                ap("Completed Successfully")
                 av(0)
             else:
                 raise Exception("Error Code 1 Occured.")
@@ -281,11 +282,11 @@ elif ar == 9: #Mode 9 Identifier Software Check
         o("Error: Invalid amount, skipping: %s" % at, "WARNING")
         az=0
   else:
-    print("Not doing fish....")
+    ap("Not doing fish....")
     header["fish_tables"]=m(240 - (az * 16))
     header["object_tables"]=m(160) 
     # TODO: Add in object tables
-    print("Processing ...")
+    ap("Processing ...")
     f=e.BytesIO()
     for k, v in list(header.items()): f.write(v)
     f.flush()
@@ -293,19 +294,19 @@ elif ar == 9: #Mode 9 Identifier Software Check
     copy=f.read()
     crc32=format(g.crc32(copy) & 0xFFFFFFFF, '08x')
     f.close()
-    file=open('a0014682.dat', 'wb')  
+    ar=open('a0014682.dat', 'wb')  
     # Not sure how the name is generated yet
-    file.write(g.unhexlify('08051400'))  # Magic Value
-    file.write(g.unhexlify(crc32))  # CRC32
-    file.write(copy)  # Rest of File
-    file.flush()
-    file.close()
+    ar.write(g.unhexlify('08051400'))  # Magic Value
+    ar.write(g.unhexlify(crc32))  # CRC32
+    ar.write(copy)  # Rest of ar
+    ar.flush()
+    ar.close()
     datname="a0014682.dat"
     nwcspath=r["nwcs_path_data"]
     nwcssrc=str(path) + "/" + str(datname)
     os.rename("nwcssrc", "nwcspath")
-    print(aw)
-    print("Completed Successfully")
+    ap(aw)
+    ap("Completed Successfully")
     av(0)
 else:
   raise Exception("Exit code 127 Occured.")
