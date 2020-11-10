@@ -12,8 +12,8 @@ import time as k
 from datetime import datetime
 d = e.argv
 m = print
-n = n
-l = d[1] #Filename of Script that is being run
+n = l.run
+o = d[1] #Filename of Script that is being run
 d1 = int(d[2]) #Mode Identifier Data
 path = g.Path(__file__).parent.absolute()
 if d1 == 0:
@@ -44,7 +44,7 @@ elif d1 == 5:
   m(current_time)
   c._exit(0)
 elif d1 == 6:
-  m(l)
+  m(o)
   c._exit(0)
 elif d1 == 7:
   m(path)
