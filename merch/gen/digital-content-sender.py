@@ -1,10 +1,10 @@
 import os as a
 import base64 as b
-import utilsbygloom as d
+import utilsnotbyme as d
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
 def send(l, m, n, o, p, r):
-  if r == 0:
+  if r==0:
     k = Mail(
         from_email=m,
         to_emails=l,
@@ -26,7 +26,7 @@ def send(l, m, n, o, p, r):
     response=sg.send(k)
     print(response.status_code, response.body, response.headers)
     a._exit(0)
-  elif r == 1:
+  elif r==1:
     g=9
     h="Congrats, you accessed the secret feature!"
     t=d.returnnumber(g)
