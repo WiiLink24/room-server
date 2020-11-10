@@ -1,10 +1,8 @@
-import json
-import pickle
-import pathlib
-import os
-import pwinty
-import pyminizip
-import time
+import json as a
+import pickle as b
+import os as c
+import pwinty as d
+import time as e
 from datadog import (
   initialize,
   api,
@@ -12,35 +10,35 @@ from datadog import (
 from utilsbylarsen import (
   setup_log,
 )
-def orderpwinty(a, b, c, d, e, f, g, h, i, j, k, l, m):
-  if config["execute_all"]:
+z = 'rb' #Generic Text Writing Opcode
+def orderpwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
+  if g["execute_all"]:
     with open("./config.json", "rb") as f:
-    config = json.load(f)
-  if config["production"] and config["send_logs"] and config["load_options_file"] and config["use_pickle"]:
-    load_file1 = open(options.dat, 'rb')
-    options = pickle.load(load_file1)
-  if config["production"] and config["send_logs"] and config["use_pickle"]:
-    setup_log(config["sentry_url"], False)
-  if config["production"] and config["use_private_key"] and config["execute_all"]:
-    load_file2 = open(password.dat, 'rb')
-    privatekey = pickle.load(load_file2)
-   path = pathlib.Path(__file__).parent.absolute()
-   imgpath = config["pwinty_cdn_url"] + "/" + jpgname
-    a = recipient_name1
-    b = address1
-    c = address2
-    d = address_town_or_city1
-    e = state_or_county1
-    f = postal_or_zip_code1
-    g = destination_country_code1
-    h = countrycode
-    i = qualityLevel1
-    j = type1
-    k = md5Hash1
-    l = copies1
-    m = sizing1
-    if config["production"]
-      order = pwinty.Order.create(
+    g = a.load(f)
+  if g["production"] and g["send_logs"] and g["load_options_file"] and g["use_pickle"]:
+    h = open(options.dat, z)
+    options = b.load(h)
+  if g["production"] and g["send_logs"] and g["use_pickle"]:
+    setup_log(g["sentry_url"], False)
+  if g["production"] and g["use_private_key"] and g["execute_all"]:
+    i = open(password.dat, 'rb')
+    j = b.load(i) #Private key, still need to import this fully, it doesn't work yet.
+    y = g["pwinty_cdn_url"] + "/" + x #Set x to the name of the image you want printed on the photo
+    k = recipient_name1
+    l = address1
+    m = address2
+    n = address_town_or_city1
+    o = state_or_county1
+    p = postal_or_zip_code1
+    q = destination_country_code1
+    r = countrycode
+    s = qualityLevel1
+    t = type1
+    u = md5Hash1
+    v = copies1
+    w = sizing1
+    if g["production"]
+      order = d.Order.create(
           recipient_name =         	recipient_name1,
           address_1 =              	address1,
           address_2 =              	address2,
@@ -53,16 +51,16 @@ def orderpwinty(a, b, c, d, e, f, g, h, i, j, k, l, m):
       )
       photo = order.photos.create(
         type =   	type1,
-        url =    	imgpath,
+        url =    	y,
         md5Hash =	md5Hash1,
         copies = 	copies1,
         sizing = 	sizing1
       )
       initialize(**options)
-      t = time.localtime()
-      timevar = time.strftime("%H:%M:%S", t)
+      t = e.localtime()
+      timevar = e.strftime("%H:%M:%S", t)
       title = "Latest Order Script Status @ " + timevar
       text = 'Order Script for Photos was ran!'
       tags = ['version:1', 'application:python']
       api.Event.create(title=title, text=text, tags=tags)
-      os._exit(0)
+      c._exit(0)
