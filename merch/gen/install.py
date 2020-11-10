@@ -1,4 +1,3 @@
-
 import sys as a
 import pathlib as main
 import pickle as c
@@ -71,7 +70,7 @@ elif dd0 == 2: #Mode 2 Identifier Software Check
   print((all_lines[dd2]))  
   ext(0)
 elif dd0 == 3: #Mode 3 Identifier Software Check
-  un = f.system
+  un = ff.system
   un('echo Current Path: $PWD')
   un('viale=$(python3 password.py)')
   un('useradd -m -p $arg store')
@@ -277,7 +276,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 secn(nwcssrc, nwcspath)
                 print (nl)
                 print ("Completed Successfully")
-                a.exit(0)
+                ext(0)
             else:
                 raise Exception("Error Code 1 Occured.")
                 o("Error: Invalid selection: %s" % vv, "WARNING")
@@ -311,7 +310,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     secn(nwcssrc, nwcspath)
     print (nl)
     print ("Completed Successfully")
-    a.exit(0)
+    ext(0)
 else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
