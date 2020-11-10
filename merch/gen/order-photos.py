@@ -15,7 +15,7 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
   ae="execute_all"
   z='rb'
   if g[ae]:
-    with open("./config.json", "rb") as f:
+    with open("./config.json", z) as f:
     g = a.load(f)
   if g[ab] and g[ac] and g["load_options_file"] and g[ad]:
     h = open(options.dat, z)
@@ -48,8 +48,8 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
         sizing=w
       )
       initialize(**options)
-      title = "Latest Order Script Status @ " + e.strftime("%H:%M:%S", e.localtime())
-      text = 'Order Script for Photos was ran!'
-      tags = ['version:1', 'application:python']
-      api.Event.create(title=title, text=text, tags=tags)
+      ab = "Latest Order Script Status @ " + e.strftime("%H:%M:%S", e.localtime())
+      ac = 'Order Script for Photos was ran!'
+      ad = ['version:1', 'application:python']
+      api.Event.create(title=ab, text=ac, tags=ad)
       c._exit(0)
