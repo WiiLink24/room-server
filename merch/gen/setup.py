@@ -1,6 +1,5 @@
 import acwc24 as a
 import calendar as b
-import os as c
 import sys as e
 import pathlib as g
 import pyminizip as h
@@ -13,6 +12,7 @@ from datetime import datetime
 d = e.argv
 m = print
 n = l.run
+c = sys.exit
 o = d[1] #Filename of Script that is being run
 d1 = int(d[2]) #Mode Identifier Data
 path = g.Path(__file__).parent.absolute()
@@ -25,30 +25,30 @@ if d1 == 0:
   savefile = open('discord.dat', 'wb')
   i.dump(url, savefile)
   savefile.close()
-  c._exit(0)
+  c(0)
 elif d1 == 1:
   n('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
-  c._exit(0)
+  c(0)
 elif d1 == 2:
   n('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
-  c._exit(0)
+  c(0)
 elif d1 == 3:
   n('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
-  c._exit(0)
+  c(0)
 elif d1 == 4:
   n('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
-  c._exit(0)
+  c(0)
 elif d1 == 5:
   t = k.localtime()
   current_time = k.strftime("%H:%M:%S", t)
   m(current_time)
-  c._exit(0)
+  c(0)
 elif d1 == 6:
   m(o)
-  c._exit(0)
+  c(0)
 elif d1 == 7:
   m(path)
-  c._exit(0)
+  c(0)
 elif d1 == 8:
   data = int(1)
   save = open('offset.dat', 'wb')
@@ -58,7 +58,7 @@ elif d1 == 8:
   h.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
   save.close()
   load.close()
-  c._exit(0)
+  c(0)
 elif d1 == 9:
   m("Congrats, you accessed the secret feature!\n")
   m("Code by Larsen, I take ZERO credit.\n")
@@ -149,4 +149,4 @@ elif d1 == 9:
   webhook_url = i.load(webhook)
   post_webhook = k.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
   webhook.close()
-  c._exit(0)
+  c(0)
