@@ -27,16 +27,6 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     privatekey = b.load(x)
     w = c.Path(__file__).parent.absolute()
     v = j["printful_cdn_url"] + "/" + k
-    l = variantid
-    m = productname
-    n = noofpoints
-    o = quantityno
-    p = shippingname
-    q = address
-    r = shippingcity
-    s = countrycode
-    t = zipno
-    u = statecode
     g.uncompress("offset.enc", privatekey, w, int(withoutpath))
     z = open(offset.dat, 'rb')
     confirmoffset = b.load(z)
