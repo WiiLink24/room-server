@@ -14,15 +14,20 @@ from utilsbylarsen import (
   setup_log,
 )
 def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
-  if j["execute_all"]:
-    with open("./config.json", "rb") as f:
+  aa="production"
+  ab="send_logs"
+  ac="use_pickle"
+  ad="execute_all"
+  ae='rb'
+  if j[ad]:
+    with open("./config.json", ae) as f:
     j = a.load(f)
-  if j["production"] and j["send_logs"] and j["load_options_file"] and j["use_pickle"]:
-    y = open(options.dat, 'rb')
+  if j[aa] and j[ab] and j["load_options_file"] and j[ac]:
+    y = open(options.dat, ae)
     options = b.load(y)
-  if j["production"] and j["send_logs"] and j["use_pickle"]:
+  if j[aa] and j[ab] and j[ac]:
     setup_log(j["sentry_url"], False)
-  if j["production"] and j["use_private_key"] and j["execute_all"]:
+  if j[aa] and j["use_private_key"] and j[ad]:
     x = open(password.dat, 'rb')
     privatekey = b.load(x)
     w = c.Path(__file__).parent.absolute()
@@ -30,7 +35,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     g.uncompress("offset.enc", privatekey, w, int(withoutpath))
     z = open(offset.dat, 'rb')
     confirmoffset = b.load(z)
-    if j["production"]
+    if j[aa]
       key = j["printful_api_key"]
       client = e.Client(key)
       i(client.post('orders',
