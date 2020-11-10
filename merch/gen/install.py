@@ -18,7 +18,7 @@ m=ad.pad # This line will import pad from utilsbylarsen.py.
 n=ad.setup_log # This line will import setup_log from utilsbylarsen.py.
 o=ad.log # This line will import log from utilsbylarsen.py.
 q=ad.u16 # This line will import u16 from utilsbylarsen.py.
-path=af.Path(__ar__).parent.absolute() #Obtains current path
+path=af.Path(__file__).parent.absolute() #Obtains current path
 with open("./config.json", "rb") as f:
     r=p.load(f)
 if r["production"] and r["send_logs"]:
@@ -37,7 +37,6 @@ ao=d[7] #Name of the Secondary Storage ar
 ap=d[8] #Datadog API Key
 aq=d[9] #Datadog APP key
 ar=ag(ai) #Converts the mode specification Data to a ageger
-as=e.StringIO #Installs a alias to the StringIO class
 w="Congrats, you accessed the secret feature!" #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
 u="Exit code 127 Occured" #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 at="Error code 1 Occured." #Error code 1 message, this is a generic error for all other errors.
