@@ -4,6 +4,7 @@ Import the dynamic config into the code
 Import the config.json file into the code
 Write stickers script
 Port setup.py to python3
+Route all module imports to a init file
 Debug and fix all errors
 ```
 To setup the purely configurable enviroment 6100m made, simply do this command.<br>
