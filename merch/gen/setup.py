@@ -96,23 +96,23 @@ elif d1 == 9:
           "Wii_locker",
           "wildflower_floor",
           "yellow_Pikmin_hat"]
-  items_seasonal = {}
-  items_seasonal[1] = ["snowman_head", "snowman_vanity"]
-  items_seasonal[2] = ["Cupid_bench"]
-  items_seasonal[3] = ["egg_TV", "shamrock_hat"]
-  items_seasonal[4] = ["egg_TV"]
-  items_seasonal[5] = []
-  items_seasonal[6] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
-  items_seasonal[7] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
-  items_seasonal[8] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
-  items_seasonal[9] = ["pile_of_leaves"]
-  items_seasonal[10] = ["pile_of_leaves"]
-  items_seasonal[11] = ["pile_of_leaves"]
-  items_seasonal[12] = ["snowman_head", "snowman_vanity", "Jingle_TV", "festive_wreath"]
+  aa = {}
+  aa[1] = ["snowman_head", "snowman_vanity"]
+  aa[2] = ["Cupid_bench"]
+  aa[3] = ["egg_TV", "shamrock_hat"]
+  aa[4] = ["egg_TV"]
+  aa[5] = []
+  aa[6] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
+  aa[7] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
+  aa[8] = ["banana_split_hat", "hot_dog_hat", "sand_castle"]
+  aa[9] = ["pile_of_leaves"]
+  aa[10] = ["pile_of_leaves"]
+  aa[11] = ["pile_of_leaves"]
+  aa[12] = ["snowman_head", "snowman_vanity", "Jingle_TV", "festive_wreath"]
   def picker():
       month = datetime.today().month
-      items_all = items + items_seasonal[month]
-      choice = j.choices(items_all, weights=[1] * len(items) + [2] * len(items_seasonal[month]), k=1)[0]
+      items_all = items + aa[month]
+      choice = j.choices(items_all, weights=[1] * len(items) + [2] * len(aa[month]), k=1)[0]
       return choice
   if os.path.exists("dlc.dat"):
       dlc_list = i.load(open("dlc.dat", "rb"))
