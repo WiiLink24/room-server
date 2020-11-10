@@ -1,3 +1,4 @@
+
 import sys as a
 import pathlib as main
 import pickle as c
@@ -10,6 +11,7 @@ import utilsbylarsen as nw
 import json as p
 import shutil as othr #Imports the base class of shutil
 import time as misc
+import utilsnotbyme
 u1 = int
 secn = othr.copyfile #Selectively imports copyfile from the base class of shutil.
 j = nw.u8 # This line will import u8 from utilsbylarsen.py.
@@ -19,7 +21,7 @@ n = nw.setup_log # This line will import setup_log from utilsbylarsen.py.
 o = nw.log # This line will import log from utilsbylarsen.py.
 q = nw.u16 # This line will import u16 from utilsbylarsen.py.
 path = main.Path(__file__).parent.absolute() #Obtains current path
-with open("./nwcs.json", "rb") as f:
+with open("./config.json", "rb") as f:
     r = p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
@@ -38,10 +40,10 @@ dd8 = d[8] #Datadog API Key
 dd9 = d[9] #Datadog APP key
 dd0 = u1(dd1) #Converts the mode specification Data to a integer
 stg = e.StringIO #Installs a alias to the StringIO class
-w = stg("Congrats, you accessed the secret feature!") #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
-u = stg("Exit code 127 Occured") #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
-vv = stg("Error code 1 Occured.") #Error code 1 message, this is a generic error for all other errors.
-unknownerrormsg = stg("Error Code 1 Occured") #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
+w = "Congrats, you accessed the secret feature!" #This script can also function as a My Aquarium DLC randomizer. You will see the message when you access that mode.
+u = "Exit code 127 Occured" #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
+vv = "Error code 1 Occured." #Error code 1 message, this is a generic error for all other errors.
+unknownerrormsg = "Error Code 1 Occured" #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
 ext = ff._exit
 nl = "/n" #New line Opcode
 y = "w" #Text Writing Opcode
@@ -66,7 +68,7 @@ elif dd0 == 1: #Mode 1 Identifier Software Check
 elif dd0 == 2: #Mode 2 Identifier Software Check
   file = open(dd3)
   all_lines = file.readlines()
-  print(all_lines[dd2])  
+  print((all_lines[dd2]))  
   ext(0)
 elif dd0 == 3: #Mode 3 Identifier Software Check
   un = f.system
@@ -80,7 +82,7 @@ elif dd0 == 3: #Mode 3 Identifier Software Check
 elif dd0 == 4: #Mode 4 Identifier Software Check
   print("The more bits, the more secure it is!")
   print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
-  w = input("Enter the bitsize you want:")
+  w = eval(input("Enter the bitsize you want:"))
   x = d.getrandbits(w)
   print(x)
   ext(0)
@@ -93,7 +95,7 @@ elif dd0 == 5: #Mode 5 Identifier Software Check
 elif dd0 == 6: #Mode 6 Identifier Software Check
   file = open('tables.txt')
   all_lines = file.readlines()
-  print(all_lines[dd4])
+  print((all_lines[dd4]))
   ext(0)
 elif dd0 == 7: #Mode 7 Identifier Software Check
   print(path) #Prints Current Path
@@ -208,29 +210,16 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   background_type = rr(0, 4) #My Aquarium Background Type Offset
   light_type = rr(0, 6) #My Aquarium Light Type Offset
   specialdate1_month = rr(1, 12) #My Aquarium Special Date 1 Month Offset
-  specialdate1_day = rr(1, 30) #My Aquarium Special Date 1 Day Offset
+  specialdate1_day = rr(1, 31) #My Aquarium Special Date 1 Day Offset
   specialdate2_month = rr(1, 12) #My Aquarium Special Date 2 Month Offset
-  specialdate2_day = rr(1, 30) #My Aquarium Special Date 2 Day Offset
+  specialdate2_day = rr(1, 31) #My Aquarium Special Date 2 Day Offset
   specialdate3_month = rr(1, 12) #My Aquarium Special Date 3 Month Offset
-  specialdate3_day = rr(1, 30) #My Aquarium Special Date 3 Day Offset
-  decisionoffset = rr(1, 24) #My Aquarium Add Fish Decisional Offset
+  specialdate3_day = rr(1, 31) #My Aquarium Special Date 3 Day Offset
+  decisionoffset = rr(1, 101) #My Aquarium Add Fish Decisional Offset
   maximumfish = rr(1, 15) #My Aquarium Maximum Fish Offset
   df = u1(decisionoffset) #Obsufcates variable to be shorter via aliasing
   amnt = u1(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a integer
-  a0 = "{0:0>2}"
-  aa = a0.format
-  a1 = aa(1)
-  a2 = aa(2)
-  a3 = aa(3)
-  a4 = aa(4)
-  a5 = aa(5)
-  a6 = aa(6)
-  a7 = aa(7)
-  a8 = aa(8)
-  a9 = aa(9)
-  numl = list(range(10, 40))
-  test_l1 = [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
-  fishidl = test_l1 + numl
+  numl = list(range(1, 40))
   header = h.OrderedDict()
   header["unknown"] = j(0)  # Version?
   header["aquarium_size"] = j(int(aquarium_size))
@@ -253,10 +242,11 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
   header["special_date_3_month"] = j(int(specialdate3_month))
   header["special_date_3_day"] = j(int(specialdate3_day))
   header["special_date_3_padding_1"] = j(0)
-  if df == 1 or df == 3 or df == 5 or df == 7 or df == 9 or df == 11 or df == 13 or df == 15 or df == 17 or df == 19 or df == 21 or df == 23:
+  data = utilsnotbyme.check(df)
+  if data == "even":
     if amnt <= 15:
         for i in range(amnt):
-            sel = int(rn.choice(fishidl))
+            sel = rn.choice(numl)
             if sel < 40:
                 header["fish_amount_%s" % i] = j(1)
                 header["fish_id_%s" % i] = j(sel)
@@ -269,7 +259,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 header["object_tables"] = m(160)  # TODO: Add in object tables
                 print ("Processing ...")
                 f = e.BytesIO()
-                for k, v in header.items(): f.write(bytes(v, encoding='utf-8'))
+                for k, v in list(header.items()): f.write(v)
                 f.flush()
                 f.seek(0)
                 copy = f.read()
@@ -281,12 +271,13 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
                 file.write(copy)  # Rest of File
                 file.flush()
                 file.close()
-                datname = stg("a0014682.dat")
-                nwcspath = r["nwcspathdata"]
-                nwcssrc = path + "/" + datname
+                datname = "a0014682.dat"
+                nwcspath = r["nwcs_path_data"]
+                nwcssrc = str(path) + "/" + str(datname)
                 secn(nwcssrc, nwcspath)
                 print (nl)
                 print ("Completed Successfully")
+                a.exit(0)
             else:
                 raise Exception("Error Code 1 Occured.")
                 o("Error: Invalid selection: %s" % vv, "WARNING")
@@ -301,7 +292,7 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     # TODO: Add in object tables
     print ("Processing ...")
     f = e.BytesIO()
-    for k, v in header.items(): f.write(bytes(v, encoding='utf-8'))
+    for k, v in list(header.items()): f.write(v)
     f.flush()
     f.seek(0)
     copy = f.read()
@@ -314,12 +305,13 @@ elif dd0 == 9: #Mode 9 Identifier Software Check
     file.write(copy)  # Rest of File
     file.flush()
     file.close()
-    datname = stg("a0014682.dat")
-    nwcspath = r["nwcspathdata"]
-    nwcssrc = path + "/" + datname
+    datname = "a0014682.dat"
+    nwcspath = r["nwcs_path_data"]
+    nwcssrc = str(path) + "/" + str(datname)
     secn(nwcssrc, nwcspath)
     print (nl)
     print ("Completed Successfully")
+    a.exit(0)
 else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
