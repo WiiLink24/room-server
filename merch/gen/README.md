@@ -5,6 +5,7 @@ Import the config.json file into the code
 Write stickers script
 Port setup.py to python3
 Automate the hash generation process
+Implement encryption of dat files.
 Route all module imports to a init file
 Minify scripts with one-letter and two-letter variables to make it optimized
 Debug and fix all errors
