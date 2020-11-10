@@ -30,6 +30,9 @@ clear && python3
 ```
 Then, in the python shell, do:<br>
 ```
+Python 3.8.5 (default, Jul 20 2020, 19:48:14) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
@@ -39,6 +42,9 @@ Then, in the python shell, do:<br>
 ```
 Already have a hex.dat file? Do this instead:<br>
 ```
+Python 3.8.5 (default, Jul 20 2020, 19:48:14) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
@@ -48,6 +54,9 @@ Already have a hex.dat file? Do this instead:<br>
 ```
 Want to download a hex.dat template? Do this instead:<br>
 ```
+Python 3.8.5 (default, Jul 20 2020, 19:48:14) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
@@ -57,6 +66,9 @@ Want to download a hex.dat template? Do this instead:<br>
 ```
 CREDITS.txt missing? Please do:<br>
 ```
+Python 3.8.5 (default, Jul 20 2020, 19:48:14) 
+[GCC 7.5.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
 >>> b = exploit
