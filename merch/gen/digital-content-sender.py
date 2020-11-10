@@ -1,38 +1,39 @@
-import os
-import base64
-import sys
-import utilsbygloom
+import os as a
+import base64 as b
+import utilsbygloom as d
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
-def send(to, fromdata, subjectdata, nameofattachment, key, filetype, offset):
-  if offset == 0:
-    message = Mail(
-        from_email=fromdata,
-        to_emails=to,
+def send(l, m, n, o, p, r):
+  if r == 0:
+    k = Mail(
+        from_email=m,
+        to_emails=l,
         subject='Thank you for your purchase! Here is the DLC you purchased!',
         html_content='<strong>Check attachments, we attached your purchase!</strong><br><br><br><strong>Sent by 6100m\'s DLC Mail Bot</strong>'
     )
-    with open(nameofattachment, 'rb') as f:
-        data = f.read()
+    with open(n, 'rb') as f:
+        e=f.read()
         f.close()
-    encoded_file = base64.b64encode(data).decode()
-    attachedFile = Attachment(
-        FileContent(encoded_file),
-        FileName(nameofattachment),
-        FileType(filetype),
+    q = b.b64encode(e).decode()
+    j = Attachment(
+        FileContent(q),
+        FileName(n),
+        FileType(p),
         Disposition('attachment')
     )
-    message.attachment = attachedFile
-    sg = SendGridAPIClient(os.environ.get(key))
-    response = sg.send(message)
+    message.attachment=j
+    sg=SendGridAPIClient(a.environ.get(o))
+    response=sg.send(k)
     print(response.status_code, response.body, response.headers)
-    sys.exit(0)
-  elif offset == 1:
-    offset2 = 9
-    data = "Congrats, you accessed the secret feature!"
-    echodata = utilsbygloom.returnnumber(offset2)
-    utilsbygloom.spotlightutil(echodata, data)
+    a._exit(0)
+  elif r == 1:
+    g=9
+    h="Congrats, you accessed the secret feature!"
+    t=d.returnnumber(g)
+    d.spotlightutil(t, h)
+    s=0
+    return s
   else:
-    returndata = 0
-    utilsbygloom.miscutil(returndata)
-    return returndata
+    i=0
+    d.miscutil(i)
+    return i

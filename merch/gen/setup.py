@@ -1,71 +1,73 @@
-import acwc24
-import calendar
-import os
-import sys
-import pathlib
-import pyminizip
-import pickle
-import random
-import requests
-import subprocess
-import time
+import acwc24 as a
+import calendar as b
+import sys as e
+import pathlib as g
+import pyminizip as h
+import pickle as i
+import random as j
+import requests as k
+import subprocess as l
+import time as k
 from datetime import datetime
-d = sys.argv
-currentfile = d[1] #Filename of Script that is being run
+d = e.argv
+m = print
+n = l.run
+c = sys.exit
+o = d[1] #Filename of Script that is being run
 d1 = int(d[2]) #Mode Identifier Data
-path = pathlib.Path(__file__).parent.absolute()
+path = g.Path(__file__).parent.absolute()
 if d1 == 0:
-  subprocess.run('python3 setup.py 1', shell=True)
-  subprocess.run('python3 setup.py 2', shell=True)
-  subprocess.run('python3 setup.py 3', shell=True)
-  subprocess.run('python3 setup.py 4', shell=True)
+  n('python3 setup.py 1', shell=True)
+  n('python3 setup.py 2', shell=True)
+  n('python3 setup.py 3', shell=True)
+  n('python3 setup.py 4', shell=True)
   url = input("Please enter the Discord Webhook URL:")
   savefile = open('discord.dat', 'wb')
-  pickle.dump(url, savefile)
+  i.dump(url, savefile)
   savefile.close()
-  os._exit(0)
+  c(0)
 elif d1 == 1:
-  subprocess.run('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
-  os._exit(0)
+  n('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
+  c(0)
 elif d1 == 2:
-  subprocess.run('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
-  os._exit(0)
+  n('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
+  c(0)
 elif d1 == 3:
-  subprocess.run('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
-  os._exit(0)
+  n('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
+  c(0)
 elif d1 == 4:
-  subprocess.run('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
-  os._exit(0)
+  n('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
+  c(0)
 elif d1 == 5:
-  t = time.localtime()
-  current_time = time.strftime("%H:%M:%S", t)
-  print(current_time)
-  os._exit(0)
+  t = k.localtime()
+  current_time = k.strftime("%H:%M:%S", t)
+  m(current_time)
+  c(0)
 elif d1 == 6:
-  print(currentfile)
-  os._exit(0)
+  m(o)
+  c(0)
 elif d1 == 7:
-  print(path)
-  os._exit(0)
+  m(path)
+  c(0)
 elif d1 == 8:
   data = int(1)
   save = open('offset.dat', 'wb')
   load = open('password.dat', 'rb')
-  loaded = pickle.load(load_file)
-  pickle.dump(textList, save)
-  pyminizip.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
+  loaded = i.load(load_file)
+  i.dump(textList, save)
+  h.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
   save.close()
   load.close()
-  os._exit(0)
+  c(0)
 elif d1 == 9:
-  print("Congrats, you accessed the secret feature!\n")
-  print("Code by Larsen, I take ZERO credit.\n")
-  print("Credits also go to:\n")
-  print("Aurum for making ACWC24. The BIN files were generated with ACDLC, also made by the same person.\n")
-  print("Techincabor for helping me figure out the name of the DLC domain.\n")
-  print("\n")
-  print("so do not go saying I stole credit, as I take no credit and we will...\n")
-  print("Just virtually ignore you if you say it.\n")
+  m("Congrats, you accessed the secret feature!\n")
+  m("Code by Larsen, I take ZERO credit.\n")
+  m("Credits also go to:\n")
+  m("Aurum for making ACWC24. The BIN files were generated with ACDLC, also made by the same person.\n")
+  m("Techincabor for helping me figure out the name of the DLC domain.\n")
+  m("\n")
+  m("so do not go saying I stole credit, as I take no credit and we will...\n")
+  m("Just virtually ignore you if you say it.\n")
   items = ["anniversary_cake",
           "blue_Pikmin_hat",
           "bus_model",
@@ -110,10 +112,10 @@ elif d1 == 9:
   def picker():
       month = datetime.today().month
       items_all = items + items_seasonal[month]
-      choice = random.choices(items_all, weights=[1] * len(items) + [2] * len(items_seasonal[month]), k=1)[0]
+      choice = j.choices(items_all, weights=[1] * len(items) + [2] * len(items_seasonal[month]), k=1)[0]
       return choice
   if os.path.exists("dlc.dat"):
-      dlc_list = pickle.load(open("dlc.dat", "rb"))
+      dlc_list = i.load(open("dlc.dat", "rb"))
       choice = list(dlc_list.values())[-1]
       while choice in list(dlc_list.values())[:len(items)]:
           choice = picker()
@@ -122,17 +124,17 @@ elif d1 == 9:
       dlc_list = {}
       choice = picker()
       dlc_id = 1
-  print("The next DLC item will be: " + choice + "!")
+  m("The next DLC item will be: " + choice + "!")
   dlc_list[dlc_id] = choice
-  pickle.dump(dlc_list, open("dlc.dat", "wb"))
-  acwc24.create(choice, False, 8192 + dlc_id)
+  i.dump(dlc_list, open("dlc.dat", "wb"))
+  a.create(choice, False, 8192 + dlc_id)
   region2 = {}
   region2["E"] = "us"
   region2["P"] = "eu"
   region2["J"] = "jp"
   region2["K"] = "kr"
   for region in ["E", "P", "J", "K"]:
-      subprocess.call(["mv", "build/" + choice + "_" + region + ".arc.wc24", "/var/www/wapp.wii.com/nwcs/public_html/ruu/rvforestdl_" + region2[region] + ".enc"])
+      l.call(["mv", "build/" + choice + "_" + region + ".arc.wc24", "/var/www/wapp.wii.com/nwcs/public_html/ruu/rvforestdl_" + region2[region] + ".enc"])
   dlc_message = "We are now distributing this item:\n\n" + choice + "\n\nEnjoy!"
   data = {"username": "Animal Crossing DLC Bot", "content": dlc_message,
           "avatar_url": "http://rc24.xyz/images/logo-small.png", "attachments": [
@@ -142,9 +144,9 @@ elif d1 == 9:
                   "fields": [{"title": "Script", "value": "Animal Crossing Wii", "short": "false"}],
                   "footer": "RiiConnect24 Script",
                   "footer_icon": "https://rc24.xyz/images/logo-small.png",
-                  "ts": int(calendar.timegm(datetime.utcnow().timetuple()))}]}
+                  "ts": int(b.timegm(datetime.utcnow().timetuple()))}]}
   webhook = open(discord.dat, 'rb')
-  webhook_url = pickle.load(webhook)
-  post_webhook = requests.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
+  webhook_url = i.load(webhook)
+  post_webhook = k.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
   webhook.close()
-  os._exit(0)
+  c(0)
