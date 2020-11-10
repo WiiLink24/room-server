@@ -16,7 +16,7 @@ n=ad.setup_log # This line will import setup_log from utilsbylarsen.py.
 o=ad.log # This line will import log from utilsbylarsen.py.
 q=ad.u16 # This line will import u16 from utilsbylarsen.py.
 path=af.Path(__file__).parent.absolute() #Obtains current path
-with open("./c9.json", "rb") as f:
+with open("./config.json", "rb") as f:
     r=p.load(f)
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
@@ -63,7 +63,7 @@ elif ar == 1: #Mode 1 Identifier Software Check
 elif ar == 2: #Mode 2 Identifier Software Check
   file=open(ak)
   all_lines=file.readlines()
-  prag((all_lines[aj]))  
+  print((all_lines[aj]))  
   av(0)
 elif ar == 3: #Mode 3 Identifier Software Check
   un=ac.system
@@ -75,25 +75,25 @@ elif ar == 3: #Mode 3 Identifier Software Check
   un('echo Install done.')
   av(0)
 elif ar == 4: #Mode 4 Identifier Software Check
-  prag("The more bits, the more secure it is!")
-  prag("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
+  print("The more bits, the more secure it is!")
+  print("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w=eval(input("Enter the bitsize you want:"))
   x=d.getrandbits(w)
-  prag(x)
+  print(x)
   av(0)
 elif ar == 5: #Mode 5 Identifier Software Check
   f=open('id.txt', z)
   file_contents=f.read()
-  prag(file_contents)
+  print(file_contents)
   f.close()
   av(0)
 elif ar == 6: #Mode 6 Identifier Software Check
   file=open('tables.txt')
   all_lines=file.readlines()
-  prag((all_lines[al]))
+  print((all_lines[al]))
   av(0)
 elif ar == 7: #Mode 7 Identifier Software Check
-  prag(path) #Prags Current Path
+  print(path) #prints Current Path
   av(0)
 elif ar == 8: #Mode 8 Identifier Software Check
   c9range=list(range(2, 100)) # Returns Preset Line Number Range
@@ -104,7 +104,7 @@ elif ar == 8: #Mode 8 Identifier Software Check
     outF1.write(aw)
   outF1.close()
   a0=as("sentry_url")
-  a1=as("pragful_key")
+  a1=as("printful_key")
   a2=as("production")
   a3=as("send_stats")
   a4=as("datadog_api_key")
@@ -120,8 +120,8 @@ elif ar == 8: #Mode 8 Identifier Software Check
   b4=as("limit")
   b5=as("code")
   b6=as("result")
-  b7=as("https://api.thepragful.com/")
-  b8=as("Pragful API Python Library 1.2")
+  b7=as("https://api.theprintful.com/")
+  b8=as("printful API Python Library 1.2")
   b9=as("Authorization")
   c0=as("User-Agent")
   c1=as("Content-Type")
@@ -134,8 +134,8 @@ elif ar == 8: #Mode 8 Identifier Software Check
   c8=as("CRITICAL")
   d6=as("./readtables.sh")
   e2=as("utf-8")
-  e3=as("https://api.thepragful.com/")
-  e4=as("Pragful API Python Library 1.0")
+  e3=as("https://api.theprintful.com/")
+  e4=as("printful API Python Library 1.0")
   e5=as("User-Agent")
   e6=as("Content-Type")
   e7=as("application/json")
@@ -194,22 +194,22 @@ elif ar == 8: #Mode 8 Identifier Software Check
   outF2.close()
   av(0)
 elif ar == 9: #Mode 9 Identifier Software Check
-  prag(w)
-  prag ("My Aquarium Custom Attachment Generator\n")
-  prag ("By John Pansera / Version 1.0\n")
-  prag ("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
+  print(w)
+  print("My Aquarium Custom Attachment Generator\n")
+  print("By John Pansera / Version 1.0\n")
+  print("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
   ab=aa.randag
   aquarium_size=ab(0, 2) #My Aquarium Tank Size Offset
   glass_type=ab(0, 5) #My Aquarium Glass Size Offset
   floor_type=ab(0, 4) #My Aquarium Floor Type Offset
   background_type=ab(0, 4) #My Aquarium Background Type Offset
   light_type=ab(0, 6) #My Aquarium Light Type Offset
-  specialdate1_month=ab(1, 12) #My Aquarium Special Date 1 Month Offset
-  specialdate1_day=ab(1, 31) #My Aquarium Special Date 1 Day Offset
-  specialdate2_month=ab(1, 12) #My Aquarium Special Date 2 Month Offset
-  specialdate2_day=ab(1, 31) #My Aquarium Special Date 2 Day Offset
-  specialdate3_month=ab(1, 12) #My Aquarium Special Date 3 Month Offset
-  specialdate3_day=ab(1, 31) #My Aquarium Special Date 3 Day Offset
+  ak1_month=ab(1, 12) #My Aquarium Special Date 1 Month Offset
+  ak1_day=ab(1, 31) #My Aquarium Special Date 1 Day Offset
+  ak2_month=ab(1, 12) #My Aquarium Special Date 2 Month Offset
+  ak2_day=ab(1, 31) #My Aquarium Special Date 2 Day Offset
+  ak3_month=ab(1, 12) #My Aquarium Special Date 3 Month Offset
+  ak3_day=ab(1, 31) #My Aquarium Special Date 3 Day Offset
   decisionoffset=ab(1, 101) #My Aquarium Add Fish Decisional Offset
   maximumfish=ab(1, 15) #My Aquarium Maximum Fish Offset
   ay=ag(decisionoffset) #Obsufcates variable to be shorter via aliasing
@@ -226,16 +226,16 @@ elif ar == 9: #Mode 9 Identifier Software Check
   header["breeding_date_counter"]=l(0)
   header["unknown_date_counter"]=l(0)
   header["special_date_1_padding"]=j(0)
-  header["special_date_1_month"]=j(ag(specialdate1_month))
-  header["special_date_1_day"]=j(ag(specialdate1_day))
+  header["special_date_1_month"]=j(ag(ak1_month))
+  header["special_date_1_day"]=j(ag(ak1_day))
   header["special_date_1_padding_1"]=j(0)
   header["special_date_2_padding"]=j(0)
-  header["special_date_2_month"]=j(ag(specialdate2_month))
-  header["special_date_2_day"]=j(ag(specialdate2_day))
+  header["special_date_2_month"]=j(ag(ak2_month))
+  header["special_date_2_day"]=j(ag(ak2_day))
   header["special_date_2_padding_2"]=j(0)
   header["special_date_3_padding"]=j(0)
-  header["special_date_3_month"]=j(ag(specialdate3_month))
-  header["special_date_3_day"]=j(ag(specialdate3_day))
+  header["special_date_3_month"]=j(ag(ak3_month))
+  header["special_date_3_day"]=j(ag(ak3_day))
   header["special_date_3_padding_1"]=j(0)
   data=utilsnotbyme.check(ay)
   if data == "even":
@@ -252,7 +252,7 @@ elif ar == 9: #Mode 9 Identifier Software Check
                 header["current_day_%s" % i]=l(1)  # Current day set to 1
                 header["fish_tables"]=m(240 - (az * 16))
                 header["object_tables"]=m(160)  # TODO: Add in object tables
-                prag ("Processing ...")
+                print("Processing ...")
                 f=e.BytesIO()
                 for k, v in list(header.items()): f.write(v)
                 f.flush()
@@ -269,9 +269,9 @@ elif ar == 9: #Mode 9 Identifier Software Check
                 datname="a0014682.dat"
                 nwcspath=r["nwcs_path_data"]
                 nwcssrc=str(path) + "/" + str(datname)
-                ah(nwcssrc, nwcspath)
-                prag (aw)
-                prag ("Completed Successfully")
+                os.rename("nwcssrc", "nwcspath")
+                print(aw)
+                print("Completed Successfully")
                 av(0)
             else:
                 raise Exception("Error Code 1 Occured.")
@@ -281,11 +281,11 @@ elif ar == 9: #Mode 9 Identifier Software Check
         o("Error: Invalid amount, skipping: %s" % at, "WARNING")
         az=0
   else:
-    prag("Not doing fish....")
+    print("Not doing fish....")
     header["fish_tables"]=m(240 - (az * 16))
     header["object_tables"]=m(160) 
     # TODO: Add in object tables
-    prag ("Processing ...")
+    print("Processing ...")
     f=e.BytesIO()
     for k, v in list(header.items()): f.write(v)
     f.flush()
@@ -304,13 +304,13 @@ elif ar == 9: #Mode 9 Identifier Software Check
     nwcspath=r["nwcs_path_data"]
     nwcssrc=str(path) + "/" + str(datname)
     os.rename("nwcssrc", "nwcspath")
-    prag(aw)
-    prag("Completed Successfully")
+    print(aw)
+    print("Completed Successfully")
     av(0)
 else:
   raise Exception("Exit code 127 Occured.")
   o("You did not specify args: %s" % u, "WARNING")
   av(127)
-raise Exception("Unknown Error Occured") #It should never get here, but if it does, it lets you know.
+raise Exception("Unknown Error Occured")
 o("Unknown Error Occured: %s" % au, "WARNING")
 av(1)
