@@ -33,8 +33,8 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     ag = b.load(x)
     w = c.Path(__file__).parent.absolute()
     v = j["printful_cdn_url"] + "/" + k
-    g.uncompress("offset.enc", privatekey, w, int(withoutpath))
-    z = open(offset.dat, 'ae)
+    g.uncompress("offset.enc",vag, w, int(withoutpath))
+    z = open(af, ae)
     confirmoffset = b.load(z)
     if j[aa]
       key = j["printful_api_key"]
