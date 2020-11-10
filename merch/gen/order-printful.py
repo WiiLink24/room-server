@@ -10,7 +10,7 @@ from datadog import (
   initialize,
   api,
 )
-from utilsbylarsen import (
+from utilsnotbyme import (
   setup_log,
 )
 def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
@@ -19,6 +19,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
   ac="use_pickle"
   ad="execute_all"
   ae='rb'
+  af="offset.dat"
   if j[ad]:
     with open("./config.json", ae) as f:
     j = a.load(f)
@@ -29,11 +30,11 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     setup_log(j["sentry_url"], False)
   if j[aa] and j["use_private_key"] and j[ad]:
     x = open(password.dat, 'rb')
-    privatekey = b.load(x)
+    ag = b.load(x)
     w = c.Path(__file__).parent.absolute()
     v = j["printful_cdn_url"] + "/" + k
     g.uncompress("offset.enc", privatekey, w, int(withoutpath))
-    z = open(offset.dat, 'rb')
+    z = open(offset.dat, 'ae)
     confirmoffset = b.load(z)
     if j[aa]
       key = j["printful_api_key"]
@@ -62,8 +63,8 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
           },
           {'confirm': confirmoffset}
       ))
-      if os.path.exists("offset.dat"):
-        os.remove("offset.dat")
+      if os.path.exists(af):
+        os.remove(af)
       initialize(**options)
       t = h.localtime()
       timevar = h.strftime("%H:%M:%S", t)
