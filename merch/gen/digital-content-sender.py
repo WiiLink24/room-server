@@ -29,8 +29,8 @@ def send(l, m, n, o, p, r):
   elif r == 1:
     g=9
     h="Congrats, you accessed the secret feature!"
-    echodata=d.returnnumber(g)
-    d.spotlightutil(echodata, h)
+    t=d.returnnumber(g)
+    d.spotlightutil(t, h)
     s=0
     return s
   else:
