@@ -6,8 +6,8 @@ Be sure to follow all prompts.<br>
 
 There are a few services these scripts provide that you can offer on the shop!<br>
 The services it currently provides:<br>
-My Aquarium Mystery DLC Tanks<br>
-iOS 1.0 - 1.1.2 Jailbreak Server<br>
+1. My Aquarium Mystery DLC Tanks<br>
+2. iOS 1.0 - 1.1.2 Jailbreak Server<br>
 
 To run the My Aquarium DLC script, do:<br>
 ```
