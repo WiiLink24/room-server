@@ -10,6 +10,7 @@ import json as p
 import utilsnotbyme as ad
 ag=int
 ap=print
+au=list
 j=ad.u8 # This line will import u8 from utilsbylarsen.py.
 l=ad.u32 # This line will import u32 from utilsbylarsen.py.
 m=ad.pad # This line will import pad from utilsbylarsen.py.
@@ -97,8 +98,8 @@ elif ar == 7: #Mode 7 Identifier Software Check
   ap(path) #aps Current Path
   av(0)
 elif ar == 8: #Mode 8 Identifier Software Check
-  an=list(range(2, 100)) # Returns Preset Line Number Range
-  ao=list(an) #Outputs the Preset Line Number Range to a list
+  an=au(range(2, 100)) # Returns Preset Line Number Range
+  ao=au(an) #Outputs the Preset Line Number Range to a au
   am=open(an, y)
   for line in ao:
     am.write(line)
@@ -145,7 +146,7 @@ elif ar == 8: #Mode 8 Identifier Software Check
   f0="auth"
   f2="/"
   f3="fixtures"
-  f5=list(range(0, 1))
+  f5=au(range(0, 1))
   f7="API response was not valid JSON."
   f8="GET"
   f9="POST"
@@ -170,14 +171,14 @@ elif ar == 8: #Mode 8 Identifier Software Check
   i1="32767"
   i2="-2147483648"
   i3="2147483647"
-  i4=list(range(1, 2))
+  i4=au(range(1, 2))
   j0="200"
   j1="301"
   j2="ascii"
   j3="256"
   j4="128"
   j5="512"
-  j6=list(range(3, 4))
+  j6=au(range(3, 4))
   l0=[a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]
   l1=[b0, b1, b2, b3, b4, b5, b6, b7, b8, b9]
   l2=[c0, c1, c2, c3, c4, c5, c6, c7, c8, c6]
@@ -199,7 +200,7 @@ elif ar == 9: #Mode 9 Identifier Software Check
   ap("My Aquarium Custom Attachment Generator\n")
   ap("By John Pansera / Version 1.0\n")
   ap("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
-  ab=aa.randag
+  ab=aa.randint
   aquarium_size=ab(0, 2) #My Aquarium Tank Size Offset
   glass_type=ab(0, 5) #My Aquarium Glass Size Offset
   floor_type=ab(0, 4) #My Aquarium Floor Type Offset
@@ -215,47 +216,47 @@ elif ar == 9: #Mode 9 Identifier Software Check
   maximumfish=ab(1, 15) #My Aquarium Maximum Fish Offset
   ay=ag(decisionoffset) #Obsufcates variable to be shorter via aliasing
   az=ag(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a ageger
-  numl=list(range(1, 40))
-  header=h.OrderedDict()
-  header["unknown"]=j(0)  # Version?
-  header["aquarium_size"]=j(ag(aquarium_size))
-  header["glass_type"]=j(ag(glass_type))
-  header["floor_type"]=j(ag(floor_type))
-  header["background_type"]=j(ag(background_type))
-  header["light_type"]=j(ag(light_type))
-  header["unknown_1"]=q(0)
-  header["breeding_date_counter"]=l(0)
-  header["unknown_date_counter"]=l(0)
-  header["special_date_1_padding"]=j(0)
-  header["special_date_1_month"]=j(ag(ak1_month))
-  header["special_date_1_day"]=j(ag(ak1_day))
-  header["special_date_1_padding_1"]=j(0)
-  header["special_date_2_padding"]=j(0)
-  header["special_date_2_month"]=j(ag(ak2_month))
-  header["special_date_2_day"]=j(ag(ak2_day))
-  header["special_date_2_padding_2"]=j(0)
-  header["special_date_3_padding"]=j(0)
-  header["special_date_3_month"]=j(ag(ak3_month))
-  header["special_date_3_day"]=j(ag(ak3_day))
-  header["special_date_3_padding_1"]=j(0)
+  numl=au(range(1, 40))
+  at=h.OrderedDict()
+  at["unknown"]=j(0)  # Version?
+  at["aquarium_size"]=j(ag(aquarium_size))
+  at["glass_type"]=j(ag(glass_type))
+  at["floor_type"]=j(ag(floor_type))
+  at["background_type"]=j(ag(background_type))
+  at["light_type"]=j(ag(light_type))
+  at["unknown_1"]=q(0)
+  at["breeding_date_counter"]=l(0)
+  at["unknown_date_counter"]=l(0)
+  at["special_date_1_padding"]=j(0)
+  at["special_date_1_month"]=j(ag(ak1_month))
+  at["special_date_1_day"]=j(ag(ak1_day))
+  at["special_date_1_padding_1"]=j(0)
+  at["special_date_2_padding"]=j(0)
+  at["special_date_2_month"]=j(ag(ak2_month))
+  at["special_date_2_day"]=j(ag(ak2_day))
+  at["special_date_2_padding_2"]=j(0)
+  at["special_date_3_padding"]=j(0)
+  at["special_date_3_month"]=j(ag(ak3_month))
+  at["special_date_3_day"]=j(ag(ak3_day))
+  at["special_date_3_padding_1"]=j(0)
   data=utilsnotbyme.check(ay)
   if data == "even":
     if az <= 15:
         for i in range(az):
             sel=rn.choice(numl)
             if sel < 40:
-                header["fish_amount_%s" % i]=j(1)
-                header["fish_id_%s" % i]=j(sel)
-                header["fish_growth_level_%s" % i]=q(0)
-                header["fish_hungry_degree_%s" % i]=q(0)
-                header["fish_padding_%s" % i]=q(1)
-                header["fish_birthday_%s" % i]=l(1)  # Birthday is day 1
-                header["current_day_%s" % i]=l(1)  # Current day set to 1
-                header["fish_tables"]=m(240 - (az * 16))
-                header["object_tables"]=m(160)  # TODO: Add in object tables
+                at["fish_amount_%s" % i]=j(1)
+                at["fish_id_%s" % i]=j(sel)
+                at["fish_growth_level_%s" % i]=q(0)
+                at["fish_hungry_degree_%s" % i]=q(0)
+                at["fish_padding_%s" % i]=q(1)
+                at["fish_birthday_%s" % i]=l(1)  # Birthday is day 1
+                at["current_day_%s" % i]=l(1)  # Current day set to 1
+                at["fish_tables"]=m(240 - (az * 16))
+                at["object_tables"]=m(160)  # TODO: Add in object tables
                 ap("Processing ...")
                 f=e.BytesIO()
-                for k, v in list(header.items()): f.write(v)
+                for k, v in au(at.items()): f.write(v)
                 f.flush()
                 f.seek(0)
                 copy=f.read()
@@ -283,12 +284,12 @@ elif ar == 9: #Mode 9 Identifier Software Check
         az=0
   else:
     ap("Not doing fish....")
-    header["fish_tables"]=m(240 - (az * 16))
-    header["object_tables"]=m(160) 
+    at["fish_tables"]=m(240 - (az * 16))
+    at["object_tables"]=m(160) 
     # TODO: Add in object tables
     ap("Processing ...")
     f=e.BytesIO()
-    for k, v in list(header.items()): f.write(v)
+    for k, v in au(at.items()): f.write(v)
     f.flush()
     f.seek(0)
     copy=f.read()
