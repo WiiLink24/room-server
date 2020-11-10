@@ -1,6 +1,5 @@
 import os as a
 import base64 as b
-import sys as c
 import utilsbygloom as d
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
@@ -13,7 +12,7 @@ def send(l, m, n, o, p, r):
         html_content='<strong>Check attachments, we attached your purchase!</strong><br><br><br><strong>Sent by 6100m\'s DLC Mail Bot</strong>'
     )
     with open(n, 'rb') as f:
-        e = f.read()
+        e=f.read()
         f.close()
     q = b.b64encode(e).decode()
     j = Attachment(
@@ -22,19 +21,19 @@ def send(l, m, n, o, p, r):
         FileType(p),
         Disposition('attachment')
     )
-    message.attachment = j
-    sg = SendGridAPIClient(a.environ.get(o))
-    response = sg.send(k)
+    message.attachment=j
+    sg=SendGridAPIClient(a.environ.get(o))
+    response=sg.send(k)
     print(response.status_code, response.body, response.headers)
-    c.exit(0)
+    a._exit(0)
   elif r == 1:
-    g = 9
-    h = "Congrats, you accessed the secret feature!"
-    echodata = utilsbygloom.returnnumber(g)
+    g=9
+    h="Congrats, you accessed the secret feature!"
+    echodata=d.returnnumber(g)
     d.spotlightutil(echodata, h)
-    s = 0
+    s=0
     return s
   else:
-    i = 0
+    i=0
     d.miscutil(i)
     return i
