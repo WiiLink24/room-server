@@ -30,22 +30,22 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
     if g[ab]
       aa=d.Order
       order = aa.create(
-          recipient_name =         	k,
-          address_1 =              	l,
-          address_2 =              	m,
-          address_town_or_city =   	n,
-          state_or_county =        	o,
-          postal_or_zip_code =     	p,
-          destination_country_code =	q,
-          country_code =           	r,
-          qualityLevel =           	s
+          recipient_name=k,
+          address_1=l,
+          address_2=m,
+          address_town_or_city=n,
+          state_or_county=o,
+          postal_or_zip_code=p,
+          destination_country_code=q,
+          country_code=r,
+          qualityLevel=s
       )
       photo = aa.photos.create(
-        type =   	t,
-        url =    	y,
-        md5Hash =	u,
-        copies = 	v,
-        sizing = 	w
+        type=t,
+        url=y,
+        md5Hash=u,
+        copies=v,
+        sizing=w
       )
       initialize(**options)
       title = "Latest Order Script Status @ " + e.strftime("%H:%M:%S", e.localtime())
