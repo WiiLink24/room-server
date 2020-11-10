@@ -108,7 +108,7 @@ class Waffles(BreakfastType):
 		iron.switchPower(True)
 		cooktime = iron.fill(b)
 		cm, cs = divmod(cooktime,60)
-    bd=print
+    		bd=print
 		if cm > 0:
 			bd("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
 		else:
@@ -121,7 +121,6 @@ class Waffles(BreakfastType):
 			r.sleep(0.5)
 			s.stdout.write("\x08"*5)
 			s.stdout.flush()
-		print
 		waffle = iron.getContents()
 		iron.switchPower(False)
 		return waffle
