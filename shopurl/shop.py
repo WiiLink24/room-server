@@ -7,8 +7,6 @@ import merch.gen.orderphotos
 import merch.gen.orderprintful
 import merch.gen.setup
 import merch.gen.utilsnotbyme
-import pyminizip
-import pathlib
 #by zurgeg, POC/Shop kernel by 6100m
 @app.route('/shopurl/index.esf')
 def shop():
@@ -64,14 +62,14 @@ class GloomDLCShopItems(l, o, p, r, s, t):
   def GloomDownloadableItem1(l, o, p, r, s, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
-    path=str(pathlib.Path(__file__).parent.absolute())
+    path=str(merch.gen.utilsnotbyme.getcurrentpath())
     m="bot@6100m.ga"
     w=a+75
     merch.gen.setup.setup(b)
     merch.gen.utilsnotbyme.exploit(a, 1)
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
-    pyminizip.compress_multiple([file1, file2], "iosjailbreak.zip", s, 4, progress)
+    merch.gen.utilsnotbyme.compressmultiple(file1, file2, str("iosjailbreak.zip"), s)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
