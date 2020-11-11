@@ -50,8 +50,8 @@ if ar==0: #Mode 0 Identifier Software Check
     'api_key': ap,
     'app_key': aq
   }
-  saveoptionsar=open(options.dat, 'wb')
-  c.dump(options, saveoptionsar)
+  ca=open(options.dat, 'wb')
+  c.dump(options, ca)
   av(0)
 elif ar==1: #Mode 1 Identifier Software Check
   am=open("tables.txt", y)
@@ -200,43 +200,43 @@ elif ar==9: #Mode 9 Identifier Software Check
   ap("By John Pansera / Version 1.0\n")
   ap("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
   ab=aa.randint
-  aquarium_size=ab(0, 2) #My Aquarium Tank Size Offset
-  glass_type=ab(0, 5) #My Aquarium Glass Size Offset
-  floor_type=ab(0, 4) #My Aquarium Floor Type Offset
-  background_type=ab(0, 4) #My Aquarium Background Type Offset
-  light_type=ab(0, 6) #My Aquarium Light Type Offset
-  ak1_month=ab(1, 12) #My Aquarium Special Date 1 Month Offset
-  ak1_day=ab(1, 31) #My Aquarium Special Date 1 Day Offset
-  ak2_month=ab(1, 12) #My Aquarium Special Date 2 Month Offset
-  ak2_day=ab(1, 31) #My Aquarium Special Date 2 Day Offset
-  ak3_month=ab(1, 12) #My Aquarium Special Date 3 Month Offset
-  ak3_day=ab(1, 31) #My Aquarium Special Date 3 Day Offset
-  decisionoffset=ab(1, 101) #My Aquarium Add Fish Decisional Offset
-  maximumfish=ab(1, 15) #My Aquarium Maximum Fish Offset
-  ay=ag(decisionoffset) #Obsufcates variable to be shorter via aliasing
-  az=ag(maximumfish) #Converts the My Aquarium Maximum Fish Offset to a ageger
+  cb=ab(0, 2) #My Aquarium Tank Size Offset
+  cd=ab(0, 5) #My Aquarium Glass Size Offset
+  ce=ab(0, 4) #My Aquarium Floor Type Offset
+  cf=ab(0, 4) #My Aquarium Background Type Offset
+  cg=ab(0, 6) #My Aquarium Light Type Offset
+  ch=ab(1, 12) #My Aquarium Special Date 1 Month Offset
+  ci=ab(1, 31) #My Aquarium Special Date 1 Day Offset
+  cj=ab(1, 12) #My Aquarium Special Date 2 Month Offset
+  ck=ab(1, 31) #My Aquarium Special Date 2 Day Offset
+  cl=ab(1, 12) #My Aquarium Special Date 3 Month Offset
+  cm=ab(1, 31) #My Aquarium Special Date 3 Day Offset
+  cn=ab(1, 101) #My Aquarium Add Fish Decisional Offset
+  co=ab(1, 15) #My Aquarium Maximum Fish Offset
+  ay=ag(cn) #Obsufcates variable to be shorter via aliasing
+  az=ag(co) #Converts the My Aquarium Maximum Fish Offset to a ageger
   bb=au(ab(1, 40))
   av=h.OrderedDict()
   av["unknown"]=j(0)  # Version?
-  av["aquarium_size"]=j(ag(aquarium_size))
-  av["glass_type"]=j(ag(glass_type))
-  av["floor_type"]=j(ag(floor_type))
-  av["background_type"]=j(ag(background_type))
-  av["light_type"]=j(ag(light_type))
+  av["cb"]=j(ag(cb))
+  av["cd"]=j(ag(cd))
+  av["ce"]=j(ag(ce))
+  av["cf"]=j(ag(cf))
+  av["cg"]=j(ag(cg))
   av["unknown_1"]=q(0)
   av["breeding_date_counter"]=l(0)
   av["unknown_date_counter"]=l(0)
   av["special_date_1_padding"]=j(0)
-  av["special_date_1_month"]=j(ag(ak1_month))
-  av["special_date_1_day"]=j(ag(ak1_day))
+  av["special_date_1_month"]=j(ag(ch))
+  av["special_date_1_day"]=j(ag(ci))
   av["special_date_1_padding_1"]=j(0)
   av["special_date_2_padding"]=j(0)
-  av["special_date_2_month"]=j(ag(ak2_month))
-  av["special_date_2_day"]=j(ag(ak2_day))
+  av["special_date_2_month"]=j(ag(cj))
+  av["special_date_2_day"]=j(ag(ck))
   av["special_date_2_padding_2"]=j(0)
   av["special_date_3_padding"]=j(0)
-  av["special_date_3_month"]=j(ag(ak3_month))
-  av["special_date_3_day"]=j(ag(ak3_day))
+  av["special_date_3_month"]=j(ag(cl))
+  av["special_date_3_day"]=j(ag(cm))
   av["special_date_3_padding_1"]=j(0)
   data=utilsnotbyme.check(ay)
   if data=="even":
@@ -270,7 +270,7 @@ elif ar==9: #Mode 9 Identifier Software Check
                 bb="a0014682.dat"
                 bc=r["nwcs_path_data"]
                 bd=str(path) + "/" + str(bb)
-                ac.rename("bd", "bc")
+                ac.rename(bd, bc)
                 ap(aw)
                 ap("Completed Successfully")
                 av(0)
@@ -304,7 +304,7 @@ elif ar==9: #Mode 9 Identifier Software Check
     bb="a0014682.dat"
     bc=r["nwcs_path_data"]
     bd=str(path) + "/" + str(bb)
-    ac.rename("bd", "bc")
+    ac.rename(bd, bc)
     ap(aw)
     ap("Completed Successfully")
     av(0)
