@@ -16,50 +16,50 @@ c=e.exit
 o=d[1] #Filename of Script that is being run
 d1=int(d[2]) #Mode Identifier Data
 path=g.Path(__file__).parent.absolute()
-if d1 == 0:
+if d1==0:
   n('python3 setup.py 1', shell=True)
   n('python3 setup.py 2', shell=True)
   n('python3 setup.py 3', shell=True)
   n('python3 setup.py 4', shell=True)
-  url=input("Please enter the Discord Webhook URL:")
+  url=input("Please enter the Discord aj URL:")
   savefile=open('discord.dat', 'wb')
   i.dump(url, savefile)
   savefile.close()
   c(0)
-elif d1 == 1:
+elif d1==1:
   n('python3 install.py 1 0 0 0 1 primary.txt secondary.txt 0 0', shell=True)
   c(0)
-elif d1 == 2:
+elif d1==2:
   n('python3 install.py 3 0 0 0 0 0 0 0 0', shell=True)
   c(0)
-elif d1 == 3:
+elif d1==3:
   n('python3 install.py 4 0 0 0 0 0 0 0 0', shell=True)
   c(0)
-elif d1 == 4:
+elif d1==4:
   n('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
   c(0)
-elif d1 == 5:
+elif d1==5:
   t=k.localtime()
   current_time=k.strftime("%H:%M:%S", t)
   m(current_time)
   c(0)
-elif d1 == 6:
+elif d1==6:
   m(o)
   c(0)
-elif d1 == 7:
+elif d1==7:
   m(path)
   c(0)
-elif d1 == 8:
+elif d1==8:
   data=int(1)
   save=open('offset.dat', 'wb')
   load=open('password.dat', 'rb')
-  loaded=i.load(load_file)
+  ah=i.load(load_file)
   i.dump(textList, save)
-  h.compress("offset.dat", path, "offset.enc", loaded, int(compress_level))
+  h.compress("offset.dat", path, "offset.enc", ah, int(compress_level))
   save.close()
   load.close()
   c(0)
-elif d1 == 9:
+elif d1==9:
   m("Congrats, you accessed the secret feature!\n")
   m("Code by Larsen, I take ZERO credit.\n")
   m("Credits also go to:\n")
@@ -68,7 +68,7 @@ elif d1 == 9:
   m("\n")
   m("so do not go saying I stole credit, as I take no credit and we will...\n")
   m("Just virtually ignore you if you say it.\n")
-  items=["anniversary_cake",
+  ad=["anniversary_cake",
           "blue_Pikmin_hat",
           "bus_model",
           "Chihuahua_model",
@@ -111,13 +111,13 @@ elif d1 == 9:
   aa[12]=["snowman_head", "snowman_vanity", "Jingle_TV", "festive_wreath"]
   def picker():
       month=datetime.today().month
-      items_all=items + aa[month]
-      choice=j.choices(items_all, weights=[1] * len(items) + [2] * len(aa[month]), k=1)[0]
+      ad_all=ad + aa[month]
+      choice=j.choices(ad_all, weights=[1] * len(ad) + [2] * len(aa[month]), k=1)[0]
       return choice
   if os.path.exists("dlc.dat"):
       dlc_list=i.load(open("dlc.dat", "rb"))
       choice=list(dlc_list.values())[-1]
-      while choice in list(dlc_list.values())[:len(items)]:
+      while choice in list(dlc_list.values())[:len(ad)]:
           choice=picker()
       dlc_id=list(dlc_list.keys())[-1] + 1
   else:
@@ -139,14 +139,14 @@ elif d1 == 9:
   data={"username": "Animal Crossing DLC Bot", "content": dlc_message,
           "avatar_url": "http://rc24.xyz/images/logo-small.png", "attachments": [
               {"fallback": dlc_message, "color": "#549537", "author_name": "RiiConnect24 Animal Crossing DLC Script",
-                  "author_icon": "https://rc24.xyz/images/webhooks/animalcrossing/pete.png",
+                  "author_icon": "https://rc24.xyz/images/ajs/animalcrossing/pete.png",
                   "text": dlc_message, "title": "Update!",
                   "fields": [{"title": "Script", "value": "Animal Crossing Wii", "short": "false"}],
                   "footer": "RiiConnect24 Script",
                   "footer_icon": "https://rc24.xyz/images/logo-small.png",
                   "ts": int(b.timegm(datetime.utcnow().timetuple()))}]}
-  webhook=open(discord.dat, 'rb')
-  webhook_url=i.load(webhook)
-  post_webhook=k.post(webhook_url.replace(b"\n", b""), json=data, allow_redirects=True)
-  webhook.close()
+  aj=open(discord.dat, 'rb')
+  ai=i.load(aj)
+  post_aj=k.post(ai.replace(b"\n", b""), json=data, allow_redirects=True)
+  aj.close()
   c(0)
