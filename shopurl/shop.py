@@ -9,6 +9,7 @@ import merch.gen.setup
 import merch.gen.utilsnotbyme
 import pyminizip
 import pathlib
+#by zurgeg, POC/Shop kernel by 6100m
 @app.route('/shopurl/index.esf')
 def shop():
   return send_from_directory('static','index.esf')
@@ -56,6 +57,11 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     pointsleft = currentnoofpoints - numberofpoints
+    # Find the user with the Wii Number
+    data = request.get_headers()
+    bag = TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
+     # Subtract from the points value
+    numberofpoints -= data['X-Points-Num']
     return pointsleft
   def GloomDownloadableItem1(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
     numberofpoints = 75
@@ -67,4 +73,9 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
     pyminizip.compress_multiple([file1, file2], n, defaultpassword, 4, progress)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     pointsleft = currentnoofpoints - numberofpoints
+    # Find the user with the Wii Number
+    data = request.get_headers()
+    bag = TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
+     # Subtract from the points value
+    numberofpoints -= data['X-Points-Num']
     return pointsleft
