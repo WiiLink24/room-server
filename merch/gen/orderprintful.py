@@ -6,7 +6,7 @@ import printful as e
 import pprint as i
 import pyminizip as g
 import random as ah
-import datetime as ai
+import datetime as ak
 from datadog import (
   initialize,
   api,
@@ -120,7 +120,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
       else:
         response = c.request('time.cloudflare.com', version=3)
       response.offset
-      aj = str(ai.fromtimestamp(response.v, timezone.w)))
+      aj = str(ak.fromtimestamp(response.v, timezone.w)))
       ag = "Latest Order Script Status @ " + aj
       ah = 'Order Script for Printful was ran!'
       ai = ['version:1', 'application:python']
