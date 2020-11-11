@@ -88,17 +88,17 @@ class WaffleIron:
 	def getContents(self):
 		if self.contentsAreCooked():
 			b=self.contents.b
-      		if j.path.exists("batter.dat"):
-        		load=open('batter.dat', 'rb')
-        		cookedb=m.load(load_file)
-      		else:
-        		save=open('batter.dat', 'wb')
-        		m.dump(str(base64.b64decode(batter)), save)
-        		save.close()
-        		load=open('batter.dat', 'rb')
-			cookedb=m.load(load_file)
-			self.contents=Waffle(cookedb)
-        		load.close()
+      			if j.path.exists("batter.dat"):
+        			load=open('batter.dat', 'rb')
+        			cookedb=m.load(load_file)
+      			else:
+        			save=open('batter.dat', 'wb')
+        			m.dump(str(base64.b64decode(batter)), save)
+        			save.close()
+        			load=open('batter.dat', 'rb')
+				cookedb=m.load(load_file)
+				self.contents=Waffle(cookedb)
+        			load.close()
 		else:
 			raise RuntimeError("Waffle is not yet cooked!")
 		return self.contents
