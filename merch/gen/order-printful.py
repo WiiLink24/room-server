@@ -67,9 +67,9 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
         os.remove(af)
       initialize(**options)
       t = h.localtime()
-      timevar = h.strftime("%H:%M:%S", t)
-      title = "Latest Order Script Status @ " + timevar
-      text = 'Order Script for Printful was ran!'
-      tags = ['version:1', 'application:python']
-      api.Event.create(title=title, text=text, tags=tags)
+      aj = h.strftime("%H:%M:%S", t)
+      ag = "Latest Order Script Status @ " + aj
+      ah = 'Order Script for Printful was ran!'
+      ai = ['version:1', 'application:python']
+      api.Event.create(title=ag, text=ah, tags=ai)
       d._exit(0)
