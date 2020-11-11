@@ -1,5 +1,4 @@
 import sys as a
-import pathlib as af
 import pickle as c
 import random as as aa
 import io as e
@@ -19,7 +18,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	n=ad.setup_log
 	o=ad.log
 	q=ad.u16
-	path=af.Path(__file__).parent.absolute()
+	path=j.getcwd()
 	with open("./config.json", "rb") as f:
 	    r=p.load(f)
 	if r["production"] and r["send_logs"]:
