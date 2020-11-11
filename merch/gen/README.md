@@ -6,7 +6,6 @@ Write stickers script
 Port install.py to python3
 Automate the hash generation process
 Implement encryption of dat files.
-Minify scripts with one-letter and two-letter variables to make it optimized
 Debug and fix all errors
 ```
 To setup the purely configurable enviroment 6100m made, simply do this command.<br>
