@@ -51,22 +51,22 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
     m="bot@6100m.ga"
-    numberofpoints=a+50
-    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
+    w=a+50
+    v=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
-    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
-    numberofpoints-=data['X-Points-Num']
-    u=t-numberofpoints
+    w-=data['X-Points-Num']
+    u=t-w
     return u
   def GloomDownloadableItem1(l, o, p, r, s, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
     path=str(pathlib.Path(__file__).parent.absolute())
     m="bot@6100m.ga"
-    numberofpoints=a+75
+    w=a+75
     merch.gen.setup.setup(b)
     merch.gen.utilsnotbyme.exploit(a, 1)
     file1=str(path)+"/"+"exploit.php"
@@ -75,19 +75,19 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, t):
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
-    numberofpoints-=data['X-Points-Num']
-    u = t - numberofpoints
+    w-=data['X-Points-Num']
+    u=t-w
     return u
 class GloomSDKTasks(k, l, m, n, o, p, q, r, s, t, u):
   def orderphotos(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
-    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
+    vt=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
-    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.orderphotos.orderphotos(k, l, m, n, o, p, q, r, s, t, u)
   def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
-    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
+    v=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
-    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.orderprintful.orderprintful(k, l, m, n, o, p, q, r, s, t, u)
