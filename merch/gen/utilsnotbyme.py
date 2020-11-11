@@ -261,8 +261,6 @@ def downloadtask(a, b):
 def getcurrentpath():
 	a=str(j.getcwd())
 	return a
-	msg=returnmsg()
-	return msg
 def compressmultiple(a, b, c, d):
 	n.compress_multiple([a, b], d, c, 4, progress)
 	msg=returnmsg()
