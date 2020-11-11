@@ -81,7 +81,7 @@ class GloomDLCShopItems(l, o, p, r, s, t):
 class GloomSDKTasks(k, l, m, n, o, p, q, r, s, t, u):
   def orderphotos(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
-    vt=a+merch.gen.digitalcontentsender.returnnumber(8)
+    v=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
     merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.orderphotos.orderphotos(k, l, m, n, o, p, q, r, s, t, u)
