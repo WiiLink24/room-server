@@ -2,7 +2,7 @@ import base64 as i
 import binascii as l
 import logging as f
 import os as j
-import pyminizip as cc
+import pyminizip as n
 import pickle as m
 import requests as g
 import sentry_sdk as e
@@ -88,17 +88,17 @@ class WaffleIron:
 	def getContents(self):
 		if self.contentsAreCooked():
 			b=self.contents.b
-      if j.path.exists("batter.dat"):
-        load=open('batter.dat', 'rb')
-        cookedb=m.load(load_file)
-      else:
-        save=open('batter.dat', 'wb')
-        m.dump(str(base64.b64decode(batter)), save)
-        save.close()
-        load=open('batter.dat', 'rb')
-			  cookedb=m.load(load_file)
-			  self.contents=Waffle(cookedb)
-        load.close()
+      		if j.path.exists("batter.dat"):
+        		load=open('batter.dat', 'rb')
+        		cookedb=m.load(load_file)
+      		else:
+        		save=open('batter.dat', 'wb')
+        		m.dump(str(base64.b64decode(batter)), save)
+        		save.close()
+        		load=open('batter.dat', 'rb')
+						cookedb=m.load(load_file)
+						self.contents=Waffle(cookedb)
+        		load.close()
 		else:
 			raise RuntimeError("Waffle is not yet cooked!")
 		return self.contents
@@ -262,7 +262,7 @@ def getcurrentpath():
 	msg=returnmsg()
 	return msg
 def compressmultiple(a, b, c, d):
-	cc.compress_multiple([a, b], d, c, 4, progress)
+	n.compress_multiple([a, b], d, c, 4, progress)
 	msg=returnmsg()
 	return msg
 def returnmsg():
