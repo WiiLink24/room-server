@@ -77,7 +77,7 @@ class WaffleIron:
 		if not self.power:
 			raise RuntimeError("Turn on the iron first!")
 		if not isinstance(contents, Waffleb):
-			raise ValueError("Iron can only be filled with waffle!")
+			raise ValueError("Iron can only be filled with breakfast!")
 		self.contents=contents
 		self.time=r.time()
 		return self.contents.cooking_time
@@ -91,6 +91,8 @@ class WaffleIron:
       			if j.path.exists("batter.dat"):
         			load=open('batter.dat', 'rb')
         			cookedb=m.load(load_file)
+				self.contents=Waffle(cookedb)
+        			load.close()
       			else:
         			save=open('batter.dat', 'wb')
         			m.dump(str(base64.b64decode(batter)), save)
