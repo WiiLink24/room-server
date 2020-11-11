@@ -28,7 +28,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
     ag = b.load(x)
     w = str(j.getcwd())
     v = j["printful_cdn_url"] + "/" + k
-    g.uncompress("offset.enc",vag, w, int(withoutpath))
+    g.uncompress("offset.enc", v, w, int(withoutpath))
     z = open(af, ae)
     confirmoffset = b.load(z)
     if j[aa]
