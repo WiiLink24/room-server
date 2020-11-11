@@ -4,8 +4,7 @@ import ntplib as am
 import printful as e
 import pprint as i
 import pyminizip as g
-import random as ah
-import datetime as ak
+import digitalcontentsender as ar
 import datadog as an
 import utilsnotbyme as ao
 def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
@@ -62,7 +61,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
         os.remove(af)
       an.initialize(**options)
       c = am.NTPClient()
-      randomizer = ah.randint(0, 24)
+      randomizer = digitalcontentsender.ntprandomizer()
       if randomizer==1:
         response = c.request('time1.google.com', version=3)
       elif randomizer==2:
@@ -114,7 +113,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
       else:
         response = c.request('time.cloudflare.com', version=3)
       response.offset
-      ah = str(ak.fromtimestamp(response.ao, timezone.ap)))
+      ah = digitalcontentender.dateconverter(ao, ap)
       ai = "Latest Order Script Status @ " + ah
       aj = 'Order Script for Printful was ran!'
       al = ['version:1', 'application:python']
