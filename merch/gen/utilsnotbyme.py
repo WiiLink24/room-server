@@ -7,7 +7,6 @@ import pickle as m
 import requests as g
 import sentry_sdk as e
 import struct as a
-import sys as s
 import time as r
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
 h=False
@@ -127,11 +126,9 @@ class Waffles(BreakfastType):
 		while not iron.contentsAreCooked():
 			left=iron.getTimeLeft()
 			m,s=divmod(left+0.99,60)
-			s.stdout.write("%02d:%02d"%(m,s))
-			s.stdout.flush()
+			o("%02d:%02d"%(m,s))
 			r.sleep(0.5)
-			s.stdout.write("\x08"*5)
-			s.stdout.flush()
+			o("\x08"*5)
 			waffle=iron.getContents()
 			iron.switchPower(h)
 			return waffle
