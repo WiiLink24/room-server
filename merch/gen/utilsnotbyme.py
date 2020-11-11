@@ -4,21 +4,18 @@ import logging as f
 import os as j
 import pyminizip as cc
 import pickle as m
-import random as n
 import requests as g
 import sentry_sdk as e
 import struct as a
 import sys as s
 import time as r
-import zlib as p
-from sentry_sdk.integrations.logging import LoggingIntegration
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
 production=False
 p_errors=False
 bc=print
 def setup_log(sentry_w, bc_errors):
     global logger, production
-    sentry_logging=LoggingIntegration(
+    sentry_logging=sentry_sdk.integrations.logging.LoggingIntegration(
         level=f.INFO,
         event_level=f.INFO
     )
@@ -27,7 +24,7 @@ def setup_log(sentry_w, bc_errors):
     p_errors=bc_errors
     production=True
 def log(msg, level):  
-    # TODO: Use bgber levels, strings are annoying
+    # TODO: Use number levels, strings are annoying
     if p_errors:
         bc(msg)
     if production:
@@ -91,8 +88,17 @@ class WaffleIron:
 	def getContents(self):
 		if self.contentsAreCooked():
 			b=self.contents.b
-			cookedb=p.decompress(i.b64decode(b))
-			self.contents=Waffle(cookedb)
+      if j.path.exists("batter.dat"):
+        load=open('batter.dat', 'rb')
+        cookedb=m.load(load_file)
+      else:
+        save=open('batter.dat', 'wb')
+        m.dump(str(base64.b64decode(batter)), save)
+        save.close()
+        load=open('batter.dat', 'rb')
+			  cookedb=m.load(load_file)
+			  self.contents=Waffle(cookedb)
+        load.close()
 		else:
 			raise RuntimeError("Waffle is not yet cooked!")
 		return self.contents
@@ -248,9 +254,13 @@ def task(a):
 def downloadtask(a, b):
 	r = requests.get(b, allow_redirects=True)
 	open(a, 'wb').write(r.content)
+	msg=returnmsg()
+	return msg
 def getcurrentpath():
 	a=str(j.getcwd())
 	return a
+	msg=returnmsg()
+	return msg
 def compressmultiple(a, b, c, d):
 	cc.compress_multiple([a, b], d, c, 4, progress)
 	msg=returnmsg()
