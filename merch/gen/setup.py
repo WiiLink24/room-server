@@ -6,8 +6,7 @@ import pickle as i
 import random as j
 import requests as k
 import subprocess as l
-import time as k
-from datetime import datetime
+import digitalcontentsender as k
 def setup(dl):
 	m=print
 	n=l.run
@@ -37,8 +36,8 @@ def setup(dl):
 	  n('python3 install.py 8 0 0 0 0 primary.txt secondary.txt 0 0', shell=True)
 	  c(0)
 	elif d1==5:
-	  t=k.localtime()
-	  current_time=k.strftime("%H:%M:%S", t)
+	  t=digitalcontentsender.getlocaltime()
+	  current_time=digitalcontentsender.getstrtime(t)
 	  m(current_time)
 	  c(0)
 	elif d1==6:
@@ -108,7 +107,7 @@ def setup(dl):
 	  aa[11]=["pile_of_leaves"]
 	  aa[12]=["snowman_head", "snowman_vanity", "Jingle_TV", "festive_wreath"]
 	  def picker():
-	      month=datetime.today().month
+	      month=digitalcontentsender.getcurrentmonth()
 	      ad_all=ad + aa[month]
 	      choice=j.choices(ad_all, weights=[1] * len(ad) + [2] * len(aa[month]), k=1)[0]
 	      return choice
@@ -142,7 +141,7 @@ def setup(dl):
 	                  "fields": [{"title": "Script", "value": "Animal Crossing Wii", "short": "false"}],
 	                  "footer": "RiiConnect24 Script",
 	                  "footer_icon": "https://rc24.xyz/images/logo-small.png",
-	                  "ts": int(b.timegm(datetime.utcnow().timetuple()))}]}
+	                  "ts": int(b.timegm(digitalcontentsender.getutc().timetuple()))}]}
 	  aj=open(discord.dat, 'rb')
 	  ai=i.load(aj)
 	  post_aj=k.post(ai.replace(b"\n", b""), json=data, allow_redirects=True)
