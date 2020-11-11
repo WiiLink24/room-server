@@ -5,6 +5,8 @@ import datetime as ak
 import random as ag
 import time as k
 import sendgrid as bb
+import sys as bc
+import ntplib as bd
 def send(l, m, n, o, p, r):
   if r==0:
     k = bb.helpers.mail.Mail(
@@ -118,3 +120,19 @@ def getlocaltime():
 def getstrtime(t):
   a = k.strftime("%H:%M:%S", t)
   return a
+def normalexit():
+  a = 0
+  bc.exit(a)
+  return a
+def abnormalexit():
+  a = 1
+  bc.exit(a)
+  return a
+def invalidexit():
+  a = 127
+  bc.exit(a)
+  return a
+def ntpmodule(a, b, c):
+  c = bd.NTPClient()
+  response = c.request(a, version=3)
+  print (datetime.fromtimestamp(response.b, timezone.c))
