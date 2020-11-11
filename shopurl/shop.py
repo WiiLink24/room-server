@@ -53,7 +53,7 @@ class GloomDLCShopItems(l, o, p, r, s, t):
     v=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
     merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
-    merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
+    merch.gen.digitalcontentsender.send(l, m, str("a0014682.dat"), o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
     w-=data['X-Points-Num']
