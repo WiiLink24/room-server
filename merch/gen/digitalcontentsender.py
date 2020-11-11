@@ -3,6 +3,7 @@ import base64 as b
 import utilsnotbyme as d
 import datetime as ak
 import random as ag
+import time as k
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
 def send(l, m, n, o, p, r):
@@ -105,4 +106,16 @@ def dateconverter(a, b):
   return c
 def ntprandomizer():
   a = ag.randint(0, 24)
+  return a
+def getcurrentmonth():
+  a = ak.today().month
+  return a
+def getutc()
+  a = datetime.utcnow()
+  return a
+def getlocaltime():
+  a = k.localtime()
+  return a
+def getstrtime(t):
+  a = k.strftime("%H:%M:%S", t)
   return a
