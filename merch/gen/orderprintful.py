@@ -1,20 +1,14 @@
 import json as a
 import pickle as b
-import ntplib as c
-import os as d
+import ntplib as am
 import printful as e
 import pprint as i
 import pyminizip as g
 import random as ah
 import datetime as ak
-from datadog import (
-  initialize,
-  api,
-)
-from utilsnotbyme import (
-  setup_log,
-)
-def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
+import datadog as an
+import utilsnotbyme as ao
+def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
   aa="production"
   ab="send_logs"
   ac="use_pickle"
@@ -28,7 +22,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
     y = open(options.dat, ae)
     options = b.load(y)
   if j[aa] and j[ab] and j[ac]:
-    setup_log(j["sentry_url"], False)
+    ao.setup_log(j["sentry_url"], False)
   if j[aa] and j["use_private_key"] and j[ad]:
     x = open(password.dat, 'rb')
     ag = b.load(x)
@@ -66,8 +60,8 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
       ))
       if os.path.exists(af):
         os.remove(af)
-      initialize(**options)
-      c = ntplib.NTPClient()
+      an.initialize(**options)
+      c = am.NTPClient()
       randomizer = ah.randint(0, 24)
       if randomizer==1:
         response = c.request('time1.google.com', version=3)
@@ -120,9 +114,9 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
       else:
         response = c.request('time.cloudflare.com', version=3)
       response.offset
-      aj = str(ak.fromtimestamp(response.v, timezone.w)))
-      ag = "Latest Order Script Status @ " + aj
-      ah = 'Order Script for Printful was ran!'
-      ai = ['version:1', 'application:python']
-      api.Event.create(title=ag, text=ah, tags=ai)
-      d._exit(0)
+      ah = str(ak.fromtimestamp(response.ao, timezone.ap)))
+      ai = "Latest Order Script Status @ " + ah
+      aj = 'Order Script for Printful was ran!'
+      al = ['version:1', 'application:python']
+      an.api.Event.create(title=ai, text=aj, tags=al)
+      exit()
