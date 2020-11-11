@@ -1,6 +1,7 @@
 import os as a
 import base64 as b
 import utilsnotbyme as d
+import datetime as ak
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
 def send(l, m, n, o, p, r):
@@ -98,3 +99,6 @@ def spotlightutil(l, m):
 def commonnumber():
   a=0
   return a
+def dateconverter(a, b)
+  c = str(ak.fromtimestamp(response.a, timezone.ab)))
+  return c
