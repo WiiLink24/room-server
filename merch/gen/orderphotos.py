@@ -21,7 +21,8 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap):
       h = open(options.dat, z)
       options = b.load(h)
     else:
-      i.log("options.dat does not exist!! %s" % b, "CRITICAL")
+      bb = "Uh-oh!"
+      i.log("options.dat does not exist!! %s" % bb, "CRITICAL")
   if g[ab] and g[ac] and g[ad]:
     i.setup_log(g["sentry_url"], False)
   if g[ab] and g["use_private_key"] and g[ae]:
