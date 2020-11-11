@@ -83,9 +83,13 @@ class GloomSDKTasks(k, l, m, n, o, p, q, r, s, t, u):
     merch.gen.setup.setup(b)
     merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.orderphotos.orderphotos(k, l, m, n, o, p, q, r, s, t, u)
+    w=merch.gen.utilsnotbyme.returnmsg()
+    return w
   def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
     v=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup.setup(b)
     merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.orderprintful.orderprintful(k, l, m, n, o, p, q, r, s, t, u)
+    w=merch.gen.utilsnotbyme.returnmsg()
+    return w
