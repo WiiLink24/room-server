@@ -10,8 +10,10 @@ import struct as a
 import sys as s
 import time as r
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
-production=False
-p_errors=False
+h=False
+k=True
+production=h
+p_errors=h
 o=print
 def setup_log(sentry_w, o_errors):
     global logger, production
@@ -22,7 +24,7 @@ def setup_log(sentry_w, o_errors):
     e.init(dsn=sentry_w, integrations=[sentry_logging])
     logger=f.getLogger(__name__)
     p_errors=o_errors
-    production=True
+    production=k
 def log(msg, level):  
     # TODO: Use number levels instead of strings
     if p_errors:
@@ -66,10 +68,10 @@ class Waffle:
 		file.write(self.waffle)
 class WaffleIron:
 	def __init__(self):
-		self.power=False
+		self.power=h
 		self.time=0
-		self.full=False
-		self.contents=False
+		self.full=h
+		self.contents=h
 		pass
 	def switchPower(self, power):
 		self.power=power
@@ -113,7 +115,7 @@ class Waffles(BreakfastType):
 	def make(self):
 		b=Waffleb()
 		iron=WaffleIron()
-		iron.switchPower(True)
+		iron.switchPower(k)
 		cooktime=iron.fill(b)
 		cm, cs=divmod(cooktime,60)
 		if cm>0:
@@ -130,7 +132,7 @@ class Waffles(BreakfastType):
 			s.stdout.flush()
 		o
 		waffle=iron.getContents()
-		iron.switchPower(False)
+		iron.switchPower(h)
 		return waffle
 class BreakfastMaker:
 	preferredBreakfasts={'bushing':Waffles}
@@ -229,7 +231,7 @@ def pre(a):
 def credits(a):
     a = "credits:\n"
     b = a + "base64 implmentation by fmw42\n"
-    c = b + "hex implementation by falsetru\n"
+    c = b + "hex implementation by htru\n"
     d = c + "file to hex implementation by ShadowRanger\n"
     e = d + "urllib3 downloading implementation by shazrow\n"
     f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
@@ -251,7 +253,7 @@ def task(a):
     run()
     j._exit(0)
 def downloadtask(a, b):
-	r = requests.get(b, allow_redirects=True)
+	r = requests.get(b, allow_redirects=k)
 	open(a, 'wb').write(r.content)
 	msg=returnmsg()
 	return msg
