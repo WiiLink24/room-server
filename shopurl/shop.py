@@ -45,8 +45,9 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
-class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword):
-  def GloomDownloadableItem0(dl, l, m, o, p, r, defaultpassword):
+class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
+  def GloomDownloadableItem0(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
+    numberofpoints = 50
     merch.gen.setup(dl)
     nulloffset = 0
     modeoffset = nulloffset + 9
@@ -54,7 +55,10 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword):
     n = "a0014682.dat"
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
-  def GloomDownloadableItem1(dl):
+    pointsleft = currentnoofpoints - numberofpoints
+    return pointsleft
+  def GloomDownloadableItem1(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
+    numberofpoints = 75
     merch.gen.setup(dl)
     nulloffset = 0
     modeoffset = nulloffset + 9
@@ -66,3 +70,5 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword):
     pyminizip.compress_multiple([file1, file2], n, defaultpassword, 4, progress)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
+    pointsleft = currentnoofpoints - numberofpoints
+    return pointsleft
