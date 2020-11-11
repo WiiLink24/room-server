@@ -223,36 +223,36 @@ elif ar==9: #Mode 9 Identifier Software Check
   av["ce"]=j(ag(ce))
   av["cf"]=j(ag(cf))
   av["cg"]=j(ag(cg))
-  av["unknown_1"]=q(0)
-  av["breeding_date_counter"]=l(0)
-  av["unknown_date_counter"]=l(0)
-  av["special_date_1_padding"]=j(0)
-  av["special_date_1_month"]=j(ag(ch))
-  av["special_date_1_day"]=j(ag(ci))
-  av["special_date_1_padding_1"]=j(0)
-  av["special_date_2_padding"]=j(0)
-  av["special_date_2_month"]=j(ag(cj))
-  av["special_date_2_day"]=j(ag(ck))
-  av["special_date_2_padding_2"]=j(0)
-  av["special_date_3_padding"]=j(0)
-  av["special_date_3_month"]=j(ag(cl))
-  av["special_date_3_day"]=j(ag(cm))
-  av["special_date_3_padding_1"]=j(0)
+  av["cq"]=q(0)
+  av["cr"]=l(0)
+  av["cs"]=l(0)
+  av["ct"]=j(0)
+  av["cu"]=j(ag(ch))
+  av["cv"]=j(ag(ci))
+  av["ct_1"]=j(0)
+  av["cw"]=j(0)
+  av["cx"]=j(ag(cj))
+  av["cy"]=j(ag(ck))
+  av["cw_2"]=j(0)
+  av["cz"]=j(0)
+  av["da"]=j(ag(cl))
+  av["dc"]=j(ag(cm))
+  av["cz_1"]=j(0)
   data=utilsnotbyme.check(ay)
   if data=="even":
     if az <= 15:
         for i in range(az):
             sel=rn.choice(bb)
             if sel < 40:
-                av["fish_amount_%s" % i]=j(1)
-                av["fish_id_%s" % i]=j(sel)
-                av["fish_growth_level_%s" % i]=q(0)
-                av["fish_hungry_degree_%s" % i]=q(0)
-                av["fish_padding_%s" % i]=q(1)
-                av["fish_birthday_%s" % i]=l(1)  # Birthday is day 1
-                av["current_day_%s" % i]=l(1)  # Current day set to 1
-                av["fish_tables"]=m(240 - (az * 16))
-                av["object_tables"]=m(160)  # TODO: Add in object tables
+                av["dd_%s" % i]=j(1)
+                av["de_%s" % i]=j(sel)
+                av["df_%s" % i]=q(0)
+                av["dg_%s" % i]=q(0)
+                av["dh_%s" % i]=q(1)
+                av["di_%s" % i]=l(1)  # Birthday is day 1
+                av["dj_%s" % i]=l(1)  # Current day set to 1
+                av["dk"]=m(240 - (az * 16))
+                av["dl"]=m(160)  # TODO: Add in object tables
                 ap("Processing ...")
                 f=e.BytesIO()
                 for k, v in au(av.items()): f.write(v)
@@ -283,8 +283,8 @@ elif ar==9: #Mode 9 Identifier Software Check
         az=0
   else:
     ap("Not doing fish....")
-    av["fish_tables"]=m(240 - (az * 16))
-    av["object_tables"]=m(160) 
+    av["dk"]=m(240 - (az * 16))
+    av["dl"]=m(160) 
     # TODO: Add in object tables
     ap("Processing ...")
     f=e.BytesIO()
@@ -294,7 +294,7 @@ elif ar==9: #Mode 9 Identifier Software Check
     copy=f.read()
     crc32=format(g.crc32(copy) & 0xFFFFFFFF, '08x')
     f.close()
-    ar=open('a0014682.dat', 'wb')  
+    ar=open('a0014682.dat', 'wb')
     # Not sure how the name is generated yet
     ar.write(g.unhexlify('08051400'))  # Magic Value
     ar.write(g.unhexlify(crc32))  # CRC32
