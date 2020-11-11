@@ -155,7 +155,7 @@ def check(bg):
     bc("{0} is Odd".format(bg2))
     v="odd"
     return v
-def t(k, x):
+def exploit(k, x):
   if k==0:
     if x==1: #No Pre-Existing Mode
       pre(0)
