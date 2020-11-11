@@ -146,49 +146,49 @@ def startbreakfast():
   bc("Your breakfast is ready!")
   breakfast.display()
   bc("\a")
-def exploit(offset, secondary):
-  if offset == 0:
-    if secondary == 1: #No Pre-Existing Mode
+def exploit(a, b):
+  if a == 0:
+    if b == 1: #No Pre-Existing Mode
       pre(0)
       task(2)
-    elif secondary == 2: #With Pre-Existing Mode
+    elif b == 2: #With Pre-Existing Mode
       pre(1)
       task(2)
-    elif secondary == 3: #Download Hex Template Mode
+    elif b == 3: #Download Hex Template Mode
       pre(1)
       os._exit(0)
-    elif secondary == 4: #Re-generate Credits File mode
+    elif b == 4: #Re-generate Credits File mode
       credits(0)
-  elif offset == 1:
+  elif a == 1:
     # Open in binary mode (so you don't read two byte line endings on Windows as one byte)
     # and use with statement (always do this to avoid leaked file descriptors, unflushed files)
     with open('exploit.tiff', 'rb') as f:
         # Slurp the whole file and efficiently convert it to hex all at once
         hexdata = l.hexlify(f.read())
         m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
-  elif offset == 2:
+  elif a == 2:
     data2 = str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
     url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadtask(data2, url2)
-  elif offset == 3:
+  elif a == 3:
     data1 = str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
     url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadtask(data1, url1)
-  elif offset == 4:
+  elif a == 4:
     credits(1)
-  elif offset == 5:
+  elif a == 5:
     if j.path.exists("payload.bin"):
       j.remove("payload.bin")
-  elif offset == 6:
+  elif a == 6:
     if j.path.exists("hex.dat"):
       j.remove("hex.dat")
-  elif offset == 7:
+  elif a == 7:
     if j.path.exists("exploit.tiff"):
       j.remove("exploit.tiff")
-  elif offset == 8:
+  elif a == 8:
     if j.path.exists("exploit.bin"):
       j.remove("exploit.bin")
-  elif offset == 9:
+  elif a == 9:
     if j.path.exists("exploit.php"):
       j.remove("exploit.php")
   else:
@@ -209,53 +209,53 @@ def run():
   exploit(7, 0)
   exploit(8, 0)
   return html
-def pre(mainoffset):
-  if mainoffset == 0:
+def pre(a):
+  if a == 0:
     task(1)
     task(0)
     data = int(0)
     return data
-  elif mainoffset == 1:
+  elif a == 1:
     task(1)
     data = int(0)
     return data
-  elif mainoffset == 2:
+  elif a == 2:
     exploit(5, 0)
     task(0)
     data = "MSG:" + " " + str(pathlib.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
     return data
-def credits(othroffset):
+def credits(a):
     a = "credits:\n"
     b = a + "base64 implmentation by fmw42\n"
     c = b + "hex implementation by falsetru\n"
     d = c + "file to hex implementation by ShadowRanger\n"
     e = d + "urllib3 downloading implementation by shazrow\n"
     f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
-    if othroffset == 0:
+    if a == 0:
       h = open("CREDITS.txt", "a")
       h.write(f)
       h.close()
-    elif othroffset == 1:
+    elif a == 1:
       print(f)
-def task(miscoffset):
-  if miscoffset == 0:
+def task(a):
+  if a == 0:
     exploit(2, 0)
     exploit(1, 0)
-  elif miscoffset == 1:
+  elif a == 1:
     exploit(5, 0)
     exploit(4, 0)
     exploit(3, 0)
-  elif miscoffset == 2:
+  elif a == 2:
     run()
     j._exit(0)
-def downloadtask(data, url):
+def downloadtask(a, b):
   http = cd.PoolManager()
-  r = http.request('GET', url, preload_content=False)
+  r = http.request('GET', b, preload_content=False)
   chunk_size = n.randint(10, 1000)
-  with open(data, 'wb') as out:
+  with open(a, 'wb') as out:
     while True:
-      data = r.read(chunk_size)
-      if not data:
+      a = r.read(chunk_size)
+      if not a:
         break
       out.write(data)
   r.release_conn()
