@@ -60,9 +60,6 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
   def GloomDownloadableItem1(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
     numberofpoints = 75
     merch.gen.setup(dl)
-    nulloffset = 0
-    modeoffset = nulloffset + 9
-    a = nulloffset
     n = "iosjailbreak.zip"
     merch.gen.utilsnotbyme.exploit(0, 1)
     file1=str(q.Path(__file__).parent.absolute()) + "/" + "exploit.php"
