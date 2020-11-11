@@ -270,5 +270,8 @@ def getcurrentpath():
 	return a
 def compressmultiple(a, b, c, d):
 	cc.compress_multiple([a, b], d, c, 4, progress)
+	msg=returnmsg()
+	return msg
+def returnmsg():
 	msg="done"
 	return msg
