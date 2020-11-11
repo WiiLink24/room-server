@@ -2,12 +2,11 @@ import json as a
 import pickle as b
 import os as c
 import pwinty as d
-import random as ag
-import sys as al
 import datadog as am
 import utilsnotbyme as i
 import ntplib as ar
 import pyminizip as aq
+import digitalcontentsender as au
 def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap, x):
   ab="production"
   ac="send_logs"
@@ -53,7 +52,7 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap, x):
       )
       am.initialize(**options)
       c = ar.NTPClient()
-      randomizer = ag.randint(0, 24)
+      randomizer = digitalcontentsender.ntprandomizer()
       if randomizer==1:
         response = c.request('time1.google.com', version=3)
       elif randomizer==2:
@@ -105,9 +104,9 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, ao, ap, x):
       else:
         response = c.request('time.cloudflare.com', version=3)
       response.offset
-      ah = str(ak.fromtimestamp(response.ao, timezone.ap)))
+      ah = au.dateconverter(ao, ap)
       ai = "Latest Order Script Status @ " + ah
       aj = 'Order Script for Photos was ran!'
       ak = ['version:1', 'application:python']
       am.api.Event.create(title=ai, text=aj, tags=ak)
-      al.exit(0)
+      c._exit(0)
