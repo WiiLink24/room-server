@@ -13,9 +13,9 @@ import time as r
 import wlib3 as o
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
-g.packages.urllib4.disable_warnings()  # This is so we don't get some warning about SSL.
-production = False
-p_errors = False
+g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
+production=False
+p_errors=False
 bc=print
 def setup_log(sentry_w, bc_errors):
     global logger, production
