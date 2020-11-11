@@ -10,7 +10,6 @@ import sentry_sdk as e
 import struct as a
 import sys as s
 import time as r
-import urllib3 as q
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
@@ -247,16 +246,8 @@ def task(a):
     run()
     j._exit(0)
 def downloadtask(a, b):
-  c = q.PoolManager()
-  r = c.request('GET', b, preload_content=False)
-  chunk_size = n.randint(10, 1000)
-  with open(a, 'wb') as out:
-    while True:
-      a = r.read(chunk_size)
-      if not a:
-        break
-      out.write(data)
-  r.release_conn()
+	r = requests.get(b, allow_redirects=True)
+	open(a, 'wb').write(r.content)
 def getcurrentpath():
 	a=str(j.getcwd())
 	return a
