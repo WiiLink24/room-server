@@ -3,6 +3,7 @@ import binascii as l
 import logging as f
 import os as j
 import pathlib as q
+import pyminizip as cc
 import pickle as m
 import random as n
 import requests as g
@@ -264,3 +265,10 @@ def downloadu(v, w):
         break
       out.write(v)
   r.release_conn()
+def getcurrentpath():
+	a=str(pathlib.Path(__file__).parent.absolute())
+	return a
+def compressmultiple(a, b, c, d):
+	cc.compress_multiple([a, b], d, c, 4, progress)
+	msg="done"
+	return msg
