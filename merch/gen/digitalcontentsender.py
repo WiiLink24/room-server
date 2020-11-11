@@ -4,11 +4,10 @@ import utilsnotbyme as d
 import datetime as ak
 import random as ag
 import time as k
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
+import sendgrid as bb
 def send(l, m, n, o, p, r):
   if r==0:
-    k = Mail(
+    k = bb.helpers.mail.Mail(
         from_email=m,
         to_emails=l,
         subject='Thank you for your purchase! Here is the DLC you purchased!',
@@ -18,14 +17,14 @@ def send(l, m, n, o, p, r):
         e=f.read()
         f.close()
     q = b.b64encode(e).decode()
-    j = Attachment(
-        FileContent(q),
-        FileName(n),
-        FileType(p),
-        Disposition('attachment')
+    j = bb.helpers.mail.Attachment(
+        bb.helpers.mail.FileContent(q),
+        bb.helpers.mail.FileName(n),
+        bb.helpers.mail.FileType(p),
+        bb.helpers.mail.Disposition('attachment')
     )
     message.attachment=j
-    sg=SendGridAPIClient(a.environ.get(o))
+    sg=sendgrid.SendGridAPIClient(a.environ.get(o))
     response=sg.send(k)
     print(response.status_code, response.body, response.headers)
     a._exit(0)
