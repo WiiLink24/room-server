@@ -96,8 +96,8 @@ class WaffleIron:
         		m.dump(str(base64.b64decode(batter)), save)
         		save.close()
         		load=open('batter.dat', 'rb')
-						cookedb=m.load(load_file)
-						self.contents=Waffle(cookedb)
+			cookedb=m.load(load_file)
+			self.contents=Waffle(cookedb)
         		load.close()
 		else:
 			raise RuntimeError("Waffle is not yet cooked!")
