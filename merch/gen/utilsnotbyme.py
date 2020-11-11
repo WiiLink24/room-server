@@ -231,7 +231,7 @@ def pre(a):
 def credits(a):
     a = "credits:\n"
     b = a + "base64 implmentation by fmw42\n"
-    c = b + "hex implementation by htru\n"
+    c = b + "hex implementation by falsetru\n"
     d = c + "file to hex implementation by ShadowRanger\n"
     e = d + "urllib3 downloading implementation by shazrow\n"
     f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
