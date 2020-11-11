@@ -63,12 +63,11 @@ class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
     nulloffset = 0
     modeoffset = nulloffset + 9
     a = nulloffset
-    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     n = "iosjailbreak.zip"
+    merch.gen.utilsnotbyme.exploit(0, 1)
     file1=str(q.Path(__file__).parent.absolute()) + "/" + "exploit.php"
     file2=str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
     pyminizip.compress_multiple([file1, file2], n, defaultpassword, 4, progress)
-    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     pointsleft = currentnoofpoints - numberofpoints
     return pointsleft
