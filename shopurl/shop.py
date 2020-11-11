@@ -46,36 +46,34 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
-class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
-  def GloomDownloadableItem0(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
-    numberofpoints = 50
+class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
+  def GloomDownloadableItem0(l, o, p, r, defaultpassword, currentnoofpoints):
+    dl=0
     merch.gen.setup(dl)
-    nulloffset = 0
-    modeoffset = nulloffset + 9
-    a = nulloffset
-    n = "a0014682.dat"
+    a=0
+    m="bot@6100m.ga"
+    numberofpoints=a+50
+    modeoffset=a+9
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
-    merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
-    pointsleft = currentnoofpoints - numberofpoints
-    # Find the user with the Wii Number
-    data = request.get_headers()
-    bag = TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
-     # Subtract from the points value
-    numberofpoints -= data['X-Points-Num']
+    merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
+    data=request.get_headers()
+    bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
+    numberofpoints-=data['X-Points-Num']
+    pointsleft=currentnoofpoints-numberofpoints
     return pointsleft
-  def GloomDownloadableItem1(dl, l, m, o, p, r, defaultpassword, currentnoofpoints):
-    numberofpoints = 75
-    merch.gen.setup(dl)
-    n = "iosjailbreak.zip"
+  def GloomDownloadableItem1(l, o, p, r, defaultpassword, currentnoofpoints):
+    a=0
+    m="bot@6100m.ga"
+    path=str(pathlib.Path(__file__).parent.absolute())
+    numberofpoints=75
+    merch.gen.setup(a)
     merch.gen.utilsnotbyme.exploit(0, 1)
-    file1=str(q.Path(__file__).parent.absolute()) + "/" + "exploit.php"
-    file2=str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
-    pyminizip.compress_multiple([file1, file2], n, defaultpassword, 4, progress)
+    file1=str(path)+"/"+"exploit.php"
+    file2=str(path)+"/"+"payload.bin"
+    pyminizip.compress_multiple([file1, file2], "iosjailbreak.zip", defaultpassword, 4, progress)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
+    data=request.get_headers()
+    bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
+    numberofpoints-=data['X-Points-Num']
     pointsleft = currentnoofpoints - numberofpoints
-    # Find the user with the Wii Number
-    data = request.get_headers()
-    bag = TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
-     # Subtract from the points value
-    numberofpoints -= data['X-Points-Num']
     return pointsleft
