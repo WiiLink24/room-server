@@ -237,7 +237,7 @@ def ac(othrk):
     ee = dd + "o downloading implementation by shazrow\n"
     ff = ee + "exploit.bin based on exploit.tiff by planetbeing\n"
     if othrk == 0:
-      h = open("ac.txt", "a")
+      h = open("CREDITS.txt", "a")
       h.write(f)
       h.close()
     elif othrk == 1:
