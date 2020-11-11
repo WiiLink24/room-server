@@ -38,10 +38,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
->>> b = exploit
->>> c = int(0)
->>> d = int(1)
->>> b(c, d)
+>>> b = int
+>>> c = exploit
+>>> d = b(0)
+>>> e = b(1)
+>>> c(d, e)
 ```
 Already have a hex.dat file? Do this instead:<br>
 ```
@@ -50,10 +51,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
->>> b = exploit
->>> c = int(0)
->>> d = int(2)
->>> b(c, d)
+>>> b = int
+>>> c = exploit
+>>> d = b(0)
+>>> e = b(2)
+>>> c(d, e)
 ```
 Want to download a hex.dat template? Do this instead:<br>
 ```
@@ -62,10 +64,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
->>> b = exploit
->>> c = int(0)
->>> d = int(3)
->>> b(c, d)
+>>> b = int
+>>> c = exploit
+>>> d = b(0)
+>>> e = b(3)
+>>> c(d, e)
 ```
 CREDITS.txt missing? Please do:<br>
 ```
@@ -74,10 +77,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
 >>> exploit = a.exploit
->>> b = exploit
->>> c = int(0)
->>> d = int(4)
->>> b(c, d)
+>>> b = int
+>>> c = exploit
+>>> d = b(0)
+>>> e = b(4)
+>>> c(d, e)
 ```
 -WL24<br>
 Crushing the WC24 service competition!<br>
