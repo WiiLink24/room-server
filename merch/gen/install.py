@@ -12,13 +12,13 @@ ag=int
 ap=print
 au=list
 ba=range
-j=ad.u8 # This line will import u8 from utilsbylarsen.py.
-l=ad.u32 # This line will import u32 from utilsbylarsen.py.
-m=ad.pad # This line will import pad from utilsbylarsen.py.
-n=ad.setup_log # This line will import setup_log from utilsbylarsen.py.
-o=ad.log # This line will import log from utilsbylarsen.py.
-q=ad.u16 # This line will import u16 from utilsbylarsen.py.
-path=af.Path(__file__).parent.absolute() #Obtains current path
+j=ad.u8
+l=ad.u32
+m=ad.pad
+n=ad.setup_log
+o=ad.log
+q=ad.u16
+path=af.Path(__file__).parent.absolute()
 with open("./config.json", "rb") as f:
     r=p.load(f)
 if r["production"] and r["send_logs"]:
@@ -54,9 +54,8 @@ if ar==0: #Mode 0 Identifier Software Check
   c.dump(options, saveoptionsar)
   av(0)
 elif ar==1: #Mode 1 Identifier Software Check
-  dd="/n" #New Line Identifier
   am=open("tables.txt", y)
-  tavl1=[dd, am, an, ao]
+  tavl1=[aw, am, an, ao]
   am.close()
   al=open("id.txt", y)
   tavl2=[am]
