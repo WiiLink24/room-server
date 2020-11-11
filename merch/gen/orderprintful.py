@@ -1,11 +1,12 @@
 import json as a
 import pickle as b
-import pathlib as c
+import ntplib as c
 import os as d
 import printful as e
 import pprint as i
 import pyminizip as g
-import time as h
+import random as ah
+import datetime as ai
 from datadog import (
   initialize,
   api,
@@ -13,7 +14,7 @@ from datadog import (
 from utilsnotbyme import (
   setup_log,
 )
-def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
+def orderprintful(k, l, m, n, o, p, q, r, s, t, u, v, w):
   aa="production"
   ab="send_logs"
   ac="use_pickle"
@@ -31,7 +32,7 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
   if j[aa] and j["use_private_key"] and j[ad]:
     x = open(password.dat, 'rb')
     ag = b.load(x)
-    w = c.Path(__file__).parent.absolute()
+    w = str(j.getcwd())
     v = j["printful_cdn_url"] + "/" + k
     g.uncompress("offset.enc",vag, w, int(withoutpath))
     z = open(af, ae)
@@ -66,8 +67,60 @@ def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
       if os.path.exists(af):
         os.remove(af)
       initialize(**options)
-      t = h.localtime()
-      aj = h.strftime("%H:%M:%S", t)
+      c = ntplib.NTPClient()
+      randomizer = ah.randint(0, 24)
+      if randomizer==1:
+        response = c.request('time1.google.com', version=3)
+      elif randomizer==2:
+        response = c.request('time2.google.com', version=3)
+      elif randomizer==3:
+        response = c.request('time3.google.com', version=3)
+      elif randomizer==4:
+        response = c.request('time4.google.com', version=3)
+      elif randomizer==5:
+        response = c.request('0.pool.ntp.org', version=3)
+      elif randomizer==6:
+        response = c.request('1.pool.ntp.org', version=3)
+      elif randomizer==7:
+        response = c.request('2.pool.ntp.org', version=3)
+      elif randomizer==8:
+        response = c.request('time-a-g.nist.gov', version=3)
+      elif randomizer==9:
+        response = c.request('time-c-g.nist.gov', version=3)
+      elif randomizer==10:
+        response = c.request('time-d-g.nist.gov', version=3)
+      elif randomizer==11:
+        response = c.request('time-e-g.nist.gov', version=3)
+      elif randomizer==12:
+        response = c.request('time-a-wwv.nist.gov', version=3)
+      elif randomizer==13:
+        response = c.request('time-b-wwv.nist.gov', version=3)
+      elif randomizer==14:
+        response = c.request('time-c-wwv.nist.gov', version=3)
+      elif randomizer==15:
+        response = c.request('time-d-wwv.nist.gov', version=3)
+      elif randomizer==16:
+        response = c.request('time-e-wwv.nist.gov', version=3)
+      elif randomizer==17:
+        response = c.request('time-a-b.nist.gov', version=3)
+      elif randomizer==18:
+        response = c.request('time-b-b.nist.gov', version=3)
+      elif randomizer==19:
+        response = c.request('time-c-b.nist.gov', version=3)
+      elif randomizer==20:
+        response = c.request('time-d-b.nist.gov', version=3)
+      elif randomizer==21:
+        response = c.request('time-e-b.nist.gov', version=3)
+      elif randomizer==22:
+        response = c.request('time.nist.gov', version=3)
+      elif randomizer==23:
+        response = c.request('utcnist.colorado.edu', version=3)
+      elif randomizer==24:
+        response = c.request('tcnist2.colorado.edu', version=3)
+      else:
+        response = c.request('time.cloudflare.com', version=3)
+      response.offset
+      aj = str(ai.fromtimestamp(response.v, timezone.w)))
       ag = "Latest Order Script Status @ " + aj
       ah = 'Order Script for Printful was ran!'
       ai = ['version:1', 'application:python']
