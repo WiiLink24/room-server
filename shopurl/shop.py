@@ -46,7 +46,7 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
-class GloomDLCShopItems(l, o, p, r, defaultpassword, t):
+class GloomDLCShopItems(l, o, p, r, s, t):
   def GloomDownloadableItem0(l, o, p, r, s, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
