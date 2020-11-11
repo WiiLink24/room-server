@@ -46,48 +46,48 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
-class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
-  def GloomDownloadableItem0(l, o, p, r, defaultpassword, currentnoofpoints):
+class GloomDLCShopItems(l, o, p, r, defaultpassword, t):
+  def GloomDownloadableItem0(l, o, p, r, s, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
     m="bot@6100m.ga"
     numberofpoints=a+50
     modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
-    merch.gen.setup(b)
+    merch.gen.setup.setup(b)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
     numberofpoints-=data['X-Points-Num']
-    pointsleft=currentnoofpoints-numberofpoints
-    return pointsleft
-  def GloomDownloadableItem1(l, o, p, r, defaultpassword, currentnoofpoints):
+    u=t-numberofpoints
+    return u
+  def GloomDownloadableItem1(l, o, p, r, s, t):
     a=merch.gen.digitalcontentsender.commonnumber()
     b=merch.gen.digitalcontentsender.commonnumber()
     path=str(pathlib.Path(__file__).parent.absolute())
     m="bot@6100m.ga"
     numberofpoints=a+75
-    merch.gen.setup(b)
+    merch.gen.setup.setup(b)
     merch.gen.utilsnotbyme.exploit(a, 1)
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
-    pyminizip.compress_multiple([file1, file2], "iosjailbreak.zip", defaultpassword, 4, progress)
+    pyminizip.compress_multiple([file1, file2], "iosjailbreak.zip", s, 4, progress)
     merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
     numberofpoints-=data['X-Points-Num']
-    pointsleft = currentnoofpoints - numberofpoints
-    return pointsleft
+    u = t - numberofpoints
+    return u
 class GloomSDKTasks(k, l, m, n, o, p, q, r, s, t, u):
   def orderphotos(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
     modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
-    merch.gen.setup(b)
+    merch.gen.setup.setup(b)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.orderphotos.orderphotos(k, l, m, n, o, p, q, r, s, t, u)
   def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
     a=merch.gen.digitalcontentsender.commonnumber()
     modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
-    merch.gen.setup(b)
+    merch.gen.setup.setup(b)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.orderprintful.orderprintful(k, l, m, n, o, p, q, r, s, t, u)
