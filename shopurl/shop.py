@@ -7,6 +7,8 @@ import merch.gen.orderphotos
 import merch.gen.orderprintful
 import merch.gen.setup
 import merch.gen.utilsnotbyme
+import pyminizip
+import pathlib
 @app.route('/shopurl/index.esf')
 def shop():
   return send_from_directory('static','index.esf')
@@ -43,3 +45,24 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
+class GloomDLCShopItems(dl, l, m, o, p, r, defaultpassword):
+  def GloomDownloadableItem0(dl, l, m, o, p, r, defaultpassword):
+    merch.gen.setup(dl)
+    nulloffset = 0
+    modeoffset = nulloffset + 9
+    a = nulloffset
+    n = "a0014682.dat"
+    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
+  def GloomDownloadableItem1(dl):
+    merch.gen.setup(dl)
+    nulloffset = 0
+    modeoffset = nulloffset + 9
+    a = nulloffset
+    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    n = "iosjailbreak.zip"
+    file1=str(q.Path(__file__).parent.absolute()) + "/" + "exploit.php"
+    file2=str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
+    pyminizip.compress_multiple([file1, file2], n, defaultpassword, 4, progress)
+    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
