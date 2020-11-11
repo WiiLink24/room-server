@@ -50,11 +50,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
->>> exploit = a.exploit
->>> b = int
->>> c = exploit
->>> d = b(0)
->>> e = b(2)
+>>> exploit=a.exploit
+>>> b=int
+>>> c=exploit
+>>> d=b(0)
+>>> e=b(2)
 >>> c(d, e)
 ```
 Want to download a hex.dat template? Do this instead:<br>
@@ -63,11 +63,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
->>> exploit = a.exploit
->>> b = int
->>> c = exploit
->>> d = b(0)
->>> e = b(3)
+>>> exploit=a.exploit
+>>> b=int
+>>> c=exploit
+>>> d=b(0)
+>>> e=b(3)
 >>> c(d, e)
 ```
 CREDITS.txt missing? Please do:<br>
@@ -76,11 +76,11 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import utilsnotbyme as a
->>> exploit = a.exploit
->>> b = int
->>> c = exploit
->>> d = b(0)
->>> e = b(4)
+>>> exploit=a.exploit
+>>> b=int
+>>> c=exploit
+>>> d=b(0)
+>>> e=b(4)
 >>> c(d, e)
 ```
 -WL24<br>
