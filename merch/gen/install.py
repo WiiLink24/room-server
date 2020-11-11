@@ -24,7 +24,7 @@ with open("./config.json", "rb") as f:
 if r["production"] and r["send_logs"]:
     n(r["sentry_url"], False)
 if r["production"]:
-  dirdd=r["nwcspathdata"]
+  dirdd=r["bcdata"]
   f.mkdir(dirdd)
 d=a.argv # Argument Class Data
 ai=ag(d[1]) #Mode Specification Data
@@ -45,7 +45,7 @@ av=a.exit
 aw="/n" #New line Opcode
 y="w" #Tav Writing Opcode
 z='r' #Generic Tavar Opcode
-if ar == 0: #Mode 0 Identifier Software Check
+if ar==0: #Mode 0 Identifier Software Check
   options={
     'api_key': ap,
     'app_key': aq
@@ -53,7 +53,7 @@ if ar == 0: #Mode 0 Identifier Software Check
   saveoptionsar=open(options.dat, 'wb')
   c.dump(options, saveoptionsar)
   av(0)
-elif ar == 1: #Mode 1 Identifier Software Check
+elif ar==1: #Mode 1 Identifier Software Check
   dd="/n" #New Line Identifier
   am=open("tables.txt", y)
   tavl1=[dd, am, an, ao]
@@ -62,12 +62,12 @@ elif ar == 1: #Mode 1 Identifier Software Check
   tavl2=[am]
   al.close()
   av(0)
-elif ar == 2: #Mode 2 Identifier Software Check
+elif ar==2: #Mode 2 Identifier Software Check
   ar=open(ak)
   aq=ar.readlines()
   ap((aq[aj]))  
   av(0)
-elif ar == 3: #Mode 3 Identifier Software Check
+elif ar==3: #Mode 3 Identifier Software Check
   un=ac.system
   un('echo Current Path: $PWD')
   un('viale=$(python3 password.py)')
@@ -76,28 +76,28 @@ elif ar == 3: #Mode 3 Identifier Software Check
   un('cp -r -a $PWD/home/store. /home/store')
   un('echo Install done.')
   av(0)
-elif ar == 4: #Mode 4 Identifier Software Check
+elif ar==4: #Mode 4 Identifier Software Check
   ap("The more bits, the more secure it is!")
   ap("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
   w=eval(input("Enter the bitsize you want:"))
   x=d.getrandbits(w)
   ap(x)
   av(0)
-elif ar == 5: #Mode 5 Identifier Software Check
+elif ar==5: #Mode 5 Identifier Software Check
   f=open('id.txt', z)
   ar_contents=f.read()
   ap(ar_contents)
   f.close()
   av(0)
-elif ar == 6: #Mode 6 Identifier Software Check
+elif ar==6: #Mode 6 Identifier Software Check
   ar=open('tables.txt')
   aq=ar.readlines()
   ap((aq[al]))
   av(0)
-elif ar == 7: #Mode 7 Identifier Software Check
+elif ar==7: #Mode 7 Identifier Software Check
   ap(path) #aps Current Path
   av(0)
-elif ar == 8: #Mode 8 Identifier Software Check
+elif ar==8: #Mode 8 Identifier Software Check
   an=au(range(2, 100)) # Returns Preset Line Number Range
   ao=au(an) #Outputs the Preset Line Number Range to a list
   am=open(an, y)
@@ -195,7 +195,7 @@ elif ar == 8: #Mode 8 Identifier Software Check
     al.write(aw)
   al.close()
   av(0)
-elif ar == 9: #Mode 9 Identifier Software Check
+elif ar==9: #Mode 9 Identifier Software Check
   ap(w)
   ap("My Aquarium Custom Attachment Generator\n")
   ap("By John Pansera / Version 1.0\n")
@@ -240,7 +240,7 @@ elif ar == 9: #Mode 9 Identifier Software Check
   av["special_date_3_day"]=j(ag(ak3_day))
   av["special_date_3_padding_1"]=j(0)
   data=utilsnotbyme.check(ay)
-  if data == "even":
+  if data=="even":
     if az <= 15:
         for i in range(az):
             sel=rn.choice(bb)
@@ -268,10 +268,10 @@ elif ar == 9: #Mode 9 Identifier Software Check
                 ar.write(copy)  # Rest of ar
                 ar.flush()
                 ar.close()
-                datname="a0014682.dat"
-                nwcspath=r["nwcs_path_data"]
-                nwcssrc=str(path) + "/" + str(datname)
-                ac.rename("nwcssrc", "nwcspath")
+                bb="a0014682.dat"
+                bc=r["nwcs_path_data"]
+                bd=str(path) + "/" + str(bb)
+                ac.rename("bd", "bc")
                 ap(aw)
                 ap("Completed Successfully")
                 av(0)
@@ -302,10 +302,10 @@ elif ar == 9: #Mode 9 Identifier Software Check
     ar.write(copy)  # Rest of ar
     ar.flush()
     ar.close()
-    datname="a0014682.dat"
-    nwcspath=r["nwcs_path_data"]
-    nwcssrc=str(path) + "/" + str(datname)
-    ac.rename("nwcssrc", "nwcspath")
+    bb="a0014682.dat"
+    bc=r["nwcs_path_data"]
+    bd=str(path) + "/" + str(bb)
+    ac.rename("bd", "bc")
     ap(aw)
     ap("Completed Successfully")
     av(0)
