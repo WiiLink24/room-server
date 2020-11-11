@@ -269,3 +269,9 @@ def compressmultiple(a, b, c, d):
 def returnmsg():
 	msg="done"
 	return msg
+def zero():
+	a=0
+	return a
+def one():
+	a=1
+	return a
