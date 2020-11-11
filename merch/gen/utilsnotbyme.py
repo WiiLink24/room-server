@@ -227,7 +227,7 @@ def pre(a):
   elif a==2:
     exploit(5, 0)
     task(0)
-    data = "MSG:" + " " + str(pathlib.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
+    data = "MSG:" + " " + str(j.getcwd()) + " " + "DOWNLOADED!"
     return data
 def credits(a):
     a = "credits:\n"
