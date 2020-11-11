@@ -52,7 +52,7 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
     b=merch.gen.digitalcontentsender.commonnumber()
     m="bot@6100m.ga"
     numberofpoints=a+50
-    modeoffset=a+9
+    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
     merch.gen.setup(b)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
@@ -68,7 +68,7 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
     m="bot@6100m.ga"
     numberofpoints=a+75
     merch.gen.setup(b)
-    merch.gen.utilsnotbyme.exploit(0, 1)
+    merch.gen.utilsnotbyme.exploit(a, 1)
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
     pyminizip.compress_multiple([file1, file2], "iosjailbreak.zip", defaultpassword, 4, progress)
@@ -78,3 +78,16 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
     numberofpoints-=data['X-Points-Num']
     pointsleft = currentnoofpoints - numberofpoints
     return pointsleft
+class GloomSDKTasks(k, l, m, n, o, p, q, r, s, t, u):
+  def orderphotos(k, l, m, n, o, p, q, r, s, t, u):
+    a=merch.gen.digitalcontentsender.commonnumber()
+    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
+    merch.gen.setup(b)
+    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.orderphotos.orderphotos(k, l, m, n, o, p, q, r, s, t, u)
+  def orderprintful(k, l, m, n, o, p, q, r, s, t, u):
+    a=merch.gen.digitalcontentsender.commonnumber()
+    modeoffset=a+merch.gen.digitalcontentsender.returnnumber(8)
+    merch.gen.setup(b)
+    merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
+    merch.gen.orderprintful.orderprintful(k, l, m, n, o, p, q, r, s, t, u)
