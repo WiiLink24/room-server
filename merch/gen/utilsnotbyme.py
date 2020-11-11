@@ -102,8 +102,8 @@ class WaffleIron:
 				self.contents=Waffle(cookedb)
         			load.close()
 		else:
-		raise RuntimeError("Waffle is not yet cooked!")
-		return self.contents
+			raise RuntimeError("Waffle is not yet cooked!")
+			return self.contents
 class BreakfastType:
 	def __init__(self):
 		raise NotImplementedError("BreakfastType is abstract")
