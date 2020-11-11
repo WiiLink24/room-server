@@ -7,7 +7,7 @@ import sys as al
 import datadog as am
 import utilsnotbyme as i
 import ntplib as ar
-def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
+def pwinty(a, k, l, m, n, o, p, q, r, s, t, u, v, w, x, z):
   ab="production"
   ac="send_logs"
   ad="use_pickle"
@@ -103,7 +103,7 @@ def pwinty(k, l, m, n, o, p, q, r, s, t, u, v, w, x):
       else:
         response = c.request('time.cloudflare.com', version=3)
       response.offset
-      ah = str(ak.fromtimestamp(response.v, timezone.w)))
+      ah = str(ak.fromtimestamp(response.a, timezone.z)))
       ai = "Latest Order Script Status @ " + ah
       aj = 'Order Script for Photos was ran!'
       ak = ['version:1', 'application:python']
