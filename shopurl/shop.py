@@ -1,6 +1,12 @@
 from room import app, db
 from models import TestShopppingBag
 from flask import send_from_directory
+import merch.gen.digitalcontentsender
+import merch.gen.install
+import merch.gen.orderphotos
+import merch.gen.orderprintful
+import merch.gen.setup
+import merch.gen.utilsnotbyme
 @app.route('/shopurl/index.esf')
 def shop():
   return send_from_directory('static','index.esf')
@@ -37,5 +43,3 @@ def test_remove_points():
   # Add and commit
   db.session.add(bag)
   db.session.commit()
-
-  
