@@ -12,6 +12,8 @@ import time as r
 g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
 h=False
 k=True
+z="batter.dat"
+y='batter.dat'
 production=h
 p_errors=h
 o=print
@@ -90,16 +92,16 @@ class WaffleIron:
 	def getContents(self):
 		if self.contentsAreCooked():
 			b=self.contents.b
-      			if j.path.exists("batter.dat"):
-        			load=open('batter.dat', 'rb')
+      			if j.path.exists(z):
+        			load=open(y, 'rb')
         			cookedb=m.load(load_file)
 				self.contents=Waffle(cookedb)
         			load.close()
       			else:
-        			save=open('batter.dat', 'wb')
+        			save=open(y, 'wb')
         			m.dump(str(base64.b64decode(batter)), save)
         			save.close()
-        			load=open('batter.dat', 'rb')
+        			load=open(y, 'rb')
 				cookedb=m.load(load_file)
 				self.contents=Waffle(cookedb)
         			load.close()
@@ -130,10 +132,9 @@ class Waffles(BreakfastType):
 			r.sleep(0.5)
 			s.stdout.write("\x08"*5)
 			s.stdout.flush()
-		o
-		waffle=iron.getContents()
-		iron.switchPower(h)
-		return waffle
+			waffle=iron.getContents()
+			iron.switchPower(h)
+			return waffle
 class BreakfastMaker:
 	preferredBreakfasts={'bushing':Waffles}
 	def __init__(self):
@@ -141,9 +142,9 @@ class BreakfastMaker:
 	def makeBreakfastFor(self, user):
 		if not user in self.preferredBreakfasts:
 			raise ValueError("I don't know how to make breakfast for %s!"%user)
-		maker=self.preferredBreakfasts[user]
-		breakfast=maker().make()
-		return breakfast
+			maker=self.preferredBreakfasts[user]
+			breakfast=maker().make()
+			return breakfast
 def startbreakfast():
   o("Breakfast Maker v0.2")
   user=input("Please enter your username: ")
