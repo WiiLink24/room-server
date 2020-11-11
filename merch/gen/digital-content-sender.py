@@ -95,3 +95,6 @@ def spotlightutil(l, m):
   print(l)
   print(m)
   d.startbreakfast()
+def commonnumber():
+  a=0
+  return a
