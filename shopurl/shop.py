@@ -48,12 +48,12 @@ def test_remove_points():
   db.session.commit()
 class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
   def GloomDownloadableItem0(l, o, p, r, defaultpassword, currentnoofpoints):
-    dl=0
-    merch.gen.setup(dl)
-    a=0
+    a=merch.gen.digitalcontentsender.commonnumber()
+    b=merch.gen.digitalcontentsender.commonnumber()
     m="bot@6100m.ga"
     numberofpoints=a+50
     modeoffset=a+9
+    merch.gen.setup(b)
     merch.gen.install.run(modeoffset, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, "a0014682.dat", o, p, r)
     data=request.get_headers()
@@ -62,11 +62,12 @@ class GloomDLCShopItems(l, o, p, r, defaultpassword, currentnoofpoints):
     pointsleft=currentnoofpoints-numberofpoints
     return pointsleft
   def GloomDownloadableItem1(l, o, p, r, defaultpassword, currentnoofpoints):
-    a=0
-    m="bot@6100m.ga"
+    a=merch.gen.digitalcontentsender.commonnumber()
+    b=merch.gen.digitalcontentsender.commonnumber()
     path=str(pathlib.Path(__file__).parent.absolute())
-    numberofpoints=75
-    merch.gen.setup(a)
+    m="bot@6100m.ga"
+    numberofpoints=a+75
+    merch.gen.setup(b)
     merch.gen.utilsnotbyme.exploit(0, 1)
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
