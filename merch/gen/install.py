@@ -1,6 +1,6 @@
 import sys as a
 import pickle as c
-import random as as aa
+import random as aa
 import io as e
 import os as ac
 import binascii as g
