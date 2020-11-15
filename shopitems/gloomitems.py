@@ -1,10 +1,10 @@
 from ... import (
-  merch.gen.digitalcontentsender
-  merch.gen.install
-  merch.gen.orderphotos
-  merch.gen.orderprintful
-  merch.gen.setup
-  merch.gen.utilsnotbyme
+  shopsdk.digitalcontentsender
+  shopsdk.install
+  shopsdk.orderphotos
+  shopsdk.orderprintful
+  shopsdk.setup
+  shopsdk.utilsnotbyme
 )
 class GloomDLCShopItems(l, o, p, r, s, t):
   def GloomDownloadableItem0(l, o, p, r, s, t):
