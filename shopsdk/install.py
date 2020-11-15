@@ -7,6 +7,7 @@ import binascii as g
 import collections as h
 import json as p
 import utilsnotbyme as ad
+import digitalcontentsender as zu
 def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	ag=int
 	ap=print
@@ -55,18 +56,11 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ap((aq[aj]))  
 	  av(0)
 	elif ar==3: #Mode 3 Identifier Software Check
-	  un=os.system
-	  un('echo Current Path: $PWD && arg=$(python3 install.py 4 0 0 0 0 0 0 0 0 0) && useradd -m -p $arg store && echo Created user with $arg password')
-	  un('cp -r -a $PWD/home/store. /home/store')
-	  un('echo Install done.')
-	  av(0)
+          print("Reserved for primary storage file reading, WIP")
+	  zu.invalidexit()
 	elif ar==4: #Mode 4 Identifier Software Check
-	  ap("The more bits, the more secure it is!")
-	  ap("Availale bit sizes: 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192")
-	  w=eval(input("Enter the bitsize you want:"))
-	  x=aa.getrandbits(w)
-	  ap(x)
-	  av(0)
+          print("Reserved for primary storage file reading, WIP")
+	  zu.invalidexit()
 	elif ar==5: #Mode 5 Identifier Software Check
 	  f=open('id.txt', z)
 	  ar_contents=f.read()
