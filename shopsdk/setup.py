@@ -11,7 +11,7 @@ def setup(dl):
 	n=l.run
 	c=e._exit
 	d1=int(d[2]) #Mode Identifier Data
-	path=j.getcwd()
+	path=e.getcwd()
 	if d1==0:
 		n('python3 setup.py 1', shell=True)
 		n('python3 setup.py 2', shell=True)
