@@ -1,4 +1,3 @@
-import sys as a
 import pickle as c
 import random as aa
 import io as e
@@ -30,7 +29,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	u="Exit code 127 Occured" #Error code 127 message, this is usually called if args aren't specified correctly and/or if args aren't even there.
 	at="Error code 1 Occured." #Error code 1 message, this is a generic error for all other errors.
 	au="Error Code 1 Occured" #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
-	av=a.exit
+	av=zu.normalexit()
 	aw="\n" #New line Opcode
 	y="w" #Tav Writing Opcode
 	z='r' #Generic File Writing Opcode
@@ -41,7 +40,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  }
 	  ca=open(options.dat, 'wb')
 	  c.dump(options, ca)
-	  av(0)
+	  av()
 	elif ar==1: #Mode 1 Identifier Software Check
 	  am=open("tables.txt", y)
 	  tavl1=[aw, am, an, ao]
@@ -49,12 +48,12 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  al=open("id.txt", y)
 	  tavl2=[am]
 	  al.close()
-	  av(0)
+	  av()
 	elif ar==2: #Mode 2 Identifier Software Check
 	  ar=open(ak)
 	  aq=ar.readlines()
 	  ap((aq[aj]))  
-	  av(0)
+	  av()
 	elif ar==3: #Mode 3 Identifier Software Check
           print("Reserved for primary storage file reading, WIP")
 	  zu.invalidexit()
@@ -66,15 +65,15 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ar_contents=f.read()
 	  ap(ar_contents)
 	  f.close()
-	  av(0)
+	  av()
 	elif ar==6: #Mode 6 Identifier Software Check
 	  ar=open('tables.txt')
 	  aq=ar.readlines()
 	  ap((aq[al]))
-	  av(0)
+	  av()
 	elif ar==7: #Mode 7 Identifier Software Check
 	  ap(os.getcwd()) #Grabs Current Path
-	  av(0)
+	  av()
 	elif ar==8: #Mode 8 Identifier Software Check
 	  az=list(range(0, 100)) # Returns Preset Line Number Range
 	  am=open(an, y)
@@ -197,7 +196,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  for line in zz:
 	        al.write(str(line))
 	  al.close()
-	  av(0)
+	  av()
 	elif ar==9: #Mode 9 Identifier Software Check
 	  ap(w)
 	  ap("My Aquarium Custom Attachment Generator\n")
@@ -278,7 +277,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	          os.rename(bd, bc)
 	          ap(aw)
 	          ap("Completed Successfully")
-	          av(0)
+	          av()
 	        else:
 	          raise Exception("Error Code 1 Occured.")
 	          o("Error: Invalid selection: %s" % at, "WARNING")
@@ -313,11 +312,11 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	    os.rename(bd, bc)
 	    ap(aw)
 	    ap("Completed Successfully")
-	    av(0)
+	    av()
 	else:
 	  raise Exception("Exit code 127 Occured.")
 	  o("You did not specify args: %s" % u, "WARNING")
-	  av(127)
+	  zu.invalidexit()
 	raise Exception("Unknown Error Occured")
 	o("Unknown Error Occured: %s" % au, "WARNING")
-	av(1)
+	zu.abnormalexit()
