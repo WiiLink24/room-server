@@ -33,7 +33,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	av=a.exit
 	aw="\n" #New line Opcode
 	y="w" #Tav Writing Opcode
-	z='r' #Generic Tavar Opcode
+	z='r' #Generic File Writing Opcode
 	if ar==0: #Mode 0 Identifier Software Check
 	  options={
 	    'api_key': ap,
@@ -73,7 +73,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ap((aq[al]))
 	  av(0)
 	elif ar==7: #Mode 7 Identifier Software Check
-	  ap(os.getcwd()) #aps Current Path
+	  ap(os.getcwd()) #Grabs Current Path
 	  av(0)
 	elif ar==8: #Mode 8 Identifier Software Check
 	  az=list(range(0, 100)) # Returns Preset Line Number Range
