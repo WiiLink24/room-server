@@ -10,7 +10,6 @@ import digitalcontentsender as zu
 def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	ag=int
 	ap=print
-	ba=range
 	j=ad.u8
 	l=ad.u32
 	m=ad.pad
