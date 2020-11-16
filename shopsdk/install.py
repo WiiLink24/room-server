@@ -75,7 +75,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ap(os.getcwd()) #Grabs Current Path
 	  av()
 	elif ar==8: #Mode 8 Identifier Software Check
-	  az=list(range(0, 100)) # Returns Preset Line Number Range
+	  az=list(range(0, 60)) # Returns Preset Line Number Range
 	  am=open(an, y)
 	  for line in az:
 	    am.write(str(line))
