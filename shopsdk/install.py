@@ -58,8 +58,11 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
           print("Reserved for primary storage file reading, WIP")
 	  zu.invalidexit()
 	elif ar==4: #Mode 4 Identifier Software Check
-          print("Reserved for primary storage file reading, WIP")
-	  zu.invalidexit()
+	  x=aa.getrandbits(64)
+	  save=open('offset.dat', 'wb')
+          c.dump(x, save)
+	  save.close()
+	  ap(x)
 	elif ar==5: #Mode 5 Identifier Software Check
 	  f=open('id.txt', z)
 	  ar_contents=f.read()
