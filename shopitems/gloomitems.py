@@ -32,7 +32,7 @@ class GloomDLCShopItems(l, o, p, r, s, t):
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
     merch.gen.utilsnotbyme.compressmultiple(file1, file2, str("iosjailbreak.zip"), s)
-    merch.gen.digitalcontentsender.send(l, m, n, o, p, r)
+    merch.gen.digitalcontentsender.send(l, m, str("iosjailbreak.zip"), o, p, r)
     data=request.get_headers()
     bag=TestShoppingBag.query.filter_by(wii_number=data['X-Wii-Number'])
     w-=data['X-Points-Num']
