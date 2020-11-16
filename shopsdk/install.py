@@ -30,7 +30,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	au="Error Code 1 Occured" #This error typically happens when the exit code fails, however it is currently unknown what would make that happen.
 	av=zu.normalexit()
 	aw="\n" #New line Opcode
-	y="w" #File Writing Opcode
+	y="w" #Tav Writing Opcode
 	z='r' #Generic File Writing Opcode
 	if ar==0: #Mode 1 Identifier Software Check
 	  options={
