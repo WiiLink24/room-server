@@ -10,7 +10,6 @@ import time as r
 import sys as s
 import codecs as zz
 from sentry_sdk.integrations.logging import LoggingIntegration
-g.packages.urllib3.disable_warnings()  # This is so we don't get some warning about SSL.
 h=False
 k=True
 z="batter.dat"
