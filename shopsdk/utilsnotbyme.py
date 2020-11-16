@@ -9,8 +9,6 @@ import codecs as zz
 from sentry_sdk.integrations.logging import LoggingIntegration
 h=False
 k=True
-z="batter.dat"
-y='batter.dat'
 production=h
 p_errors=h
 o=print
