@@ -9,11 +9,7 @@ flask-migrate>=2.5
 crc16>=0.1
 pillow>=8
 elasticsearch>=7
-pyaes
 pyminizip
 sendgrid
-datadog
 sentry_sdk
-ntplib
-rsa
 python-dotenv
