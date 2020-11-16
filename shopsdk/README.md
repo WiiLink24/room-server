@@ -1,9 +1,7 @@
 # TODO:<br>
 ```
 Import the dynamic config into the code
-Implement Owncloud Encryption Storage.
 Write stickers script
-Implement encryption of dat files.
 ```
 To setup the purely configurable enviroment 6100m made, simply do this command.<br>
 ```
