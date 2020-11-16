@@ -11,7 +11,7 @@ def setup(dl):
 	n=l.run
 	c=e._exit
 	d1=int(d[2]) #Mode Identifier Data
-	path=e.getcwd()
+	path=j.getcwd()
 	if d1==0:
 		n('python3 setup.py 1', shell=True)
 		n('python3 setup.py 2', shell=True)
@@ -46,14 +46,12 @@ def setup(dl):
 		m(path)
 		c(0)
 	elif d1==8:
-		data=int(1)
-		save=open('offset.dat', 'wb')
-		load=open('password.dat', 'rb')
-		ah=i.load(load_file)
-		i.dump(textList, save)
+		ah=aa.getrandbits(128)
 		h.compress("offset.dat", path, "offset.enc", ah, int(compress_level))
+		e.remove("offset.dat")
+		save=open('password.dat', 'wb')
+		c.dump(ah, save)
 		save.close()
-		load.close()
 		c(0)
 	elif d1==9:
 		m("Congrats, you accessed the secret feature!\n")
