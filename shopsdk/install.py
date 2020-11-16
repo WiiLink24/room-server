@@ -33,7 +33,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	aw="\n" #New line Opcode
 	y="w" #Tav Writing Opcode
 	z='r' #Generic File Writing Opcode
-	if ar==0: #Mode 0 Identifier Software Check
+	if ar==0: #Mode 1 Identifier Software Check
 	  options={
 	    'api_key': ap,
 	    'app_key': aq
@@ -41,26 +41,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ca=open(options.dat, 'wb')
 	  c.dump(options, ca)
 	  av()
-	elif ar==1: #Mode 1 Identifier Software Check
-	  am=open("tables.txt", y)
-	  tavl1=[aw, am, an, ao]
-	  am.close()
-	  al=open("id.txt", y)
-	  tavl2=[am]
-	  al.close()
-	  av()
-	elif ar==2: #Mode 2 Identifier Software Check
-	  ar=open(ak)
-	  aq=ar.readlines()
-	  ap((aq[aj]))  
-	  av()
-	elif ar==3: #Mode 3 Identifier Software Check
-          print("Reserved for primary storage file reading, WIP")
-	  zu.invalidexit()
-	elif ar==7: #Mode 7 Identifier Software Check
-	  ap(os.getcwd()) #Grabs Current Path
-	  av()
-	elif ar==9: #Mode 9 Identifier Software Check
+	elif ar==9: #Mode 2 Identifier Software Check
 	  ap(w)
 	  ap("My Aquarium Custom Attachment Generator\n")
 	  ap("By John Pansera / Version 1.0\n")
