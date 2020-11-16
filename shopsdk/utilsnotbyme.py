@@ -2,12 +2,9 @@ import binascii as l
 import logging
 import os as j
 import pyminizip as n
-import pickle as m
 import requests as g
 import sentry_sdk as e
 import struct as a
-import time as r
-import sys as s
 import codecs as zz
 from sentry_sdk.integrations.logging import LoggingIntegration
 h=False
@@ -25,7 +22,6 @@ def setup_log(sentry_url,print_errors):
   )
   e.init(dsn=sentry_url,integrations=[sentry_logging])
   logger=logging.getLogger(__name__)
-  p_errors=print_errors
   production=k
 def log(msg,level):  
   # TODO: Use number levels instead of strings
