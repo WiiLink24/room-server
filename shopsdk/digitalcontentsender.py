@@ -60,32 +60,23 @@ def mainoc(d, e, f, g, h):
     return data
 def returnnumber(h):
   if h == 0:
-    data = 1
-    return data
+    return h + 1
   elif h == 1:
-    data = 2
-    return data
+    return h + 1
   elif h == 2:
-    data = 3
-    return data
+    return h + 1
   elif h == 3:
-    data = 4
-    return data
+    return h + 1
   elif h == 4:
-    data = 5
-    return data
+    return h + 1
   elif h == 5:
-    data = 6
-    return data
+    return h + 1
   elif h == 6:
-    data = 7
-    return data
+    return h + 1
   elif h == 7:
-    data = 8
-    return data
+    return h + 1
   elif h == 8:
-    data = 9
-    return data
+    return h + 1
   elif h == 9:
     data = "Hi"
     return data
