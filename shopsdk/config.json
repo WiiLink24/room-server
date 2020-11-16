@@ -15,6 +15,6 @@
   "digital_sentry_url": "status.domain.tld",
   "nwcs_sentry_url": "status.domain.tld",
   "datadog_api_key": "pleasechangeme",
-  "nwcs_datadog_app_key": "pleasechangeme"
+  "nwcs_datadog_app_key": "pleasechangeme",
   "digital_datadog_app_key": "pleasechangeme"
 }
