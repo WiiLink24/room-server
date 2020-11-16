@@ -1,14 +1,3 @@
-# TODO:<br>
-```
-Import the dynamic config into the code
-Write stickers script
-```
-To setup the purely configurable enviroment 6100m made, simply do this command.<br>
-```
-python3 setup.py 0
-```
-Be sure to follow all prompts.<br>
-
 There are a few services these scripts provide that you can offer on the shop!<br>
 The services it currently provides:<br>
 1. My Aquarium Mystery DLC Tanks<br>
@@ -20,9 +9,7 @@ python3 install.py 9 0 0 0 0 0 0 0 0
 ```
 To setup the iOS 1.0 - 1.1.2 Jailbreak Server, do:<br>
 ```
-bash
-clear
-clear&&python3
+python3
 ```
 Then, in the python shell, do:<br>
 ```
