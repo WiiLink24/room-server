@@ -73,4 +73,3 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> c(d,e)
 ```
 -WL24<br>
-Crushing the WC24 service competition!<br>
