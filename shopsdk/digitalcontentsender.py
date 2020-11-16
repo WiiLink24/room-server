@@ -2,7 +2,6 @@ import os as a
 import base64 as b
 import utilsnotbyme as d
 import datetime as ak
-import random as ag
 import time as k
 import sendgrid as bb
 import sys as bc
