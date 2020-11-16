@@ -6,7 +6,6 @@ import random as ag
 import time as k
 import sendgrid as bb
 import sys as bc
-import ntplib as bd
 def send(l, m, n, o, p, r):
   if r==0:
     k = bb.helpers.mail.Mail(
@@ -34,23 +33,6 @@ def send(l, m, n, o, p, r):
     i=0
     miscutil(i)
     return i
-def httpcheck(n, o, p, q, r, s):
-  if n == "main":
-    result = o + p + q + SecondaryMethodData
-    return result
-  elif n == "secn":
-    result = s + p + q + SecondaryMethodData
-    return result
-def returnoc(a, b):
-  c = a + "." + b
-  return c
-def mainoc(d, e, f, g, h):
-  if h == 1:
-    data = d + "." + e
-    return data
-  elif h == 2:
-    data = f + "." + g
-    return data
 def returnnumber(h):
   if h == 0:
     return h + 1
@@ -73,9 +55,6 @@ def returnnumber(h):
   elif h == 9:
     data = "Hi"
     return data
-def secnoc(i, j):
-  data = i + j
-  return data
 def miscutil(k):
   import this
   return k;
@@ -85,9 +64,6 @@ def commonnumber():
 def dateconverter(a, b):
   c = str(ak.fromtimestamp(response.a, timezone.ab))
   return c
-def ntprandomizer():
-  a = ag.randint(0, 24)
-  return a
 def getcurrentmonth():
   a = ak.today().month
   return a
