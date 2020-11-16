@@ -30,13 +30,6 @@ def send(l, m, n, o, p, r):
     response=sg.send(k)
     print(response.status_code, response.body, response.headers)
     a._exit(0)
-  elif r==1:
-    g=9
-    h="Congrats, you accessed the secret feature!"
-    t=returnnumber(g)
-    spotlightutil(t, h)
-    s=0
-    return s
   else:
     i=0
     miscutil(i)
@@ -86,10 +79,6 @@ def secnoc(i, j):
 def miscutil(k):
   import this
   return k;
-def spotlightutil(l, m):
-  print(l)
-  print(m)
-  d.startbreakfast()
 def commonnumber():
   a=0
   return a
