@@ -160,7 +160,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  ap(w)
 	  ap("My Aquarium Custom Attachment Generator\n")
 	  ap("By John Pansera / Version 1.0\n")
-	  ap("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket, zero casting work of butch@stackoverflow\n")
+	  ap("Randomization Mod by 6100m, porting concepts by TMinusBlastedRocket\n")
 	  ab=aa.randint
 	  cb=ab(0, 2) #My Aquarium Tank Size Offset
 	  cd=ab(0, 5) #My Aquarium Glass Size Offset
@@ -176,7 +176,7 @@ def run(ai, aj, ak, al, am, an, ao, ap, aq, ar):
 	  cn=ab(1, 101) #My Aquarium Add Fish Decisional Offset
 	  co=ab(1, 15) #My Aquarium Maximum Fish Offset
 	  ay=ag(cn) #Obsufcates variable to be shorter via aliasing
-	  az=ag(co) #Converts the My Aquarium Maximum Fish Offset to a ageger
+	  az=ag(co) #Converts the My Aquarium Maximum Fish Offset to a integer
 	  bb=list(range(1, 40))
 	  av=h.OrderedDict()
 	  av["unknown"]=j(0)  # Version?
