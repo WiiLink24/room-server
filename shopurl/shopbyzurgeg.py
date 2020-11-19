@@ -1,6 +1,6 @@
 #Copied from https://github.com/WiiLink24/room-server/blob/shop/shopurl/shop.py
 #Coded by 6100m, Spotlight, and zurgeg.
-from room import app, db
+from roomutils import app, db
 from models import TestShopppingBag
 from flask import send_from_directory
 @app.route('/shopurl/index.esf')
