@@ -76,12 +76,12 @@ class GloomSDKTasks():
         initialize(**options)
         c = ntplib.NTPClient()
         # Provide the respective ntp server ip in below function
-        response = c.request('uk.pool.ntp.org', version=3)
+        response = c.request(config["datadog_ntp_server"], version=3)
         response.offset
         currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc))
         title = "6100m's DLC Bot Hook was ran!"
         text = 'Script was ran at: ' + currenttime + ' UTC' 
-        tags = ['version:1', 'application:web']
+        tags = ['version:1', 'application:python']
         api.Event.create(title=title, text=text, tags=tags)
         if config["production"] and config["send_stats"]:    
             statsd.increment("shopsdk.pointsremoved", pointsneeded)
