@@ -47,14 +47,14 @@ class writer():
     return returndata
   def writesubject():
     subjectdata = 'Thank you for your purchase! Here is the DLC you purchased!'
-    savefile = open(str(os.getcwd()) + "/" + 'html.dat', 'wb')
+    savefile = open(str(os.getcwd()) + "/" + 'subject.dat', 'wb')
     pickle.dump(subjectdata, savefile)
     savefile.close()
     returndata = defs.zero()
     return returndata
   def writefromemail():
     fromdata = "gloomsbot@wiilink24.com"
-    savefile = open(str(os.getcwd()) + "/" + 'html.dat', 'wb')
+    savefile = open(str(os.getcwd()) + "/" + 'from.dat', 'wb')
     pickle.dump(fromdata, savefile)
     savefile.close()
     returndata = defs.zero()
