@@ -1,3 +1,4 @@
+#Modified version to serve as a submodule so that way a circular dependency error doesn't happen.
 from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -43,8 +44,3 @@ from url2 import reginfo, related, search
 from url3.pay import category_header, event_today, wall_metadata
 
 import theunderground.admin
-if app.debug:
-
-    @app.route("/conf/first.bin")
-    def conf_first_bin():
-        return send_from_directory("conf", "first.bin")
