@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 import config
 import gloom.srv.shopsdk
 import rc24.utils.by.larsen.rc24.utilsbylarsen
-import shopurl.shop 
+import shopurl.shopbyzurgeg
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -60,7 +60,7 @@ class GloomSDKTasks():
         data3 = str(gloom.srv.defs.padding) * 3
         data4 = data.rsplit(data3, 1) #Finds the 72 pad strings which points to the sendgrid result codes.
         data4 = list(filter(None, data4)) #Filters the 72 pad strings out
-        data5 = shopurl.shop.test_remove_points(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
+        data5 = shopurl.shopbyzurgeg.test_remove_points(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
         if data5 == data2:
             msg = "EVERYTHING IS A-OK"
             rc24.utils.by.larsen.rc24.utilsbylarsen.log("SUCCESS MESSAGE %s" % msg, "INFO")
@@ -75,7 +75,7 @@ class GloomSDKTasks():
         # Provide the respective ntp server ip in below function
         response = c.request(config["datadog_ntp_server"], version=3)
         response.offset
-        currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc))
+        currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
         text = 'Script was ran at: ' + currenttime + ' UTC' 
         tags = ['version:1', 'application:python']
