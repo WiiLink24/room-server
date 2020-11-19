@@ -17,7 +17,7 @@ login = LoginManager(app)
 # models automatically within a test context.
 db = SQLAlchemy()
 import models
-sdk = GloomSDKTasks.sender() #Invoke SDK as sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
+sdk = GloomSDKTasks.sender() #Invoke SDK as sdk(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
