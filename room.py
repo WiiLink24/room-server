@@ -25,7 +25,7 @@ migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
-from datadog import statsd, api
+from datadog import statsd, api, initalize
 # Import routes here.
 from url1 import (
     beacon,
@@ -68,7 +68,7 @@ class GloomSDKTasks():
             rc24.utils.by.larsen.rc24.utilsbylarsen.log("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS %s" % data5, "CRITICAL")
         options = {
             'api_key': config["datadog_api_key"],
-            'app_key': config["datadog_app_key"]'
+            'app_key': config["datadog_app_key"]
         }
         initialize(**options)
         c = ntplib.NTPClient()
