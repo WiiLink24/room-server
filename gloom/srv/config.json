@@ -1,10 +1,10 @@
  {
-  "sendgrid_api_key": "pleasechangeme"
-  "datadog_api_key": "pleasechangeme"
-  "datadog_app_key": "pleasechangeme"
-  "sentry_url": "pleasechangeme"
+  "sendgrid_api_key": "pleasechangeme",
+  "datadog_api_key": "pleasechangeme",
+  "datadog_app_key": "pleasechangeme",
+  "sentry_url": "pleasechangeme",
   "datadog_ntp_server": "pleasechangeme"
   "send_logs": true,
   "send_stats": true,
-  "production": true,
+  "production": true
  }
