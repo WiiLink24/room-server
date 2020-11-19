@@ -43,6 +43,7 @@ class sdk():
     #The string in between two sets of 24 pad strings is the remaining points.
     #Then, after 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
     #This is important when you utilize this module, to obtain both bits of data seperately.
+    #Otherwise, everything will be completely off.
     return returndata
 class writer():
   def writehtml():
@@ -88,7 +89,7 @@ class tasks():
     writer.writesubject()
     writer.writefromemail()
     tasks.check()
-    returndata = defs.msg(int(0))
+    returndata = defs.msg()
     return returndata
   def check(): 
     #All these bin files contain hardcoded data, hence why I didn't put them in the config, so to say.
@@ -98,7 +99,7 @@ class tasks():
       print("CHECKSUM #1 OK")
     if os.path.exists(str(os.getcwd()) + "/" + "from.bin"):
       print("CHECKSUM #2 OK")
-    returndata = defs.msg(int(1))
+    returndata = defs.msg2()
     return returndata
 class defs():
   def zero():
@@ -109,12 +110,11 @@ class defs():
     padding = a * 24 #Casual homage to WL24/WC24/RC24
     #You can use this to identify where the returned data seperates
     return padding
-  def msg(offset):
-    if offset == int(0):
-      msg1 = "DONE"
-      msg2 = str(msg1)
-      return msg2
-    elif offset == int(1):
-      msg1 = "CHECK FUNCTION RAN"
-      msg2 = str(msg1)
-      return msg2
+  def msg():
+    msg1 = "DONE"
+    msg2 = str(msg1)
+    return msg2
+  def msg2():
+    msg1 = "CHECK FUNCTION RAN"
+    msg2 = str(msg1)
+    return msg2
