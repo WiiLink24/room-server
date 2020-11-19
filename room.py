@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 import config
 import gloom.srv.shopsdk
-import gloom.srv.utilsbylarsen
+import rc24.utils.by.larsen.rc24.utilsbylarsen
 import shopurl.shop 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
@@ -45,7 +45,6 @@ from url3.pay import category_header, event_today, wall_metadata
 import time
 import theunderground.admin
 if app.debug:
-
     @app.route("/conf/first.bin")
     def conf_first_bin():
         return send_from_directory("conf", "first.bin")
@@ -55,7 +54,7 @@ class GloomSDKTasks():
         with open(str(currentpath) + str("./gloom/srv/config.json"), "rb") as f:
             config = json.load(f)
         if config["production"] and config["send_logs"]:
-            gloom.srv.utilsbylarsen.setup_log(config["sentry_url"], False)
+            rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         data2 = data.rsplit(gloom.srv.defs.padding, 4) #Finds the 24 pad strings which point to the remaining points
         data2 = list(filter(None, data2)) #Filters the 24 pad strings out
@@ -65,9 +64,9 @@ class GloomSDKTasks():
         data5 = shopurl.shop.test_remove_points(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
         if data5 == data2:
             msg = "EVERYTHING IS A-OK"
-            gloom.srv.utilsbylarsen.log("SUCCESS MESSAGE %s" % msg, "INFO")
+            rc24.utils.by.larsen.rc24.utilsbylarsen.log("SUCCESS MESSAGE %s" % msg, "INFO")
         else:
-            gloom.srv.utilsbylarsen.log("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS %s" % data5, "CRITICAL")
+            rc24.utils.by.larsen.rc24.utilsbylarsen.log("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS %s" % data5, "CRITICAL")
         options = {
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]'
