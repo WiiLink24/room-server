@@ -114,7 +114,7 @@ class defs():
       msg1 = "DONE"
       msg2 = str(msg1)
       return msg2
-    if offset == int(1):
+    elif offset == int(1):
       msg1 = "CHECK FUNCTION RAN"
       msg2 = str(msg1)
       return msg2
