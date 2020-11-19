@@ -3,7 +3,7 @@
   "datadog_api_key": "pleasechangeme",
   "datadog_app_key": "pleasechangeme",
   "sentry_url": "pleasechangeme",
-  "datadog_ntp_server": "pleasechangeme"
+  "datadog_ntp_server": "uk.pool.ntp.org",
   "send_logs": true,
   "send_stats": true,
   "production": true
