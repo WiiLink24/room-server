@@ -11,7 +11,7 @@ FileName,
 FileType, 
 Disposition
 )
-class sdk(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
+class sdk():
   def send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
     with open(str(os.getcwd()) + "./config.json", "rb") as f:
       config = json.load(f)
