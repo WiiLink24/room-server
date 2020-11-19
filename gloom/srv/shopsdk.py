@@ -35,7 +35,7 @@ class sdk():
     sg = SendGridAPIClient(config["sendgrid_api_key"])
     response = sg.send(message)
     data = str(currentnoofpoints - pointsneeded)
-    returndata = str(data) + str(defs.padding()) + str("\\\\\\") + str(defs.padding()) + str(response.status_code, response.body, response.headers)
+    returndata = str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(response.status_code, response.body, response.headers)
     return returndata;
 class writer():
   def writehtml():
