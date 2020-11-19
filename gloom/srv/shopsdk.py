@@ -36,7 +36,7 @@ class sdk():
     response = sg.send(message)
     data = str(currentnoofpoints - pointsneeded)
     returndata = str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(response.status_code, response.body, response.headers)
-    return returndata;
+    return returndata
 class writer():
   def writehtml():
     htmldata = '<strong>Check attachments, we attached your purchase!</strong><br><br><br><strong>Sent by 6100m\'s DLC Mail Bot</strong>'
