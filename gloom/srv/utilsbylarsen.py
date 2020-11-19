@@ -1,3 +1,5 @@
+#Copied from https://github.com/RiiConnect24/File-Maker/blob/master/utils.py
+#Coded by larsenv and AwesomeMarioFan
 import sentry_sdk
 import logging
 production = False
