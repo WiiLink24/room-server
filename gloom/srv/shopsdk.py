@@ -103,7 +103,7 @@ class tasks():
 class defs():
   def zero():
     data = int(0)
-    return data;
+    return data
   def padding():
     a = "pad"
     padding = a * 24 #Casual homage to WL24/WC24/RC24
