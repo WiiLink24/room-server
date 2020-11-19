@@ -37,9 +37,12 @@ class sdk():
     data = str(currentnoofpoints - pointsneeded)
     pad24 = str(defs.padding())
     pad48 = str(pad24) + str(pad24)
+    #Above, it sets up padding, sends the email..
+    #And it even calculates the remaining points.
     returndata = str(pad24) + str(data) + str(pad24) + str("/" * 24) + str(pad48) + str(response.status_code, response.body, response.headers) + str(pad48)
     #The string in between two sets of 24 pad strings is the remaining points.
     #Then, after 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
+    #This is important when you utilize this module, to obtain both bits of data seperately.
     return returndata
 class writer():
   def writehtml():
@@ -85,7 +88,7 @@ class tasks():
     writer.writesubject()
     writer.writefromemail()
     tasks.check()
-    returndata = defs.msg()
+    returndata = defs.msg(0)
     return returndata
   def check(): 
     #All these dat files contain hardcoded data, hence why I didn't put them in the config, so to say.
@@ -95,7 +98,7 @@ class tasks():
       print("CHECKSUM #1 OK")
     if os.path.exists(str(os.getcwd()) + "/" + "from.bin"):
       print("CHECKSUM #2 OK")
-    returndata = defs.padding()
+    returndata = defs.msg(1)
     return returndata
 class defs():
   def zero():
@@ -106,7 +109,12 @@ class defs():
     padding = a * 24 #Casual homage to WL24/WC24/RC24
     #You can use this to identify where the returned data seperates
     return padding
-  def msg():
-    msg1 = "DONE"
-    msg2 = str(msg1)
-    return msg2
+  def msg(offset):
+    if offset == 0:
+      msg1 = "DONE"
+      msg2 = str(msg1)
+      return msg2
+    if offset == 1:
+      msg1 = "CHECK FUNCTION RAN"
+      msg2 = str(msg1)
+      return msg2
