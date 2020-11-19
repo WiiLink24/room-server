@@ -99,7 +99,7 @@ class defs():
     return data;
   def padding():
     a = "pad"
-    padding = a * 24 
+    padding = a * 24 #Casual homage to WiiLink24/WC24/RC24
     #You can use this to identify where the returned data seperates
     return padding
   def msg():
