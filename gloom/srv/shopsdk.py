@@ -91,7 +91,7 @@ class tasks():
     returndata = defs.msg(int(0))
     return returndata
   def check(): 
-    #All these dat files contain hardcoded data, hence why I didn't put them in the config, so to say.
+    #All these bin files contain hardcoded data, hence why I didn't put them in the config, so to say.
     if os.path.exists(str(os.getcwd()) + "/" + "html.bin"):
       print("CHECKSUM #0 OK")
     if os.path.exists(str(os.getcwd()) + "/" + "subject.bin"):
