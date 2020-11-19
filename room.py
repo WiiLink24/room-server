@@ -63,7 +63,7 @@ class GloomSDKTasks():
         data5 = shopurl.shopbyzurgeg.test_remove_points(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
         if data5 == data2:
             msg = "EVERYTHING IS A-OK"
-            rc24.utils.by.larsen.rc24.utilsbylarsen.log("SUCCESS MESSAGE %s" % msg, "INFO")
+            rc24.utils.by.larsen.rc24.utilsbylarsen.log("SUCCESS MESSAGE: %s" % msg, "INFO")
         else:
             rc24.utils.by.larsen.rc24.utilsbylarsen.log("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS %s" % data5, "CRITICAL")
         options = {
