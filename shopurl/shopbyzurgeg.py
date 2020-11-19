@@ -10,7 +10,7 @@ def shop():
 def test_order():
   return {'status':0,message:'ordered'}
 @app.route('/v1/testing/register',methods=['POST'])
-def test_register()
+def test_register():
   data = request.get_headers()
   if data['X-Wii-Number'] in ['disallowed wii numbers/already registered wii numbers']:
     return {'status':1,message:'Wii Number already registered or access denied'}
