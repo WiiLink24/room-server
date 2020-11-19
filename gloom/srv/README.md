@@ -1,3 +1,4 @@
+# ShopSDK Lite 
 To setup, do:
 ```bash
 bash
