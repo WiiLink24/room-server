@@ -34,7 +34,7 @@ class sdk():
     message.attachment = attachedFile
     sg = SendGridAPIClient(config["sendgrid_api_key"])
     response = sg.send(message)
-    data = str(currentnoofpoints - pointsneeded)
+    data = int(currentnoofpoints - pointsneeded)
     pad24 = str(defs.padding())
     pad48 = str(pad24) + str(pad24)
     #Above, it sets up padding, sends the email..
