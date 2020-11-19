@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "shopsdk"
 version = "0.1.0"
-description = "Wii No Ma Shop Engine"
+description = "Wii No Ma Shop Email Bot Engine"
 authors = ["6100m <gloom@wiilink24.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
