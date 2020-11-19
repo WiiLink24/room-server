@@ -11,5 +11,7 @@ Python 3.8.5 (default, Jul 20 2020, 19:48:14)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import shopsdk
 >>> shopsdk.tasks.setup()
+>>> shopsdk.tasks.check()
 ```
-This will setup the enviroment.
+If you see all three checksums being OK, you are good to go!
+Now you have setup the enviroment.
