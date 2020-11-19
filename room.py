@@ -83,3 +83,5 @@ class GloomSDKTasks():
         if config["production"] and config["send_stats"]:    
             statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
+    def setup():
+        gloom.srv.shopsdk.tasks.setup()
