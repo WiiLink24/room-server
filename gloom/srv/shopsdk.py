@@ -35,7 +35,9 @@ class sdk():
     sg = SendGridAPIClient(config["sendgrid_api_key"])
     response = sg.send(message)
     data = str(currentnoofpoints - pointsneeded)
-    returndata = str(defs.padding()) + str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(defs.padding()) + str(response.status_code, response.body, response.headers) + str(defs.padding()) + str(defs.padding())
+    pad24 = str(defs.padding())
+    pad48 = str(pad24) + str(pad24)
+    returndata = str(pad24) + str(data) + str(pad24) + str("/" * 24) + str(pad48) + str(response.status_code, response.body, response.headers) + str(pad48)
     #The string in between two sets of 24 pad strings is the remaining points.
     #Then, after 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
     return returndata
