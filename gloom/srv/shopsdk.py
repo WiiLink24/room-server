@@ -39,9 +39,9 @@ class sdk():
     pad48 = str(pad24) + str(pad24)
     #Above, it sets up padding, sends the email..
     #And it even calculates the remaining points.
-    returndata = str(pad24) + str(data) + str(pad24) + str("/" * 24) + str(pad48) + str(response.status_code, response.body, response.headers) + str(pad48)
-    #The string in between two sets of 24 pad strings is the remaining points.
-    #Then, after 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
+    returndata = str(pad24) + str(data) + str(pad24) + str(pad48) + str(response.status_code, response.body, response.headers)
+    #The string after the set of 24 pad strings is the remaining points.
+    #The string after the set of 24 pad strings AND the set of 48 pad strings is the sendgrid result data.
     #This is important when you utilize this module, to obtain both bits of data seperately.
     #Otherwise, everything will be completely off.
     return returndata
