@@ -42,7 +42,6 @@ import pathlib
 from url2 import reginfo, related, search
 import json
 from url3.pay import category_header, event_today, wall_metadata
-import time
 import theunderground.admin
 if app.debug:
     @app.route("/conf/first.bin")
