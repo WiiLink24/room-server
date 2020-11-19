@@ -2,17 +2,20 @@ from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from datetime import datetime, timezone
+from datadog import statsd, api, initalize
 import config
 import gloom.srv.shopsdk
 import rc24.utils.by.larsen.rc24.utilsbylarsen
 import shopurl.shopbyzurgeg
+import json
+import ntplib
+import pathlib
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
-import ntplib
 login = LoginManager(app)
-from datetime import datetime, timezone
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
 # It must not initialize around an app so that we can create
@@ -25,7 +28,6 @@ migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
-from datadog import statsd, api, initalize
 # Import routes here.
 from url1 import (
     beacon,
@@ -38,9 +40,7 @@ from url1 import (
     wall_metadata,
 )
 from url1.special import all, allbin, page
-import pathlib
 from url2 import reginfo, related, search
-import json
 from url3.pay import category_header, event_today, wall_metadata
 import theunderground.admin
 if app.debug:
