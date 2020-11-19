@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 import config
-
+import gloom.srv.shopsdk
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -17,7 +17,7 @@ login = LoginManager(app)
 # models automatically within a test context.
 db = SQLAlchemy()
 import models
-
+sdk = GloomSDKTasks.sender() #Invoke SDK as sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
@@ -48,3 +48,6 @@ if app.debug:
     @app.route("/conf/first.bin")
     def conf_first_bin():
         return send_from_directory("conf", "first.bin")
+class GloomSDKTasks():
+    def sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
+        gloom.srv.shopsdk(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
