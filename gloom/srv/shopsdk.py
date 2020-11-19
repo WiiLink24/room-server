@@ -37,7 +37,7 @@ class sdk():
     data = str(currentnoofpoints - pointsneeded)
     returndata = str(defs.padding()) + str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(defs.padding()) + str(response.status_code, response.body, response.headers) + str(defs.padding()) + str(defs.padding())
     #The string in between two sets of 24 pad strings is the remaining points.
-    #Then, seperate by 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
+    #Then, after 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
     return returndata
 class writer():
   def writehtml():
