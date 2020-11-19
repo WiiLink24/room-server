@@ -80,11 +80,31 @@ class tasks():
     writer.writehtml()
     writer.writesubject()
     writer.writefromemail()
+    tasks.check()
+    returndata = defs.msg()
+    return returndata
+  def check(): 
+    #All these dat files contain hardcoded data, hence why I didn't put them in the config, so to say.
+    if os.path.exists("html.dat"):
+      print("CHECKSUM #0 OK")
+    if os.path.exists("subject.dat"):
+      print("CHECKSUM #1 OK")
+    if os.path.exists("from.dat"):
+      print("CHECKSUM #2 OK")
+    returndata = defs.padding()
+    return returndata
 class defs():
   def zero():
     data = 0
     return data;
   def padding():
     a = "pad"
-    padding = a * 4
+    padding = a * 24 
+    #You can use this to identify where the returned data seperates
     return padding
+  def msg():
+    msg = "DONE"
+    padding = defs.padding()
+    msg2 = msg + padding
+    msg3 = str(msg2)
+    return msg3
