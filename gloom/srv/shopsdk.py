@@ -88,7 +88,7 @@ class tasks():
     writer.writesubject()
     writer.writefromemail()
     tasks.check()
-    returndata = defs.msg(0)
+    returndata = defs.msg(int(0))
     return returndata
   def check(): 
     #All these dat files contain hardcoded data, hence why I didn't put them in the config, so to say.
@@ -98,11 +98,11 @@ class tasks():
       print("CHECKSUM #1 OK")
     if os.path.exists(str(os.getcwd()) + "/" + "from.bin"):
       print("CHECKSUM #2 OK")
-    returndata = defs.msg(1)
+    returndata = defs.msg(int(1))
     return returndata
 class defs():
   def zero():
-    data = 0
+    data = int(0)
     return data;
   def padding():
     a = "pad"
@@ -110,11 +110,11 @@ class defs():
     #You can use this to identify where the returned data seperates
     return padding
   def msg(offset):
-    if offset == 0:
+    if offset == int(0):
       msg1 = "DONE"
       msg2 = str(msg1)
       return msg2
-    if offset == 1:
+    if offset == int(1):
       msg1 = "CHECK FUNCTION RAN"
       msg2 = str(msg1)
       return msg2
