@@ -35,7 +35,7 @@ class sdk():
     sg = SendGridAPIClient(config["sendgrid_api_key"])
     response = sg.send(message)
     data = str(currentnoofpoints - pointsneeded)
-    returndata = str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(response.status_code, response.body, response.headers)
+    returndata = str(defs.padding()) + str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(response.status_code, response.body, response.headers) #It is virtually impossible for your code to not find and detect the padding.
     return returndata
 class writer():
   def writehtml():
