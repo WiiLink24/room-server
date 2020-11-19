@@ -19,14 +19,13 @@ from datetime import datetime, timezone
 # models automatically within a test context.
 db = SQLAlchemy()
 import models
-sdk = GloomSDKTasks.sender() #Invoke SDK as sdk(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
+sdk = GloomSDKTasks.sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype) #Invoke SDK as sdk();
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
 from datadog import statsd, api
-
 # Import routes here.
 from url1 import (
     beacon,
@@ -52,7 +51,7 @@ if app.debug:
         return send_from_directory("conf", "first.bin")
 class GloomSDKTasks():
     def sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
-        currentpath = str(pathlib.Path(__file__).parent.absolute())
+        currentpath = str(pathlib.Path(__file__).parent.absolute()) + str("/")
         with open(str(currentpath) + str("./gloom/srv/config.json"), "rb") as f:
             config = json.load(f)
         if config["production"] and config["send_logs"]:
