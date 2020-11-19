@@ -35,7 +35,9 @@ class sdk():
     sg = SendGridAPIClient(config["sendgrid_api_key"])
     response = sg.send(message)
     data = str(currentnoofpoints - pointsneeded)
-    returndata = str(defs.padding()) + str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(response.status_code, response.body, response.headers) #It is virtually impossible for your code to not find and detect the padding.
+    returndata = str(defs.padding()) + str(data) + str(defs.padding()) + str("/" * 24) + str(defs.padding()) + str(defs.padding()) + str(response.status_code, response.body, response.headers) + str(defs.padding()) + str(defs.padding())
+    #The string in between two sets of 24 pad strings is the remaining points.
+    #Then, seperate by 24 slashes, the string in between two sets of 48 pad strings is the sendgrid result data.
     return returndata
 class writer():
   def writehtml():
@@ -103,8 +105,6 @@ class defs():
     #You can use this to identify where the returned data seperates
     return padding
   def msg():
-    msg = "DONE"
-    padding = defs.padding()
-    msg2 = msg + padding
-    msg3 = str(msg2)
-    return msg3
+    msg1 = "DONE"
+    msg2 = str(msg1)
+    return msg2
