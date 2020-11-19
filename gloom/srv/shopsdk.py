@@ -86,5 +86,5 @@ class defs():
     return data;
   def padding():
     a = "pad"
-    data = a * 4
+    padding = a * 4
     return padding
