@@ -24,9 +24,9 @@ class sdk():
     with open(filetosend, 'rb') as f:
       data = f.read()
       f.close()
-    encoded_file = binascii.b2a_base64(bytes(data)).decode()
+    encodedfile = binascii.b2a_base64(bytes(data)).decode()
     attachedFile = Attachment(
-      FileContent(encoded_file),
+      FileContent(encodedfile),
       FileName(filetosend),
       FileType(contenttype),
       Disposition('attachment')
