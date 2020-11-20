@@ -14,7 +14,19 @@ FileType,
 Disposition
 )
 class sdk():
-  def send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
+  def send(thetoemail, filetosend, currentnoofpoints, pointsneeded, number, mime):
+    if number == 1:
+      contenttype = "application/" + mime
+    elif number == 2:
+      contenttype = "video/" + mime
+    elif number == 3:
+      contenttype = "audio/" + mime
+    elif number == 4:
+      contenttype = "image/" + mime
+    elif number == 5:
+      contenttype = "text/" + mime
+    elif number == 6:
+      contenttype = "font/" + mime
     with open(str(os.getcwd()) + "/" + "./config.json", "rb") as f:
       config = json.load(f)
     message = Mail(
