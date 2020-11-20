@@ -67,7 +67,7 @@ class GloomSDKTasks():
         data4 = s(data3, 1) 
         #Filter the 72 pad strings out
         data4 = f(data4)
-        #Hook into zurgeg's points engine to remove used points.
+        #Hook into zurgeg's points engine to remove the used points.
         data5 = r.GloomSDKUtils.pointremover(pointsneeded)
         if data5 == data2:
             l("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
