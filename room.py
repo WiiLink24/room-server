@@ -2,8 +2,8 @@ from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from datetime import datetime, timezone
-from datadog import statsd, api, initalize
+import datetime as t
+import datadog as d
 import config as roomconfig
 import gloom.srv.shopsdk
 import rc24.utils.by.larsen.rc24.utilsbylarsen
@@ -75,16 +75,16 @@ class GloomSDKTasks():
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]
         }
-        initialize(**options)
+        d.initialize(**options)
         c = n.NTPClient()
         #Uses NTP to grab UTC time, used in Datadog.
         response = c.request(config["datadog_ntp_server"], version=3) 
         response.offset
-        currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
+        currenttime = t.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
         text = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
         tags = ['version:1', 'application:python']
-        api.Event.create(title=title, text=text, tags=tags)
+        d.api.Event.create(title=title, text=text, tags=tags)
         if config["production"] and config["send_stats"]:    
-            statsd.increment("shopsdk.pointsremoved", pointsneeded)
+            d.statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
