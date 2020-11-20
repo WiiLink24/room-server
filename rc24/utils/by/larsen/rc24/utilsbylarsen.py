@@ -23,5 +23,5 @@ def log(msg, level):  # TODO: Use number levels, strings are annoying
         elif level == "CRITICAL":
             logger.critical(msg)
         else:
-            log("SENTRY THREW EXCEPTION BECAUSE LEVEL WAS DEFINED AS: ", level, "CRITICAL")
+            log("SENTRY THREW EXCEPTION BECAUSE LEVEL WAS DEFINED AS: %s" % level, "CRITICAL")
             raise ExceptionError
