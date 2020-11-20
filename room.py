@@ -57,13 +57,13 @@ class GloomSDKTasks():
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         #Finds the 24 pad strings which point to the remaining points
         data2 = roomutils.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
-        #Filters the 24 pad strings out
+        #Filter the 24 pad strings out
         data2 = roomutils.GloomSDKUtils.filter(data2) 
         #Triples padding for sendgrid result code detection
         data3 = roomutils.GloomSDKUtils.triple(gloom.srv.defs.padding)
-        #Finds the 72 pad strings which points to the sendgrid result codes.
+        #Find the 72 pad strings which points to the sendgrid result codes.
         data4 = roomutils.GloomSDKUtils.split(data3, 1) 
-        #Filters the 72 pad strings out
+        #Filter the 72 pad strings out
         data4 = roomutils.GloomSDKUtils.filter(data4)
         #Hooks into zurgeg's points engine to asynchronously remove the points they used.
         data5 = roomutils.GloomSDKUtils.pointremover(pointsneeded)
