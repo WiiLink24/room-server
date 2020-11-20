@@ -88,4 +88,5 @@ class GloomSDKUtils():
         data = list(filter(None, offset)
         return data
     def split(offset0, offset1):
-        data.rsplit(offset0, offset1)
+        data =data.rsplit(offset0, offset1)
+        return data
