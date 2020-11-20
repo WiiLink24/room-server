@@ -61,9 +61,9 @@ class GloomSDKTasks():
         data2 = s(gloom.srv.defs.padding, 4) 
         #Filter the 24 pad strings out
         data2 = f(data2) 
-        #3x padding for sendgrid result code detection
+        #3x padding for sendgrid result code locating
         data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
-        #Find the 72 pad strings which points to sendgrid result codes.
+        #Find the 72 pad strings which point to sendgrid result codes.
         data4 = s(data3, 1) 
         #Filter the 72 pad strings out
         data4 = f(data4)
@@ -84,7 +84,7 @@ class GloomSDKTasks():
         response.offset
         currenttime = t.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
-        txt = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
+        txt = 'Script was ran at: ' + currenttime + ' | UTC | @ TX' 
         tag = ['version:1', 'application:python']
         d.api.Event.create(title=title, text=txt, tags=tag)
         if config["production"] and config["send_stats"]:    
