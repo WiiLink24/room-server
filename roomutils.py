@@ -50,3 +50,5 @@ class GloomSDKUtils():
         return pointsneeded
     def setuptool(url):
         rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(url, False)
+        data = msgtool()
+        return data
