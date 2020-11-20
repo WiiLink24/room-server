@@ -23,20 +23,7 @@ migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
-# Import routes here.
-from url1 import (
-    beacon,
-    category_n,
-    eula,
-    event_today,
-    mii,
-    movie_metadata,
-    paylink,
-    wall_metadata,
-)
 from url1.special import all, allbin, page
-from url2 import reginfo, related, search
-from url3.pay import category_header, event_today, wall_metadata
 import theunderground.admin
 class GloomSDKUtils():
     def setup():
