@@ -82,7 +82,8 @@ class GloomSDKTasks():
         return data4
 class GloomSDKUtils():
     def setup():
-        gloom.srv.shopsdk.tasks.setup()
+        data = gloom.srv.shopsdk.tasks.setup()
+        return data
     def filter(offset):
         data = list(filter(None, offset)
         return data
@@ -94,6 +95,8 @@ class GloomSDKUtils():
         return data
     def loggertool(offset0, offset1, offset2):
         rc24.utils.by.larsen.rc24.utilsbylarsen.log(offset0 % offset1, offset2)
+        data = msgtool()
+        return data
     def msgtool():
         data = "EVERYTHING A-OK"
         return data
