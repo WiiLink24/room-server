@@ -4,18 +4,18 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from datetime import datetime, timezone
 from datadog import statsd, api, initalize
-import config
+import config as roomconfig
 import gloom.srv.shopsdk
 import rc24.utils.by.larsen.rc24.utilsbylarsen
 import shopurl.shopbyzurgeg
-import json
-import ntplib
-import pathlib
+import json as j
+import ntplib as n
+import pathlib as p
 import roomutils as r
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
+app.config["SQLALCHEMY_DATABASE_URI"] = roomconfig.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = config.secret_key
+app.config["SECRET_KEY"] = roomconfig.secret_key
 login = LoginManager(app)
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
@@ -49,9 +49,9 @@ if app.debug:
         return send_from_directory("conf", "first.bin")
 class GloomSDKTasks():
     def sender(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype):
-        currentpath = str(pathlib.Path(__file__).parent.absolute()) + str("/gloom/srv/")
-        with open(str(currentpath) + str("./config.json"), "rb") as f:
-            config = json.load(f)
+        path = str(p.Path(__file__).parent.absolute()) + str("/gloom/srv/")
+        with open(str(path) + str("./config.json"), "rb") as f:
+            config = j.load(f)
         if config["production"] and config["send_logs"]:
             rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
@@ -76,7 +76,7 @@ class GloomSDKTasks():
             'app_key': config["datadog_app_key"]
         }
         initialize(**options)
-        c = ntplib.NTPClient()
+        c = n.NTPClient()
         #Uses NTP to grab UTC time, used in Datadog.
         response = c.request(config["datadog_ntp_server"], version=3) 
         response.offset
