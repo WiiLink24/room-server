@@ -55,12 +55,18 @@ class GloomSDKTasks():
         if config["production"] and config["send_logs"]:
             rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
-        data2 = roomutils.GloomSDKUtils.split(gloom.srv.defs.padding, 4) #Finds the 24 pad strings which point to the remaining points
-        data2 = roomutils.GloomSDKUtils.filter(data2) #Filters the 24 pad strings out
+        #Finds the 24 pad strings which point to the remaining points
+        data2 = roomutils.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
+        #Filters the 24 pad strings out
+        data2 = roomutils.GloomSDKUtils.filter(data2) 
+        #Triples padding for sendgrid result code detection
         data3 = roomutils.GloomSDKUtils.triple(gloom.srv.defs.padding)
-        data4 = roomutils.GloomSDKUtils.split(data3, 1) #Finds the 72 pad strings which points to the sendgrid result codes.
-        data4 = roomutils.GloomSDKUtils.filter(data4) #Filters the 72 pad strings out
-        data5 = roomutils.GloomSDKUtils.pointremover(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
+        #Finds the 72 pad strings which points to the sendgrid result codes.
+        data4 = roomutils.GloomSDKUtils.split(data3, 1) 
+        #Filters the 72 pad strings out
+        data4 = roomutils.GloomSDKUtils.filter(data4)
+        #Hooks into zurgeg's points engine to asynchronously remove the points they used.
+        data5 = roomutils.GloomSDKUtils.pointremover(pointsneeded)
         if data5 == data2:
             roomutils.GloomSDKUtils.loggertool("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
@@ -71,7 +77,8 @@ class GloomSDKTasks():
         }
         initialize(**options)
         c = ntplib.NTPClient()
-        response = c.request(config["datadog_ntp_server"], version=3) #Uses NTP to grab UTC timestamp, used in Datadog.
+        #Uses NTP to grab UTC timestamp, used in Datadog.
+        response = c.request(config["datadog_ntp_server"], version=3) 
         response.offset
         currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
