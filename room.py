@@ -79,7 +79,7 @@ class GloomSDKTasks():
         }
         d.initialize(**options)
         c = n.NTPClient()
-        #Uses NTP to grab UTC time, used in Datadog.
+        #Uses NTP to grab UTC time for Datadog.
         response = c.request(config["datadog_ntp_server"], version=3) 
         response.offset
         currenttime = t.fromtimestamp(response.tx_time, timezone.utc)
