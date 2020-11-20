@@ -11,6 +11,7 @@ import shopurl.shopbyzurgeg
 import json
 import ntplib
 import pathlib
+import roomutils as GloomSDKUtils
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -80,26 +81,3 @@ class GloomSDKTasks():
         if config["production"] and config["send_stats"]:    
             statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
-class GloomSDKUtils():
-    def setup():
-        data = gloom.srv.shopsdk.tasks.setup()
-        return data
-    def filter(offset):
-        data = list(filter(None, offset)
-        return data
-    def split(offset0, offset1):
-        data = data.rsplit(offset0, offset1)
-        return data
-    def triple(string):
-        data = string * 3
-        return data
-    def loggertool(offset0, offset1, offset2):
-        rc24.utils.by.larsen.rc24.utilsbylarsen.log(offset0 % offset1, offset2)
-        data = msgtool()
-        return data
-    def msgtool():
-        data = "EVERYTHING A-OK"
-        return data
-    def pointremover(pointsneeded):
-        shopurl.shopbyzurgeg.test_remove_points(pointsneeded)
-        return pointsneeded
