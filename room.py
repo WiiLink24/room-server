@@ -76,7 +76,7 @@ class GloomSDKTasks():
         response.offset
         currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
-        text = 'Script was ran at: ' + currenttime + ' UTC | @ UK' 
+        text = 'Script was ran at: ' + currenttime + ' | UTC | @ UK ' 
         tags = ['version:1', 'application:python']
         api.Event.create(title=title, text=text, tags=tags)
         if config["production"] and config["send_stats"]:    
