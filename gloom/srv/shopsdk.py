@@ -37,6 +37,7 @@ class sdk():
       contenttype = "font/" + mime
     else:
        utilsbylarsen.log("THREW EXCEPTION IN ENGINE SCRIPT BECAUSE INTEGER IS: " % number, "CRITICAL")
+       raise ExceptionError
     message = Mail(
       from_email=reader.readthefromemail(),
       to_emails=thetoemail,
