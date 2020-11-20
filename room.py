@@ -73,6 +73,7 @@ class GloomSDKTasks():
             l("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
             l("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
+            raise ExceptionError
         options = {
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]
