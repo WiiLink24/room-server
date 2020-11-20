@@ -2,7 +2,9 @@ import pickle
 import binascii
 import json
 import os
-from sendgrid import SendGridAPIClient
+from sendgrid import (
+  SendGridAPIClient
+)
 from sendgrid.helpers.mail import (
 Mail, 
 Attachment, 
