@@ -3,18 +3,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 import datetime
-import datadog as d
+import datadog
 import config as roomconf
 import gloom.srv.shopsdk
-import json as j
-import ntplib as n
+import json
+import ntplib
 import pathlib
-import roomutils as r
+import roomutils
 app = Flask(__name__)
 g = gloom.srv.shopsdk
-f = r.GloomSDKUtils.filter
-l = r.GloomSDKUtils.loggertool
-s = r.GloomSDKUtils.split
+f = roomutils.GloomSDKUtils.filter
+l = roomutils.GloomSDKUtils.loggertool
+s = roomutils.GloomSDKUtils.split
 app.config["SQLALCHEMY_DATABASE_URI"] = roomconf.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = roomconf.secret_key
@@ -50,26 +50,26 @@ if app.debug:
     def conf_first_bin():
         return send_from_directory("conf", "first.bin")
 class GloomSDKTasks():
-    def sender(toemail, filename, currentpointsno, pointsneeded, contenttype):
-        path = str(pathlib.Path(__file__).parent.absolute()) + str("/gloom/srv/")
+    def sender(toemail, filename, currentpointsno, pointsneeded, num):
+        path=str(pathlib.Path(__file__).parent.absolute()) + str("/gloom/srv/")
         with open(str(path) + str("./config.json"), "rb") as f:
-            conf = j.load(f)
+            conf=json.load(f)
         if conf["production"] and conf["send_logs"]:
-           r.GloomSDKUtils.setuptool(conf["sentry_url"])
-        data = g.send(toemail, filename, currentnoofpoints, pointsneeded, contenttype)
-        #Find 24 pad strings that point to used points
-        data2 = s(gloom.srv.defs.padding, 4) 
+           roomutils.GloomSDKUtils.setuptool(conf["sentry_url"])
+        data=g.send(toemail, filename, currentnoofpoints, pointsneeded, num)
+        #Find 24 pad strings that point to spent points
+        data2=s(gloom.srv.defs.padding, 4) 
         #Filter out 24 pad strings
-        data2 = f(data2) 
-        #3x padding to locate sendgrid response codes
-        data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
-        #Find 72 pad strings which point to sendgrid response codes.
-        data4 = s(data3, 1) 
+        data2=f(data2) 
+        #Triple the padding for locating sendgrid response codes
+        data3=r.GloomSDKUtils.triple(gloom.srv.defs.padding)
+        #Find 72 pad strings which point to sendgrid response codes
+        data4=s(data3, 1) 
         #Filter out 72 pad strings
-        data4 = f(data4)
-        #Hook into zurgeg's points engine to remove the used points.
-        data5 = r.GloomSDKUtils.pointremover(pointsneeded)
-        if data5 == data2:
+        data4=f(data4)
+        #Hook into zurgeg's points engine to remove spent points
+        data5=roomutils.GloomSDKUtils.pointremover(pointsneeded)
+        if data5==data2:
             l("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
             l("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
@@ -78,16 +78,16 @@ class GloomSDKTasks():
             'api_key': conf["datadog_api_key"],
             'app_key': conf["datadog_app_key"]
         }
-        d.initialize(**options)
-        c = n.NTPClient()
-        #Uses NTP to grab UTC time for Datadog.
-        response = c.request(conf["datadog_ntp_server"], version=3) 
+        datadog.initialize(**options)
+        c=ntplib.NTPClient()
+        #Uses NTP to get UTC time for Datadog
+        response=c.request(conf["datadog_ntp_server"], version=3) 
         response.offset
         currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
-        title = "6100m's DLC Bot Hook was ran!"
-        txt = 'Script was ran at: ' + currenttime + ' | UTC | @ TX' 
-        tag = ['version:1', 'application:python']
-        d.api.Event.create(title=title, text=txt, tags=tag)
-        if conf["production"] and conf["send_stats"]:    
-            d.statsd.increment("shopsdk.pointsremoved", pointsneeded)
+        title="6100m's DLC Bot Hook was ran!"
+        txt='Script was ran at: ' + currenttime + ' | UTC | @ TX' 
+        tag=['version:1', 'application:python']
+        datadog.api.Event.create(title=title, text=txt, tags=tag)
+        if conf["production] and conf["send_stats"]:    
+            datadog.statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
