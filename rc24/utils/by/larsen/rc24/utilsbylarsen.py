@@ -18,7 +18,7 @@ def log(msg, level):  # TODO: Use number levels, strings are annoying
     if p_errors:
         print(msg)
     if production:
-        elif level == "INFO":
+        if level == "INFO":
             logger.info(msg)
         elif level == "CRITICAL":
             logger.critical(msg)
