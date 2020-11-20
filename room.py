@@ -6,13 +6,14 @@ import datetime as t
 import datadog as d
 import config as roomconfig
 import gloom.srv.shopsdk
-import rc24.utils.by.larsen.rc24.utilsbylarsen
-import shopurl.shopbyzurgeg
 import json as j
 import ntplib as n
 import pathlib as p
 import roomutils as r
+import rc24.utils.by.larsen.rc24.utilsbylarsen
 app = Flask(__name__)
+g = gloom.srv.shopsdk
+f = r.GloomSDKUtils.filter
 app.config["SQLALCHEMY_DATABASE_URI"] = roomconfig.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = roomconfig.secret_key
@@ -54,17 +55,17 @@ class GloomSDKTasks():
             config = j.load(f)
         if config["production"] and config["send_logs"]:
             rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
-        data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
+        data = g.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         #Find the 24 pad strings which point to used points
         data2 = r.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
         #Filter the 24 pad strings out
-        data2 = r.GloomSDKUtils.filter(data2) 
+        data2 = f(data2) 
         #Triple padding for sendgrid result code detection
         data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
         #Find the 72 pad strings which points to sendgrid result codes.
         data4 = r.GloomSDKUtils.split(data3, 1) 
         #Filter the 72 pad strings out
-        data4 = r.GloomSDKUtils.filter(data4)
+        data4 = f(data4)
         #Hook into zurgeg's points engine to remove used points.
         data5 = r.GloomSDKUtils.pointremover(pointsneeded)
         if data5 == data2:
