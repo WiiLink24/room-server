@@ -48,3 +48,5 @@ class GloomSDKUtils():
     def pointremover(pointsneeded):
         shopurl.shopbyzurgeg.test_remove_points(pointsneeded)
         return pointsneeded
+    def setuptool(url):
+        rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(url, False)
