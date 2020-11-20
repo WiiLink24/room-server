@@ -11,7 +11,7 @@ import shopurl.shopbyzurgeg
 import json
 import ntplib
 import pathlib
-import roomutils
+import roomutils as r
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -55,22 +55,22 @@ class GloomSDKTasks():
         if config["production"] and config["send_logs"]:
             rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
-        #Find the 24 pad strings which point to remaining points
-        data2 = roomutils.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
+        #Find the 24 pad strings which point to used points
+        data2 = r.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
         #Filter the 24 pad strings out
-        data2 = roomutils.GloomSDKUtils.filter(data2) 
+        data2 = r.GloomSDKUtils.filter(data2) 
         #Triple padding for sendgrid result code detection
-        data3 = roomutils.GloomSDKUtils.triple(gloom.srv.defs.padding)
+        data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
         #Find the 72 pad strings which points to sendgrid result codes.
-        data4 = roomutils.GloomSDKUtils.split(data3, 1) 
+        data4 = r.GloomSDKUtils.split(data3, 1) 
         #Filter the 72 pad strings out
-        data4 = roomutils.GloomSDKUtils.filter(data4)
-        #Hook into zurgeg's points engine to remove points they used.
-        data5 = roomutils.GloomSDKUtils.pointremover(pointsneeded)
+        data4 = r.GloomSDKUtils.filter(data4)
+        #Hook into zurgeg's points engine to remove used points.
+        data5 = r.GloomSDKUtils.pointremover(pointsneeded)
         if data5 == data2:
-            roomutils.GloomSDKUtils.loggertool("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
+            r.GloomSDKUtils.loggertool("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
-            roomutils.GloomSDKUtils.loggertool("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
+            r.GloomSDKUtils.loggertool("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
         options = {
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]
