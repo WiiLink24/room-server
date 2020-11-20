@@ -2,6 +2,7 @@ import pickle
 import binascii
 import json
 import os
+import httpimport
 from sendgrid import (
   SendGridAPIClient
 )
@@ -15,6 +16,13 @@ Disposition
 )
 class sdk():
   def send(thetoemail, filetosend, currentnoofpoints, pointsneeded, number, mime):
+    url = "https://raw.githubusercontent.com/6100m/room-server-1/hotfix/rc24/utils/by/larsen/rc24/utilsbylarsen.py"
+    with httpimport.remote_repo(["utilsbylarsen"], url):
+      import utilsbylarsen
+    with open(str(os.getcwd()) + "/" + "./config.json", "rb") as f:
+      config = json.load(f)
+    if conf["production"] and conf["send_logs"]:
+      utilsbylarsen.setup_log(config["sentry_url"], False)
     if number == 1:
       contenttype = "application/" + mime
     elif number == 2:
@@ -27,8 +35,8 @@ class sdk():
       contenttype = "text/" + mime
     elif number == 6:
       contenttype = "font/" + mime
-    with open(str(os.getcwd()) + "/" + "./config.json", "rb") as f:
-      config = json.load(f)
+    else:
+       utilsbylarsen.log("THREW EXCEPTION IN ENGINE SCRIPT BECAUSE INTEGER IS: " % number, "CRITICAL")
     message = Mail(
       from_email=reader.readthefromemail(),
       to_emails=thetoemail,
