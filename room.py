@@ -56,15 +56,14 @@ class GloomSDKTasks():
         data = gloom.srv.shopsdk.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         data2 = GloomSDKUtils.split(gloom.srv.defs.padding, 4) #Finds the 24 pad strings which point to the remaining points
         data2 = GloomSDKUtils.filter(data2) #Filters the 24 pad strings out
-        data3 = gloom.srv.defs.padding) * 3
+        data3 = GloomSDKUtils.triple(gloom.srv.defs.padding)
         data4 = GloomSDKUtils.split(data3, 1) #Finds the 72 pad strings which points to the sendgrid result codes.
         data4 = GloomSDKUtils.filter(data4) #Filters the 72 pad strings out
-        data5 = shopurl.shopbyzurgeg.test_remove_points(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
+        data5 = GloomSDKUtils.pointremover(pointsneeded) #Hooks into zurgeg's points engine to asynchronously remove the points they used.
         if data5 == data2:
-            msg = "EVERYTHING IS A-OK"
-            rc24.utils.by.larsen.rc24.utilsbylarsen.log("SUCCESS MESSAGE: %s" % msg, "INFO")
+            GloomSDKUtils.loggertool("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
-            rc24.utils.by.larsen.rc24.utilsbylarsen.log("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS %s" % data5, "CRITICAL")
+            GloomSDKUtils.loggertool("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
         options = {
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]
@@ -90,3 +89,14 @@ class GloomSDKUtils():
     def split(offset0, offset1):
         data =data.rsplit(offset0, offset1)
         return data
+    def triple(string):
+        data = string * 3
+        return data
+    def loggertool(offset0, offset1, offset2):
+        rc24.utils.by.larsen.rc24.utilsbylarsen.log(offset0 % offset1, offset2)
+    def msgtool():
+        data = "EVERYTHING A-OK"
+        return data
+    def pointremover(pointsneeded):
+        shopurl.shopbyzurgeg.test_remove_points(pointsneeded)
+        return pointsneeded
