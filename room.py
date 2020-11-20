@@ -19,11 +19,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = roomconf.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = roomconf.secret_key
 login = LoginManager(app)
-# Ensure DB tables are created.
-# Importing models must occur after the DB is instantiated.
-# It must not initialize around an app so that we can create
-# models automatically within a test context.
+# Ensure DB tables are created
+# Importing models must occur after the DB is instantiated
+# It must not initialize around an app so that we can create models automatically within a test context
 db = SQLAlchemy()
+padding=gloom.srv.defs.padding
 import models
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
@@ -50,26 +50,26 @@ if app.debug:
     def conf_first_bin():
         return send_from_directory("conf", "first.bin")
 class GloomSDKTasks():
-    def sender(toemail, filename, currentpointsno, pointsneeded, num):
-        path=str(pathlib.Path(__file__).parent.absolute()) + str("/gloom/srv/")
-        with open(str(path) + str("./config.json"), "rb") as f:
+    def sender(toemail, file, currentpoints, pointsneeded, int(num), mime):
+        path=str(pathlib.Path(__file__).parent.absolute()) + "/gloom/srv/"
+        with open(path + "./config.json", "rb") as f:
             conf=json.load(f)
         if conf["production"] and conf["send_logs"]:
            roomutils.GloomSDKUtils.setuptool(conf["sentry_url"])
-        data=g.send(toemail, filename, currentnoofpoints, pointsneeded, num)
-        #Find 24 pad strings that point to spent points
-        data2=s(gloom.srv.defs.padding, 4) 
-        #Filter out 24 pad strings
-        data2=f(data2) 
-        #Triple the padding for locating sendgrid response codes
-        data3=r.GloomSDKUtils.triple(gloom.srv.defs.padding)
-        #Find 72 pad strings which point to sendgrid response codes
-        data4=s(data3, 1) 
-        #Filter out 72 pad strings
-        data4=f(data4)
-        #Hook into zurgeg's points engine to remove spent points
-        data5=roomutils.GloomSDKUtils.pointremover(pointsneeded)
-        if data5==data2:
+        data = g.send(toemail, file, currentpoints, pointsneeded, int(num), mime)
+        #Find 24 pad strings that point to spent points.
+        data2 = s(padding, 4) 
+        #Filter out 24 pad strings.
+        data2 = f(data2) 
+        #Triple the padding for locating sendgrid response codes.
+        data3 = r.GloomSDKUtils.triple(padding)
+        #Find 72 pad strings which point to sendgrid response codes.
+        data4 = s(data3, 1)
+        #Filter out 72 pad strings.
+        data4 = f(data4)
+        #Hooks into zurgeg's points engine to remove spent points.
+        data5 = roomutils.GloomSDKUtils.pointremover(pointsneeded)
+        if data5 == data2:
             l("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
             l("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
@@ -79,15 +79,15 @@ class GloomSDKTasks():
             'app_key': conf["datadog_app_key"]
         }
         datadog.initialize(**options)
-        c=ntplib.NTPClient()
-        #Uses NTP to get UTC time for Datadog
-        response=c.request(conf["datadog_ntp_server"], version=3) 
+        c = ntplib.NTPClient()
+        #Use NTP to get UTC time for Datadog.
+        response = c.request(conf["datadog_ntp_server"], version=3) 
         response.offset
         currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
-        title="6100m's DLC Bot Hook was ran!"
-        txt='Script was ran at: ' + currenttime + ' | UTC | @ TX' 
-        tag=['version:1', 'application:python']
-        datadog.api.Event.create(title=title, text=txt, tags=tag)
+        title = "6100m's DLC Bot Hook was ran!"
+        text = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
+        tags = ['version:1', 'application:python']
+        datadog.api.Event.create(title=title, text=text, tags=tags)
         if conf["production] and conf["send_stats"]:    
             datadog.statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
