@@ -10,10 +10,10 @@ import json as j
 import ntplib as n
 import pathlib as p
 import roomutils as r
-import rc24.utils.by.larsen.rc24.utilsbylarsen
 app = Flask(__name__)
 g = gloom.srv.shopsdk
 f = r.GloomSDKUtils.filter
+l = r.GloomSDKUtils.loggertool
 app.config["SQLALCHEMY_DATABASE_URI"] = roomconfig.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = roomconfig.secret_key
@@ -54,7 +54,7 @@ class GloomSDKTasks():
         with open(str(path) + str("./config.json"), "rb") as f:
             config = j.load(f)
         if config["production"] and config["send_logs"]:
-            rc24.utils.by.larsen.rc24.utilsbylarsen.setup_log(config["sentry_url"], False)
+           r.GloomSDKUtils.setuptool(config["sentry_url"])
         data = g.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         #Find the 24 pad strings which point to used points
         data2 = r.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
@@ -69,9 +69,9 @@ class GloomSDKTasks():
         #Hook into zurgeg's points engine to remove used points.
         data5 = r.GloomSDKUtils.pointremover(pointsneeded)
         if data5 == data2:
-            r.GloomSDKUtils.loggertool("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
+            l("SUCCESS MESSAGE: ", GloomSDKUtils.msgtool(), "INFO")
         else:
-            r.GloomSDKUtils.loggertool("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
+            l("THREW EXCEPTION BECAUSE OF INTEGER DEFINED AS: ", data5, "CRITICAL")
         options = {
             'api_key': config["datadog_api_key"],
             'app_key': config["datadog_app_key"]
