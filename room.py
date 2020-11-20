@@ -14,6 +14,7 @@ app = Flask(__name__)
 g = gloom.srv.shopsdk
 f = r.GloomSDKUtils.filter
 l = r.GloomSDKUtils.loggertool
+s = r.GloomSDKUtils.split
 app.config["SQLALCHEMY_DATABASE_URI"] = roomconfig.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = roomconfig.secret_key
@@ -57,13 +58,13 @@ class GloomSDKTasks():
            r.GloomSDKUtils.setuptool(config["sentry_url"])
         data = g.send(thetoemail, filetosend, currentnoofpoints, pointsneeded, contenttype)
         #Find the 24 pad strings which point to used points
-        data2 = r.GloomSDKUtils.split(gloom.srv.defs.padding, 4) 
+        data2 = s(gloom.srv.defs.padding, 4) 
         #Filter the 24 pad strings out
         data2 = f(data2) 
         #Triple padding for sendgrid result code detection
         data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
         #Find the 72 pad strings which points to sendgrid result codes.
-        data4 = r.GloomSDKUtils.split(data3, 1) 
+        data4 = s(data3, 1) 
         #Filter the 72 pad strings out
         data4 = f(data4)
         #Hook into zurgeg's points engine to remove used points.
