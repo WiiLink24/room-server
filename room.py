@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 import datetime as t
 import datadog as d
-import config as roomconfig
+import config as roomconf
 import gloom.srv.shopsdk
 import json as j
 import ntplib as n
@@ -15,9 +15,9 @@ g = gloom.srv.shopsdk
 f = r.GloomSDKUtils.filter
 l = r.GloomSDKUtils.loggertool
 s = r.GloomSDKUtils.split
-app.config["SQLALCHEMY_DATABASE_URI"] = roomconfig.db_url
+app.config["SQLALCHEMY_DATABASE_URI"] = roomconf.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = roomconfig.secret_key
+app.config["SECRET_KEY"] = roomconf.secret_key
 login = LoginManager(app)
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
@@ -61,7 +61,7 @@ class GloomSDKTasks():
         data2 = s(gloom.srv.defs.padding, 4) 
         #Filter the 24 pad strings out
         data2 = f(data2) 
-        #Triple padding for sendgrid result code detection
+        #3x padding for sendgrid result code detection
         data3 = r.GloomSDKUtils.triple(gloom.srv.defs.padding)
         #Find the 72 pad strings which points to sendgrid result codes.
         data4 = s(data3, 1) 
@@ -84,9 +84,9 @@ class GloomSDKTasks():
         response.offset
         currenttime = t.fromtimestamp(response.tx_time, timezone.utc)
         title = "6100m's DLC Bot Hook was ran!"
-        text = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
-        tags = ['version:1', 'application:python']
-        d.api.Event.create(title=title, text=text, tags=tags)
+        txt = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
+        tag = ['version:1', 'application:python']
+        d.api.Event.create(title=title, text=txt, tags=tag)
         if config["production"] and config["send_stats"]:    
             d.statsd.increment("shopsdk.pointsremoved", pointsneeded)
         return data4
