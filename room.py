@@ -79,11 +79,7 @@ class GloomSDKTasks():
             'app_key': conf["datadog_app_key"]
         }
         datadog.initialize(**options)
-        c = ntplib.NTPClient()
-        #Use NTP to get UTC time for Datadog.
-        response = c.request(conf["datadog_ntp_server"], version=3) 
-        response.offset
-        currenttime = datetime.fromtimestamp(response.tx_time, timezone.utc)
+        currenttime = datetime.datetime.now()
         title = "6100m's DLC Bot Hook was ran!"
         text = 'Script was ran at: ' + currenttime + ' | UTC | @ TX ' 
         tags = ['version:1', 'application:python']
