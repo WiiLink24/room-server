@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
 from wtforms import StringField, SubmitField, PasswordField, FileField
-from wtforms.validators import DataRequired
-from room import db
+from wtforms.validators import DataRequired, ValidationError
+
 from models import Movies
+
 
 class LoginForm(FlaskForm):
     username = StringField("Username")
@@ -23,10 +24,18 @@ class PosterForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     title = FileField("Image Selection", validators=[FileRequired()])
     submit = SubmitField("Create")
+
     def validate_movieid(self, movieid):
-          query = Movies.query.filter_by(movieid=movieid.data)
-          if query is None:
+        query = Movies.query.filter_by(movieid=movieid.data)
+        if query is None:
             raise ValidationError("Movie ID is not existent")
+
+
+class ParadeForm(FlaskForm):
+    miiid = StringField("Mii ID", validators=[DataRequired()])
+    company = StringField("Company", validators=[DataRequired()])
+    mii = FileField("Image Selection", validators=[FileRequired()])
+    submit = SubmitField("Create")
 
 
 class KillMii(FlaskForm):
@@ -54,7 +63,3 @@ class ConciergeForm(FlaskForm):
     #     query = ConciergeMii.query.filter_by(mii_id=miiid.data).first()
     #     if query is not None:
     #         raise ValidationError("Mii ID taken, add 1 to it")
-
-
-class PosterForm(FlaskForm):
-    pass

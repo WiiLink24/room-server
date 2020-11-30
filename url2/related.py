@@ -1,181 +1,30 @@
 from room import app
+from helpers import xml_node_name, RepeatedElement
 
 
 @app.route("/url2/miiinfo.cgi")
+@xml_node_name("MiiInfo")
 def miiinfo():
-    return """
-<MiiInfo>
-    <code>0</code>
-    <msg>thanks</msg>
-</MiiInfo>"""
+    return {"code": 0, "msg": "thanks"}
 
 
 @app.route("/url2/related.cgi")
+@xml_node_name("RelatedMovies")
 def related():
     # Hardcoded for now
-    return """
-<RelatedMovies>
-    <ver>399</ver>
-    <leftmovieinfo>
-        <rank>1</rank>
-        <movieid>2</movieid>
-        <title>Flight of a Shiba</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>2</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>3</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>4</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>5</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>6</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>7</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>8</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>9</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>10</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>11</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>12</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>13</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>14</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <leftmovieinfo>
-        <rank>15</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </leftmovieinfo>
-    <rightmovieinfo>
-        <rank>1</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>2</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>3</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>4</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>5</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>6</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>7</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>8</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>9</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>10</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>11</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>12</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>13</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>14</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-    <rightmovieinfo>
-        <rank>15</rank>
-        <movieid>4</movieid>
-        <title>Shiba the official</title>
-    </rightmovieinfo>
-</RelatedMovies>
-"""
+    movie_info = []
+    for num in range(15):
+        movie_info.append(
+            RepeatedElement(
+                {"rank": num + 1, "movieid": 2, "title": "Flight of a Shiba"}
+            )
+        )
+
+    return {"leftmovieinfo": movie_info, "rightmovieinfo": movie_info}
 
 
 @app.route("/url2/evaluate.cgi", methods=["GET", "POST"])
+@xml_node_name("Evaluate")
 def evaluate():
     # TODO! Write mii to a database!
-    return """
-<Evaluate>
-    <code>1</code>
-    <msg>awesome thanks</msg>
-</Evaluate>
-"""
+    return {"code": 1, "msg": "awesome thanks"}

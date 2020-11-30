@@ -18,7 +18,6 @@ login = LoginManager(app)
 db = SQLAlchemy()
 import models
 
-
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
@@ -40,7 +39,7 @@ from url1 import (
 )
 import url1.special.all, url1.special.page
 
-from url2 import reginfo, related
+from url2 import reginfo, related, search
 
 from url3.pay import category_header, event_today, wall_metadata
 from theunderground import admin

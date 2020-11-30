@@ -70,7 +70,7 @@ def special_page_n(page):
 if app.debug:
 
     @app.route("/url1/special/<page>/img/<img>")
-    def handleimg(page, img):
+    def handle_img(page, img):
         # Handles logo images, for instance:
         # GET /url1/special/1/img/g1234.img
         # Gets g1234.img
