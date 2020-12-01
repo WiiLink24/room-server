@@ -1,3 +1,4 @@
+from flask import send_from_directory
 from werkzeug import exceptions
 
 from room import app
@@ -21,3 +22,10 @@ def pay_wall_metadata(met_id: int):
         "type": poster_metadata.type,
         "aspect": poster_metadata.aspect,
     }
+
+
+if app.debug:
+
+    @app.route("/url3/pay/wall/<name>.img")
+    def serve_pay_images(name):
+        return send_from_directory("assets/pay-wall", name + ".img")

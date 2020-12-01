@@ -1,3 +1,5 @@
+from flask import send_from_directory
+
 from room import app
 from helpers import xml_node_name, RepeatedElement
 
@@ -25,3 +27,10 @@ def list_category_n(list_id):
         "type": 3,
         "categinfo": filler,
     }
+
+
+if app.debug:
+
+    @app.route("/url1/list/category/img/<name>.img")
+    def serve_category_images(name):
+        return send_from_directory("assets/normal-category", name + ".img")
