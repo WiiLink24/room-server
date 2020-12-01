@@ -1,3 +1,4 @@
+from flask import send_from_directory, safe_join
 from werkzeug import exceptions
 
 from room import app
@@ -23,3 +24,14 @@ def movie_metadata(unk, movie_id: int):
         "dsdist": metadata.ds_dist,
         "staff": metadata.staff,
     }
+
+
+if app.debug:
+
+    @app.route("/url1/movie/<unk>/<name>.img")
+    def serve_movie_poster(unk, name):
+        return send_from_directory(safe_join("assets/movies/", unk), name + ".img")
+
+    @app.route("/url1/movie/<unk>/<name>.mov")
+    def serve_movie_mov(unk, name):
+        return send_from_directory(safe_join("assets/movies/", unk), name + ".mov")
