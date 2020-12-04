@@ -29,6 +29,7 @@ with app.test_request_context():
 from url1 import (
     beacon,
     category_n,
+    category_search,
     eula,
     event_today,
     mii,

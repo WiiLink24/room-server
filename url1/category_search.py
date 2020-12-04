@@ -4,7 +4,7 @@ from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 @app.route("/url1/list/category/search/<categ_id>")
 @xml_node_name("SearchMovies")
-def list_category_n(categ_id):
+def list_category_search(categ_id):
     # TODO: revert from temporary, pre-determined value to database schema
     filler = []
     for i in range(3):
