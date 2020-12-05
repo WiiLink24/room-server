@@ -1,21 +1,37 @@
-from room import app
+from werkzeug import exceptions
+
+from models import CategoryMovies, Movies
+from room import app, db
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 
 @app.route("/url1/list/category/search/<categ_id>")
 @xml_node_name("SearchMovies")
 def list_category_search(categ_id):
-    # TODO: revert from temporary, pre-determined value to database schema
-    filler = []
-    for i in range(3):
+    retrieved_data = (
+        db.session.query(CategoryMovies, Movies)
+        .filter(CategoryMovies.category_id == categ_id)
+        .filter(CategoryMovies.movie_id == Movies.movie_id)
+        .order_by(Movies.movie_id)
+        .all()
+    )
+    results = []
+
+    if not retrieved_data:
+        # Looks like this category does not exist, or contains no movies.
+        return exceptions.NotFound()
+
+    for i, data in enumerate(retrieved_data):
+        _, movie_data = data
+
         # Items must be indexed by 1.
-        filler.append(
+        results.append(
             RepeatedElement(
                 {
                     "rank": i + 1,
-                    "movieid": 1,
-                    "title": "Shiba: The Movie",
-                    "genre": 1,
+                    "movieid": movie_data.movie_id,
+                    "title": movie_data.title,
+                    "genre": movie_data.genre,
                     "strdt": current_date_and_time(),
                     "pop": 0,
                 }
@@ -25,5 +41,5 @@ def list_category_search(categ_id):
     return {
         "num": 1,
         "categid": categ_id,
-        "movieinfo": filler,
+        "movieinfo": results,
     }

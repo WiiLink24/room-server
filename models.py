@@ -95,3 +95,23 @@ class Movies(db.Model):
     sp_page_id = db.Column(db.Integer, nullable=False)
     ds_dist = db.Column(db.Boolean, nullable=False)
     staff = db.Column(db.Boolean, nullable=False)
+
+
+class Categories(db.Model):
+    category_id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.String)
+
+
+class CategoryMovies(db.Model):
+    category_id = db.Column(
+        db.Integer,
+        db.ForeignKey("categories.category_id"),
+        primary_key=True,
+        nullable=False,
+    )
+    movie_id = db.Column(
+        db.Integer,
+        db.ForeignKey("movies.movie_id"),
+        primary_key=True,
+        nullable=False,
+    )
