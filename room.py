@@ -36,7 +36,8 @@ from url1 import (
     movie_metadata,
     new,
     paylink,
-    popular,
+    popular_all,
+    popular_n,
     wall_metadata,
 )
 from url1.special import all, allbin, page
