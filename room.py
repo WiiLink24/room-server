@@ -34,7 +34,9 @@ from url1 import (
     event_today,
     mii,
     movie_metadata,
+    new,
     paylink,
+    popular,
     wall_metadata,
 )
 from url1.special import all, allbin, page
