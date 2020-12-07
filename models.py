@@ -94,6 +94,7 @@ class Movies(db.Model):
     genre = db.Column(db.Integer, nullable=False)
     sp_page_id = db.Column(db.Integer, nullable=False)
     ds_dist = db.Column(db.Boolean, nullable=False)
+    ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
 
 
