@@ -49,21 +49,8 @@ def special_page_n(page):
             "color2": "000000",
             "msginfo": msginfo_filler,
         },
-        "menu": {
-            "place": 1,
-            "type": 5,
-            "imageid": "h1234",
-            "link": {
-                "linkid": 1,
-                "linktitle": "Welcome to nginx",
-                "linktype": 0,
-                "linkmov": 0,
-                "linkpicnum": 1,
-                "linkurl": "http://example.com",
-                "linkpicbgm": 1,
-            },
     "menu":{
-        "place": 2,
+        "place": 1,
         "type": 4,
         "imageid": 'd1234',
         "coup":{
