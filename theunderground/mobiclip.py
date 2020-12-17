@@ -73,7 +73,10 @@ def get_mobiclip_length(file_data: bytes) -> str:
 
 def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
     movie_dir = get_movie_dir(movie_id)
-    os.mkdir(movie_dir)
+
+    # Create the holding assets folder if it does not already exist.
+    if not os.path.isdir(movie_dir):
+        os.mkdir(movie_dir)
 
     # Resize and write thumbnail
     thumbnail_data = movie_thumbnail_encode(thumbnail_data)
