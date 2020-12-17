@@ -38,7 +38,7 @@ def validate_mobiclip(file_data: bytes) -> bool:
         return False
 
     # Required for Wii no Ma v1025 to load the video (tricking it into loading Vorbis).
-    if file_data[200:202] != "AV":
+    if file_data[200:202] != b"AV":
         return False
 
     # Required for patched movies due to skipping issues.

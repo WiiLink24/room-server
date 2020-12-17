@@ -49,20 +49,20 @@ def special_page_n(page):
             "color2": "000000",
             "msginfo": msginfo_filler,
         },
-    "menu":{
-        "place": 1,
-        "type": 4,
-        "imageid": 'd1234',
-        "coup":{
-            "coupid":1,
-            "couptitle": "coupon test",
-            "couplimit":10,
-            "coupmov":1,
-            "coupmovap":0,
-        }
-    },
-    "logo": {"logo1id": "g1234", "logo2id": "f1234"},
-}
+        "menu": {
+            "place": 1,
+            "type": 4,
+            "imageid": "d1234",
+            "coup": {
+                "coupid": 1,
+                "couptitle": "coupon test",
+                "couplimit": 10,
+                "coupmov": 1,
+                "coupmovap": 0,
+            },
+        },
+        "logo": {"logo1id": "g1234", "logo2id": "f1234"},
+    }
 
 
 if app.debug:
