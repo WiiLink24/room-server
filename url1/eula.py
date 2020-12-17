@@ -19,4 +19,4 @@ if app.debug:
     @app.route("/url1/conf/brtest-H.mov")
     @app.route("/url1/conf/brtest-L.mov")
     def conf_sample_movie():
-        return send_from_directory("assets/conf", "brtest-H.mo")
+        return send_from_directory("assets/conf", "brtest-H.mov")
