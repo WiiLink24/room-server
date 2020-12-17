@@ -57,7 +57,7 @@ def special_page_n(page):
             "coupid":1,
             "couptitle": "coupon test",
             "couplimit":10,
-            "coupmov":0,
+            "coupmov":1,
             "coupmovap":0,
         }
     },
