@@ -89,7 +89,7 @@ class MiiMsgInfo(db.Model):
 
 class Movies(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True, unique=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String(48), nullable=False)
     length = db.Column(db.String(8), nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)
     genre = db.Column(db.Integer, nullable=False)
