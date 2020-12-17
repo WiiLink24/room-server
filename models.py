@@ -60,6 +60,7 @@ class ConciergeMiis(db.Model):
     action = db.Column(db.Integer, nullable=False)
     prof = db.Column(db.String(129), nullable=False)
     movie_id = db.Column(db.Integer, nullable=False)
+    voice = db.Column(db.Boolean, nullable=False)
     update_date = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )

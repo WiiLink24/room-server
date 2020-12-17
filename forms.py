@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
-from wtforms import StringField, SubmitField, PasswordField, FileField
+from wtforms import StringField, SubmitField, PasswordField, FileField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -13,6 +13,15 @@ class LoginForm(FlaskForm):
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
     upload = SubmitField("Add Mii")
+
+
+class MovieUploadForm(FlaskForm):
+    movie = FileField("Movie", validators=[FileRequired()])
+    title = StringField("Movie title", validators=[DataRequired()])
+    thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
+    # Choices for the select field are only evaluated once, so we must set it when necessary.
+    category = SelectField("Movie category", validators=[DataRequired()])
+    upload = SubmitField("Add Movie")
 
 
 class ParadeForm(FlaskForm):

@@ -27,6 +27,7 @@ def event_today():
                 }
             )
         )
+
     for seq, mii in enumerate(queried_miis):
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
 
@@ -37,7 +38,7 @@ def event_today():
         "postertime": 5,
         "posterinfo": posters,
         "miiinfo": miiinfos,
-        "newsinfo": {"page": 1, "news": "Welcome to Wii Room."},
+        "newsinfo": {"page": 1, "news": "Welcome back to Wii Room!"},
         "adinfo": (
             RepeatedKey(
                 {

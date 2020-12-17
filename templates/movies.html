@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Movies</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+        <style>
+            img {
+                width: 50%
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Manage Movies</h1>
+        {% if movies | length == 0 %}
+            <span class="warning">You have no movies. Wii no Ma will break processing these files. Please add some movies.</span>
+        {% elif movies | length == 1 %}
+            There is currently <strong>1</strong> movie.
+        {% else %}
+            There are currently <strong>{{ movies | length }}</strong> movies.
+        {% endif %}
+        <table>
+            <tr>
+                <th scope="col">Movie ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Length</th>
+                <th scope="col">Thumbnail</th>
+            </tr>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ movie.movie_id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.length }}</td>
+                <td><img src="/theunderground/movies/{{ movie.movie_id }}/thumbnail.jpg" alt="Thumbnail for {{ movie.movie_id }}"/></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br/>
+        <a href="/theunderground/movies/add"><button>Upload a Movie</button></a>
+</body>
+</html>
