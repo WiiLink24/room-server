@@ -60,8 +60,8 @@ def special_page_n(page):
             "coupmov":0,
             "coupmovap":0,
         }
-    }
-        },
+    },
+    {
         "logo": {"logo1id": "g1234", "logo2id": "f1234"},
     }
 
