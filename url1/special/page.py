@@ -61,9 +61,8 @@ def special_page_n(page):
             "coupmovap":0,
         }
     },
-    {
-        "logo": {"logo1id": "g1234", "logo2id": "f1234"},
-    }
+    "logo": {"logo1id": "g1234", "logo2id": "f1234"},
+}
 
 
 if app.debug:
