@@ -62,6 +62,18 @@ def special_page_n(page):
                 "linkurl": "http://example.com",
                 "linkpicbgm": 1,
             },
+    "menu":{
+        "place": 2,
+        "type": 4,
+        "imageid": 'd1234',
+        "coup":{
+            "coupid":1,
+            "couptitle": "coupon test",
+            "couplimit":10,
+            "coupmov":0,
+            "coupmovap":0,
+        }
+    }
         },
         "logo": {"logo1id": "g1234", "logo2id": "f1234"},
     }
