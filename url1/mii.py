@@ -1,3 +1,4 @@
+from flask import send_from_directory
 from werkzeug import exceptions
 
 from room import app, db
@@ -84,5 +85,12 @@ def obtain_mii(mii_id):
         "name": mii_metadata.name,
         "msginfo": msginfo,
         "movieid": concierge_mii.movie_id,
-        "upddt": concierge_mii.update_date.strftime("%Y-%m-%dT%H:%M:%S"),
+        "voice": concierge_mii.voice,
     }
+
+
+if app.debug:
+
+    @app.route("/url1/voice/<filename>")
+    def serve_voice(filename):
+        return send_from_directory("./assets/voice", filename)
