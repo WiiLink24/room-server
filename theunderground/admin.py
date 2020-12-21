@@ -217,7 +217,7 @@ if underground_enabled:
                     db_movie = Movies(
                         title=form.title.data,
                         length=length,
-                        aspect=False,
+                        aspect=True,
                         genre=0,
                         sp_page_id=0,
                         ds_dist=False,

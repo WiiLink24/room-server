@@ -43,3 +43,7 @@ if app.debug:
     @app.route("/url1/movie/<unk>/<name>.mov")
     def serve_movie_mov(unk, name):
         return send_from_directory(safe_join("assets/movies/", unk), name + ".mov")
+
+    @app.route("/url1/dsmov/<unk>/<name>.enc")
+    def serve_dsmov(unk, name):
+        return send_from_directory(safe_join("assets/dsmov/", unk), name + ".mov")
