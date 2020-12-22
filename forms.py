@@ -38,9 +38,6 @@ class KillMii(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
-    title = StringField("Concierge Mii Title", validators=[DataRequired()])
-    color1 = StringField("Shirt Color (RRGGBB)", validators=[DataRequired()])
-    color2 = StringField("Pants Color (RRGGBB)", validators=[DataRequired()])
     message1 = StringField("Message 1", validators=[DataRequired()])
     message2 = StringField("Message 2", validators=[DataRequired()])
     message3 = StringField("Message 3", validators=[DataRequired()])
