@@ -143,23 +143,23 @@ if underground_enabled:
         form = ConciergeForm()
         if form.validate_on_submit():
             dateformat = "%Y-%m-%dT%H:%M:%S"
-            # mii = ConciergeMii(
-            #     mii_id=form.miiid.data,
-            #     title=form.title.data,
-            #     color1=form.color1.data,
-            #     color2=form.color2.data,
-            #     message1=form.message1.data,
-            #     message2=form.message2.data,
-            #     message3=form.message3.data,
-            #     message4=form.message4.data,
-            #     message5=form.message5.data,
-            #     message6=form.message6.data,
-            #     message7=form.message7.data,
-            #     updated=datetime.datetime.now().strftime(dateformat),
-            #     movieid=form.movieid.data,
-            # )
-            # db.session.add(mii)
-            # db.session.commit()
+            mii = ConciergeMii(
+                 mii_id=form.miiid.data,
+                 title=form.title.data,
+                 color1=form.color1.data,
+                 color2=form.color2.data,
+                 message1=form.message1.data,
+                 message2=form.message2.data,
+                 message3=form.message3.data,
+                 message4=form.message4.data,
+                 message5=form.message5.data,
+                 message6=form.message6.data,
+                 message7=form.message7.data,
+                 updated=datetime.datetime.now().strftime(dateformat),
+                 movieid=form.movieid.data,
+            )
+            db.session.add(mii)
+            db.session.commit()
         return render_template("edit_concierge.html", form=form)
 
     @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
