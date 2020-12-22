@@ -165,42 +165,42 @@ if underground_enabled:
             )
             msg2 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=2,
                 seq=1,
                 msg=form.message2.data,
                 face=1
             )
             msg3 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=3,
                 seq=1,
                 msg=form.message3.data,
                 face=1
             )
             msg4 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=4,
                 seq=1,
                 msg=form.message4.data,
                 face=1
             )
             msg5 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=5,
                 seq=1,
                 msg=form.message5.data,
                 face=1
             )
             msg6 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=6,
                 seq=1,
                 msg=form.message6.data,
                 face=1
             )
             msg7 = MiiMsgInfo(
                 mii_id=mii_id,
-                type=1,
+                type=7,
                 seq=1,
                 msg=form.message7.data,
                 face=1
