@@ -150,7 +150,7 @@ if underground_enabled:
                  clothes=1, # TODO: Allow disabling of custom clothes
                  action=1, # TODO: Allow changing of whatever the heck "action" is
                  prof=form.prof.data, # TODO: Add this.
-                 movieid=form.movieid.data,
+                 movie_id=form.movieid.data,
                  voice=False # The web console does not currently support this
             )
             # I would **assume** that Mii data is already in the console.
