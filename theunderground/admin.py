@@ -247,6 +247,19 @@ if underground_enabled:
             else:
                 flash("Incorrect Mii ID!")
         return render_template("delete_concierge.html", form=form, mii_id=mii_id)
+    @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
+    @login_required
+    def remove_concierge(mii_id):
+        form = KillMii()
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == mii_id:
+                db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
+                db.session.commit()
+                return redirect("/theunderground/parade")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_parade.html", form=form, mii_id=mii_id)
 
     @app.route("/theunderground/posters")
     @login_required
