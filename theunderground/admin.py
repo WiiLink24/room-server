@@ -127,7 +127,7 @@ if underground_enabled:
 
                     # Insert this to the database.
                     full_mii = real_data + checksum
-                    insert_row = MiiData(data=full_mii)
+                    insert_row = MiiData(data=full_mii,name=form.name.data,color1=form.color1.data,color2=form.color2.data)
                     db.session.add(insert_row)
                     db.session.commit()
                     return redirect(url_for("list_miis"))
