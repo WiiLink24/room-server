@@ -145,22 +145,75 @@ if underground_enabled:
         if form.validate_on_submit():
             # print('Form Success!')
             dateformat = "%Y-%m-%dT%H:%M:%S"
-            mii = ConciergeMiis(
+            concierge_data = ConciergeMiis(
                  mii_id=mii_id,
-                 title=form.title.data,
-                 color1=form.color1.data,
-                 color2=form.color2.data,
-                 message1=form.message1.data,
-                 message2=form.message2.data,
-                 message3=form.message3.data,
-                 message4=form.message4.data,
-                 message5=form.message5.data,
-                 message6=form.message6.data,
-                 message7=form.message7.data,
-                 updated=datetime.datetime.now().strftime(dateformat),
+                 clothes=1, # TODO: Allow disabling of custom clothes
+                 action=1, # TODO: Allow changing of whatever the heck "action" is
+                 prof=form.prof.data, # TODO: Add this.
                  movieid=form.movieid.data,
+                 voice=False # The web console does not currently support this
             )
-            db.session.add(mii)
+            # I would **assume** that Mii data is already in the console.
+            # Which saves us space in the UI
+            # The below will be very messy, enjoy!
+            msg1 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message1.data,
+                face=1
+            )
+            msg2 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message2.data,
+                face=1
+            )
+            msg3 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message3.data,
+                face=1
+            )
+            msg4 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message4.data,
+                face=1
+            )
+            msg5 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message5.data,
+                face=1
+            )
+            msg6 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message6.data,
+                face=1
+            )
+            msg7 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message7.data,
+                face=1
+            )
+            # Now to add all of them 
+            db.session.add(msg1)
+            db.session.add(msg2)
+            db.session.add(msg3)
+            db.session.add(msg4)
+            db.session.add(msg5)
+            db.session.add(msg6)
+            db.session.add(msg7)
+            db.session.add(concierge_data)
             db.session.commit()
         return render_template("edit_concierge.html", form=form)
 
