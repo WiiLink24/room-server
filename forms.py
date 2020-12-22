@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
 
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
-    name = StringField("Mii Name", validators=[DataReqiured()])
+    name = StringField("Mii Name", validators=[DataRequired()])
     color1 = StringField("Color 1 (Hex)", validators=[DataRequired()])
     color2 = StringField("Color 2 (Hex)", validators=[DataRequired()])
     upload = SubmitField("Add Mii")
