@@ -38,6 +38,7 @@ class KillMii(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
+    prof = StringField("Profession", validators=[DataRequired()])
     message1 = StringField("Message 1", validators=[DataRequired()])
     message2 = StringField("Message 2", validators=[DataRequired()])
     message3 = StringField("Message 3", validators=[DataRequired()])
