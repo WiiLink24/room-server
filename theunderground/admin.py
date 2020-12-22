@@ -144,7 +144,7 @@ if underground_enabled:
         if form.validate_on_submit():
             dateformat = "%Y-%m-%dT%H:%M:%S"
             mii = ConciergeMii(
-                 mii_id=form.miiid.data,
+                 mii_id=mii_id,
                  title=form.title.data,
                  color1=form.color1.data,
                  color2=form.color2.data,
