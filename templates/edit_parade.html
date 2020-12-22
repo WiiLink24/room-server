@@ -4,13 +4,16 @@
         <title>Edit Parade</title>
     </head>
     <body>
-        <!-- I was really lazy here -->
-        {{ form.hidden_tag() }}
-        <p>{{ form.company.label }}</p>
-        {{ form.company }}
-        <p>{{ form.image.label }}</p>
-        {{ form.image }}
-        {{ form.submit() }}
+        <form action="" method="post" enctype="multipart/form-data">
+            <!-- I was really lazy here -->
+            {{ form.hidden_tag() }}
+            <p>{{ form.company.label }}</p>
+            {{ form.company }}
+            <p>{{ form.image.label }}</p>
+            {{ form.image }}
+            <br>
+            {{ form.submit() }}
+        </form>
     </body>
 </html>
 
