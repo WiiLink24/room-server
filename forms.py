@@ -30,7 +30,7 @@ class MovieUploadForm(FlaskForm):
 class ParadeForm(FlaskForm):
     miiid = StringField("Mii ID", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
-    mii = FileField("Image Selection", validators=[FileRequired()])
+    mii = FileField("Image Encoded in Base64", validators=[DataRequired()])
     submit = SubmitField("Create")
 
 
