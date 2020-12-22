@@ -99,7 +99,7 @@ if underground_enabled:
         concierge_miis = ConciergeMiis.query.all()
 
         return render_template("concierge.html", miis=concierge_miis)
-    @app.route("/theunderground/parade/<id>")
+    @app.route("/theunderground/parade/<id>",methods=['GET','POST])
     @login_required
     def edit_parade(id):
         
