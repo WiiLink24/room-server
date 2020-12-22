@@ -106,7 +106,7 @@ if underground_enabled:
         if form.validate_on_submit():
             mii = ParadeMiis(mii_id = id,
                              logo_id = 'g1234',
-                             logo_bin = form.image.data,
+                             logo_bin = bytes(form.image.data, encoding='utf-8'),
                              news = form.news.data,
                              level = 1
                             )
