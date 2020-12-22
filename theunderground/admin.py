@@ -142,6 +142,7 @@ if underground_enabled:
     def edit_concierge(mii_id):
         form = ConciergeForm()
         if form.validate_on_submit():
+            print('Form Success!')
             dateformat = "%Y-%m-%dT%H:%M:%S"
             mii = ConciergeMii(
                  mii_id=mii_id,
