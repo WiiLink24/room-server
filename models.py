@@ -15,7 +15,7 @@ class ParadeMiis(db.Model):
     # We need to be able to select by both the Mii's ID and the logo.
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
     logo_id = db.Column(db.String(5), primary_key=True)
-    logo_bin = db.Column(db.String(8000))
+    logo_bin = db.Column(db.Binary(8000))
     news = db.Column(db.String)
     level = db.Column(db.Integer, default=1)
 
