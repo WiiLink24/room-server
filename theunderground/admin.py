@@ -100,7 +100,7 @@ if underground_enabled:
         return render_template("concierge.html", miis=concierge_miis)
     @app.route("/theunderground/parade/<id>")
     @login_required
-    def edit_parade():
+    def edit_parade(id):
         
         form = ParadeForm()
         return render_template("edit_parade.html", form=form)
