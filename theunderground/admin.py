@@ -102,8 +102,8 @@ if underground_enabled:
     @login_required
     def edit_parade():
         
-
-        return render_template("edit_parade.html", form=None)
+        form = ParadeForm()
+        return render_template("edit_parade.html", form=form)
 
     @app.route("/theunderground/miis")
     @login_required
