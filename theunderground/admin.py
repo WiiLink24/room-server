@@ -249,7 +249,7 @@ if underground_enabled:
         return render_template("delete_concierge.html", form=form, mii_id=mii_id)
     @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
-    def remove_concierge(mii_id):
+    def remove_parade(mii_id):
         form = KillMii()
         if form.validate_on_submit():
             # While this is easily circumvented, we need the user to pay attention.
