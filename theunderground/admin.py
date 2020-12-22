@@ -102,8 +102,17 @@ if underground_enabled:
     @app.route("/theunderground/parade/<id>",methods=['GET','POST'])
     @login_required
     def edit_parade(id):
-        
         form = ParadeForm()
+        if form.validate_on_submit():
+            mii = ParadeMiis(mii_id = id,
+                             logo_id = 'g1234',
+                             logo_bin = form.image.data,
+                             news = form.news.data,
+                             level = 1
+                            )
+            db.session.add(mii)
+            db.session.commit()
+                
         return render_template("edit_parade.html", form=form)
 
     @app.route("/theunderground/miis")
