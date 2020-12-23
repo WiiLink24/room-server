@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
 
 class NewsForm(FlaskForm):
     news = StringField("News",validators=[DataRequired()])
-    submit = SubmitField("Create!")
+    upload = SubmitField("Create!")
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
     name = StringField("Mii Name", validators=[DataRequired()])
