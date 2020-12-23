@@ -70,4 +70,8 @@ class ConciergeForm(FlaskForm):
 
 
 class PosterForm(FlaskForm):
-    pass
+    file = FileField('Poster Image', validators=[FileRequired()])
+    title = StringField('Title',validators=[DataRequired()])
+    msg = StringField('Message', validators=[DataRequired()])
+    upload = SubmitField('Create Poster!')
+    
