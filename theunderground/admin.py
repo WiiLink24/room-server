@@ -23,7 +23,8 @@ from forms import (
     PosterForm,
     MovieUploadForm,
     ParadeForm,
-    NewsForm
+    NewsForm,
+    NewUserForm,
 )
 from flask_login import current_user, login_user
 import crc16
@@ -85,6 +86,7 @@ if underground_enabled:
             u.set_password_hash(form.password.data)
             db.session.add(u)
             db.session.commit()
+        return render_template('newuser.html', form=form)
     @app.route("/theunderground/change_password")
     @login_required
     def change_password():
@@ -94,6 +96,7 @@ if underground_enabled:
             u.set_password_hash(form.password.data)
             db.session.add(u)
             db.session.commit()
+        return render_template('changepw.html', form=form)
     @app.route("/theunderground/logout")
     @login_required
     def process_logout():
