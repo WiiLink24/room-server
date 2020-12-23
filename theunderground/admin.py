@@ -126,14 +126,9 @@ if underground_enabled:
     def edit_parade(id):
         form = ParadeForm()
         if form.validate_on_submit():
-            # First we delete the parade mii, then recreate it
-            db.session.delete(ParadeMiis.query.filter_by(mii_id = id).first())
-            mii = ParadeMiis(mii_id = id,
-                             logo_id = 'g1234',
-                             logo_bin = bytes(form.image.data, encoding='utf-8'),
-                             news = form.news.data,
-                             level = 1
-                            )
+            mii = ParadeMiis.query.filter_by(mii_id = id).first()
+            mii.logo_bin = bytes(form.image.data, encoding='utf-8'),
+            mii.news = form.news.data,
             db.session.add(mii)
             db.session.commit()
                 
