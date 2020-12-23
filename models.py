@@ -43,7 +43,7 @@ class Posters(db.Model):
     title = db.Column(db.String(47), nullable=False)
 
 class News(db.Model):
-    seq = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String, nullable=False)
 class PayPosters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
