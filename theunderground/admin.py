@@ -21,7 +21,8 @@ from forms import (
     MiiUploadForm,
     PosterForm,
     MovieUploadForm,
-    ParadeForm
+    ParadeForm,
+    NewsForm
 )
 from flask_login import current_user, login_user
 import crc16
