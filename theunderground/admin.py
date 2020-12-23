@@ -102,7 +102,7 @@ if underground_enabled:
         return render_template("concierge.html", miis=concierge_miis)
     @app.route("/theunderground/news")
     @login_required
-    def list_concierge():
+    def list_news():
         news = News.query.all()
 
         return render_template("news.html", news=news)
