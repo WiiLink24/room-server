@@ -10,6 +10,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Enter the underground")
 
 
+class NewsForm(FlaskForm):
+    news = StringField("News",validators=[DataRequired()])
+
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
     name = StringField("Mii Name", validators=[DataRequired()])
