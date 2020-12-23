@@ -152,10 +152,12 @@ if underground_enabled:
             q = ParadeMiis.query.filter_by(mii_id = id)
             if list(q) != []:
                 mii = q.first()
+                mii.sppageid = form.company.data
                 mii.logo_bin = bytes(form.image.data, encoding='utf-8')
                 mii.news = form.news.data
             else:
                mii = ParadeMiis(mii_id = id,
+                 sppageid = form.company.data,
                  logo_id = 'g1234',
                  logo_bin = bytes(form.image.data, encoding='utf-8'),
                  news = form.news.data,
