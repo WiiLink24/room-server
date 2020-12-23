@@ -166,11 +166,11 @@ if underground_enabled:
     def add_news():
         form = NewsForm()
         if form.validate_on_submit():
-            try:
-                id = News.query.last().id + 1 
-            except Exception as e:
-                print('An exception occured while getting the ID\nThis is most likely the result of there being no news\nException: {e}'.format(e=e))
-                id = 0 # Default ID to 0
+            nq = News.query.all()
+            if len(nq) != 0:
+                id = News.query.filter_by(id=nq - 1).first().id
+            else:
+                id = 0
             created_news = News(
                 id = id,
                 msg = form.news.data
