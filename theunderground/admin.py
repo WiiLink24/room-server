@@ -127,8 +127,8 @@ if underground_enabled:
         form = ParadeForm()
         if form.validate_on_submit():
             mii = ParadeMiis.query.filter_by(mii_id = id).first()
-            mii.logo_bin = bytes(form.image.data, encoding='utf-8'),
-            mii.news = form.news.data,
+            mii.logo_bin = bytes(form.image.data, encoding='utf-8')
+            mii.news = form.news.data
             db.session.add(mii)
             db.session.commit()
                 
