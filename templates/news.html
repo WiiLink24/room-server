@@ -6,10 +6,10 @@
     </head>
     <body>
         <h1>Manage News</h1>
-        {% elif news | length == 1 %}
-            There is currently <strong>1</strong> Mii.
+        {% if news | length == 1 %}
+            There is currently <strong>1</strong> piece of news
         {% else %}
-            There are currently <strong>{{ news | length }}</strong> Miis.
+            There are currently <strong>{{ news | length }}</strong> pieces of news.
         {% endif %}
         <table>
             <tr>
