@@ -42,7 +42,9 @@ class Posters(db.Model):
     # so perhaps the internal type is char[48]?
     title = db.Column(db.String(47), nullable=False)
 
-
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    msg = db.Column(db.String, nullable=False)
 class PayPosters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
@@ -60,9 +62,7 @@ class ConciergeMiis(db.Model):
     action = db.Column(db.Integer, nullable=False)
     prof = db.Column(db.String(129), nullable=False)
     movie_id = db.Column(db.Integer, nullable=False)
-    update_date = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
-    )
+    voice = db.Column(db.Boolean, default=False, nullable=False)
 
 
 # MiiData provides the genuine Mii alongside other common information.
@@ -88,10 +88,31 @@ class MiiMsgInfo(db.Model):
 
 class Movies(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True, unique=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String(48), nullable=False)
     length = db.Column(db.String(8), nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)
     genre = db.Column(db.Integer, nullable=False)
     sp_page_id = db.Column(db.Integer, nullable=False)
     ds_dist = db.Column(db.Boolean, nullable=False)
+    ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
+
+
+class Categories(db.Model):
+    category_id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.String)
+
+
+class CategoryMovies(db.Model):
+    category_id = db.Column(
+        db.Integer,
+        db.ForeignKey("categories.category_id"),
+        primary_key=True,
+        nullable=False,
+    )
+    movie_id = db.Column(
+        db.Integer,
+        db.ForeignKey("movies.movie_id"),
+        primary_key=True,
+        nullable=False,
+    )

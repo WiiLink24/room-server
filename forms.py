@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
-from wtforms import StringField, SubmitField, PasswordField, FileField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, PasswordField, FileField, SelectField
+from wtforms.validators import DataRequired, Length
 
 
 class LoginForm(FlaskForm):
@@ -10,15 +10,30 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Enter the underground")
 
 
+class NewsForm(FlaskForm):
+    news = StringField("News",validators=[DataRequired()])
+    upload = SubmitField("Create!")
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
+    name = StringField("Mii Name", validators=[DataRequired()])
+    color1 = StringField("Shirt Color (Hex)", validators=[DataRequired()])
+    color2 = StringField("Pants Color (Hex)", validators=[DataRequired()])
     upload = SubmitField("Add Mii")
 
 
+class MovieUploadForm(FlaskForm):
+    movie = FileField("Movie", validators=[FileRequired()])
+    title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
+    thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
+    # Choices for the select field are only evaluated once, so we must set it when necessary.
+    category = SelectField("Movie category", validators=[DataRequired()])
+    upload = SubmitField("Add Movie")
+
+
 class ParadeForm(FlaskForm):
-    miiid = StringField("Mii ID", validators=[DataRequired()])
+    news = StringField("News", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
-    mii = FileField("Image Selection", validators=[FileRequired()])
+    image = StringField("Image Encoded in Base64", validators=[DataRequired()])
     submit = SubmitField("Create")
 
 
@@ -29,10 +44,7 @@ class KillMii(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
-    miiid = StringField("Mii ID", validators=[DataRequired()])
-    title = StringField("Concierge Mii Title", validators=[DataRequired()])
-    color1 = StringField("Shirt Color (RRGGBB)", validators=[DataRequired()])
-    color2 = StringField("Pants Color (RRGGBB)", validators=[DataRequired()])
+    prof = StringField("Profession", validators=[DataRequired()])
     message1 = StringField("Message 1", validators=[DataRequired()])
     message2 = StringField("Message 2", validators=[DataRequired()])
     message3 = StringField("Message 3", validators=[DataRequired()])

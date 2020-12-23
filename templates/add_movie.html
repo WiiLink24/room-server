@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Add Mii</title>
+        <title>Upload a Movie</title>
         <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
@@ -12,18 +12,17 @@
                 </p>
             {% endfor %}
         {% endwith %}
-        <h1>Add Mii</h1>
+        <h1>Upload a Movie</h1>
         <form action="" method="post" enctype="multipart/form-data">
             <p>
                 {{ form.hidden_tag() }}
-                {{ form.mii.label }}: {{ form.mii(size=32) }}
+                {{ form.movie.label }}: {{ form.movie(size=32) }}
                 <br>
-                {{ form.name.label }}: {{ form.name }}
+                {{ form.title.label }}: {{ form.title }}
                 <br>
-                {{ form.color1.label }}: {{ form.color1 }}
+                {{ form.thumbnail.label }}: {{ form.thumbnail(size=32) }}
                 <br>
-                {{ form.color2.label }}: {{ form.color2 }}
-                <br>
+                {{ form.category.label }}: {{ form.category }}
             </p>
             <p>{{ form.upload() }}</p>
         </form>

@@ -1,5 +1,6 @@
 from flask import send_from_directory
 
+from models import Categories
 from room import app
 from helpers import xml_node_name, RepeatedElement
 
@@ -7,16 +8,19 @@ from helpers import xml_node_name, RepeatedElement
 @app.route("/url1/list/category/<list_id>.xml")
 @xml_node_name("CategoryList")
 def list_category_n(list_id):
-    # TODO: revert from temporary, pre-determined value to database schema
-    filler = []
-    for i in range(64):
+    queried_categories = (
+        Categories.query.order_by(Categories.name.asc()).limit(64).all()
+    )
+    results = []
+
+    for i, category in enumerate(queried_categories):
         # Items must be indexed by 1.
-        filler.append(
+        results.append(
             RepeatedElement(
                 {
                     "place": i + 1,
-                    "categid": 12345,
-                    "name": "Category text",
+                    "categid": category.category_id,
+                    "name": category.name,
                     "sppageid": 0,
                     "splinktext": "Link text",
                 }
@@ -25,7 +29,7 @@ def list_category_n(list_id):
 
     return {
         "type": 3,
-        "categinfo": filler,
+        "categinfo": results,
     }
 
 

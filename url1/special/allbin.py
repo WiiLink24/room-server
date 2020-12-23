@@ -22,7 +22,7 @@ def special_allbin():
         bin_info.append(
             RepeatedElement(
                 {
-                    "sppageid": mii_data.mii_id,
+                    "sppageid": 0,
                     "miiid": mii_data.mii_id,
                     "miibin": mii_data.data,
                     "logo1id": parade_mii.logo_id,
