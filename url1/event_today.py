@@ -32,7 +32,7 @@ def event_today():
     for seq, mii in enumerate(queried_miis):
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
     for page, news in enumerate(News.query.all()):
-        news.append(RepeatedElement({"page":page + 1, "news": news.msg})
+        news.append(RepeatedElement({"page":page + 1, "news": news.msg}))
         
         
     return {
