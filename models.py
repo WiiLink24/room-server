@@ -14,7 +14,7 @@ def load_user(id):
 class ParadeMiis(db.Model):
     # We need to be able to select by both the Mii's ID and the logo.
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
-    sppageid = db.Column(db.String, default='0')
+    sppageid = db.Column(db.Integer, default=0)
     logo_id = db.Column(db.String(5), primary_key=True)
     logo_bin = db.Column(db.Binary(8000))
     news = db.Column(db.String)
