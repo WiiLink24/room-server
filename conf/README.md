@@ -20,3 +20,6 @@ To encrypt:
 ```
 openssl aes-128-cbc -e -in first.txt -out first.bin -K 943B13DD87468BA5D9B7A8B899F91803 -iv 66B33FC1373FE506EC2B59FB6B977C82
 ```
+
+### Other files in this directory
+You'll need a `eula.txt` file containing your EULA.

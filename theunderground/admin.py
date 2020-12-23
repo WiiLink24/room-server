@@ -1,11 +1,41 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
-from room import app, db
-from models import User, ConciergeMiis, MiiMsgInfo, MiiData, ParadeMiis, Posters
+from room import app, db, es
+import binascii
+import datetime
+from models import (
+    User,
+    ConciergeMiis,
+    MiiMsgInfo,
+    MiiData,
+    ParadeMiis,
+    Posters,
+    Movies,
+    CategoryMovies,
+    News,
+)
 from flask_login import login_required, logout_user
-from forms import LoginForm, KillMii, ConciergeForm, MiiUploadForm, PosterForm
+from forms import (
+    LoginForm,
+    KillMii,
+    ConciergeForm,
+    MiiUploadForm,
+    PosterForm,
+    MovieUploadForm,
+    ParadeForm,
+    NewsForm
+)
 from flask_login import current_user, login_user
 import crc16
+
+from theunderground.mobiclip import (
+    validate_mobiclip,
+    get_mobiclip_length,
+    get_category_list,
+    get_movie_dir,
+    save_movie_data,
+    MOBICLIP_HEADER_SIZE,
+)
 
 enabled = """
              _           _                          _     _          _   
@@ -45,6 +75,12 @@ if underground_enabled:
 
         return render_template("login.html", form=form)
 
+    @app.route("/theunderground/logout")
+    @login_required
+    def process_logout():
+        logout_user()
+        return redirect(url_for("login"))
+
     @app.route("/theunderground/common.css")
     def common_css():
         return send_from_directory("templates", "common.css")
@@ -66,13 +102,44 @@ if underground_enabled:
         concierge_miis = ConciergeMiis.query.all()
 
         return render_template("concierge.html", miis=concierge_miis)
+    @app.route("/theunderground/news")
+    @login_required
+    def list_news():
+        news = News.query.all()
+
+        return render_template("news.html", news=news)
+    @app.route("/theunderground/news/<id>")
+    @login_required
+    def edit_news():
+        form = NewsForm()
+        if form.validate_on_submit():
+            # Obtain the news with that id
+            news = News.query.filter_by(id=id)
+            # Now we change the message
+            news.news = form.news.value
+            # Now commit it
+            db.session.add(news)
+            db.session.commit()
+        return render_template("add_news.html", form=form)
+    @app.route("/theunderground/parade/<id>",methods=['GET','POST'])
+    @login_required
+    def edit_parade(id):
+        form = ParadeForm()
+        if form.validate_on_submit():
+            mii = ParadeMiis.query.filter_by(mii_id = id).first()
+            mii.logo_bin = bytes(form.image.data, encoding='utf-8')
+            mii.news = form.news.data
+            db.session.add(mii)
+            db.session.commit()
+                
+        return render_template("edit_parade.html", form=form)
 
     @app.route("/theunderground/miis")
     @login_required
     def list_miis():
         miis = MiiData.query.all()
 
-        return render_template("list_miis.html", miis=miis)
+        return render_template("list_miis.html", miis=miis, binascii=binascii)
 
     @app.route("/theunderground/miis/add", methods=["GET", "POST"])
     @login_required
@@ -95,7 +162,7 @@ if underground_enabled:
 
                     # Insert this to the database.
                     full_mii = real_data + checksum
-                    insert_row = MiiData(data=full_mii)
+                    insert_row = MiiData(data=full_mii,name=form.name.data,color1=form.color1.data,color2=form.color2.data)
                     db.session.add(insert_row)
                     db.session.commit()
                     return redirect(url_for("list_miis"))
@@ -105,32 +172,115 @@ if underground_enabled:
                 flash("Error uploading Mii")
 
         return render_template("add_mii.html", form=form)
-
+    @app.route("/theunderground/news/add",methods=["GET","POST"])
+    @login_required
+    def add_news():
+        form = NewsForm()
+        if form.validate_on_submit():
+            nq = News.query.all()
+            if len(nq) != 0:
+                id = News.query.filter_by(id=len(nq) - 1).first().id + 1
+            else:
+                id = 0
+            created_news = News(
+                id = id,
+                msg = form.news.data
+            )
+            db.session.add(created_news)
+            db.session.commit()
+        return render_template('add_news.html',form=form)
+        
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
     @login_required
     def edit_concierge(mii_id):
         form = ConciergeForm()
         if form.validate_on_submit():
+            # print('Form Success!')
             dateformat = "%Y-%m-%dT%H:%M:%S"
-            # mii = ConciergeMii(
-            #     mii_id=form.miiid.data,
-            #     title=form.title.data,
-            #     color1=form.color1.data,
-            #     color2=form.color2.data,
-            #     message1=form.message1.data,
-            #     message2=form.message2.data,
-            #     message3=form.message3.data,
-            #     message4=form.message4.data,
-            #     message5=form.message5.data,
-            #     message6=form.message6.data,
-            #     message7=form.message7.data,
-            #     updated=datetime.datetime.now().strftime(dateformat),
-            #     movieid=form.movieid.data,
-            # )
-            # db.session.add(mii)
-            # db.session.commit()
+            concierge_data = ConciergeMiis(
+                 mii_id=mii_id,
+                 clothes=1, # TODO: Allow disabling of custom clothes
+                 action=1, # TODO: Allow changing of whatever the heck "action" is
+                 prof=form.prof.data, # TODO: Add this.
+                 movie_id=form.movieid.data,
+                 voice=False # The web console does not currently support this
+            )
+            # I would **assume** that Mii data is already in the console.
+            # Which saves us space in the UI
+            # The below will be very messy, enjoy!
+            msg1 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=1,
+                seq=1,
+                msg=form.message1.data,
+                face=1
+            )
+            msg2 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=2,
+                seq=1,
+                msg=form.message2.data,
+                face=1
+            )
+            msg3 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=3,
+                seq=1,
+                msg=form.message3.data,
+                face=1
+            )
+            msg4 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=4,
+                seq=1,
+                msg=form.message4.data,
+                face=1
+            )
+            msg5 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=5,
+                seq=1,
+                msg=form.message5.data,
+                face=1
+            )
+            msg6 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=6,
+                seq=1,
+                msg=form.message6.data,
+                face=1
+            )
+            msg7 = MiiMsgInfo(
+                mii_id=mii_id,
+                type=7,
+                seq=1,
+                msg=form.message7.data,
+                face=1
+            )
+            # Now to add all of them 
+            db.session.add(msg1)
+            db.session.add(msg2)
+            db.session.add(msg3)
+            db.session.add(msg4)
+            db.session.add(msg5)
+            db.session.add(msg6)
+            db.session.add(msg7)
+            db.session.add(concierge_data)
+            db.session.commit()
         return render_template("edit_concierge.html", form=form)
-
+    @app.route("/theunderground/news/<mii_id>/remove", methods=["GET", "POST"])
+    @login_required
+    def remove_news(mii_id):
+        form = KillMii()
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == mii_id:
+                db.session.delete(News.query.filter_by(id=mii_id).first())
+                db.session.commit()
+                return redirect("/theunderground/news")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_news.html", form=form, mii_id=mii_id)
     @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
     def remove_concierge(mii_id):
@@ -145,12 +295,19 @@ if underground_enabled:
             else:
                 flash("Incorrect Mii ID!")
         return render_template("delete_concierge.html", form=form, mii_id=mii_id)
-
-    @app.route("/theunderground/logout")
+    @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
-    def process_logout():
-        logout_user()
-        return redirect(url_for("login"))
+    def remove_parade(mii_id):
+        form = KillMii()
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == mii_id:
+                db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
+                db.session.commit()
+                return redirect("/theunderground/parade")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_parade.html", form=form, mii_id=mii_id)
 
     @app.route("/theunderground/posters")
     @login_required
@@ -158,3 +315,76 @@ if underground_enabled:
         # Displays a table of posters with options to add and remove them
         posters = Posters.query.all()
         return render_template("poster.html", posters=posters)
+
+    @app.route("/theunderground/movies")
+    @login_required
+    def list_movies():
+        # Displays a table of posters with options to add and remove them
+        movies = Movies.query.order_by(Movies.movie_id.asc()).all()
+        return render_template("movies.html", movies=movies)
+
+    @app.route("/theunderground/movies/add", methods=["GET", "POST"])
+    @login_required
+    def add_movie():
+        form = MovieUploadForm()
+        form.category.choices = get_category_list()
+
+        if form.validate_on_submit():
+            movie = form.movie.data
+            thumbnail = form.thumbnail.data
+            if movie and thumbnail:
+                movie_data = movie.read(MOBICLIP_HEADER_SIZE)
+                thumbnail_data = thumbnail.read()
+
+                if validate_mobiclip(movie_data):
+                    # Get the Mobiclip's length from header.
+                    length = get_mobiclip_length(movie_data)
+
+                    # Read the remaining file data.
+                    remaining = movie.read()
+                    movie_data += remaining
+
+                    # Insert this movie to the database.
+                    # For right now, we will assume defaults.
+                    db_movie = Movies(
+                        title=form.title.data,
+                        length=length,
+                        aspect=True,
+                        genre=0,
+                        sp_page_id=0,
+                        ds_dist=False,
+                        staff=False,
+                    )
+
+                    db.session.add(db_movie)
+                    db.session.commit()
+
+                    db.session.add(
+                        CategoryMovies(
+                            category_id=form.category.data, movie_id=db_movie.movie_id
+                        )
+                    )
+                    db.session.commit()
+
+                    # Now that we've inserted the movie, we can properly move it.
+                    save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
+
+                    # Finally, allow it for indexing.
+                    es.index(
+                        index="tv_index",
+                        body={"title": form.title.data, "movie_id": db_movie.movie_id},
+                    )
+
+                    return redirect("/theunderground/movies")
+                else:
+                    flash("Invalid movie!")
+            else:
+                flash("Error uploading movie!")
+
+        return render_template("add_movie.html", form=form)
+
+    @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
+    @login_required
+    def get_movie_thumbnail(movie_id):
+        movie_dir = get_movie_dir(movie_id)
+        return send_from_directory(movie_dir, f"{movie_id}.img")

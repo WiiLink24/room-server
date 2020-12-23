@@ -2,7 +2,7 @@ from flask import send_from_directory
 
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
-from models import Posters, ConciergeMiis
+from models import Posters, ConciergeMiis, News
 
 
 @app.route("/url1/event/today.xml")
@@ -17,6 +17,7 @@ def event_today():
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
     miiinfos = []
+    newsinfos = []
     for seq, poster in enumerate(queried_posters):
         posters.append(
             RepeatedElement(
@@ -27,17 +28,20 @@ def event_today():
                 }
             )
         )
+
     for seq, mii in enumerate(queried_miis):
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
-
-    return {
+    for page, news in enumerate(News.query.all()):
+        newsinfos.append(RepeatedElement({"page":page + 1, "news": news.msg}))
+        
+    return_dict = {
         "date": current_date(),
         "frameid": 2,
         "color": "000000",
         "postertime": 5,
         "posterinfo": posters,
         "miiinfo": miiinfos,
-        "newsinfo": {"page": 1, "news": "Welcome to Wii Room."},
+        
         "adinfo": (
             RepeatedKey(
                 {
@@ -62,7 +66,10 @@ def event_today():
             "linktype": 0,
         },
     }
+    if news != []:
+        return_dict['newsinfo'] = newsinfos
 
+    return return_dict
 
 if app.debug:
 

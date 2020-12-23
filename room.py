@@ -1,3 +1,4 @@
+from elasticsearch import Elasticsearch
 from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -10,6 +11,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
 
 login = LoginManager(app)
+
+es = Elasticsearch(config.elasticsearch_url)
 
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
@@ -29,11 +32,15 @@ with app.test_request_context():
 from url1 import (
     beacon,
     category_n,
+    category_search,
     eula,
     event_today,
     mii,
     movie_metadata,
+    new,
     paylink,
+    popular_all,
+    popular_n,
     wall_metadata,
 )
 from url1.special import all, allbin, page

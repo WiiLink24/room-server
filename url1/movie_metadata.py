@@ -14,7 +14,8 @@ def movie_metadata(unk, movie_id: int):
     if metadata is None:
         return exceptions.NotFound()
 
-    return {
+    # Wii no Ma expects the response to be ordered as follows.
+    movie = {
         "movieid": metadata.movie_id,
         "title": metadata.title,
         "len": metadata.length,
@@ -22,8 +23,15 @@ def movie_metadata(unk, movie_id: int):
         "genre": metadata.genre,
         "sppageid": metadata.sp_page_id,
         "dsdist": metadata.ds_dist,
-        "staff": metadata.staff,
     }
+
+    # This key must follow "dsdist" if used.
+    if metadata.ds_dist:
+        movie["dsmovid"] = metadata.ds_mov_id
+
+    # Staff must be the final key.
+    movie["staff"] = metadata.staff
+    return movie
 
 
 if app.debug:
@@ -35,3 +43,7 @@ if app.debug:
     @app.route("/url1/movie/<unk>/<name>.mov")
     def serve_movie_mov(unk, name):
         return send_from_directory(safe_join("assets/movies/", unk), name + ".mov")
+
+    @app.route("/url1/dsmov/<unk>/<name>.enc")
+    def serve_dsmov(unk, name):
+        return send_from_directory(safe_join("assets/dsmov/", unk), name + ".mov")
