@@ -17,7 +17,7 @@ def event_today():
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
     miiinfos = []
-    news = []
+    newsinfos = []
     for seq, poster in enumerate(queried_posters):
         posters.append(
             RepeatedElement(
@@ -32,7 +32,7 @@ def event_today():
     for seq, mii in enumerate(queried_miis):
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
     for page, news in enumerate(News.query.all()):
-        news.append(RepeatedElement({"page":page + 1, "news": news.msg}))
+        newsinfos.append(RepeatedElement({"page":page + 1, "news": news.msg}))
         
     return_dict = {
         "date": current_date(),
@@ -67,7 +67,7 @@ def event_today():
         },
     }
     if news != []:
-        return_dict['newsinfo'] = news
+        return_dict['newsinfo'] = newsinfos
 
     return return_dict
 
