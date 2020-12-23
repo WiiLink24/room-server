@@ -129,6 +129,7 @@ if underground_enabled:
             
             q = ParadeMiis.query.filter_by(mii_id = id)
             if list(q) != []:
+                mii = q.first()
                 mii.logo_bin = bytes(form.image.data, encoding='utf-8')
                 mii.news = form.news.data
             else:
