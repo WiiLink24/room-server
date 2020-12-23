@@ -22,7 +22,7 @@
             {% for mii in miis %}
                 <tr>
                     <td>{{ mii.mii_id }}</td>
-                    <td><img src="{{ "https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={}".format(binascii.hexlify(mii.data)) }}"</td>
+                    <td><img width="75" src="{{ "https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={}".format(binascii.hexlify(mii.data).decode('utf-8') }}"</td>
                     <td style="text-align: center;">
                         <a href="/theunderground/concierge/{{ mii.mii_id }}">Become Concierge Mii</a>
                         <br>
