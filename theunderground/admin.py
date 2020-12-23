@@ -139,8 +139,8 @@ if underground_enabled:
                  news = form.news.data,
                  level = 1
                 )
-           db.session.add(mii)
-           db.session.commit()
+            db.session.add(mii)
+            db.session.commit()
                 
         return render_template("edit_parade.html", form=form)
 
