@@ -34,15 +34,14 @@ def event_today():
     for page, news in enumerate(News.query.all()):
         news.append(RepeatedElement({"page":page + 1, "news": news.msg}))
         
-        
-    return {
+    return_dict = {
         "date": current_date(),
         "frameid": 2,
         "color": "000000",
         "postertime": 5,
         "posterinfo": posters,
         "miiinfo": miiinfos,
-        "newsinfo": news,
+        
         "adinfo": (
             RepeatedKey(
                 {
@@ -67,7 +66,10 @@ def event_today():
             "linktype": 0,
         },
     }
+    if news != []:
+        return_dict['newsinfo'] = news
 
+    return return_dict
 
 if app.debug:
 
