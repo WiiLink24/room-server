@@ -160,7 +160,24 @@ if underground_enabled:
                 flash("Error uploading Mii")
 
         return render_template("add_mii.html", form=form)
-
+    @app.route("/theunderground/news/add",methods=["GET","POST"])
+    @login_required
+    def add_news():
+        form = NewsForm()
+        if form.validate_on_submit():
+            try:
+                id = News.query.all().last().id + 1 
+            except Exception as e:
+                print('An exception occured while getting the ID\nThis is most likely the result of there being no news\nException: {e}'.format(e))
+                id = 0 # Default ID to 0
+            created_news = News(
+                id = id,
+                msg = form.news.data
+            )
+            db.session.add(created_news)
+            db.session.commmit()
+        return render_template('add_news.html',form=form)
+        
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
     @login_required
     def edit_concierge(mii_id):
