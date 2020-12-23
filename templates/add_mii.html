@@ -17,9 +17,13 @@
             <p>
                 {{ form.hidden_tag() }}
                 {{ form.mii.label }}: {{ form.mii(size=32) }}
+                <br>
                 {{ form.name.label }}: {{ form.name }}
+                <br>
                 {{ form.color1.label }}: {{ form.color1 }}
+                <br>
                 {{ form.color2.label }}: {{ form.color2 }}
+                <br>
             </p>
             <p>{{ form.upload() }}</p>
         </form>
