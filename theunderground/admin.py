@@ -142,7 +142,7 @@ if underground_enabled:
     def list_miis():
         miis = MiiData.query.all()
 
-        return render_template("list_miis.html", miis=miis)
+        return render_template("list_miis.html", miis=miis, binascii=binascii)
 
     @app.route("/theunderground/miis/add", methods=["GET", "POST"])
     @login_required
