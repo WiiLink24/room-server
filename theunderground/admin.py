@@ -107,6 +107,19 @@ if underground_enabled:
         news = News.query.all()
 
         return render_template("news.html", news=news)
+    @app.route("/theunderground/news/<id>")
+    @login_required
+    def edit_news():
+        form = NewsForm()
+        if form.validate_on_submit():
+            # Obtain the news with that id
+            news = News.query.filter_by(id=id)
+            # Now we change the message
+            news.news = form.news.value
+            # Now commit it
+            db.session.add(news)
+            db.session.commit()
+        return render_template("add_news.html", form=form)
     @app.route("/theunderground/parade/<id>",methods=['GET','POST'])
     @login_required
     def edit_parade(id):
