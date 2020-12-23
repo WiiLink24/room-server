@@ -2,7 +2,7 @@ from flask import send_from_directory
 
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
-from models import Posters, ConciergeMiis
+from models import Posters, ConciergeMiis, News
 
 
 @app.route("/url1/event/today.xml")
