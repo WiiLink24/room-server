@@ -1,6 +1,7 @@
 from config import underground_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db, es
+import binascii
 import datetime
 from models import (
     User,
