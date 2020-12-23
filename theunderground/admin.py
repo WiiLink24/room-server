@@ -277,7 +277,7 @@ if underground_enabled:
         if form.validate_on_submit():
             # While this is easily circumvented, we need the user to pay attention.
             if form.given_mii_id.data == mii_id:
-                db.session.delete(News.query.filter_by(news=mii_id).first())
+                db.session.delete(News.query.filter_by(id=mii_id).first())
                 db.session.commit()
                 return redirect("/theunderground/news")
             else:
