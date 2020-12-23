@@ -11,6 +11,7 @@ from models import (
     Posters,
     Movies,
     CategoryMovies,
+    News,
 )
 from flask_login import login_required, logout_user
 from forms import (
@@ -99,6 +100,12 @@ if underground_enabled:
         concierge_miis = ConciergeMiis.query.all()
 
         return render_template("concierge.html", miis=concierge_miis)
+    @app.route("/theunderground/news")
+    @login_required
+    def list_concierge():
+        news = News.query.all()
+
+        return render_template("news.html", news=news)
     @app.route("/theunderground/parade/<id>",methods=['GET','POST'])
     @login_required
     def edit_parade(id):
