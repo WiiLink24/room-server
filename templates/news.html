@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>News</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        <h1>Manage News</h1>
+        {% elif news | length == 1 %}
+            There is currently <strong>1</strong> Mii.
+        {% else %}
+            There are currently <strong>{{ news | length }}</strong> Miis.
+        {% endif %}
+        <table>
+            <tr>
+                <th scope="col">Message</th>
+                <th scope="col">Action</th>
+            </tr>
+        {% for news in news %}
+            <tr>
+                <td>{{ news.msg }}</td>
+                <td style="text-align: center;">
+                    <a href="/theunderground/news/{{ news.id }}">Edit</a>
+                    <br/>
+                    <a href="/theunderground/news/{{ news.id }}/remove">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if news | length >= 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 %}
+            <span class="warning">You have too much news. How did you reach this point?</span>
+        {% else %}
+            <br/>
+            <a href="/theunderground/news/add"><button>Add a Mii</button></a>
+        {% endif %}
+</body>
