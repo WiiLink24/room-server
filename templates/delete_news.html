@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Delete News</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Delete News</h1>
+        You are about to <strong>delete</strong> the piece of news with ID {{ mii_id }} (I'd bet you didn't know news had an ID!).
+        <br>
+        Are you certain you want to continue?
+        <br/>
+        If so, please enter piece of news's ID in the textfield below and submit.
+        <br/>
+        <form action="" method="post">
+            <p>
+                {{ form.hidden_tag() }}
+                News ID: {{ form.given_mii_id(size=32) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>
