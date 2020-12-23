@@ -169,7 +169,7 @@ if underground_enabled:
             try:
                 id = News.query.all().last().id + 1 
             except Exception as e:
-                print('An exception occured while getting the ID\nThis is most likely the result of there being no news\nException: {e}'.format(e))
+                print('An exception occured while getting the ID\nThis is most likely the result of there being no news\nException: {e}'.format(e=e))
                 id = 0 # Default ID to 0
             created_news = News(
                 id = id,
