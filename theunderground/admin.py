@@ -176,7 +176,7 @@ if underground_enabled:
                 msg = form.news.data
             )
             db.session.add(created_news)
-            db.session.commmit()
+            db.session.commit()
         return render_template('add_news.html',form=form)
         
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
