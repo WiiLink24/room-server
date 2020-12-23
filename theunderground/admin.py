@@ -88,7 +88,7 @@ if underground_enabled:
     @app.route("/theunderground/change_password")
     @login_required
     def change_password():
-        form = ChangePasswordForm()
+        form = NewUserForm() # Since the forms would be the same, all we need to do is change the header text
         if form.validate_on_submit:
             u = User.query.filter_by(username=form.username.data).first() # With this, we can restore locked out users.
             u.set_password_hash(form.password.data)
