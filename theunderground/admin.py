@@ -270,7 +270,19 @@ if underground_enabled:
             db.session.add(concierge_data)
             db.session.commit()
         return render_template("edit_concierge.html", form=form)
-
+    @app.route("/theunderground/news/<mii_id>/remove", methods=["GET", "POST"])
+    @login_required
+    def remove_news(mii_id):
+        form = KillMii()
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == mii_id:
+                db.session.delete(News.query.filter_by(news=mii_id).first())
+                db.session.commit()
+                return redirect("/theunderground/news")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_news.html", form=form, mii_id=mii_id)
     @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
     def remove_concierge(mii_id):
