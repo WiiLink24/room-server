@@ -181,7 +181,7 @@ if underground_enabled:
         if form.validate_on_submit():
             nq = News.query.all()
             if len(nq) != 0:
-                id = News.query.filter_by(id=len(nq - 1)).first().id
+                id = News.query.filter_by(id=len(nq) - 1).first().id
             else:
                 id = 0
             created_news = News(
