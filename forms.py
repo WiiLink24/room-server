@@ -24,9 +24,11 @@ class NewUserForm(FlaskForm):
     username = StringField("Username",validators=[DataRequired()])
     password1 = PasswordField("Password",validators=[DataRequired()])
     password2 = PasswordField("Confirm Password", validators=[DataRequired()])
+    upload = SubmitField("Complete")
     def validate_password1(self, password1):
         if password1 != password2:
             return ValidationError('Both passwords must be the same')
+        
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])
     title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
