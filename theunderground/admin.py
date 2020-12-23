@@ -74,7 +74,26 @@ if underground_enabled:
                 return redirect(url_for("admin"))
 
         return render_template("login.html", form=form)
-
+    @app.route("/theunderground/create")
+    @login_required
+    def new_user():
+        form = NewUserForm()
+        if form.validate_on_submit:
+            u = User(
+                username = form.username.data,
+            )
+            u.set_password_hash(form.password.data)
+            db.session.add(u)
+            db.session.commit()
+    @app.route("/theunderground/change_password")
+    @login_required
+    def change_password():
+        form = ChangePasswordForm()
+        if form.validate_on_submit:
+            u = User.query.filter_by(username=form.username.data).first() # With this, we can restore locked out users.
+            u.set_password_hash(form.password.data)
+            db.session.add(u)
+            db.session.commit()
     @app.route("/theunderground/logout")
     @login_required
     def process_logout():
