@@ -32,8 +32,8 @@ def event_today():
     for seq, mii in enumerate(queried_miis):
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
     for page, news in enumerate(News.query.all()):
-        newsinfos.append(RepeatedElement({"page":page + 1, "news": news.msg}))
-        
+        newsinfos.append(RepeatedElement({"page": page + 1, "news": news.msg}))
+
     return_dict = {
         "date": current_date(),
         "frameid": 2,
@@ -41,7 +41,6 @@ def event_today():
         "postertime": 5,
         "posterinfo": posters,
         "miiinfo": miiinfos,
-        
         "adinfo": (
             RepeatedKey(
                 {
@@ -67,9 +66,10 @@ def event_today():
         },
     }
     if news != []:
-        return_dict['newsinfo'] = newsinfos
+        return_dict["newsinfo"] = newsinfos
 
     return return_dict
+
 
 if app.debug:
 

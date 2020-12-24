@@ -75,28 +75,35 @@ if underground_enabled:
                 return redirect(url_for("admin"))
 
         return render_template("login.html", form=form)
+
     @app.route("/theunderground/create")
     @login_required
     def new_user():
         form = NewUserForm()
         if form.validate_on_submit:
             u = User(
-                username = form.username.data,
+                username=form.username.data,
             )
             u.set_password_hash(form.password.data)
             db.session.add(u)
             db.session.commit()
-        return render_template('newuser.html', form=form)
+        return render_template("newuser.html", form=form)
+
     @app.route("/theunderground/change_password")
     @login_required
     def change_password():
-        form = NewUserForm() # Since the forms would be the same, all we need to do is change the header text
+        form = (
+            NewUserForm()
+        )  # Since the forms would be the same, all we need to do is change the header text
         if form.validate_on_submit:
-            u = User.query.filter_by(username=form.username.data).first() # With this, we can restore locked out users.
+            u = User.query.filter_by(
+                username=form.username.data
+            ).first()  # With this, we can restore locked out users.
             u.set_password_hash(form.password.data)
             db.session.add(u)
             db.session.commit()
-        return render_template('changepw.html', form=form)
+        return render_template("changepw.html", form=form)
+
     @app.route("/theunderground/logout")
     @login_required
     def process_logout():
@@ -124,12 +131,14 @@ if underground_enabled:
         concierge_miis = ConciergeMiis.query.all()
 
         return render_template("concierge.html", miis=concierge_miis)
+
     @app.route("/theunderground/news")
     @login_required
     def list_news():
         news = News.query.all()
 
         return render_template("news.html", news=news)
+
     @app.route("/theunderground/news/<id>")
     @login_required
     def edit_news():
@@ -143,27 +152,29 @@ if underground_enabled:
             db.session.add(news)
             db.session.commit()
         return render_template("add_news.html", form=form)
-    @app.route("/theunderground/parade/<id>",methods=['GET','POST'])
+
+    @app.route("/theunderground/parade/<id>", methods=["GET", "POST"])
     @login_required
     def edit_parade(id):
         form = ParadeForm()
         if form.validate_on_submit():
-            
-            q = ParadeMiis.query.filter_by(mii_id = id)
+
+            q = ParadeMiis.query.filter_by(mii_id=id)
             if list(q) != []:
                 mii = q.first()
-                mii.logo_bin = bytes(form.image.data, encoding='utf-8')
+                mii.logo_bin = bytes(form.image.data, encoding="utf-8")
                 mii.news = form.news.data
             else:
-               mii = ParadeMiis(mii_id = id,
-                 logo_id = 'g1234',
-                 logo_bin = bytes(form.image.data, encoding='utf-8'),
-                 news = form.news.data,
-                 level = 1
+                mii = ParadeMiis(
+                    mii_id=id,
+                    logo_id="g1234",
+                    logo_bin=bytes(form.image.data, encoding="utf-8"),
+                    news=form.news.data,
+                    level=1,
                 )
             db.session.add(mii)
             db.session.commit()
-                
+
         return render_template("edit_parade.html", form=form)
 
     @app.route("/theunderground/miis")
@@ -194,7 +205,12 @@ if underground_enabled:
 
                     # Insert this to the database.
                     full_mii = real_data + checksum
-                    insert_row = MiiData(data=full_mii,name=form.name.data,color1=form.color1.data,color2=form.color2.data)
+                    insert_row = MiiData(
+                        data=full_mii,
+                        name=form.name.data,
+                        color1=form.color1.data,
+                        color2=form.color2.data,
+                    )
                     db.session.add(insert_row)
                     db.session.commit()
                     return redirect(url_for("list_miis"))
@@ -204,7 +220,8 @@ if underground_enabled:
                 flash("Error uploading Mii")
 
         return render_template("add_mii.html", form=form)
-    @app.route("/theunderground/news/add",methods=["GET","POST"])
+
+    @app.route("/theunderground/news/add", methods=["GET", "POST"])
     @login_required
     def add_news():
         form = NewsForm()
@@ -214,14 +231,11 @@ if underground_enabled:
                 id = News.query.filter_by(id=len(nq) - 1).first().id + 1
             else:
                 id = 0
-            created_news = News(
-                id = id,
-                msg = form.news.data
-            )
+            created_news = News(id=id, msg=form.news.data)
             db.session.add(created_news)
             db.session.commit()
-        return render_template('add_news.html',form=form)
-        
+        return render_template("add_news.html", form=form)
+
     @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
     @login_required
     def edit_concierge(mii_id):
@@ -230,66 +244,38 @@ if underground_enabled:
             # print('Form Success!')
             dateformat = "%Y-%m-%dT%H:%M:%S"
             concierge_data = ConciergeMiis(
-                 mii_id=mii_id,
-                 clothes=1, # TODO: Allow disabling of custom clothes
-                 action=1, # TODO: Allow changing of whatever the heck "action" is
-                 prof=form.prof.data, # TODO: Add this.
-                 movie_id=form.movieid.data,
-                 voice=False # The web console does not currently support this
+                mii_id=mii_id,
+                clothes=1,  # TODO: Allow disabling of custom clothes
+                action=1,  # TODO: Allow changing of whatever the heck "action" is
+                prof=form.prof.data,  # TODO: Add this.
+                movie_id=form.movieid.data,
+                voice=False,  # The web console does not currently support this
             )
             # I would **assume** that Mii data is already in the console.
             # Which saves us space in the UI
             # The below will be very messy, enjoy!
             msg1 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=1,
-                seq=1,
-                msg=form.message1.data,
-                face=1
+                mii_id=mii_id, type=1, seq=1, msg=form.message1.data, face=1
             )
             msg2 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=2,
-                seq=1,
-                msg=form.message2.data,
-                face=1
+                mii_id=mii_id, type=2, seq=1, msg=form.message2.data, face=1
             )
             msg3 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=3,
-                seq=1,
-                msg=form.message3.data,
-                face=1
+                mii_id=mii_id, type=3, seq=1, msg=form.message3.data, face=1
             )
             msg4 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=4,
-                seq=1,
-                msg=form.message4.data,
-                face=1
+                mii_id=mii_id, type=4, seq=1, msg=form.message4.data, face=1
             )
             msg5 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=5,
-                seq=1,
-                msg=form.message5.data,
-                face=1
+                mii_id=mii_id, type=5, seq=1, msg=form.message5.data, face=1
             )
             msg6 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=6,
-                seq=1,
-                msg=form.message6.data,
-                face=1
+                mii_id=mii_id, type=6, seq=1, msg=form.message6.data, face=1
             )
             msg7 = MiiMsgInfo(
-                mii_id=mii_id,
-                type=7,
-                seq=1,
-                msg=form.message7.data,
-                face=1
+                mii_id=mii_id, type=7, seq=1, msg=form.message7.data, face=1
             )
-            # Now to add all of them 
+            # Now to add all of them
             db.session.add(msg1)
             db.session.add(msg2)
             db.session.add(msg3)
@@ -300,6 +286,7 @@ if underground_enabled:
             db.session.add(concierge_data)
             db.session.commit()
         return render_template("edit_concierge.html", form=form)
+
     @app.route("/theunderground/news/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
     def remove_news(mii_id):
@@ -313,6 +300,7 @@ if underground_enabled:
             else:
                 flash("Incorrect Mii ID!")
         return render_template("delete_news.html", form=form, mii_id=mii_id)
+
     @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
     def remove_concierge(mii_id):
@@ -327,6 +315,7 @@ if underground_enabled:
             else:
                 flash("Incorrect Mii ID!")
         return render_template("delete_concierge.html", form=form, mii_id=mii_id)
+
     @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
     @login_required
     def remove_parade(mii_id):

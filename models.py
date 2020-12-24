@@ -42,9 +42,12 @@ class Posters(db.Model):
     # so perhaps the internal type is char[48]?
     title = db.Column(db.String(47), nullable=False)
 
+
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String, nullable=False)
+
+
 class PayPosters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
