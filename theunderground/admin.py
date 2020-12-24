@@ -76,7 +76,7 @@ if underground_enabled:
 
         return render_template("login.html", form=form)
 
-    @app.route("/theunderground/create")
+    @app.route("/theunderground/create",methods=["GET","POST"])
     @login_required
     def new_user():
         form = NewUserForm()
@@ -89,7 +89,7 @@ if underground_enabled:
             db.session.commit()
         return render_template("newuser.html", form=form)
 
-    @app.route("/theunderground/change_password")
+    @app.route("/theunderground/change_password",methods=['GET','POST'])
     @login_required
     def change_password():
         form = (
