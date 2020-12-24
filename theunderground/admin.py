@@ -84,7 +84,7 @@ if underground_enabled:
             u = User(
                 username=form.username.data,
             )
-            u.set_password_hash(form.password.data)
+            u.set_password(form.password.data)
             db.session.add(u)
             db.session.commit()
         return render_template("newuser.html", form=form)
