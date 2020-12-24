@@ -11,8 +11,10 @@ class LoginForm(FlaskForm):
 
 
 class NewsForm(FlaskForm):
-    news = StringField("News",validators=[DataRequired()])
+    news = StringField("News", validators=[DataRequired()])
     upload = SubmitField("Create!")
+
+
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
     name = StringField("Mii Name", validators=[DataRequired()])
@@ -20,15 +22,18 @@ class MiiUploadForm(FlaskForm):
     color2 = StringField("Pants Color (Hex)", validators=[DataRequired()])
     upload = SubmitField("Add Mii")
 
+
 class NewUserForm(FlaskForm):
-    username = StringField("Username",validators=[DataRequired()])
-    password1 = PasswordField("Password",validators=[DataRequired()])
+    username = StringField("Username", validators=[DataRequired()])
+    password1 = PasswordField("Password", validators=[DataRequired()])
     password2 = PasswordField("Confirm Password", validators=[DataRequired()])
     upload = SubmitField("Complete")
+
     def validate_password1(self, password1):
         if password1 != password2:
-            return ValidationError('Both passwords must be the same')
-        
+            return ValidationError("Both passwords must be the same")
+
+
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])
     title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
@@ -70,8 +75,7 @@ class ConciergeForm(FlaskForm):
 
 
 class PosterForm(FlaskForm):
-    file = FileField('Poster Image', validators=[FileRequired()])
-    title = StringField('Title',validators=[DataRequired()])
-    msg = StringField('Message', validators=[DataRequired()])
-    upload = SubmitField('Create Poster!')
-    
+    file = FileField("Poster Image", validators=[FileRequired()])
+    title = StringField("Title", validators=[DataRequired()])
+    msg = StringField("Message", validators=[DataRequired()])
+    upload = SubmitField("Create Poster!")
