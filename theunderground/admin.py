@@ -80,7 +80,7 @@ if underground_enabled:
     @login_required
     def new_user():
         form = NewUserForm()
-        if form.validate_on_submit:
+        if form.validate_on_submit():
             u = User(
                 username=form.username.data,
             )
@@ -95,7 +95,7 @@ if underground_enabled:
         form = (
             NewUserForm()
         )  # Since the forms would be the same, all we need to do is change the header text
-        if form.validate_on_submit:
+        if form.validate_on_submit():
             u = User.query.filter_by(
                 username=form.username.data
             ).first()  # With this, we can restore locked out users.
