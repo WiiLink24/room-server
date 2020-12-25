@@ -92,3 +92,10 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
     movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
     movie.write(movie_data)
     movie.close()
+
+
+def delete_movie_data(movie_id: int):
+    movie_dir = get_movie_dir(movie_id)
+
+    os.remove(f"{movie_dir}/{movie_id}.img")
+    os.remove(f"{movie_dir}/{movie_id}-H.mov")

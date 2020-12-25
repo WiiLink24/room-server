@@ -24,6 +24,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Length</th>
                 <th scope="col">Thumbnail</th>
+                <th scope="col">Actions</th>
             </tr>
         {% for movie in movies %}
             <tr>
@@ -31,6 +32,7 @@
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
                 <td><img src="/theunderground/movies/{{ movie.movie_id }}/thumbnail.jpg" alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                <td><a href="/theunderground/movies/{{ movie.movie_id }}/remove">Delete</a></td>
             </tr>
             {% endfor %}
         </table>
