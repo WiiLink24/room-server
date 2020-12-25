@@ -36,6 +36,7 @@ from theunderground.mobiclip import (
     get_movie_dir,
     save_movie_data,
     MOBICLIP_HEADER_SIZE,
+    delete_movie_data,
 )
 
 enabled = """
@@ -403,6 +404,26 @@ if underground_enabled:
                 flash("Error uploading movie!")
 
         return render_template("add_movie.html", form=form)
+
+    @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
+    @login_required
+    def remove_movie(movie_id):
+        form = KillMii()
+        if form.validate_on_submit():
+            # While this is easily circumvented, we need the user to pay attention.
+            if form.given_mii_id.data == movie_id:
+                db.session.delete(
+                    CategoryMovies.query.filter_by(movie_id=movie_id).first()
+                )
+                db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
+                db.session.commit()
+
+                delete_movie_data(movie_id)
+
+                return redirect("/theunderground/movies")
+            else:
+                flash("Incorrect Mii ID!")
+        return render_template("delete_movie.html", form=form, mii_id=movie_id)
 
     @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
     @login_required
