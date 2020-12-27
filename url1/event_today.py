@@ -40,7 +40,6 @@ def event_today():
         "color": "000000",
         "postertime": 5,
         "posterinfo": posters,
-        "miiinfo": miiinfos,
         "adinfo": (
             RepeatedKey(
                 {
@@ -67,7 +66,8 @@ def event_today():
     }
     if news != []:
         return_dict["newsinfo"] = newsinfos
-
+    if miis != []:
+        return_dict["miiinfo"] = miiinfos
     return return_dict
 
 
