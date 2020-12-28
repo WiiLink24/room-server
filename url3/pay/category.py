@@ -1,8 +1,7 @@
 from room import app
 from helpers import xml_node_name
-print('test')
-@app.route("/url3/pay/list/category/{id}.xml")
 @xml_node_name("PayCategoryList")
+@app.route("/url3/pay/list/category/{id}.xml")
 def pay_list_category_list(id):
     # TODO: revert from temporary, pre-determined value to database schema
     filler = []
