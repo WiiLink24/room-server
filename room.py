@@ -47,7 +47,7 @@ from url1.special import all, allbin, page
 
 from url2 import reginfo, related, search
 
-from url3.pay import category_header, event_today, wall_metadata
+from url3.pay import category, category_header, event_today, wall_metadata
 
 import theunderground.admin
 
