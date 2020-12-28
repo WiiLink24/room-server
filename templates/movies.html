@@ -32,7 +32,11 @@
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
                 <td><img src="/theunderground/movies/{{ movie.movie_id }}/thumbnail.jpg" alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                {% if video_deletion_enabled %}
                 <td><a href="/theunderground/movies/{{ movie.movie_id }}/remove">Delete</a></td>
+                {% else %}
+                <td>Deletion has been disabled</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>
