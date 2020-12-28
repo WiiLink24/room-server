@@ -1,3 +1,5 @@
+from room import app
+from helpers import xml_node_name
 @app.route("/url3/pay/list/category/{id}.xml")
 @xml_node_name("PayCategoryList")
 def pay_list_category_list(id):
