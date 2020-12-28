@@ -25,7 +25,7 @@ def pay_list_category_list():
         "categinfo": filler,
     }
 
-@app.route("/url3/pay/list/category/search/<category>')
+@app.route("/url3/pay/list/category/search/<category>")
 @xml_node_name("SearchMovies")
 def search_movies(category):
     return {
