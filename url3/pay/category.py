@@ -1,5 +1,5 @@
 from room import app
-from helpers import xml_node_name
+from helpers import xml_node_name, RepeatedElement
 @app.route("/url3/pay/list/category/03.xml")
 @xml_node_name("PayCategoryList")
 def pay_list_category_list():
