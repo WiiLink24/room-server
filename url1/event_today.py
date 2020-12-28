@@ -66,7 +66,7 @@ def event_today():
     }
     if news != []:
         return_dict["newsinfo"] = newsinfos
-    if miis != []:
+    if miiinfos != []:
         return_dict["miiinfo"] = miiinfos
     return return_dict
 
