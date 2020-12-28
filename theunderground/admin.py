@@ -1,4 +1,4 @@
-from config import underground_enabled
+from config import underground_enabled, video_deletion_enabled
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from room import app, db, es
 import binascii
@@ -343,7 +343,7 @@ if underground_enabled:
     def list_movies():
         # Displays a table of posters with options to add and remove them
         movies = Movies.query.order_by(Movies.movie_id.asc()).all()
-        return render_template("movies.html", movies=movies)
+        return render_template("movies.html", movies=movies, video_deletion_enabled=video_deletion_enabled)
 
     @app.route("/theunderground/movies/add", methods=["GET", "POST"])
     @login_required
@@ -404,26 +404,26 @@ if underground_enabled:
                 flash("Error uploading movie!")
 
         return render_template("add_movie.html", form=form)
+    if video_deletion_enabled:
+        @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
+        @login_required
+        def remove_movie(movie_id):
+            form = KillMii()
+            if form.validate_on_submit():
+                # While this is easily circumvented, we need the user to pay attention.
+                if form.given_mii_id.data == movie_id:
+                    db.session.delete(
+                        CategoryMovies.query.filter_by(movie_id=movie_id).first()
+                    )
+                    db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
+                    db.session.commit()
 
-    @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
-    @login_required
-    def remove_movie(movie_id):
-        form = KillMii()
-        if form.validate_on_submit():
-            # While this is easily circumvented, we need the user to pay attention.
-            if form.given_mii_id.data == movie_id:
-                db.session.delete(
-                    CategoryMovies.query.filter_by(movie_id=movie_id).first()
-                )
-                db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
-                db.session.commit()
+                    delete_movie_data(movie_id)
 
-                delete_movie_data(movie_id)
-
-                return redirect("/theunderground/movies")
-            else:
-                flash("Incorrect Mii ID!")
-        return render_template("delete_movie.html", form=form, mii_id=movie_id)
+                    return redirect("/theunderground/movies")
+                else:
+                    flash("Incorrect Mii ID!")
+            return render_template("delete_movie.html", form=form, mii_id=movie_id)
 
     @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
     @login_required
