@@ -25,3 +25,22 @@ def pay_list_category_list():
         "categinfo": filler,
     }
 
+@app.route("/url3/pay/list/category/search/<category>')
+@xml_node_name("SearchMovies")
+def search_movies(category):
+    return {
+        "num":1,
+        "categid":category,
+        "movieinfo":{
+            "rank":1,
+            "movieid":123,
+            "title":"doggo",
+            "strdt":"2020-10-10T01:11:11",
+            "pop":0,
+            "kana":12345678,
+            "refid":"01234567890123456789012345678912",
+            "released":"2020-10-10",
+            "term":1,
+            "price":0
+        }
+    }
