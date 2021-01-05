@@ -6,4 +6,5 @@ db_url = "postgresql://username:password@localhost/database_name"
 secret_key = "please_change_thank_you"
 underground_enabled = False
 elasticsearch_url = "localhost:9200"
-video_deletion_enabled = True # If using a setup with multiple versions os room-server, set this to False.
+# If using a setup with multiple versions os room-server, set this to False.
+video_deletion_enabled = True
