@@ -1,7 +1,12 @@
 import base64
 import functools
 from datetime import datetime
+
+from flask import request, session
 from lxml import etree
+from werkzeug import exceptions
+
+from room import app
 
 
 def xml_node_name(node_name):
@@ -18,10 +23,15 @@ def xml_node_name(node_name):
                 elements = dict_to_etree(node_name, returned_value)
 
                 # Next, insert a 'ver' key at the very top.
-                # Versions must equate to 3 once divided by 100.
+                # In v1025, versions must equate to 3 once divided by 100.
                 # As such, 399 was chosen for no other reason than the fact this is true.
+                # v770 requires a version of 1.
                 ver = etree.SubElement(elements, "ver")
-                ver.text = "399"
+                if is_v770():
+                    ver.text = "1"
+                else:
+                    ver.text = "399"
+
                 elements.insert(0, ver)
 
                 # We now must convert from ETree to actual XML we can respond with.
@@ -144,3 +154,17 @@ class RepeatedElement:
         if not isinstance(passed_dict, dict):
             raise ValueError("Please only pass dicts to RepeatedElement.")
         self.contents = passed_dict
+
+
+@app.before_request
+def determine_version():
+    if "User-Agent" in request.headers:
+        user_agent = request.headers["User-Agent"]
+        session["v770"] = user_agent.startswith("WM/9198/091105181944")
+    else:
+        # No User-Agent, no business.
+        return exceptions.NotFound()
+
+
+def is_v770():
+    return session["v770"]

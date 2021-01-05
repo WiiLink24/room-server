@@ -1,8 +1,10 @@
 from elasticsearch import Elasticsearch
-from flask import Flask, send_from_directory
+from flask import Flask, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from werkzeug import exceptions
+
 import config
 
 app = Flask(__name__)
@@ -27,6 +29,9 @@ with app.test_request_context():
     db.init_app(app)
     db.create_all()
 
+
+# Required to allow version detection.
+from helpers import determine_version
 
 # Import routes here.
 import first
