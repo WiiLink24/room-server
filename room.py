@@ -29,6 +29,8 @@ with app.test_request_context():
 
 
 # Import routes here.
+import first
+
 from url1 import (
     beacon,
     category_n,
@@ -50,9 +52,3 @@ from url2 import reginfo, related, search
 from url3.pay import category, category_header, event_today, wall_metadata
 
 import theunderground.admin
-
-if app.debug:
-
-    @app.route("/conf/first.bin")
-    def conf_first_bin():
-        return send_from_directory("conf", "first.bin")
