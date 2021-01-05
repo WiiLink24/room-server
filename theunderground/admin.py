@@ -343,7 +343,9 @@ if underground_enabled:
     def list_movies():
         # Displays a table of posters with options to add and remove them
         movies = Movies.query.order_by(Movies.movie_id.asc()).all()
-        return render_template("movies.html", movies=movies, video_deletion_enabled=video_deletion_enabled)
+        return render_template(
+            "movies.html", movies=movies, video_deletion_enabled=video_deletion_enabled
+        )
 
     @app.route("/theunderground/movies/add", methods=["GET", "POST"])
     @login_required
@@ -404,7 +406,9 @@ if underground_enabled:
                 flash("Error uploading movie!")
 
         return render_template("add_movie.html", form=form)
+
     if video_deletion_enabled:
+
         @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
         @login_required
         def remove_movie(movie_id):
