@@ -1,7 +1,7 @@
 from flask import send_from_directory
 
 from room import app
-from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey
+from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey, is_v770
 from models import Posters, ConciergeMiis, News
 
 
@@ -64,10 +64,22 @@ def event_today():
             "linktype": 0,
         },
     }
-    if news != []:
+
+    if is_v770():
+        # v770 expects only one poster.
+        # As we've already queried the DB, insert the first poster.
+        poster_id = posters[0].contents["posterid"]
+        return_dict["posterid"] = poster_id
+    else:
+        # v1025 expects multiple posters, similar to how we've queried.
+        return_dict["posterinfo"] = posters
+
+    if newsinfos:
         return_dict["newsinfo"] = newsinfos
-    if miiinfos != []:
+
+    if miiinfos:
         return_dict["miiinfo"] = miiinfos
+
     return return_dict
 
 
