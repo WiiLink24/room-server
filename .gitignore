@@ -5,7 +5,6 @@ virtualenv
 venv
 
 !conf/README.md
-!conf/first.txt
 conf/
 config.py
 
