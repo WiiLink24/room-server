@@ -1,5 +1,3 @@
-import os
-
 from flask import send_from_directory
 
 from room import app
