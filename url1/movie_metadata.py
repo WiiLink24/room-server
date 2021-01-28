@@ -6,9 +6,9 @@ from helpers import xml_node_name
 from models import Movies
 
 
-@app.route("/url1/movie/<unk>/<int:movie_id>.met")
+@app.route("/url1/movie/<_hash_byte>/<int:movie_id>.met")
 @xml_node_name("MovieMeta")
-def movie_metadata(unk, movie_id: int):
+def movie_metadata(_hash_byte, movie_id: int):
     # Determine if we have metadata for this poster.
     metadata = Movies.query.filter_by(movie_id=movie_id).first()
     if metadata is None:
