@@ -2,9 +2,9 @@ name: Push Docker image
 on:
   push:
     branches:
-      - $default-branch
+      - master
     tags:
-      - *
+      - .*
 jobs:
   push_docker_image:
     name: Push Docker image to GitHub Packages
