@@ -1,0 +1,37 @@
+name: Push Docker image
+on:
+  push:
+    branches:
+      - $default-branch
+    tags:
+      - *
+jobs:
+  push_docker_image:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Determine tag name
+        run: |
+          VERSION=$(echo $GITHUB_REF | sed -e 's,.*/\(.*\),\1,')
+
+          # If we're not tagged in git, tag as latest.
+          if [[ "$GITHUB_REF" != "refs/tags/"* ]]; then
+            VERSION=latest
+          fi
+
+          # Preserve our tag name for later
+          echo "TAG_NAME=$VERSION" >> $GITHUB_ENV
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ github.repository }}/room-server:$TAG_NAME
