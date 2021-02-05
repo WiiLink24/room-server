@@ -30,6 +30,7 @@ from forms import (
 from flask_login import current_user, login_user
 import crc16
 
+from theunderground.encodemii import parade_encode
 from theunderground.mobiclip import (
     validate_mobiclip,
     get_mobiclip_length,
@@ -162,21 +163,25 @@ if underground_enabled:
         form = ParadeForm()
         if form.validate_on_submit():
 
+            # Encode an image to the appropriate size.
+            inserted_image = parade_encode(form.image.data.read())
+
             q = ParadeMiis.query.filter_by(mii_id=id)
             if list(q):
                 mii = q.first()
-                mii.logo_bin = bytes(form.image.data, encoding="utf-8")
+                mii.logo_bin = inserted_image
                 mii.news = form.news.data
             else:
                 mii = ParadeMiis(
                     mii_id=id,
                     logo_id="g1234",
-                    logo_bin=bytes(form.image.data, encoding="utf-8"),
+                    logo_bin=inserted_image,
                     news=form.news.data,
                     level=1,
                 )
             db.session.add(mii)
             db.session.commit()
+            return redirect(url_for("parade"))
 
         return render_template("edit_parade.html", form=form)
 
