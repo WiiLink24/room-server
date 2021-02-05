@@ -11,12 +11,12 @@
     </head>
     <body>
         <h1>Manage Movies</h1>
-        {% if movies | length == 0 %}
+        {% if movies.total == 0 %}
             <span class="warning">You have no movies. Wii no Ma will break processing these files. Please add some movies.</span>
-        {% elif movies | length == 1 %}
+        {% elif movies.total == 1 %}
             There is currently <strong>1</strong> movie.
         {% else %}
-            There are currently <strong>{{ movies | length }}</strong> movies.
+            There are currently <strong>{{ movies.total }}</strong> movies.
         {% endif %}
         <table>
             <tr>
@@ -26,7 +26,8 @@
                 <th scope="col">Thumbnail</th>
                 <th scope="col">Actions</th>
             </tr>
-        {% for movie in movies %}
+
+        {% for movie in movies.items %}
             <tr>
                 <td>{{ movie.movie_id }}</td>
                 <td>{{ movie.title }}</td>
@@ -41,6 +42,37 @@
             {% endfor %}
         </table>
         <br/>
-        <a href="/theunderground/movies/add"><button>Upload a Movie</button></a>
+
+        <!-- Previous/Next -->
+        {% if movies.has_prev %}
+            <a href="{{ url_for('list_movies', page=movies.prev_num) }}">&lt; Previous</a>
+        {% else %}
+            &lt; Previous
+        {% endif %}
+        |
+        {% if movies.has_next %}
+            <a href="{{ url_for('list_movies', page=movies.next_num) }}">Next &gt;</a>
+        {% else %}
+            Next &gt;
+        {% endif %}
+        <br/>
+
+        <!-- First/Last -->
+        <!-- Ensure we are not on the first page. -->
+        {% if movies.page != 1 %}
+            <a href="{{ url_for('list_movies', page=1) }}">&lt;&lt; First</a>
+        {% else %}
+            &lt;&lt; First
+        {% endif %}
+        |
+        <!-- Ensure we are not on the last page. -->
+        {% if movies.page != movies.pages %}
+            <a href="{{ url_for('list_movies', page=movies.pages) }}">Last &gt;&gt;</a>
+        {% else %}
+            Last &gt;&gt;
+        {% endif %}
+
+        <br/>
+        <a href="{{ url_for('add_movie') }}"><button>Upload a Movie</button></a>
 </body>
 </html>
