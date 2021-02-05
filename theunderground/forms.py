@@ -31,7 +31,7 @@ class NewUserForm(FlaskForm):
 
     def validate_password1(self, _):
         if self.password1.data != self.password2.data:
-            return ValidationError("Both passwords must be the same")
+            return ValidationError("New passwords must be the same")
 
 
 class ChangePasswordForm(FlaskForm):
@@ -42,9 +42,13 @@ class ChangePasswordForm(FlaskForm):
     )
     complete = SubmitField("Complete")
 
+    def validate_current_password(self, _):
+        if self.current_password.data == self.new_password.data:
+            return ValidationError("New password cannot be the same as current!")
+
     def validate_new_password(self, _):
         if self.new_password.data != self.new_password_confirmation.data:
-            return ValidationError("Both passwords must be the same")
+            return ValidationError("New passwords must be the same")
 
 
 class MovieUploadForm(FlaskForm):
@@ -80,11 +84,6 @@ class ConciergeForm(FlaskForm):
     message7 = StringField("Message 7", validators=[DataRequired()])
     movieid = StringField("Movie ID", validators=[DataRequired()])
     submit = SubmitField("Create!")
-
-    # def validate_miiid(self, miiid):
-    #     query = ConciergeMii.query.filter_by(mii_id=miiid.data).first()
-    #     if query is not None:
-    #         raise ValidationError("Mii ID taken, add 1 to it")
 
 
 class PosterForm(FlaskForm):
