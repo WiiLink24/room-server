@@ -11,7 +11,7 @@ from theunderground.forms import NewsForm, KillMii
 def list_news():
     news = News.query.all()
 
-    return render_template("news.html", news=news)
+    return render_template("news_list.html", news=news)
 
 
 @app.route("/theunderground/news/<id>")
@@ -29,7 +29,7 @@ def edit_news():
 
         return redirect(url_for("list_news"))
 
-    return render_template("add_news.html", form=form)
+    return render_template("user_pwchange.html", form=form)
 
 
 @app.route("/theunderground/news/add", methods=["GET", "POST"])
@@ -48,7 +48,7 @@ def add_news():
 
         return redirect(url_for("list_news"))
 
-    return render_template("add_news.html", form=form)
+    return render_template("user_pwchange.html", form=form)
 
 
 @app.route("/theunderground/news/<mii_id>/remove", methods=["GET", "POST"])
@@ -63,4 +63,4 @@ def remove_news(mii_id):
             return redirect("/theunderground/news")
         else:
             flash("Incorrect news ID!")
-    return render_template("delete_news.html", form=form, mii_id=mii_id)
+    return render_template("news_delete.html", form=form, mii_id=mii_id)

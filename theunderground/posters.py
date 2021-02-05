@@ -10,4 +10,4 @@ from room import app
 def list_posters():
     # Displays a table of posters with options to add and remove them
     posters = Posters.query.all()
-    return render_template("poster.html", posters=posters)
+    return render_template("poster_list.html", posters=posters)

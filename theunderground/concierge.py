@@ -11,7 +11,7 @@ from theunderground.forms import ConciergeForm, KillMii
 def list_concierge():
     concierge_miis = ConciergeMiis.query.all()
 
-    return render_template("concierge.html", miis=concierge_miis)
+    return render_template("concierge_list.html", miis=concierge_miis)
 
 
 @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
@@ -49,7 +49,7 @@ def edit_concierge(mii_id):
         db.session.commit()
         return redirect(url_for("list_concierge"))
 
-    return render_template("edit_concierge.html", form=form)
+    return render_template("concierge_edit.html", form=form)
 
 
 @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
@@ -65,4 +65,4 @@ def remove_concierge(mii_id):
             return redirect("/theunderground/concierge")
         else:
             flash("Incorrect Mii ID!")
-    return render_template("delete_concierge.html", form=form, mii_id=mii_id)
+    return render_template("concierge_delete.html", form=form, mii_id=mii_id)

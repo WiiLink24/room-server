@@ -22,7 +22,7 @@ def list_movies():
     # Displays a table of posters with options to add and remove them
     movies = Movies.query.order_by(Movies.movie_id.asc()).all()
     return render_template(
-        "movies.html", movies=movies, video_deletion_enabled=video_deletion_enabled
+        "movie_list.html", movies=movies, video_deletion_enabled=video_deletion_enabled
     )
 
 
@@ -84,7 +84,7 @@ def add_movie():
         else:
             flash("Error uploading movie!")
 
-    return render_template("add_movie.html", form=form)
+    return render_template("movie_add.html", form=form)
 
 
 if video_deletion_enabled:
@@ -107,7 +107,7 @@ if video_deletion_enabled:
                 return redirect("/theunderground/movies")
             else:
                 flash("Incorrect Mii ID!")
-        return render_template("delete_movie.html", form=form, mii_id=movie_id)
+        return render_template("movie_delete.html", form=form, mii_id=movie_id)
 
 
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
