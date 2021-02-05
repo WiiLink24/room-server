@@ -4,9 +4,8 @@ import io
 from PIL import Image
 
 
-def parade_encode(infile: bytes) -> str:
-    result = generic_encode(infile, 184, 80)
-    return str(base64.b64encode(result))
+def parade_encode(infile: bytes) -> bytes:
+    return generic_encode(infile, 184, 80)
 
 
 def movie_thumbnail_encode(infile: bytes) -> bytes:

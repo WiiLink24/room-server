@@ -59,7 +59,7 @@ class MovieUploadForm(FlaskForm):
 class ParadeForm(FlaskForm):
     news = StringField("News", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
-    image = StringField("Image Encoded in Base64", validators=[DataRequired()])
+    image = FileField("Parade Banner", validators=[FileRequired()])
     submit = SubmitField("Create")
 
 
