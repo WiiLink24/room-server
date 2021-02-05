@@ -1,5 +1,6 @@
 from flask import render_template, url_for, redirect, flash
 from flask_login import login_required
+from werkzeug import exceptions
 
 from models import News
 from room import app, db
@@ -20,6 +21,8 @@ def edit_news(news_id):
 
     # Obtain the news with that id
     news_item = News.query.filter_by(id=news_id).first()
+    if not news_item:
+        return exceptions.NotFound()
 
     if form.validate_on_submit():
         # Now we change the message

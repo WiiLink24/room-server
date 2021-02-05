@@ -26,9 +26,9 @@
                 <td>{{ mii.name }}</td>
                 <td>TODO</td>
                 <td style="text-align: center;">
-                    <a href="/theunderground/concierge/{{ mii.mii_id }}">Edit</a>
+                    <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}">Edit</a>
                     <br/>
-                    <a href="/theunderground/concierge/{{ mii.mii_id }}/remove">Delete</a>
+                    <a href="{{ url_for('remove_concierge', mii_id=mii.mii_id) }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}
