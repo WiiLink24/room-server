@@ -10,26 +10,30 @@ from theunderground.forms import NewsForm, KillMii
 @login_required
 def list_news():
     news = News.query.all()
-
     return render_template("news_list.html", news=news)
 
 
-@app.route("/theunderground/news/<id>")
+@app.route("/theunderground/news/<news_id>", methods=["GET", "POST"])
 @login_required
-def edit_news():
+def edit_news(news_id):
     form = NewsForm()
+
+    # Obtain the news with that id
+    news_item = News.query.filter_by(id=news_id).first()
+
     if form.validate_on_submit():
-        # Obtain the news with that id
-        news = News.query.filter_by(id=id)
         # Now we change the message
-        news.news = form.news.value
+        news_item.msg = form.news.data
         # Now commit it
-        db.session.add(news)
+        db.session.add(news_item)
         db.session.commit()
 
         return redirect(url_for("list_news"))
 
-    return render_template("user_pwchange.html", form=form)
+    # Populate with existing news.
+    form.news.data = news_item.msg
+
+    return render_template("news_action.html", action="Edit", form=form)
 
 
 @app.route("/theunderground/news/add", methods=["GET", "POST"])
@@ -48,19 +52,20 @@ def add_news():
 
         return redirect(url_for("list_news"))
 
-    return render_template("user_pwchange.html", form=form)
+    return render_template("news_action.html", action="Add", form=form)
 
 
-@app.route("/theunderground/news/<mii_id>/remove", methods=["GET", "POST"])
+@app.route("/theunderground/news/<news_id>/remove", methods=["GET", "POST"])
 @login_required
-def remove_news(mii_id):
+def remove_news(news_id):
     form = KillMii()
     if form.validate_on_submit():
         # While this is easily circumvented, we need the user to pay attention.
-        if form.given_mii_id.data == mii_id:
-            db.session.delete(News.query.filter_by(id=mii_id).first())
+        if form.given_mii_id.data == news_id:
+            db.session.delete(News.query.filter_by(id=news_id).first())
             db.session.commit()
             return redirect("/theunderground/news")
         else:
             flash("Incorrect news ID!")
-    return render_template("news_delete.html", form=form, mii_id=mii_id)
+
+    return render_template("news_delete.html", form=form, news_id=news_id)

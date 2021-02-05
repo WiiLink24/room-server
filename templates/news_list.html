@@ -16,13 +16,13 @@
                 <th scope="col">Message</th>
                 <th scope="col">Action</th>
             </tr>
-        {% for news in news %}
+        {% for news_item in news %}
             <tr>
-                <td>{{ news.msg }}</td>
+                <td>{{ news_item.msg }}</td>
                 <td style="text-align: center;">
-                    <a href="/theunderground/news/{{ news.id }}">Edit</a>
+                    <a href="{{ url_for('edit_news', news_id=news_item.id) }}">Edit</a>
                     <br/>
-                    <a href="/theunderground/news/{{ news.id }}/remove">Delete</a>
+                    <a href="{{ url_for('remove_news', news_id=news_item.id) }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}
