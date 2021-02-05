@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, send_from_directory
+from flask import render_template, redirect, flash, send_from_directory, request
 from flask_login import login_required
 
 from config import video_deletion_enabled
@@ -19,8 +19,12 @@ from theunderground.forms import KillMii, MovieUploadForm
 @app.route("/theunderground/movies")
 @login_required
 def list_movies():
-    # Displays a table of posters with options to add and remove them
-    movies = Movies.query.order_by(Movies.movie_id.asc()).all()
+    # Get our current page, or start from scratch.
+    page_num = request.args.get('page', default=1, type=int)
+
+    # We want at most 20 movies per page.
+    movies = Movies.query.order_by(Movies.movie_id.asc()).paginate(page_num, 20, error_out=False)
+
     return render_template(
         "movie_list.html", movies=movies, video_deletion_enabled=video_deletion_enabled
     )
