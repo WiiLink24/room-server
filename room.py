@@ -12,7 +12,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
 
-login = LoginManager(app)
+login = LoginManager()
 
 es = Elasticsearch(config.elasticsearch_url)
 
@@ -28,6 +28,8 @@ migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
+
+    login.init_app(app)
 
 
 # Required to allow version detection.
@@ -56,4 +58,4 @@ from url2 import reginfo, related, search
 
 from url3.pay import category, category_header, event_today, wall_metadata
 
-import theunderground.admin
+import theunderground
