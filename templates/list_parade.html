@@ -17,12 +17,14 @@
             <tr>
                 <th scope="col">Mii ID</th>
                 <th scope="col">Name</th>
+                <th scope="col">Banner</th>
                 <th scope="col">Action</th>
             </tr>
         {% for mii in miis %}
             <tr>
                 <td>{{ mii.mii_id }}</td>
                 <td>{{ mii.news }}</td>
+                <td><img alt="Banner for {{ mii.mii_id }}" src="/theunderground/parade/{{ mii.mii_id }}/banner.jpg"/></td>
                 <td style="text-align: center;">
                     <a href="/theunderground/parade/{{ mii.mii_id }}">Edit</a>
                     <br/>
