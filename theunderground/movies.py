@@ -20,10 +20,12 @@ from theunderground.forms import KillMii, MovieUploadForm
 @login_required
 def list_movies():
     # Get our current page, or start from scratch.
-    page_num = request.args.get('page', default=1, type=int)
+    page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 20 movies per page.
-    movies = Movies.query.order_by(Movies.movie_id.asc()).paginate(page_num, 20, error_out=False)
+    movies = Movies.query.order_by(Movies.movie_id.asc()).paginate(
+        page_num, 20, error_out=False
+    )
 
     return render_template(
         "movie_list.html", movies=movies, video_deletion_enabled=video_deletion_enabled
