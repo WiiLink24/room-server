@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Delete News</title>
+        <title>{{ action }} News</title>
         <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
@@ -12,19 +12,16 @@
                 </p>
             {% endfor %}
         {% endwith %}
-        <h1>Delete News</h1>
-        You are about to <strong>delete</strong> the piece of news with ID {{ news_id }}.
-        <br>
-        Are you certain you want to continue?
-        <br/>
-        If so, please enter the above ID in the textfield below and submit.
-        <br/>
-        <form action="" method="post">
+        <h1>{{ action }} News</h1>
+        <form action="" method="post" enctype="multipart/form-data">
             <p>
                 {{ form.hidden_tag() }}
-                News ID: {{ form.given_mii_id(size=32) }}
+                {{ form.news.label }}:
+                <br>
+                {{ form.news() }}
+                <br>
             </p>
-            <p>{{ form.submit() }}</p>
+            <p>{{ form.create() }}</p>
         </form>
     </body>
 </html>
