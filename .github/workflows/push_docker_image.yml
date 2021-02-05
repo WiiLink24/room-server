@@ -34,4 +34,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ github.repository }}/room-server:$TAG_NAME
+          tags: ghcr.io/${{ github.repository }}:$TAG_NAME
