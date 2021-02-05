@@ -31,9 +31,9 @@
                 <td>{{ movie.movie_id }}</td>
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
-                <td><img src="/theunderground/movies/{{ movie.movie_id }}/thumbnail.jpg" alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}" alt="Thumbnail for {{ movie.movie_id }}"/></td>
                 {% if video_deletion_enabled %}
-                <td><a href="/theunderground/movies/{{ movie.movie_id }}/remove">Delete</a></td>
+                <td><a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}">Delete</a></td>
                 {% else %}
                 <td>Deletion has been disabled</td>
                 {% endif %}

@@ -1,6 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
-from wtforms import StringField, SubmitField, PasswordField, FileField, SelectField
+from wtforms import (
+    StringField,
+    SubmitField,
+    PasswordField,
+    FileField,
+    SelectField,
+    TextAreaField,
+)
 from wtforms.validators import DataRequired, Length, ValidationError
 
 
@@ -11,8 +18,8 @@ class LoginForm(FlaskForm):
 
 
 class NewsForm(FlaskForm):
-    news = StringField("News", validators=[DataRequired()])
-    upload = SubmitField("Create!")
+    news = TextAreaField("News Contents", validators=[DataRequired()])
+    create = SubmitField("Create!")
 
 
 class MiiUploadForm(FlaskForm):

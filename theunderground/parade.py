@@ -9,27 +9,27 @@ from theunderground.forms import ParadeForm, KillMii
 
 @app.route("/theunderground/parade")
 @login_required
-def parade():
+def list_parade():
     parade_miis = ParadeMiis.query.order_by(ParadeMiis.mii_id.asc()).all()
     return render_template("parade_list.html", miis=parade_miis)
 
 
-@app.route("/theunderground/parade/<id>", methods=["GET", "POST"])
+@app.route("/theunderground/parade/<mii_id>", methods=["GET", "POST"])
 @login_required
-def edit_parade(id):
+def edit_parade(mii_id):
     form = ParadeForm()
     if form.validate_on_submit():
         # Encode an image to the appropriate size.
         inserted_image = parade_encode(form.image.data.read())
 
-        q = ParadeMiis.query.filter_by(mii_id=id)
+        q = ParadeMiis.query.filter_by(mii_id=mii_id)
         if list(q):
             mii = q.first()
             mii.logo_bin = inserted_image
             mii.news = form.news.data
         else:
             mii = ParadeMiis(
-                mii_id=id,
+                mii_id=mii_id,
                 logo_id="g1234",
                 logo_bin=inserted_image,
                 news=form.news.data,

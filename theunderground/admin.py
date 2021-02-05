@@ -68,7 +68,7 @@ if underground_enabled:
 
     @app.route("/theunderground/logout")
     @login_required
-    def process_logout():
+    def logout():
         logout_user()
         return redirect(url_for("login"))
 
