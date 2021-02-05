@@ -11,7 +11,7 @@ from theunderground.forms import ParadeForm, KillMii
 @login_required
 def parade():
     parade_miis = ParadeMiis.query.order_by(ParadeMiis.mii_id.asc()).all()
-    return render_template("list_parade.html", miis=parade_miis)
+    return render_template("parade_list.html", miis=parade_miis)
 
 
 @app.route("/theunderground/parade/<id>", methods=["GET", "POST"])
@@ -40,7 +40,7 @@ def edit_parade(id):
         db.session.commit()
         return redirect(url_for("parade"))
 
-    return render_template("edit_parade.html", form=form)
+    return render_template("parade_edit.html", form=form)
 
 
 @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
@@ -55,7 +55,7 @@ def remove_parade(mii_id):
             return redirect("/theunderground/parade")
         else:
             flash("Incorrect Mii ID!")
-    return render_template("delete_parade.html", form=form, mii_id=mii_id)
+    return render_template("parade_delete.html", form=form, mii_id=mii_id)
 
 
 @app.route("/theunderground/parade/<mii_id>/banner.jpg")

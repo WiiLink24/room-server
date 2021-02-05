@@ -44,13 +44,11 @@ if underground_enabled:
     def new_user():
         form = NewUserForm()
         if form.validate_on_submit():
-            u = User(
-                username=form.username.data,
-            )
+            u = User(username=form.username.data)
             u.set_password(form.password.data)
             db.session.add(u)
             db.session.commit()
-        return render_template("newuser.html", form=form)
+        return render_template("user_new.html", form=form)
 
     @app.route("/theunderground/change_password", methods=["GET", "POST"])
     @login_required

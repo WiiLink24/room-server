@@ -14,7 +14,7 @@ from theunderground.forms import MiiUploadForm
 def list_miis():
     miis = MiiData.query.all()
 
-    return render_template("list_miis.html", miis=miis, binascii=binascii)
+    return render_template("mii_list.html", miis=miis, binascii=binascii)
 
 
 @app.route("/theunderground/miis/add", methods=["GET", "POST"])
@@ -52,4 +52,4 @@ def add_mii():
         else:
             flash("Error uploading Mii")
 
-    return render_template("add_mii.html", form=form)
+    return render_template("mii_add.html", form=form)
