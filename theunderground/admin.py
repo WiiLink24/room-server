@@ -25,6 +25,7 @@ from forms import (
     ParadeForm,
     NewsForm,
     NewUserForm,
+    ChangePasswordForm,
 )
 from flask_login import current_user, login_user
 import crc16
@@ -93,17 +94,18 @@ if underground_enabled:
     @app.route("/theunderground/change_password", methods=["GET", "POST"])
     @login_required
     def change_password():
-        form = (
-            NewUserForm()
-        )  # Since the forms would be the same, all we need to do is change the header text
+        form = ChangePasswordForm()
         if form.validate_on_submit():
-            u = User.query.filter_by(
-                username=form.username.data
-            ).first()  # With this, we can restore locked out users.
-            u.set_password_hash(form.password.data)
+            print(type(current_user))
+            u = User.query.filter_by(username=current_user.username).first()
+            u.set_password(form.new_password.data)
             db.session.add(u)
             db.session.commit()
-        return render_template("changepw.html", form=form)
+            return redirect(url_for("admin"))
+
+        return render_template(
+            "changepw.html", form=form, username=current_user.username
+        )
 
     @app.route("/theunderground/logout")
     @login_required
@@ -161,7 +163,7 @@ if underground_enabled:
         if form.validate_on_submit():
 
             q = ParadeMiis.query.filter_by(mii_id=id)
-            if list(q) != []:
+            if list(q):
                 mii = q.first()
                 mii.logo_bin = bytes(form.image.data, encoding="utf-8")
                 mii.news = form.news.data

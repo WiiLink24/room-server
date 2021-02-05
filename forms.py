@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired
 from wtforms import StringField, SubmitField, PasswordField, FileField, SelectField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, ValidationError
 
 
 class LoginForm(FlaskForm):
@@ -29,8 +29,21 @@ class NewUserForm(FlaskForm):
     password2 = PasswordField("Confirm Password", validators=[DataRequired()])
     upload = SubmitField("Complete")
 
-    def validate_password1(self, password1):
-        if password1 != password2:
+    def validate_password1(self, _):
+        if self.password1.data != self.password2.data:
+            return ValidationError("Both passwords must be the same")
+
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField("Password", validators=[DataRequired()])
+    new_password = PasswordField("New Password", validators=[DataRequired()])
+    new_password_confirmation = PasswordField(
+        "Confirm New Password", validators=[DataRequired()]
+    )
+    complete = SubmitField("Complete")
+
+    def validate_new_password(self, _):
+        if self.new_password.data != self.new_password_confirmation.data:
             return ValidationError("Both passwords must be the same")
 
 
