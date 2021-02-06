@@ -7,8 +7,11 @@ from wtforms import (
     FileField,
     SelectField,
     TextAreaField,
+    BooleanField,
 )
 from wtforms.validators import DataRequired, Length, ValidationError
+
+from models import RoomBGMTypes
 
 
 class LoginForm(FlaskForm):
@@ -71,6 +74,20 @@ class ParadeForm(FlaskForm):
     news = StringField("News", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
     image = FileField("Parade Banner", validators=[FileRequired()])
+    submit = SubmitField("Create")
+
+
+class RoomForm(FlaskForm):
+    bgm = SelectField(
+        "Background Music",
+        choices=RoomBGMTypes.choices(),
+        coerce=RoomBGMTypes.coerce,
+    )
+    room_logo = FileField("Room Logo", validators=[FileRequired()])
+    has_mascot = BooleanField("Mascot Enabled")
+    has_contact = BooleanField("Show Contact Information")
+    intro_msg = StringField("Intro Message", validators=[DataRequired()])
+    mii_msg = StringField("Mii Message", validators=[DataRequired()])
     submit = SubmitField("Create")
 
 

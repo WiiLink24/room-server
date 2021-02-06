@@ -1,5 +1,4 @@
 import enum
-from datetime import datetime
 
 from room import db
 from flask_login import UserMixin
@@ -132,8 +131,19 @@ class RoomBGMTypes(enum.Enum):
     WESTERN = 7
     HARP = 8
 
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
 
-class Room(db.Model):
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
+
+
+class Rooms(db.Model):
     room_id = db.Column(
         db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True, nullable=False
     )

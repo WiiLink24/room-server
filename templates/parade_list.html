@@ -38,6 +38,6 @@
             <span class="warning">You have too many parade Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
         {% else %}
             <br/>
-            <a href="/theunderground/miis"><button>Add a Mii</button></a>
+            <a href="{{ url_for('list_miis') }}"><button>Add a Mii</button></a>
         {% endif %}
 </body>

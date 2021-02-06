@@ -2,7 +2,7 @@
 from werkzeug import exceptions
 
 from helpers import current_date_and_time, RepeatedElement, xml_node_name
-from models import Room, MiiData, ParadeMiis
+from models import Rooms, MiiData, ParadeMiis
 from room import app, db
 from flask import send_from_directory
 
@@ -11,10 +11,10 @@ from flask import send_from_directory
 @xml_node_name("SpPage")
 def special_page_n(page):
     query = (
-        db.session.query(Room, MiiData, ParadeMiis)
-        .filter(Room.room_id == page)
-        .filter(Room.room_id == MiiData.mii_id)
-        .filter(Room.room_id == ParadeMiis.mii_id)
+        db.session.query(Rooms, MiiData, ParadeMiis)
+        .filter(Rooms.room_id == page)
+        .filter(Rooms.room_id == MiiData.mii_id)
+        .filter(Rooms.room_id == ParadeMiis.mii_id)
         .first()
     )
 
