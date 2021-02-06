@@ -1,3 +1,4 @@
+import enum
 from datetime import datetime
 
 from room import db
@@ -119,3 +120,29 @@ class CategoryMovies(db.Model):
         primary_key=True,
         nullable=False,
     )
+
+
+class RoomBGMTypes(enum.Enum):
+    SOFT_GUITAR = 1
+    NORMAL = 2
+    FOLK = 3
+    JAZZY = 4
+    TRUMPET = 5
+    CHIMES = 6
+    WESTERN = 7
+    HARP = 8
+
+
+class Room(db.Model):
+    room_id = db.Column(
+        db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True, nullable=False
+    )
+    room_name = db.Column(db.String)
+    bgm = db.Column(db.Enum(RoomBGMTypes))
+    mascot = db.Column(db.Boolean)
+    contact = db.Column(db.Boolean)
+    intro_msg = db.Column(db.String)
+    mii_msg = db.Column(db.String)
+    # TODO: implement room type specific logic
+    logo1_id = db.Column(db.String)
+    logo2_id = db.Column(db.String)

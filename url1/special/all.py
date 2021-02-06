@@ -19,7 +19,7 @@ def special_all():
         page_info.append(
             RepeatedElement(
                 {
-                    "sppageid": 0,
+                    "sppageid": mii_data.mii_id,
                     "name": mii_data.name,
                     "level": parade_mii.level,
                     "miiid": mii_data.mii_id,
