@@ -52,7 +52,7 @@ from url1 import (
     popular_n,
     wall_metadata,
 )
-from url1.special import all, allbin, page
+from url1.special import all, allbin, contact, page
 
 from url2 import reginfo, related, search
 
