@@ -4,6 +4,10 @@ import io
 from PIL import Image
 
 
+def room_logo(infile: bytes) -> bytes:
+    return generic_encode(infile, 320, 180)
+
+
 def parade_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 184, 80)
 

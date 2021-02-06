@@ -1,1 +1,1 @@
-from . import admin, concierge, miis, movies, news, parade, posters
+from . import admin, concierge, miis, movies, news, parade, posters, rooms
