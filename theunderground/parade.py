@@ -38,7 +38,7 @@ def edit_parade(mii_id):
 
         db.session.add(mii)
         db.session.commit()
-        return redirect(url_for("parade"))
+        return redirect(url_for("list_parade"))
 
     return render_template("parade_edit.html", form=form)
 
@@ -52,7 +52,7 @@ def remove_parade(mii_id):
         if form.given_mii_id.data == mii_id:
             db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
             db.session.commit()
-            return redirect("/theunderground/parade")
+            return redirect(url_for("list_parade"))
         else:
             flash("Incorrect Mii ID!")
     return render_template("parade_delete.html", form=form, mii_id=mii_id)
