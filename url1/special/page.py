@@ -2,7 +2,7 @@
 from werkzeug import exceptions
 
 from helpers import current_date_and_time, RepeatedElement, xml_node_name
-from models import Room, MiiData
+from models import Room, MiiData, ParadeMiis
 from room import app, db
 from flask import send_from_directory
 
@@ -11,25 +11,26 @@ from flask import send_from_directory
 @xml_node_name("SpPage")
 def special_page_n(page):
     query = (
-        db.session.query(Room, MiiData)
+        db.session.query(Room, MiiData, ParadeMiis)
         .filter(Room.room_id == page)
         .filter(Room.room_id == MiiData.mii_id)
+        .filter(Room.room_id == ParadeMiis.mii_id)
         .first()
     )
 
     if not query:
         return exceptions.NotFound()
 
-    queried_room, queried_mii = query
+    queried_room, queried_mii, queried_parade = query
 
     return {
         "sppageid": page,
         # TODO: database schema should handle proper times regarding catalog.
         "strdt": current_date_and_time(),
         "enddt": current_date_and_time(),
-        "name": queried_room.room_name,
+        "name": queried_parade.news,
         "stopflag": 0,
-        "level": 1,
+        "level": queried_parade.level,
         "bgm": queried_room.bgm.value,
         "mascot": queried_room.mascot,
         "contact": queried_room.contact,
@@ -65,7 +66,7 @@ def special_page_n(page):
                 "coupmovap": 0,
             },
         },
-        "logo": {"logo1id": queried_room.logo1_id, "logo2id": queried_room.logo2_id},
+        "logo": {"logo1id": queried_parade.logo_id, "logo2id": queried_room.logo2_id},
     }
 
 
