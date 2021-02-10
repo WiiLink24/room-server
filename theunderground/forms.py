@@ -26,9 +26,6 @@ class RoomMovieForm(FlaskForm):
     imageid = StringField('Image ID')
     title = StringField('Movie Title')
     submit = SubmitField('Done!')
-    def validate_imageid(imageid):
-        if not imageid.startswith('c'):
-            raise ValidationError('Image ID must start with C')
             
 
 class LoginForm(FlaskForm):
