@@ -101,18 +101,6 @@ class Movies(db.Model):
     staff = db.Column(db.Boolean, nullable=False)
 
 
-class PayMovies(db.Model):
-    paymovie_id = db.Column(db.Integer, primary_key=True, unique=True)
-    title = db.Column(db.String(64), nullable=False)
-    length = db.Column(db.String(8), nullable=False)
-    aspect = db.Column(db.Boolean, nullable=False)
-    genre = db.Column(db.Integer, nullable=False)
-    sp_page_id = db.Column(db.Integer, nullable=False)
-    ds_dist = db.Column(db.Boolean, nullable=False)
-    ds_mov_id = db.Column(db.Integer)
-    staff = db.Column(db.Boolean, nullable=False)
-
-
 class PayCategories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
