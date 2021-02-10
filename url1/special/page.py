@@ -2,7 +2,7 @@
 from werkzeug import exceptions
 
 from helpers import current_date_and_time, RepeatedElement, xml_node_name
-from models import Rooms, MiiData, ParadeMiis
+from models import Rooms, MiiData, ParadeMiis, RoomMenu
 from room import app, db
 from flask import send_from_directory
 
@@ -11,17 +11,18 @@ from flask import send_from_directory
 @xml_node_name("SpPage")
 def special_page_n(page):
     query = (
-        db.session.query(Rooms, MiiData, ParadeMiis)
+        db.session.query(Rooms, MiiData, ParadeMiis, RoomMenu
         .filter(Rooms.room_id == page)
         .filter(Rooms.room_id == MiiData.mii_id)
         .filter(Rooms.room_id == ParadeMiis.mii_id)
+        .filter(room_id=page)
         .first()
     )
 
     if not query:
         return exceptions.NotFound()
 
-    queried_room, queried_mii, queried_parade = query
+    queried_room, queried_mii, queried_parade, menu_data = query
 
     return {
         "sppageid": page,
@@ -54,18 +55,7 @@ def special_page_n(page):
                 ),
             ],
         },
-        "menu": {
-            "place": 1,
-            "type": 4,
-            "imageid": "d1234",
-            "coup": {
-                "coupid": 1,
-                "couptitle": "coupon test",
-                "couplimit": 10,
-                "coupmov": 1,
-                "coupmovap": 0,
-            },
-        },
+        "menu": menu_data.data
         "logo": {"logo1id": queried_parade.logo_id, "logo2id": queried_room.logo2_id},
     }
 
