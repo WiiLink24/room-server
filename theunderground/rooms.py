@@ -31,7 +31,7 @@ def roommovie(id):
         menu = RoomMenu(room_id=id, data=data)
         db.session.add(menu)
         db.session.commit()
-        return redirect(url_for(f'/theunderground/rooms/{id}'))
+        return redirect(url_for(f'theunderground/rooms/{id}'))
     return render_template("room_movie.html", form=form)
 
 @app.route("/theunderground/rooms")
@@ -75,7 +75,7 @@ def edit_room(room_id):
 
         db.session.add(room)
         db.session.commit()
-        return redirect(url_for("list_room"))
+        return redirect(url_for("/theunderground/rooms/"))
 
     return render_template("room_edit.html", form=form)
 
