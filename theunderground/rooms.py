@@ -10,7 +10,7 @@ from theunderground.forms import KillMii, RoomForm
 from room import app
 from theunderground.forms import RoomMovieForm
 from models import RoomMenu
-@app.route('/theunderground/rooms/<id>/movie')
+@app.route('/theunderground/rooms/<id>/movie', methods=['GET', 'POST'])
 @login_required
 def roommovie(id):
     form = RoomMovieForm()
