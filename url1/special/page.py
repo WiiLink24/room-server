@@ -15,7 +15,7 @@ def special_page_n(page):
         .filter(Rooms.room_id == page)
         .filter(Rooms.room_id == MiiData.mii_id)
         .filter(Rooms.room_id == ParadeMiis.mii_id)
-        .filter(room_id=page)
+        .filter(Rooms.room_id == page)
         .first()
     )
 
