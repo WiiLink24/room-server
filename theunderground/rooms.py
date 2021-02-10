@@ -20,7 +20,6 @@ def roommovie(id):
         imageid = form.imageid.data
         title = form.title.data
         data = {
-            "place":1,
             "type":3,
             "imageid":imageid,
             "mov":{
