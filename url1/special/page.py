@@ -25,7 +25,7 @@ def special_page_n(page):
     menu_data = db.session.query(RoomMenu).filter(Rooms.room_id == page).all()
     menus = []
     for place, data in enumerate(menu_data):
-        menus.append(RepeatedElement(data.data + {"place": place + 1}))
+        menus.append(RepeatedElement(data.data | {"place": place + 1}))
 
     return {
         "sppageid": page,
