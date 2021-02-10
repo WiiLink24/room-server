@@ -101,6 +101,11 @@ class Movies(db.Model):
     staff = db.Column(db.Boolean, nullable=False)
 
 
+class PayCategories(db.Model):
+    category_id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.String)
+
+
 class Categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
