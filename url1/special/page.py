@@ -11,7 +11,7 @@ from flask import send_from_directory
 @xml_node_name("SpPage")
 def special_page_n(page):
     query = (
-        db.session.query(Rooms, MiiData, ParadeMiis, RoomMenu
+        db.session.query(Rooms, MiiData, ParadeMiis, RoomMenu)
         .filter(Rooms.room_id == page)
         .filter(Rooms.room_id == MiiData.mii_id)
         .filter(Rooms.room_id == ParadeMiis.mii_id)
