@@ -20,7 +20,7 @@ def roommovie(id):
         imageid = form.imageid.data
         title = form.title.data
         data = {
-            "place":2,
+            "place":1,
             "type":3,
             "imageid":imageid,
             "mov":{
@@ -28,7 +28,7 @@ def roommovie(id):
                 "title":title
             }
         }
-        menu = RoomMenu(id, data)
+        menu = RoomMenu(room_id=id, data=data)
         db.session.add(menu)
         db.session.commit()
         return redirect(url_for(f'/theunderground/rooms/{id}'))
