@@ -55,7 +55,7 @@ def special_page_n(page):
                 ),
             ],
         },
-        "menu": menu_data.data
+        "menu": menu_data.data,
         "logo": {"logo1id": queried_parade.logo_id, "logo2id": queried_room.logo2_id},
     }
 
