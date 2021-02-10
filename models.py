@@ -28,7 +28,7 @@ class DictType(TypeDecorator):
         return value
 class RoomMenu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    room_id = db.Column(db.Integer, primary_key=True)
+    room_id = db.Column(db.Integer)
     data = db.Column(DictType) # This is a dict with keys in it for that type.
     # TODO: Figure out a suitable UI, maybe even using Javascript?
 class ParadeMiis(db.Model):
