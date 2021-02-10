@@ -1,5 +1,3 @@
-from flask import send_from_directory
-
 from room import app
 from helpers import xml_node_name, RepeatedElement
 from models import PayCategories
