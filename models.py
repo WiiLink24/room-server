@@ -14,7 +14,7 @@ from sqlalchemy.types import TypeDecorator
 import json
 class DictType(TypeDecorator):
 
-    impl = sqlalchemy.Text(1000)
+    impl = sqlalchemy.Text()
 
     def process_bind_param(self, value, dialect):
         if value is not None:
