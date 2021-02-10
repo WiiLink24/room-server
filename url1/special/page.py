@@ -11,18 +11,21 @@ from flask import send_from_directory
 @xml_node_name("SpPage")
 def special_page_n(page):
     query = (
-        db.session.query(Rooms, MiiData, ParadeMiis, RoomMenu)
+        db.session.query(Rooms, MiiData, ParadeMiis)
         .filter(Rooms.room_id == page)
         .filter(Rooms.room_id == MiiData.mii_id)
         .filter(Rooms.room_id == ParadeMiis.mii_id)
-        .filter(Rooms.room_id == page)
         .first()
     )
 
     if not query:
         return exceptions.NotFound()
 
-    queried_room, queried_mii, queried_parade, menu_data = query
+    queried_room, queried_mii, queried_parade = query
+    menu_data = db.session.query(RoomMenu).filter(Rooms.room_id == page).all()
+    menus = []
+    for place, data in enumerate(menu_data):
+        menus.append(RepeatedElement(data.data + {"place": place + 1}))
 
     return {
         "sppageid": page,
@@ -55,7 +58,7 @@ def special_page_n(page):
                 ),
             ],
         },
-        "menu": menu_data.data,
+        "menu": menu,
         "logo": {"logo1id": queried_parade.logo_id, "logo2id": queried_room.logo2_id},
     }
 
