@@ -10,8 +10,12 @@ import sqlalchemy
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
 from sqlalchemy.types import TypeDecorator
 import json
+
+
 class DictType(TypeDecorator):
 
     impl = sqlalchemy.Text()
@@ -26,11 +30,15 @@ class DictType(TypeDecorator):
         if value is not None:
             value = json.loads(value)
         return value
+
+
 class RoomMenu(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     room_id = db.Column(db.Integer)
-    data = db.Column(DictType) # This is a dict with keys in it for that type.
+    data = db.Column(DictType)  # This is a dict with keys in it for that type.
     # TODO: Figure out a suitable UI, maybe even using Javascript?
+
+
 class ParadeMiis(db.Model):
     # We need to be able to select by both the Mii's ID and the logo.
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
@@ -120,6 +128,7 @@ class Movies(db.Model):
     ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
 
+
 class PayMovies(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True, unique=True)
     title = db.Column(db.String(15), nullable=False)
@@ -129,8 +138,8 @@ class PayMovies(db.Model):
     ds_dist = db.Column(db.Boolean, nullable=False)
     ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
-    note =  db.Column(db.String, nullable=False)
-    dimg =  db.Column(db.Boolean, nullable=False)
+    note = db.Column(db.String, nullable=False)
+    dimg = db.Column(db.Boolean, nullable=False)
     eval = db.Column(db.Boolean, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     sample = db.Column(db.Boolean, nullable=False)
@@ -142,6 +151,7 @@ class PayCategories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
 
+
 class PayCategoriesPosters(db.Model):
     num = db.Column(db.Integer)
     category_id = db.Column(db.Integer)
@@ -151,6 +161,7 @@ class PayCategoriesPosters(db.Model):
     pop = db.Column(db.Integer)
     release_date = db.Column(db.String)
     price = db.Column(db.Integer)
+
 
 class PayCategoryHeaders(db.Model):
     title = db.Column(db.String, primary_key=True, unique=True)
