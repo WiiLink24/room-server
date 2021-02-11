@@ -2,21 +2,24 @@ from flask import send_from_directory
 
 from room import app
 from helpers import xml_node_name, RepeatedElement
+from models import PayCategoryHeaders
 
 
 @app.route("/url3/pay/list/category/header.xml")
 @xml_node_name("PayCategoryHeader")
 def pay_list_category_header():
-    # TODO: revert from temporary, pre-determined value to database schema
+    queried_categories = PayCategoryHeaders.query.order_by(
+        PayCategoryHeaders.title.asc()
+    ).all()
     filler = []
-    for i in range(40):
-        # Items must be indexed by 1.
+    for i, pay_category_headers in enumerate(queried_categories):
+        # Titles must be indexed by 1.
         filler.append(
             RepeatedElement(
                 {
                     "place": i + 1,
                     "type": i + 10,
-                    "text": "Testing...",
+                    "text": pay_category_headers.title,
                 }
             )
         )
