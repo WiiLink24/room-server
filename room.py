@@ -56,6 +56,13 @@ from url1.special import all, allbin, contact, page
 
 from url2 import reginfo, related, search
 
-from url3.pay import category, category_header, event_today, wall_metadata
+from url3.pay import (
+    category,
+    category_header,
+    event_today,
+    wall_metadata,
+    paymovie_metadata,
+    paymovie_posterdata,
+)
 
 import theunderground
