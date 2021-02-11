@@ -10,7 +10,9 @@ from theunderground.forms import KillMii, RoomForm
 from room import app
 from theunderground.forms import RoomMovieForm
 from models import RoomMenu
-@app.route('/theunderground/rooms/<id>/movie', methods=['GET', 'POST'])
+
+
+@app.route("/theunderground/rooms/<id>/movie", methods=["GET", "POST"])
 @login_required
 def roommovie(id):
     form = RoomMovieForm()
@@ -20,18 +22,16 @@ def roommovie(id):
         imageid = form.imageid.data
         title = form.title.data
         data = {
-            "type":3,
-            "imageid":imageid,
-            "mov":{
-                "movieid":movie_id,
-                "title":title
-            }
+            "type": 3,
+            "imageid": imageid,
+            "mov": {"movieid": movie_id, "title": title},
         }
         menu = RoomMenu(room_id=id, data=data)
         db.session.add(menu)
         db.session.commit()
-        return redirect(url_for(f'theunderground/rooms/{id}'))
+        return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("room_movie.html", form=form)
+
 
 @app.route("/theunderground/rooms")
 @login_required

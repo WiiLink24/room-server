@@ -10,8 +10,12 @@ import sqlalchemy
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
 from sqlalchemy.types import TypeDecorator
 import json
+
+
 class DictType(TypeDecorator):
 
     impl = sqlalchemy.Text()
@@ -31,10 +35,10 @@ class DictType(TypeDecorator):
 class RoomMenu(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     room_id = db.Column(db.Integer)
-    data = db.Column(DictType) # This is a dict with keys in it for that type.
+    data = db.Column(DictType)  # This is a dict with keys in it for that type.
     # TODO: Figure out a suitable UI, maybe even using Javascript?
 
-    
+
 class ParadeMiis(db.Model):
     # We need to be able to select by both the Mii's ID and the logo.
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
