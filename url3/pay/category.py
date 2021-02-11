@@ -27,5 +27,3 @@ def pay_list_category(list_id):
         "img": 0,
         "categinfo": filler,
     }
-
-
