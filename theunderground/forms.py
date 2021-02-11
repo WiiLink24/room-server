@@ -13,6 +13,20 @@ from wtforms.validators import DataRequired, Length, ValidationError
 
 from models import RoomBGMTypes
 
+'''
+Reference:
+        movie_id = form.movie_id.data
+        place = form.place.data
+        imageid = form.imageid.data
+        title = form.title.data
+'''
+class RoomMovieForm(FlaskForm):
+    movie_id = StringField('Movie ID')
+    place = StringField('Place in Room')
+    imageid = StringField('Image ID')
+    title = StringField('Movie Title')
+    submit = SubmitField('Done!')
+            
 
 class LoginForm(FlaskForm):
     username = StringField("Username")

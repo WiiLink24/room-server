@@ -7,7 +7,31 @@ from models import Rooms
 from room import app, db
 from theunderground.encodemii import room_logo
 from theunderground.forms import KillMii, RoomForm
-
+from room import app
+from theunderground.forms import RoomMovieForm
+from models import RoomMenu
+@app.route('/theunderground/rooms/<id>/movie', methods=['GET', 'POST'])
+@login_required
+def roommovie(id):
+    form = RoomMovieForm()
+    if form.validate_on_submit():
+        movie_id = form.movie_id.data
+        place = form.place.data
+        imageid = form.imageid.data
+        title = form.title.data
+        data = {
+            "type":3,
+            "imageid":imageid,
+            "mov":{
+                "movieid":movie_id,
+                "title":title
+            }
+        }
+        menu = RoomMenu(room_id=id, data=data)
+        db.session.add(menu)
+        db.session.commit()
+        return redirect(url_for(f'theunderground/rooms/{id}'))
+    return render_template("room_movie.html", form=form)
 
 @app.route("/theunderground/rooms")
 @login_required
@@ -50,7 +74,7 @@ def edit_room(room_id):
 
         db.session.add(room)
         db.session.commit()
-        return redirect(url_for("list_room"))
+        return redirect(url_for("/theunderground/rooms/"))
 
     return render_template("room_edit.html", form=form)
 
