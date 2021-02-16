@@ -7,7 +7,7 @@ import os
 from time import gmtime, strftime
 
 from models import Categories
-from theunderground.encodemii import movie_thumbnail_encode
+from encodemii import movie_thumbnail_encode
 
 MOBICLIP_HEADER_SIZE = 3782
 
