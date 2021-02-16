@@ -3,7 +3,11 @@
 
 # Primary config for room-server
 db_url = "postgresql://username:password@localhost/database_name"
+
+# Configuration for Elasticsearch
 elasticsearch_url = "localhost:9200"
+elasticsearch_user = "admin"
+elasticsearch_pass = "admin"
 
 # Used as the base domain within first.bin.
 # To resolve to 127.0.0.1, feel free to use "dev.wiilink24.com".

@@ -13,7 +13,10 @@ app.config["SECRET_KEY"] = config.secret_key
 
 login = LoginManager()
 
-es = Elasticsearch(config.elasticsearch_url)
+es = Elasticsearch(
+    config.elasticsearch_url,
+    http_auth=(config.elasticsearch_user, config.elasticsearch_pass),
+)
 
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
