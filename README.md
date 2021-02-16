@@ -24,3 +24,5 @@ Finally, run in development mode, and enjoy!
 ```
 flask run
 ```
+
+In order for search to be usable, you will need to install Elasticsearch. We recommend using [Open Distro for Elasticsearch](https://opendistro.github.io/for-elasticsearch/).
