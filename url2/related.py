@@ -2,7 +2,7 @@ from room import app
 from helpers import xml_node_name, RepeatedElement
 
 
-@app.route("/url2/miiinfo.cgi")
+@app.route("/url2/miiinfo.cgi", methods=["GET", "POST"])
 @xml_node_name("MiiInfo")
 def miiinfo():
     return {"code": 0, "msg": "thanks"}

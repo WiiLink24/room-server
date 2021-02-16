@@ -3,7 +3,6 @@ from flask import Flask, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from werkzeug import exceptions
 
 import config
 
@@ -33,36 +32,12 @@ with app.test_request_context():
 
 
 # Required to allow version detection.
-from helpers import determine_version
 
 # Import routes here.
+
 import first
 
-from url1 import (
-    beacon,
-    category_n,
-    category_search,
-    eula,
-    event_today,
-    mii,
-    movie_metadata,
-    new,
-    paylink,
-    popular_all,
-    popular_n,
-    wall_metadata,
-)
-from url1.special import all, allbin, contact, page
-
-from url2 import reginfo, related, search
-
-from url3.pay import (
-    category,
-    category_header,
-    event_today,
-    wall_metadata,
-    paymovie_metadata,
-    paymovie_posterdata,
-)
-
+import url1
+import url2
+import url3
 import theunderground
