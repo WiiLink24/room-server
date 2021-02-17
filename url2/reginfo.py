@@ -10,14 +10,19 @@ from flask.request import remote_addr
 
 
 def getzone():
-    requested_data = get("HTTP_X_REAL_IP", remote_addr)
-    json_data = load(
-        urlopen(
-            str("http://ipinfo.io/%s/json?token=%s") % requested_data,
-            ipinfo_token,
-        )
+    return str(
+        now(
+            timezone(
+                json_data=load(
+                    urlopen(
+                        str("http://ipinfo.io/%s/json?token=%s")
+                        % get("HTTP_X_REAL_IP", remote_addr),
+                        ipinfo_token,
+                    )
+                )["timezone"]
+            )
+        ).strftime("%Y-%m-%dT%H:%M:%S")
     )
-    return now(timezone(json_data["timezone"])).strftime("%Y-%m-%dT%H:%M:%S")
 
 
 @route("/url2/reginfo.cgi")
