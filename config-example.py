@@ -22,3 +22,7 @@ secret_key = "please_change_thank_you"
 
 # If using a setup with multiple versions of room-server, set this to False.
 video_deletion_enabled = True
+
+
+class reginfo_data:  # This is seperated, as getzone() doesn't need anything except this, so it saves imports.
+    ipinfo_token = "please_change_me_thank_you"
