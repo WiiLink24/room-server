@@ -143,7 +143,7 @@ class PayMovies(db.Model):
     ds_dist = db.Column(db.Boolean, nullable=False)
     ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
-    note = db.Column(db.String, nullable=False)
+    note = db.Column(db.String(76), nullable=False)
     dimg = db.Column(db.Boolean, nullable=False)
     eval = db.Column(db.Boolean, nullable=False)
     price = db.Column(db.Integer, nullable=False)
