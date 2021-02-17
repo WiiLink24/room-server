@@ -141,7 +141,7 @@ class PayMovies(db.Model):
     aspect = db.Column(db.Boolean, nullable=False)
     payenddt = db.Column(db.String(19), nullable=False)
     ds_dist = db.Column(db.Boolean, nullable=False)
-    ds_mov_id = db.Column(db.String)
+    ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
     note = db.Column(db.String(76), nullable=False)
     dimg = db.Column(db.Boolean, nullable=False)
