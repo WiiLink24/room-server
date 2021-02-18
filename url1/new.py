@@ -3,6 +3,7 @@ from helpers import xml_node_name, RepeatedElement
 from models import NewMovies
 from url2.reginfo import getzone
 
+
 @app.route("/url1/list/new/all.xml")
 @xml_node_name("New")
 def new_all():
