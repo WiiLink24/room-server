@@ -155,6 +155,8 @@ class PayMovies(db.Model):
 class PayCategories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
+    # Starts at 10, goes up by 1 each time
+    genre_id = db.Column(db.Integer)
 
 
 class PayCategoriesPosters(db.Model):
@@ -168,7 +170,7 @@ class PayCategoriesPosters(db.Model):
     price = db.Column(db.Integer)
 
 
-class PayCategoryHeaders(db.Model):
+class PayGenres(db.Model):
     title = db.Column(db.String, primary_key=True, unique=True)
 
 
