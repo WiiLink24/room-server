@@ -3,6 +3,7 @@ from room import app, db
 from helpers import xml_node_name, RepeatedElement
 from url2.reginfo import getzone
 
+
 @app.route("/url1/special/all.xml")
 @xml_node_name("SpPageList")
 def special_all():
