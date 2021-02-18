@@ -2,7 +2,7 @@ from flask import send_from_directory, safe_join
 from werkzeug import exceptions
 from url2.reginfo import getzone
 from room import app, db
-from helpers import RepeatedElement, xml_node_name, current_date_and_time
+from helpers import RepeatedElement, xml_node_name
 from models import PayCategoriesPosters
 
 
