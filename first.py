@@ -1,6 +1,6 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
-
+from url2.reginfo import getzone
 import config
 from helpers import xml_node_name, current_date_and_time
 from room import app
@@ -41,7 +41,7 @@ def conf_first_bin_xml():
         "smpkey": "5ab362aa57dbb1dc16849e3e2d1cf2ff",
         "fmax": 30,
         "bmax": 10,
-        "upddt": current_date_and_time(),
+        "upddt": getzone(),
     }
 
 
