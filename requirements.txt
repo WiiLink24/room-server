@@ -1,6 +1,6 @@
 Flask>=1.1
 lxml>=4.6
-psycopg2>=2.8
+psycopg2-binary>=2.8
 flask_sqlalchemy>=2.4
 flask-login>=0.5
 flask-wtf>=0.14
@@ -9,3 +9,5 @@ crc16>=0.1
 pillow>=8
 elasticsearch>=7.10
 pycryptodome>=3.9
+python-dotenv
+pytz
