@@ -1,7 +1,7 @@
 from flask import request
 from helpers import xml_node_name, RepeatedElement
 from room import app, es
-from reginfo import getzone
+from url2.reginfo import getzone
 
 @app.route("/url2/search.cgi")
 @xml_node_name("SearchMovies")
