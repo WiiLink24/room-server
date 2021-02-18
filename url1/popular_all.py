@@ -2,6 +2,7 @@ from room import app
 from helpers import xml_node_name, RepeatedElement
 from url2.reginfo import getzone
 
+
 @app.route("/url1/list/popular/all.xml")
 @xml_node_name("Popular")
 def popular_all():
