@@ -1,6 +1,6 @@
 from room import app
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
-
+from url2.reginfo import getzone
 
 @app.route("/url1/list/popular/all.xml")
 @xml_node_name("Popular")
@@ -16,7 +16,7 @@ def popular_all():
                     "movieid": 1,
                     "title": "Shiba: The Movie",
                     "genre": 1,
-                    "strdt": current_date_and_time(),
+                    "strdt": getzone(),
                     "pop": 0,
                 }
             )
