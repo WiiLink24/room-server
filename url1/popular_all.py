@@ -1,5 +1,5 @@
 from room import app
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
+from helpers import xml_node_name, RepeatedElement
 from url2.reginfo import getzone
 
 @app.route("/url1/list/popular/all.xml")
