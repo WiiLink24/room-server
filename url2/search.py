@@ -3,6 +3,7 @@ from helpers import xml_node_name, RepeatedElement
 from room import app, es
 from url2.reginfo import getzone
 
+
 @app.route("/url2/search.cgi")
 @xml_node_name("SearchMovies")
 def search():
