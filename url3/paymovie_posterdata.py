@@ -1,6 +1,6 @@
 from flask import send_from_directory, safe_join
 from werkzeug import exceptions
-
+from url2.reginfo import getzone
 from room import app, db
 from helpers import RepeatedElement, xml_node_name, current_date_and_time
 from models import PayCategoriesPosters
@@ -29,7 +29,7 @@ def search_movies(category_id):
                     "rank": paycategoryposters.rank,
                     "movieid": paycategoryposters.movieid,
                     "title": paycategoryposters.title,
-                    "strdt": current_date_and_time(),
+                    "strdt": getzone(),
                     "pop": paycategoryposters.pop,
                     "kana": 12345678,
                     "refid": "01234567890123456789012345678912",
