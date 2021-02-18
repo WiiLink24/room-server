@@ -7,6 +7,7 @@ from room import app, db
 from flask import send_from_directory
 from url2.reginfo import getzone
 
+
 @app.route("/url1/special/<page>/page.xml")
 @xml_node_name("SpPage")
 def special_page_n(page):
