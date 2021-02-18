@@ -100,8 +100,6 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     return node
 
 
-
-
 def current_date():
     """ Returns the current date in a format usable by Nintendo. """
 
