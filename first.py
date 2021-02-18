@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from url2.reginfo import getzone
 import config
-from helpers import xml_node_name, current_date_and_time
+from helpers import xml_node_name
 from room import app
 
 # As sourced from the app's main arc in secure/{key,iv}.bin.
