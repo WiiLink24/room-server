@@ -13,7 +13,7 @@ def getzone():
     return str(
         now(
             timezone(
-                json_data=load(
+                load(
                     urlopen(
                         str("http://ipinfo.io/%s/json?token=%s")
                         % get("HTTP_X_REAL_IP", remote_addr),
