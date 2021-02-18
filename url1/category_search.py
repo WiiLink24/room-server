@@ -2,8 +2,8 @@ from werkzeug import exceptions
 
 from models import CategoryMovies, Movies
 from room import app, db
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
-
+from helpers import xml_node_name, RepeatedElement
+from url2.reginfo import getzone
 
 @app.route("/url1/list/category/search/<categ_id>")
 @xml_node_name("SearchMovies")
@@ -32,7 +32,7 @@ def list_category_search(categ_id):
                     "movieid": movie_data.movie_id,
                     "title": movie_data.title,
                     "genre": movie_data.genre,
-                    "strdt": current_date_and_time(),
+                    "strdt": getzone(),
                     "pop": 0,
                 }
             )
