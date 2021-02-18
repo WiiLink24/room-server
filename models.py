@@ -170,7 +170,7 @@ class PayCategoriesPosters(db.Model):
     price = db.Column(db.Integer)
 
 
-class PayGenres(db.Model):
+class PayCategoriesHeaders(db.Model):
     title = db.Column(db.String, primary_key=True, unique=True)
 
 
