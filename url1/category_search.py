@@ -5,6 +5,7 @@ from room import app, db
 from helpers import xml_node_name, RepeatedElement
 from url2.reginfo import getzone
 
+
 @app.route("/url1/list/category/search/<categ_id>")
 @xml_node_name("SearchMovies")
 def list_category_search(categ_id):
