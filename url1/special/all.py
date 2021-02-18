@@ -1,7 +1,7 @@
 from models import ParadeMiis, MiiData
 from room import app, db
-from helpers import current_date_and_time, xml_node_name, RepeatedElement
-
+from helpers import xml_node_name, RepeatedElement
+from url2.reginfo import getzone
 
 @app.route("/url1/special/all.xml")
 @xml_node_name("SpPageList")
@@ -35,5 +35,5 @@ def special_all():
 
     return {
         "pageinfo": page_info,
-        "upddt": current_date_and_time(),
+        "upddt": getzone(),
     }
