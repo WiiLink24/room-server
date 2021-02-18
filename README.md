@@ -11,7 +11,7 @@ Ensure you active the environment.
 
 Regardless of the above, ensure you have installed requirements:
 ```
-# python-dotenv is useful for reading .flaskenv.
+echo python-dotenv is useful for reading .flaskenv.
 pip3 install -r requirements.txt
 ```
 
