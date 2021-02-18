@@ -1,11 +1,11 @@
 # Handles pages and logo images
 from werkzeug import exceptions
 
-from helpers import current_date_and_time, RepeatedElement, xml_node_name
+from helpers import RepeatedElement, xml_node_name
 from models import Rooms, MiiData, ParadeMiis, RoomMenu
 from room import app, db
 from flask import send_from_directory
-
+from url2.reginfo import getzone
 
 @app.route("/url1/special/<page>/page.xml")
 @xml_node_name("SpPage")
@@ -30,8 +30,8 @@ def special_page_n(page):
     return {
         "sppageid": page,
         # TODO: database schema should handle proper times regarding catalog.
-        "strdt": current_date_and_time(),
-        "enddt": current_date_and_time(),
+        "strdt": getzone(),
+        "enddt": getzone(),
         "name": queried_parade.news,
         "stopflag": 0,
         "level": queried_parade.level,
