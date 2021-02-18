@@ -1,7 +1,7 @@
 from flask import request
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
+from helpers import xml_node_name, RepeatedElement
 from room import app, es
-
+from reginfo import getzone
 
 @app.route("/url2/search.cgi")
 @xml_node_name("SearchMovies")
@@ -31,7 +31,7 @@ def search():
                         "movieid": i,
                         "title": show_ids[i],
                         "genre": 1,
-                        "strdt": current_date_and_time(),
+                        "strdt": getzone(),
                         "pop": 0,
                     }
                 )
