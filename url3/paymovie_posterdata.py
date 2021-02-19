@@ -62,7 +62,7 @@ if app.debug:
         return send_from_directory(
             safe_join("assets/pay-movie/", unk, name), name1 + ".img"
         )
-    
+
     @app.route("/url3/pay/movie/<unk>/<name>/<name1>.smo")
     # Grabs the trailer
     def serve_pay_trailer(unk, name, name1):
