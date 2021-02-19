@@ -2,7 +2,7 @@
 # copy of config.py to match the new options once committed to master.
 
 # Primary config for room-server
-db_url = "sqlite:///mnt/c/Users/zurgE/OneDrive/Documents/room-server-master/app.db"
+db_url = "postgresql://username:password@localhost/database_name"
 
 # Configuration for Elasticsearch
 elasticsearch_url = "localhost:9200"
