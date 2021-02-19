@@ -22,3 +22,5 @@ secret_key = "please_change_thank_you"
 
 # If using a setup with multiple versions of room-server, set this to False.
 video_deletion_enabled = True
+
+geoip_database = "GeoLite2-Country.mmdb"
