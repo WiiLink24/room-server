@@ -30,10 +30,10 @@ else:
 @app.route("/url2/reginfo.cgi")
 @xml_node_name("RegionInfo")
 def reginfo_cgi():
-    timezone_data = client.insights(request.remote_addr).time_zone
+    timezone_data = client.city(request.remote_addr).time_zone
     return {
         "sdt": current_date_and_time(),
-        "cdt": datetime.now(timezone(timezone_data)),
+        "cdt": datetime.now(timezone(timezone_data)).strftime("%Y-%m-%dT%H:%M:%S"),
         "limited": "0",
     }
 
