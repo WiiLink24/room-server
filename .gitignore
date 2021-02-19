@@ -11,3 +11,6 @@ config.py
 # Ensure .gitkeep is recognized
 assets/
 !assets/*/.gitkeep
+
+# Make sure MaxMind DBs aren't commited
+*.mmdb
