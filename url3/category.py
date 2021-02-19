@@ -3,6 +3,7 @@ from helpers import xml_node_name, RepeatedElement
 from models import PayCategories
 
 from werkzeug import exceptions
+from flask import send_from_directory
 
 
 @app.route("/url3/pay/list/category/<int:list_id>.xml")
@@ -54,6 +55,14 @@ def pay_list_category(list_id: int):
 
     return {
         "type": 3,
-        "img": 0,
+        "img": 1,
         "categinfo": filler,
     }
+
+
+if app.debug:
+    
+    @app.route("/url3/pay/list/category/img/<name>.img")
+    # Grabs the thumbnail for the categories
+    def serve_pay_category_thumbnail(name):
+        return send_from_directory("assets/pay-category", name + ".img")
