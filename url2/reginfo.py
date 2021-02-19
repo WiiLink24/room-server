@@ -5,20 +5,27 @@ import config
 from geoip2.webservice import Client
 from pytz import timezone
 from datetime import datetime
+
+
 class DummyMMResponse:
     def __init__(self, **kwargs):
         self.time_zone = "Etc/UTC"
+
+
 class DummyMMClient:
     def __init__(*args, **kwargs):
         # Fake Maxmind client to always return UTC time
         pass
+
     def insights(*args, **kwargs):
         return DummyMMResponse()
+
 
 if config.use_localized_time:
     client = Client(config.maxmind_account_id, config.maxmind_license_id)
 else:
     client = DummyMMClient()
+
 
 @app.route("/url2/reginfo.cgi")
 @xml_node_name("RegionInfo")

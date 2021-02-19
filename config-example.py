@@ -24,6 +24,6 @@ secret_key = "please_change_thank_you"
 video_deletion_enabled = True
 
 maxmind_account_id = 0
-maxmind_license_id = ''
+maxmind_license_id = ""
 
 use_localized_time = True
