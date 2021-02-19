@@ -2,7 +2,7 @@
 # copy of config.py to match the new options once committed to master.
 
 # Primary config for room-server
-db_url = "postgresql://username:password@localhost/database_name"
+db_url = "sqlite:///mnt/c/Users/zurgE/OneDrive/Documents/room-server-master/app.db"
 
 # Configuration for Elasticsearch
 elasticsearch_url = "localhost:9200"
@@ -23,4 +23,7 @@ secret_key = "please_change_thank_you"
 # If using a setup with multiple versions of room-server, set this to False.
 video_deletion_enabled = True
 
-geoip_database = "GeoLite2-Country.mmdb"
+maxmind_account_id = 0
+maxmind_license_id = ''
+
+use_localized_time = True
