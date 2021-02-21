@@ -62,7 +62,6 @@ def pay_list_category(list_id: int):
 
 if app.debug:
 
-    
     @app.route("/url3/pay/list/category/img/<name>.img")
     # Grabs the thumbnail for the categories
     def serve_pay_category_thumbnail(name):
