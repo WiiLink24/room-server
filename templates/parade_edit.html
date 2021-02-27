@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Parade</title>
+    </head>
+    <body>
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+             <p>{{ form.news.label }}</p>
+            {{ form.news }}
+            <p>{{ form.company.label }}</p>
+            {{ form.company }}
+            <p>{{ form.image.label }}</p>
+            {{ form.image }}
+            <br>
+            {{ form.submit() }}
+        </form>
+    </body>
+</html>
+
+        

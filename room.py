@@ -1,7 +1,9 @@
-from flask import Flask, send_from_directory
+from elasticsearch import Elasticsearch
+from flask import Flask, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+
 import config
 
 app = Flask(__name__)
@@ -9,7 +11,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
 
-login = LoginManager(app)
+login = LoginManager()
+
+es = Elasticsearch(
+    config.elasticsearch_url,
+    http_auth=(config.elasticsearch_user, config.elasticsearch_pass),
+)
 
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
@@ -24,32 +31,16 @@ with app.test_request_context():
     db.init_app(app)
     db.create_all()
 
+    login.init_app(app)
+
+
+# Required to allow version detection.
 
 # Import routes here.
-from url1 import (
-    beacon,
-    category_n,
-    category_search,
-    eula,
-    event_today,
-    mii,
-    movie_metadata,
-    new,
-    paylink,
-    popular_all,
-    popular_n,
-    wall_metadata,
-)
-from url1.special import all, allbin, page
 
-from url2 import reginfo, related, search
+import first
 
-from url3.pay import category_header, event_today, wall_metadata
-
-import theunderground.admin
-
-if app.debug:
-
-    @app.route("/conf/first.bin")
-    def conf_first_bin():
-        return send_from_directory("conf", "first.bin")
+import url1
+import url2
+import url3
+import theunderground

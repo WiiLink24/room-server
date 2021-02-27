@@ -22,11 +22,11 @@
             {% for mii in miis %}
                 <tr>
                     <td>{{ mii.mii_id }}</td>
-                    <td>TODO</td>
+                    <td><img width="75" src="{{ "https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={}".format(binascii.hexlify(mii.data).decode('utf-8')) }}"</td>
                     <td style="text-align: center;">
-                        <a href="/theunderground/concierge/{{ mii.mii_id }}">Become Concierge Mii</a>
+                        <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}">Become Concierge Mii</a>
                         <br>
-                        <a href="/theunderground/parade/{{ mii.mii_id }}">Become Parade Mii</a>
+                        <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Become Parade Mii</a>
                     </td>
                 </tr>
             {% endfor %}

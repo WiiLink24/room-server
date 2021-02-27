@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
         <title>The Underground</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
         <h1>Welcome, {{ current_user.username }}!</h1>
         Click on an operation below to get started:
         <br/>
-        <a href="/theunderground/miis"><button>Manage Miis</button></a>
+        <a href="{{ url_for('list_miis') }}"><button>Manage Miis</button></a>
         <br/>
-        <a href="/theunderground/concierge"><button>Manage Concierge Miis</button></a>
+        <a href="{{ url_for('list_concierge') }}"><button>Manage Concierge Miis</button></a>
+        <br/>
+        <a href="{{ url_for('list_movies') }}"><button>Manage Movies</button></a>
+        <br/>
+        <a href="{{ url_for('list_parade') }}"><button>Manage Parade</button></a>
+        <br/>
+        <a href="{{ url_for('list_news') }}"><button>Manage News</button></a>
+        <br/>
+        <a href="{{ url_for('change_password') }}"><button>Change Password</button></a>
         <br/>
         <br/>
-        <a href="/theunderground/logout"><button>Logout</button></a>
+        <a href="{{ url_for('logout') }}"><button>Logout</button></a>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome to The Underground</title>
+        <title>Delete Movie</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
         {% with messages = get_flashed_messages() %}
@@ -11,21 +12,19 @@
                 </p>
             {% endfor %}
         {% endwith %}
+        <h1>Delete Movie</h1>
+        You are about to <strong>delete</strong> the movie with ID {{ mii_id }}.
+        <br>
+        Are you certain you want to continue?
+        <br/>
+        If so, please enter the movie's ID in the textfield below and submit.
+        <br/>
         <form action="" method="post">
             <p>
                 {{ form.hidden_tag() }}
-                {{ form.miiid.label }}
-                <br/>
-                {{ form.miiid(size=32) }}
-                <br/>
-                {{ form.logo1id.label }}
-                <br/>
-                {{ form.logo1id(size=5) }}
-                 {{ form.bin.label }}
-                <br/>
-                {{ form.logo1id(size=8000) }}
+                {{ form.given_mii_id.label }}: {{ form.given_mii_id(size=32) }}
             </p>
             <p>{{ form.submit() }}</p>
         </form>
-</body>
+    </body>
 </html>

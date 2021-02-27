@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Upload a Movie</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Upload a Movie</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <p>
+                {{ form.hidden_tag() }}
+                {{ form.movie.label }}: {{ form.movie(size=32) }}
+                <br>
+                {{ form.title.label }}: {{ form.title }}
+                <br>
+                {{ form.thumbnail.label }}: {{ form.thumbnail(size=32) }}
+                <br>
+                {{ form.category.label }}: {{ form.category }}
+            </p>
+            <p>{{ form.upload() }}</p>
+        </form>
+    </body>
+</html>

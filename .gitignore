@@ -4,9 +4,10 @@ __pycache__
 virtualenv
 venv
 
-conf/first.bin
+!conf/README.md
+conf/
 config.py
 
 # Ensure .gitkeep is recognized
-assets/*/*
+assets/
 !assets/*/.gitkeep

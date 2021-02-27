@@ -1,10 +1,6 @@
-from config import elasticsearch_url
-from elasticsearch import Elasticsearch
 from flask import request
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
-from room import app
-
-es = Elasticsearch(elasticsearch_url)
+from room import app, es
 
 
 @app.route("/url2/search.cgi")
@@ -19,7 +15,7 @@ def search():
 
     show_ids = {}
     for i in shows:
-        show_ids[i["_source"]["id"]] = i["_source"]["title"]
+        show_ids[i["_source"]["movie_id"]] = i["_source"]["title"]
 
     movieinfos = []
     rank = 0

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Room</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Edit Room</h1>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.bgm.label }}: {{ form.bgm }}
+            <br>
+            {{ form.has_mascot.label }}: {{ form.has_mascot }}
+            <br>
+            {{ form.has_contact.label }}: {{ form.has_contact }}
+            <br>
+            {{ form.intro_msg.label }}: {{ form.intro_msg }}
+            <br>
+            {{ form.mii_msg.label }}: {{ form.mii_msg }}
+            <br>
+            {{ form.room_logo.label }}: {{ form.room_logo }}
+            <br>
+            {{ form.submit() }}
+        </form>
+    </body>
+</html>
+
+        

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Concierge Miis</title>
+        <title>Parade Miis</title>
         <link rel="stylesheet" href="/theunderground/common.css"/>
     </head>
     <body>
-        <h1>Manage Concierge Miis</h1>
+        <h1>Manage Parade Miis</h1>
         {% if miis | length == 0 %}
-            <span class="warning">You have no Concierge Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
+            <span class="warning">You have no Parade Miis. Wii no Ma will break processing these files. Please add some Miis.</span>
         {% elif miis | length == 1 %}
             There is currently <strong>1</strong> Mii.
         {% else %}
@@ -17,28 +17,27 @@
             <tr>
                 <th scope="col">Mii ID</th>
                 <th scope="col">Name</th>
-                <th scope="col">Avatar</th>
+                <th scope="col">Banner</th>
                 <th scope="col">Action</th>
             </tr>
         {% for mii in miis %}
             <tr>
                 <td>{{ mii.mii_id }}</td>
-                <td>{{ mii.name }}</td>
-                <td>TODO</td>
+                <td>{{ mii.news }}</td>
+                <td><img alt="Banner for {{ mii.mii_id }}" src="{{ url_for('get_parade_banner', mii_id=mii.mii_id) }}"/></td>
                 <td style="text-align: center;">
-                    <a href="/theunderground/concierge/{{ mii.mii_id }}">Edit</a>
+                    <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Edit</a>
                     <br/>
-                    <a href="/theunderground/concierge/{{ mii.mii_id }}/remove">Delete</a>
+                    <a href="{{ url_for('remove_parade', mii_id=mii.mii_id) }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}
         </table>
 
-        {% if miis | length >= 20 %}
-            <span class="warning">You have too many Concierge Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
+        {% if miis | length >= 30 %}
+            <span class="warning">You have too many parade Miis. Wii no Ma will break processing these files. Please remove some Miis.</span>
         {% else %}
             <br/>
-            <a href="/theunderground/miis"><button>Add a Concierge Mii</button></a>
+            <a href="{{ url_for('list_miis') }}"><button>Add a Mii</button></a>
         {% endif %}
 </body>
-</html>

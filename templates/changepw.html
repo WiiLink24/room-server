@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Change Password</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Change Password</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <p>
+                You are signed in as <b>{{  username }}</b>.
+
+                <br><br>
+                {{ form.hidden_tag() }}
+                {{ form.current_password.label }}: {{ form.current_password }}
+                <br>
+                <br>
+                {{ form.new_password.label }}: {{ form.new_password }}
+                <br>
+                {{ form.new_password_confirmation.label }}: {{ form.new_password_confirmation }}
+            </p>
+            <p>{{ form.complete() }}</p>
+        </form>
+    </body>
+</html>
