@@ -3,7 +3,7 @@
 room-server provides a server usable with [Wii no Ma](https://en.wikipedia.org/wiki/Wii_no_Ma).
 
 ## Running
-**Note**: As of `2b40385e69b40e9c85b26bed2c96006438c80644`, Python <=3.9 is needed. If you need to use 3.8 or lower, you can use the `Pre-Python-3.9-Requirement` version, however, do note that this version is **not** maintained and that further commits may be based off of Python 3.9 features and syntax.
+**Note**: As of `2b40385e69b40e9c85b26bed2c96006438c80644`, Python <=3.9 is needed. If you need to use 3.8 or lower, you can use the `Pre-Python-3.9-Requirement` tag, however, do note that this version is **not** maintained and that further commits may be based off of Python 3.9 features and syntax.
 
 You'll most likely want to [create a virtualenv](https://docs.python.org/3/library/venv.html) to install things. For example:
 ```
