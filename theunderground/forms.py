@@ -21,6 +21,12 @@ Reference:
         title = form.title.data
 """
 
+class RoomLinkForm(FlaskForm):
+    place = StringField("Place in Room")
+    imageid = StringField("Image ID")
+    title = StringField("Link Title")
+    url = StringField("Link")
+    submit = SubmitField("Done!")
 
 class RoomMovieForm(FlaskForm):
     movie_id = StringField("Movie ID")
