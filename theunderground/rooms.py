@@ -32,6 +32,26 @@ def roommovie(id):
         return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("room_movie.html", form=form)
 
+@app.route("/theunderground/rooms/<id>/movie", methods=["GET", "POST"])
+@login_required
+def roommovie(id):
+    form = RoomLinkForm()
+    if form.validate_on_submit():
+        place = form.place.data
+        title = form.title.data
+        imageid = form.imageid.data
+        url = form.url.data
+        linkid = form.linkid.data
+        data = {
+            "type": 5
+            "imageid": imageid,
+            "link": {"linkid": movie_id, "linktitle": title, "linktype": 0, "linkmov": 0, "linkpicnum": 1, "linkurl": url, "linkpicbgm":1},
+        }
+        menu = RoomMenu(room_id=id, data=data)
+        db.session.add(menu)
+        db.session.commit()
+        return redirect(url_for(f"theunderground/rooms/{id}"))
+    return render_template("add_link.html", form=form)
 
 @app.route("/theunderground/rooms")
 @login_required

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Link</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Add Mii</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <p>
+                {{ form.hidden_tag() }}
+                {{ form.place.label }}: {{ form.place }}
+                <br>
+                {{ form.imageid.label }}: {{ form.imageid }}
+                <br>
+                {{ form.title.label }}: {{ form.title }}
+                <br>
+                {{ form.url.label }}: {{ form.url }}
+                <br>
+                {{ form.linkid.label }}: {{ form.linkid }}
+                <br>
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>

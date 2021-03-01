@@ -24,6 +24,7 @@ Reference:
 class RoomLinkForm(FlaskForm):
     place = StringField("Place in Room")
     imageid = StringField("Image ID")
+    linkid = StringField("Link ID")
     title = StringField("Link Title")
     url = StringField("Link")
     submit = SubmitField("Done!")
