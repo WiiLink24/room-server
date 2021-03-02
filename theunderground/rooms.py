@@ -34,7 +34,7 @@ def roommovie(id):
 
 @app.route("/theunderground/rooms/<id>/link", methods=["GET", "POST"])
 @login_required
-def roomlinkid):
+def roomlink(id):
     form = RoomLinkForm()
     if form.validate_on_submit():
         place = form.place.data
