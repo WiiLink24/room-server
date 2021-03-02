@@ -62,7 +62,8 @@ def roomlink(id):
         return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("add_link.html", form=form)
 
-@app.route('/theunderground/rooms/<id>/smp')
+
+@app.route("/theunderground/rooms/<id>/smp")
 @login_required
 def roomsmp(id):
     form = RoomLinkForm()
@@ -77,7 +78,7 @@ def roomsmp(id):
                 "smptitle": title,
                 "smpmov": 1,
                 "smpmovap": 1,
-                "smpdup":1,
+                "smpdup": 1,
                 "smpurl": url,
             },
         }
@@ -86,6 +87,7 @@ def roomsmp(id):
         db.session.commit()
         return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("add_smp.html", form=form)
+
 
 @app.route("/theunderground/rooms")
 @login_required
