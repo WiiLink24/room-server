@@ -32,9 +32,9 @@ def roommovie(id):
         return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("room_movie.html", form=form)
 
-@app.route("/theunderground/rooms/<id>/movie", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/<id>/link", methods=["GET", "POST"])
 @login_required
-def roommovie(id):
+def roomlinkid):
     form = RoomLinkForm()
     if form.validate_on_submit():
         place = form.place.data
