@@ -30,10 +30,12 @@ class RoomLinkForm(FlaskForm):
     url = StringField("Link")
     submit = SubmitField("Done!")
 
+
 class RoomSMPForm(FlaskForm):
     title = StringField("Delivery Title")
     url = StringField("Callback URL")
     submit = SubmitField("Done!")
+
 
 class RoomMovieForm(FlaskForm):
     movie_id = StringField("Movie ID")

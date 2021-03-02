@@ -64,7 +64,7 @@ def roomlink(id):
 
 @app.route('/theunderground/rooms/<id>/smp')
 @login_required
-def roomsmp(id)
+def roomsmp(id):
     form = RoomLinkForm()
     if form.validate_on_submit():
         title = form.title.data
