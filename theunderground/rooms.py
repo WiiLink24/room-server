@@ -8,7 +8,7 @@ from room import app, db
 from theunderground.encodemii import room_logo
 from theunderground.forms import KillMii, RoomForm
 from room import app
-from theunderground.forms import RoomMovieForm
+from theunderground.forms import RoomMovieForm, RoomLinkForm, RoomSMPForm
 from models import RoomMenu
 
 
@@ -62,6 +62,30 @@ def roomlink(id):
         return redirect(url_for(f"theunderground/rooms/{id}"))
     return render_template("add_link.html", form=form)
 
+@app.route('/theunderground/rooms/<id>/smp')
+@login_required
+def roomsmp(id)
+    form = RoomLinkForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        url = form.url.data
+        data = {
+            "type": 1,
+            "imageid": imageid,
+            "smp": {
+                "smpid": 1,
+                "smptitle": title,
+                "smpmov": 1,
+                "smpmovap": 1,
+                "smpdup":1,
+                "smpurl": url,
+            },
+        }
+        menu = RoomMenu(room_id=id, data=data)
+        db.session.add(menu)
+        db.session.commit()
+        return redirect(url_for(f"theunderground/rooms/{id}"))
+    return render_template("add_smp.html", form=form)
 
 @app.route("/theunderground/rooms")
 @login_required

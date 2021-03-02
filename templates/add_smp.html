@@ -1,0 +1,36 @@
+<!--
+      <smptitle>TEST</smptitle>
+      <smpurl>http://192.168.1.13/linkurl/index.html</smpurl>
+      <smpmov>1</smpmov>
+      <smpmovap>1</smpmovap>
+      <smpdup>1</smpdup>
+    </smp>
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Link</title>
+        <link rel="stylesheet" href="/theunderground/common.css"/>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>
+                    <span class="warning">{{ message }}</span>
+                </p>
+            {% endfor %}
+        {% endwith %}
+        <h1>Add Mii</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <p>
+                {{ form.hidden_tag() }}
+                <br>
+                {{ form.title.label }}: {{ form.title }}
+                <br>
+                {{ form.url.label }}: {{ form.url }}
+                <br>
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>
