@@ -1,37 +1,29 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Miis</title>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
-    </head>
-    <body>
-        <h1>Manage Miis</h1>
-        {% if miis | length == 0 %}
-            <span class="warning">You have no Miis. Wii no Ma will break. Please add some Miis.</span>
-        {% elif miis | length == 1 %}
-            There is currently <strong>1</strong> Mii.
-        {% else %}
-            There are currently <strong>{{ miis | length }}</strong> Miis.
-        {% endif %}
-        <table>
-            <tr>
-                <th scope="col">Mii ID</th>
-                <th scope="col">Avatar</th>
-                <th scope="col">Action</th>
-            </tr>
-            {% for mii in miis %}
-                <tr>
-                    <td>{{ mii.mii_id }}</td>
-                    <td><img width="75" src="{{ "https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={}".format(binascii.hexlify(mii.data).decode('utf-8')) }}"</td>
-                    <td style="text-align: center;">
-                        <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}">Become Concierge Mii</a>
-                        <br>
-                        <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Become Parade Mii</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+{% extends "generic/base_manage.html" %}
 
-        <a href="/theunderground/miis/add"><button>Add a Mii</button></a>
-    </body>
-</html>
+{% block type_name %}Miis{% endblock %}
+{% block type_name_singular %}Mii{% endblock %}
+
+{% block table_listing %}
+    <table>
+        <tr>
+            <th scope="col">Mii ID</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">Action</th>
+        </tr>
+        {% for mii in miis %}
+            <tr>
+                <td>{{ mii.mii_id }}</td>
+                <td><img width="75" src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii.data.hex() }}" alt="Mii avatar"></td>
+                <td style="text-align: center;">
+                    <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}">Become Concierge Mii</a>
+                    <br>
+                    <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Become Parade Mii</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('add_mii') }}"><button>Add a Mii</button></a>
+{% endblock %}

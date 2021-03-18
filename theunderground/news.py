@@ -11,7 +11,9 @@ from theunderground.forms import NewsForm, KillMii
 @login_required
 def list_news():
     news = News.query.all()
-    return render_template("news_list.html", news=news)
+    return render_template(
+        "news_list.html", news=news, type_length=len(news), type_max_count=64
+    )
 
 
 @app.route("/theunderground/news/<news_id>", methods=["GET", "POST"])
@@ -64,11 +66,11 @@ def remove_news(news_id):
     form = KillMii()
     if form.validate_on_submit():
         # While this is easily circumvented, we need the user to pay attention.
-        if form.given_mii_id.data == news_id:
+        if form.given_id.data == news_id:
             db.session.delete(News.query.filter_by(id=news_id).first())
             db.session.commit()
             return redirect("/theunderground/news")
         else:
             flash("Incorrect news ID!")
 
-    return render_template("news_delete.html", form=form, news_id=news_id)
+    return render_template("news_delete.html", form=form, item_id=news_id)

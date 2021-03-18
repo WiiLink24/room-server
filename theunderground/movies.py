@@ -28,7 +28,10 @@ def list_movies():
     )
 
     return render_template(
-        "movie_list.html", movies=movies, video_deletion_enabled=video_deletion_enabled
+        "movie_list.html",
+        movies=movies,
+        video_deletion_enabled=video_deletion_enabled,
+        type_length=movies.total,
     )
 
 
@@ -101,7 +104,7 @@ if video_deletion_enabled:
         form = KillMii()
         if form.validate_on_submit():
             # While this is easily circumvented, we need the user to pay attention.
-            if form.given_mii_id.data == movie_id:
+            if form.given_id.data == movie_id:
                 db.session.delete(
                     CategoryMovies.query.filter_by(movie_id=movie_id).first()
                 )
@@ -113,7 +116,7 @@ if video_deletion_enabled:
                 return redirect("/theunderground/movies")
             else:
                 flash("Incorrect Mii ID!")
-        return render_template("movie_delete.html", form=form, mii_id=movie_id)
+        return render_template("movie_delete.html", form=form, item_id=movie_id)
 
 
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")

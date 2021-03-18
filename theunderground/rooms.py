@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, flash, send_from_directory
 from flask_login import login_required
 
 from models import Rooms
-from room import app, db
+from room import db
 from theunderground.encodemii import room_logo
 from theunderground.forms import KillMii, RoomForm
 from room import app
@@ -29,7 +29,8 @@ def roommovie(id):
         menu = RoomMenu(room_id=id, data=data)
         db.session.add(menu)
         db.session.commit()
-        return redirect(url_for(f"theunderground/rooms/{id}"))
+        return redirect(url_for("edit_room", id))
+
     return render_template("room_movie.html", form=form)
 
 
@@ -37,7 +38,9 @@ def roommovie(id):
 @login_required
 def list_room():
     rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
-    return render_template("room_list.html", rooms=rooms)
+    return render_template(
+        "room_list.html", rooms=rooms, type_length=len(rooms), type_max_count=30
+    )
 
 
 @app.route("/theunderground/rooms/<room_id>", methods=["GET", "POST"])
@@ -74,7 +77,7 @@ def edit_room(room_id):
 
         db.session.add(room)
         db.session.commit()
-        return redirect(url_for("/theunderground/rooms/"))
+        return redirect(url_for("list_room"))
 
     return render_template("room_edit.html", form=form)
 
@@ -85,13 +88,13 @@ def remove_room(room_id):
     form = KillMii()
     if form.validate_on_submit():
         # While this is easily circumvented, we need the user to pay attention.
-        if form.given_mii_id.data == room_id:
+        if form.given_id.data == room_id:
             db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
             db.session.commit()
             return redirect(url_for("list_room"))
         else:
             flash("Incorrect room ID!")
-    return render_template("room_delete.html", form=form, room_id=room_id)
+    return render_template("room_delete.html", form=form, item_id=room_id)
 
 
 @app.route("/theunderground/rooms/<room_id>/banner.jpg")

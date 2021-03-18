@@ -1,0 +1,23 @@
+{% extends "generic/base.html" %}
+
+{% block type_name %}{% endblock %}
+
+{% block title %}
+    Delete {{ self.type_name() | title }}
+{% endblock %}
+
+{% block content %}
+    You are about to <strong>delete</strong> the {{ self.type_name() }} with ID {{ item_id }}.
+    <br>
+    Are you certain you want to continue?
+    <br/>
+    If so, please enter its ID in the textfield below and submit.
+    <br/>
+    <form action="" method="post">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.given_id.label }}: {{ form.given_id(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

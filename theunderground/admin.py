@@ -44,6 +44,7 @@ def new_user():
         u.set_password(form.password.data)
         db.session.add(u)
         db.session.commit()
+
     return render_template("user_new.html", form=form)
 
 
@@ -59,7 +60,9 @@ def change_password():
         db.session.commit()
         return redirect(url_for("admin"))
 
-    return render_template("changepw.html", form=form, username=current_user.username)
+    return render_template(
+        "user_pwchange.html", form=form, username=current_user.username
+    )
 
 
 @app.route("/theunderground/logout")

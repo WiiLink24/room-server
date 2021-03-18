@@ -108,8 +108,7 @@ class RoomForm(FlaskForm):
 
 
 class KillMii(FlaskForm):
-    # Form for deleting a concierge mii
-    given_mii_id = StringField("Mii ID", validators=[DataRequired()])
+    given_id = StringField("Item ID", validators=[DataRequired()])
     submit = SubmitField("Delete!")
 
 

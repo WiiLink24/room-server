@@ -1,21 +1,29 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Edit Parade</title>
-    </head>
-    <body>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-             <p>{{ form.news.label }}</p>
-            {{ form.news }}
-            <p>{{ form.company.label }}</p>
-            {{ form.company }}
-            <p>{{ form.image.label }}</p>
-            {{ form.image }}
-            <br>
-            {{ form.submit() }}
-        </form>
-    </body>
-</html>
+{% extends "generic/base.html" %}
 
-        
+{% block title %}
+    Edit Parade
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.news.label }}:
+            <br>
+            {{ form.news }}
+        </p>
+        <p>
+            {{ form.company.label }}
+            <br>
+            {{ form.company }}
+        </p>
+
+        <p>
+            {{ form.image.label }}
+            <br>
+            {{ form.image }}
+        </p>
+
+        <br>
+        {{ form.submit() }}
+    </form>
+{% endblock %}

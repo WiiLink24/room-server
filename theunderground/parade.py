@@ -11,7 +11,9 @@ from theunderground.forms import ParadeForm, KillMii
 @login_required
 def list_parade():
     parade_miis = ParadeMiis.query.order_by(ParadeMiis.mii_id.asc()).all()
-    return render_template("parade_list.html", miis=parade_miis)
+    return render_template(
+        "parade_list.html", miis=parade_miis, type_length=len(parade_miis)
+    )
 
 
 @app.route("/theunderground/parade/<mii_id>", methods=["GET", "POST"])
@@ -49,7 +51,7 @@ def remove_parade(mii_id):
     form = KillMii()
     if form.validate_on_submit():
         # While this is easily circumvented, we need the user to pay attention.
-        if form.given_mii_id.data == mii_id:
+        if form.given_id.data == mii_id:
             db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
             db.session.commit()
             return redirect(url_for("list_parade"))

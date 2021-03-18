@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash
 from flask_login import login_required
 
-from models import ConciergeMiis, MiiMsgInfo
+from models import ConciergeMiis, MiiMsgInfo, MiiData
 from room import db, app
 from theunderground.forms import ConciergeForm, KillMii
 
@@ -9,9 +9,20 @@ from theunderground.forms import ConciergeForm, KillMii
 @app.route("/theunderground/concierge")
 @login_required
 def list_concierge():
-    concierge_miis = ConciergeMiis.query.all()
+    concierge_miis = (
+        db.session.query(ConciergeMiis, MiiData)
+        .filter(ConciergeMiis.mii_id == MiiData.mii_id)
+        .all()
+    )
 
-    return render_template("concierge_list.html", miis=concierge_miis)
+    print(concierge_miis)
+
+    return render_template(
+        "concierge_list.html",
+        miis=concierge_miis,
+        type_length=len(concierge_miis),
+        type_max_count=20,
+    )
 
 
 @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
@@ -58,11 +69,11 @@ def remove_concierge(mii_id):
     form = KillMii()
     if form.validate_on_submit():
         # While this is easily circumvented, we need the user to pay attention.
-        if form.given_mii_id.data == mii_id:
+        if form.given_id.data == mii_id:
             db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
             db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
             db.session.commit()
             return redirect("/theunderground/concierge")
         else:
             flash("Incorrect Mii ID!")
-    return render_template("concierge_delete.html", form=form, mii_id=mii_id)
+    return render_template("concierge_delete.html", form=form, item_id=mii_id)
