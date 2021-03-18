@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Rooms</title>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
-    </head>
-    <body>
-        <h1>Manage Rooms</h1>
-        {% if rooms | length == 0 %}
-            <span class="warning">You have no rooms. Wii no Ma will break processing these files. Please add some room.</span>
-        {% elif rooms | length == 1 %}
-            There is currently <strong>1</strong> room.
-        {% else %}
-            There are currently <strong>{{ rooms | length }}</strong> rooms.
-        {% endif %}
-        <table>
-            <tr>
-                <th scope="col">Room ID</th>
-                <th scope="col">Banner</th>
-                <th scope="col">Action</th>
-            </tr>
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}rooms{% endblock %}
+{% block type_name_singular %}room{% endblock %}
+
+{% block table_listing %}
+    <table>
+        <tr>
+            <th scope="col">Room ID</th>
+            <th scope="col">Banner</th>
+            <th scope="col">Action</th>
+        </tr>
         {% for room in rooms %}
             <tr>
                 <td>{{ room.room_id }}</td>
@@ -29,13 +20,10 @@
                     <a href="{{ url_for('remove_room', room_id=room.room_id) }}">Delete</a>
                 </td>
             </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
+    </table>
+{% endblock %}
 
-        {% if rooms | length >= 30 %}
-            <span class="warning">You have too many rooms. Wii no Ma will break processing these files. Please remove some Miis.</span>
-        {% else %}
-            <br/>
-            <a href="{{ url_for('list_miis') }}"><button>Add a Mii</button></a>
-        {% endif %}
-</body>
+{% block add_footer %}
+    <a href="{{ url_for('list_miis') }}"><button>Add a Mii</button></a>
+{% endblock %}

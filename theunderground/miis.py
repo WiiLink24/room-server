@@ -1,5 +1,3 @@
-import binascii
-
 import crc16
 from flask import render_template, redirect, flash, url_for
 from flask_login import login_required
@@ -14,7 +12,7 @@ from theunderground.forms import MiiUploadForm
 def list_miis():
     miis = MiiData.query.all()
 
-    return render_template("mii_list.html", miis=miis, binascii=binascii)
+    return render_template("mii_list.html", miis=miis, type_length=len(miis))
 
 
 @app.route("/theunderground/miis/add", methods=["GET", "POST"])

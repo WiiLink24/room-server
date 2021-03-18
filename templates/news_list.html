@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>News</title>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
-    </head>
-    <body>
-        <h1>Manage News</h1>
-        {% if news | length == 1 %}
-            There is currently <strong>1</strong> piece of news.
-        {% else %}
-            There are currently <strong>{{ news | length }}</strong> pieces of news.
-        {% endif %}
-        <table>
-            <tr>
-                <th scope="col">Message</th>
-                <th scope="col">Action</th>
-            </tr>
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}news{% endblock %}
+{% block type_name_singular %}news{% endblock %}
+
+{% block table_listing %}
+    <table>
+        <tr>
+            <th scope="col">Message</th>
+            <th scope="col">Action</th>
+        </tr>
         {% for news_item in news %}
             <tr>
                 <td>{{ news_item.msg }}</td>
@@ -25,13 +18,10 @@
                     <a href="{{ url_for('remove_news', news_id=news_item.id) }}">Delete</a>
                 </td>
             </tr>
-            {% endfor %}
-        </table>
+        {% endfor %}
+    </table>
+{% endblock %}
 
-        {% if news | length >= 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999 %}
-            <span class="warning">You have too much news. How did you reach this point?</span>
-        {% else %}
-            <br/>
-            <a href="/theunderground/news/add"><button>Add a piece of news</button></a>
-        {% endif %}
-</body>
+{% block add_footer %}
+    <a href="{{ url_for('add_news') }}"><button>Add a piece of news</button></a>
+{% endblock %}

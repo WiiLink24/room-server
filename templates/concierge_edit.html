@@ -1,31 +1,30 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Concierge Miis</title>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
-    </head>
-    <body>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <p>{{ form.prof.label }}</p>
-            {{ form.prof }}
-            <p>{{ form.message1.label }}</p>
-            {{ form.message1 }}
-            <p>{{ form.message2.label }}</p>
-            {{ form.message2 }}
-            <p>{{ form.message3.label }}</p>
-            {{ form.message3 }}
-            <p>{{ form.message4.label }}</p>
-            {{ form.message4 }}
-            <p>{{ form.message5.label }}</p>
-            {{ form.message5 }}
-            <p>{{ form.message6.label }}</p>
-            {{ form.message6 }}
-            <p>{{ form.message7.label }}</p>
-            {{ form.message7 }}
-            <p>{{ form.movieid.label }}</p>
-            {{ form.movieid }}
-            <p>{{ form.submit() }}</p>
-        </form>
-    </body>
-</html>
+{% extends "generic/base.html" %}
+
+{% block title %}
+Edit Concierge Mii
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>{{ form.prof.label }}</p>
+        {{ form.prof }}
+        <p>{{ form.message1.label }}</p>
+        {{ form.message1 }}
+        <p>{{ form.message2.label }}</p>
+        {{ form.message2 }}
+        <p>{{ form.message3.label }}</p>
+        {{ form.message3 }}
+        <p>{{ form.message4.label }}</p>
+        {{ form.message4 }}
+        <p>{{ form.message5.label }}</p>
+        {{ form.message5 }}
+        <p>{{ form.message6.label }}</p>
+        {{ form.message6 }}
+        <p>{{ form.message7.label }}</p>
+        {{ form.message7 }}
+        <p>{{ form.movieid.label }}</p>
+        {{ form.movieid }}
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
