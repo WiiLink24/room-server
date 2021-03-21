@@ -70,4 +70,4 @@ if app.debug:
         # Handles logo images, for instance:
         # GET /url1/special/1/img/g1234.img
         # Gets g1234.img
-        return send_from_directory("assets/special-" + page, img)
+        return send_from_directory(f"assets/special-{page}" + img)
