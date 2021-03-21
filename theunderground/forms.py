@@ -86,6 +86,18 @@ class MovieUploadForm(FlaskForm):
     upload = SubmitField("Add Movie")
 
 
+class CategoryAddForm(FlaskForm):
+    category_name = StringField("Category Name", validators=[DataRequired()])
+    thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
+    submit = SubmitField("Add")
+
+
+class CategoryEditForm(FlaskForm):
+    category_name = StringField("Category Name", validators=[DataRequired()])
+    thumbnail = FileField("Movie thumbnail")
+    submit = SubmitField("Edit")
+
+
 class ParadeForm(FlaskForm):
     news = StringField("News", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])

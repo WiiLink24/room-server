@@ -16,6 +16,10 @@ def movie_thumbnail_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 160, 120)
 
 
+def category_encode(infile: bytes) -> bytes:
+    return generic_encode(infile, 160, 120)
+
+
 def generic_encode(in_bytes: bytes, w: int, h: int) -> bytes:
     """Encodes an image to a format suitable for the Wii."""
     im = Image.open(io.BytesIO(in_bytes))
