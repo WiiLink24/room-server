@@ -23,9 +23,11 @@
                     />
                 </td>
                 <td>
-                    <a href="{{ url_for('edit_category', category=category.category_id) }}">Edit</a>
+                    <a href="{{ url_for('edit_category', category=category.category_id) }}">Edit Category</a>
                     <br/>
                     <a href="{{ url_for('remove_category', category=category.category_id) }}">Delete</a>
+                    <br/>
+                    <a href="{{ url_for('list_movies', category=category.category_id) }}">List Movies</a>
                 </td>
             </tr>
         {% endfor %}
