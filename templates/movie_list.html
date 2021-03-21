@@ -4,6 +4,8 @@
 {% block type_name_singular %}movie{% endblock %}
 
 {% block table_listing %}
+    <br>
+    <a href="{{ url_for('list_categories') }}">Return to Category Listing</a>
     <table>
         <tr>
             <th scope="col">Movie ID</th>
@@ -13,7 +15,7 @@
             <th scope="col">Actions</th>
         </tr>
 
-        {% for movie in movies.items %}
+        {% for movie, _ in movies.items %}
             <tr>
                 <td>{{ movie.movie_id }}</td>
                 <td>{{ movie.title }}</td>
@@ -32,13 +34,13 @@
 {% block add_footer %}
     <!-- Previous/Next -->
     {% if movies.has_prev %}
-        <a href="{{ url_for('list_movies', page=movies.prev_num) }}">&lt; Previous</a>
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.prev_num) }}">&lt; Previous</a>
     {% else %}
         &lt; Previous
     {% endif %}
     |
     {% if movies.has_next %}
-        <a href="{{ url_for('list_movies', page=movies.next_num) }}">Next &gt;</a>
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.next_num) }}">Next &gt;</a>
     {% else %}
         Next &gt;
     {% endif %}
@@ -47,14 +49,14 @@
     <!-- First/Last -->
     <!-- Ensure we are not on the first page. -->
     {% if movies.page != 1 %}
-        <a href="{{ url_for('list_movies', page=1) }}">&lt;&lt; First</a>
+        <a href="{{ url_for('list_movies', category=category_id, page=1) }}">&lt;&lt; First</a>
     {% else %}
         &lt;&lt; First
     {% endif %}
     |
     <!-- Ensure we are not on the last page. -->
     {% if movies.page != movies.pages %}
-        <a href="{{ url_for('list_movies', page=movies.pages) }}">Last &gt;&gt;</a>
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.pages) }}">Last &gt;&gt;</a>
     {% else %}
         Last &gt;&gt;
     {% endif %}

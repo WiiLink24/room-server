@@ -15,22 +15,27 @@ from theunderground.mobiclip import (
 from theunderground.forms import KillMii, MovieUploadForm
 
 
-@app.route("/theunderground/movies")
+@app.route("/theunderground/categories/<category>")
 @login_required
-def list_movies():
+def list_movies(category):
     # Get our current page, or start from scratch.
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 20 movies per page.
-    movies = Movies.query.order_by(Movies.movie_id.asc()).paginate(
-        page_num, 20, error_out=False
+    movies = (
+        db.session.query(Movies, CategoryMovies)
+        .filter(CategoryMovies.category_id == category)
+        .filter(CategoryMovies.movie_id == Movies.movie_id)
+        .paginate(page_num, 20, error_out=False)
     )
 
     return render_template(
         "movie_list.html",
         movies=movies,
+        category_id=category,
         video_deletion_enabled=video_deletion_enabled,
         type_length=movies.total,
+        type_max_count=64,
     )
 
 
