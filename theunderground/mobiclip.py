@@ -2,14 +2,11 @@
 # Ensure flask-specific parts are not migrated as well.
 import hashlib
 
-# 3782 is the minimum size we need to validate data with.
 import os
 from time import gmtime, strftime
 
 from models import Categories
 from theunderground.encodemii import movie_thumbnail_encode
-
-MOBICLIP_HEADER_SIZE = 3782
 
 
 def get_movie_byte(movie_id: int) -> str:
@@ -29,20 +26,12 @@ def get_movie_dir(movie_id: int) -> str:
 
 
 def validate_mobiclip(file_data: bytes) -> bool:
-    # Potentially a partial file.
-    if len(file_data) != MOBICLIP_HEADER_SIZE:
-        return False
-
-    # Perhaps it's missing proper file magic?
+    # Validate file magic
     if file_data[0:4] != b"MOC5":
         return False
 
-    # Required for Wii no Ma v1025 to load the video (tricking it into loading Vorbis).
-    if file_data[200:202] != b"AV":
-        return False
-
-    # Required for patched movies due to skipping issues.
-    if file_data[3780:3782] != b"ZZ":
+    # Ensure we have a valid keyframe index.
+    if b"KI" not in file_data:
         return False
 
     return True
