@@ -6,7 +6,6 @@ from models import Movies, CategoryMovies
 from room import app, db, es
 from theunderground.mobiclip import (
     get_category_list,
-    MOBICLIP_HEADER_SIZE,
     validate_mobiclip,
     get_mobiclip_length,
     save_movie_data,
@@ -45,16 +44,12 @@ def add_movie():
         movie = form.movie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
-            movie_data = movie.read(MOBICLIP_HEADER_SIZE)
+            movie_data = movie.read()
             thumbnail_data = thumbnail.read()
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
                 length = get_mobiclip_length(movie_data)
-
-                # Read the remaining file data.
-                remaining = movie.read()
-                movie_data += remaining
 
                 # Insert this movie to the database.
                 # For right now, we will assume defaults.
