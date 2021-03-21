@@ -1,0 +1,29 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Edit a Category
+{% endblock %}
+
+{% block content %}
+    This category currently has the following thumbnail:
+    <br>
+    <img
+            src="{{ url_for('get_category_thumbnail', category=category.category_id) }}"
+            alt="Thumbnail for category ID {{ category.category_id }}"
+            width="10%"
+    />
+    <br>
+    You can set a new one below, or leave it empty to keep the current one.
+
+    <br>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.category_name.label }}: {{ form.category_name }}
+            <br>
+            {{ form.thumbnail.label }}: {{ form.thumbnail() }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
