@@ -8,14 +8,14 @@
     <form action="" method="post">
         <p>
             {{ form.hidden_tag() }}
-            {{ form.username.label }}
-            <br/>
-            {{ form.username(size=32) }}
-            <br/>
-            {{ form.password.label }}
-            <br/>
-            {{ form.password(size=32) }}
+            {{ form.username.label(class_="label") }}
+            {{ form.username(size=32, class_="input") }}
+            <br>
+            <br>
+            {{ form.password.label(class_="label") }}
+            {{ form.password(size=32, class_="input") }}
         </p>
-        <p>{{ form.submit() }}</p>
+        <br>
+        <p>{{ form.submit(class_="button is-link") }}</p>
     </form>
 {% endblock %}

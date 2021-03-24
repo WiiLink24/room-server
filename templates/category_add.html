@@ -8,10 +8,12 @@
     <form action="" method="post" enctype="multipart/form-data">
         <p>
             {{ form.hidden_tag() }}
-            {{ form.category_name.label }}: {{ form.category_name }}
+            {{ form.category_name.label(class_="label") }} {{ form.category_name(class_="input") }}
             <br>
-            {{ form.thumbnail.label }}: {{ form.thumbnail() }}
+            <br>
+            {{ form.thumbnail.label(class_="label") }} {{ form.thumbnail() }}
         </p>
-        <p>{{ form.submit() }}</p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
     </form>
 {% endblock %}

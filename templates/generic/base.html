@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="/theunderground/common.css"/>
-    </head>
-    <body>
-        {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-                <p>
-                    <span class="warning">{{ message }}</span>
-                </p>
-            {% endfor %}
-        {% endwith %}
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/theunderground/common.css"/>
+    {% include 'includes/header.html' %}
+</head>
+<body>
+{% include 'includes/navigation.html' %}
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <p>
+            <span class="warning">{{ message }}</span>
+        </p>
+    {% endfor %}
+{% endwith %}
 
-        <h1>{{ self.title() }}</h1>
-
-        {% block content %}{% endblock %}
-    </body>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                {% include 'includes/sidebar.html' %}
+            </div>
+            <div class="column">
+                <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                    <ul>
+                        <li><a href="/admin">The Underground</a></li>
+                        <li class="is-active"><a href="" aria-current="page">{{ self.title() }}</a></li>
+                    </ul>
+                </nav>
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+</body>
 </html>
