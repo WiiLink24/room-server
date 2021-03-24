@@ -27,9 +27,12 @@
     {% endif %}
 
     {% if type_length == 0 %}
-        <span class="warning">You have no {{ type_name }}. Wii no Ma will break. Please add some {{ type_name }}.</span>
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            You have no {{ type_name }}. Wii no Ma will break. Please add some {{ type_name }}.
+        </div>
     {% elif type_length == 1 %}
-        There is currently <strong>1</strong> {{ self.type_name_singular() }}.
+        <h2 class="subtitle">There is currently <strong>1</strong> {{ self.type_name_singular() }}.</h2>
     {% elif type_length >= type_max_count %}
         <span class="warning">
             There are currently <strong>{{ type_length }}</strong> {{ type_name }}.
@@ -37,7 +40,7 @@
             Please remove some {{ type_name }}.
         </span>
     {% else %}
-        There are currently <strong>{{ type_length }}</strong> {{ type_name }}.
+        <h2 class="subtitle">There are currently <strong>{{ type_length }}</strong> {{ type_name }}.</h2>
     {% endif %}
 
     {{ self.table_listing() }}

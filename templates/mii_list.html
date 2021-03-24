@@ -4,26 +4,50 @@
 {% block type_name_singular %}Mii{% endblock %}
 
 {% block table_listing %}
-    <table>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
         <tr>
             <th scope="col">Mii ID</th>
             <th scope="col">Avatar</th>
             <th scope="col">Action</th>
         </tr>
+        </thead>
+        <tbody>
         {% for mii in miis %}
             <tr>
                 <td>{{ mii.mii_id }}</td>
-                <td><img width="75" src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii.data.hex() }}" alt="Mii avatar"></td>
+                <td><img width="75" src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii.data.hex() }}"
+                         alt="Mii avatar"></td>
                 <td style="text-align: center;">
-                    <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}">Become Concierge Mii</a>
-                    <br>
-                    <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Become Parade Mii</a>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}" class="button">
+      <span class="icon is-small">
+        <i class="fas fa-star"></i>
+      </span>
+                                <span>Become Concierge Mii</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}" class="button">
+      <span class="icon is-small">
+        <i class="fas fa-child"></i>
+      </span>
+                                <span>Become Parade Mii</span>
+                            </a>
+                        </p>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
 
 {% block add_footer %}
-    <a href="{{ url_for('add_mii') }}"><button>Add a Mii</button></a>
+    <a href="{{ url_for('add_mii') }}">
+        <button class="button is-success">
+            <span>Add a Mii</span>
+        </button>
+    </a>
 {% endblock %}

@@ -4,28 +4,52 @@
 {% block type_name_singular %}Parade Mii{% endblock %}
 
 {% block table_listing %}
-    <table>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
         <tr>
             <th scope="col">Mii ID</th>
             <th scope="col">Name</th>
             <th scope="col">Banner</th>
             <th scope="col">Action</th>
         </tr>
+        </thead>
+        <tbody>
         {% for mii in miis %}
             <tr>
                 <td>{{ mii.mii_id }}</td>
                 <td>{{ mii.news }}</td>
                 <td><img alt="Banner for {{ mii.mii_id }}" src="{{ url_for('get_parade_banner', mii_id=mii.mii_id) }}"/></td>
                 <td style="text-align: center;">
-                    <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}">Edit</a>
-                    <br/>
-                    <a href="{{ url_for('remove_parade', mii_id=mii.mii_id) }}">Delete</a>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_parade', mii_id=mii.mii_id) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a href="{{ url_for('remove_parade', mii_id=mii.mii_id) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
 
 {% block add_footer %}
-    <a href="{{ url_for('add_news') }}"><button>Add a Parade Mii</button></a>
+    <a href="{{ url_for('add_news') }}">
+        <button class="button is-success">
+            <span>Add a Parade Mii</span>
+        </button>
+    </a>
 {% endblock %}

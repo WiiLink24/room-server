@@ -5,18 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <p>
+    <div class="notification is-info">
         You are signed in as <b>{{ username }}</b>.
-    </p>
+    </div>
 
     <form action="" method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            {{ form.current_password.label }}: {{ form.current_password }}
+            {{ form.current_password.label(class_="label") }} {{ form.current_password(class_="input") }}
             <br>
             <br>
-            {{ form.new_password.label }}: {{ form.new_password }}
+            {{ form.new_password.label(class_="label") }} {{ form.new_password(class_="input") }}
             <br>
-            {{ form.new_password_confirmation.label }}: {{ form.new_password_confirmation }}
-        <p>{{ form.complete() }}</p>
+            <br>
+            {{ form.new_password_confirmation.label(class_="label") }} {{ form.new_password_confirmation(class_="input") }}
+        <br>
+        <br>
+        <p>{{ form.complete(class_="button is-success") }}</p>
     </form>
 {% endblock %}

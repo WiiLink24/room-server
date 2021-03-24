@@ -6,7 +6,8 @@
 {% block table_listing %}
     <br>
     <a href="{{ url_for('list_categories') }}">Return to Category Listing</a>
-    <table>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
         <tr>
             <th scope="col">Movie ID</th>
             <th scope="col">Name</th>
@@ -14,20 +15,35 @@
             <th scope="col">Thumbnail</th>
             <th scope="col">Actions</th>
         </tr>
-
+        </thead>
+        <tbody>
         {% for movie, _ in movies.items %}
             <tr>
                 <td>{{ movie.movie_id }}</td>
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
-                <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}" alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
+                         alt="Thumbnail for {{ movie.movie_id }}"/></td>
                 {% if video_deletion_enabled %}
-                    <td><a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}">Delete</a></td>
+                    <td>
+                        <div class="field has-addons">
+                            <p class="control">
+                                <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
+                                   class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                    <span>Delete</span>
+                                </a>
+                            </p>
+                        </div>
+                    </td>
                 {% else %}
                     <td>Deletion has been disabled</td>
                 {% endif %}
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
 
@@ -62,5 +78,9 @@
     {% endif %}
 
     <br/>
-    <a href="{{ url_for('add_movie') }}"><button>Upload a Movie</button></a>
+    <a href="{{ url_for('add_movie') }}">
+        <button class="button is-success">
+            <span>Add a Movie</span>
+        </button>
+    </a>
 {% endblock %}
