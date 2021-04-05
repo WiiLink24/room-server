@@ -8,7 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import config
 
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
