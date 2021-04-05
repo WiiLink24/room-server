@@ -1,39 +1,48 @@
-from room import app
-from flask import jsonify, request
-from helpers import xml_node_name, current_date_and_time
-import config
-from geoip2.webservice import Client
-from pytz import timezone
+import zoneinfo
 from datetime import datetime
 
+from flask import request
+from geoip2 import database
+from geoip2.errors import AddressNotFoundError
 
-class DummyMMResponse:
-    def __init__(self, **kwargs):
-        self.time_zone = "Etc/UTC"
-
-
-class DummyMMClient:
-    def __init__(*args, **kwargs):
-        # Fake Maxmind client to always return UTC time
-        pass
-
-    def insights(*args, **kwargs):
-        return DummyMMResponse()
+import config
+from helpers import xml_node_name, current_date_and_time
+from room import app
 
 
 if config.use_localized_time:
-    client = Client(config.maxmind_account_id, config.maxmind_license_id)
-else:
-    client = DummyMMClient()
+    maxmind_client = database.Reader(config.maxmind_db_location)
+
+
+def get_user_timezone(request) -> zoneinfo.ZoneInfo:
+    # We default to UTC.
+    time_zone = "Etc/UTC"
+
+    if config.use_localized_time:
+        try:
+            # Attempt to query the DB.
+            possible_time = maxmind_client.city(
+                ip_address=request.remote_addr
+            ).location.time_zone
+
+            # The location may not have a timezone.
+            if possible_time:
+                time_zone = possible_time
+        except AddressNotFoundError:
+            # We'll stay to UTC.
+            pass
+
+    return zoneinfo.ZoneInfo(time_zone)
 
 
 @app.route("/url2/reginfo.cgi")
 @xml_node_name("RegionInfo")
 def reginfo_cgi():
-    timezone_data = client.city(request.remote_addr).time_zone
+    current_user_time = datetime.now(get_user_timezone(request))
+
     return {
         "sdt": current_date_and_time(),
-        "cdt": datetime.now(timezone(timezone_data)).strftime("%Y-%m-%dT%H:%M:%S"),
+        "cdt": current_user_time.strftime("%Y-%m-%dT%H:%M:%S"),
         "limited": "0",
     }
 
