@@ -87,7 +87,7 @@ def add_movie():
                     body={"title": form.title.data, "movie_id": db_movie.movie_id},
                 )
 
-                return redirect("/theunderground/movies")
+                return redirect("/theunderground/categories")
             else:
                 flash("Invalid movie!")
         else:
