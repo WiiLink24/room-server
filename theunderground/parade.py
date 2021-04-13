@@ -65,3 +65,4 @@ def remove_parade(mii_id):
 def get_parade_banner(mii_id):
     parade_mii = ParadeMiis.query.filter_by(mii_id=mii_id).first()
     return parade_mii.logo_bin
+

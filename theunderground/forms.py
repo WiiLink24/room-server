@@ -86,6 +86,19 @@ class MovieUploadForm(FlaskForm):
     upload = SubmitField("Add Movie")
 
 
+class PayMovieUploadForm(FlaskForm):
+    movie = FileField("Trailer", validators=[FileRequired()])
+    poster = FileField("Poster", validators=[FileRequired()])
+    thumbnail = FileField("Thumbnail", validators=[FileRequired()])
+    # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
+    title = StringField("Title", validators=[DataRequired(), Length(max=15)])
+    release = StringField("Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)])
+    note = StringField("Description", validators=[DataRequired()])
+    price = StringField("Price", validators=[DataRequired()])
+    category = SelectField("Movie Category", validators=[DataRequired()])
+    upload = SubmitField("Add Movie")
+
+
 class CategoryAddForm(FlaskForm):
     category_name = StringField("Category Name", validators=[DataRequired()])
     thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])

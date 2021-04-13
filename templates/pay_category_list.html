@@ -1,0 +1,82 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}pay categories{% endblock %}
+{% block type_name_singular %}pay category{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Pay Category ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories.items %}
+            <tr>
+                <td>{{ category.category_id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <img src="{{ url_for('get_pay_category_thumbnail', category=category.category_id) }}"
+                         alt="Thumbnail for category ID {{ categories.category_id }}"
+                         width="50%"
+                    />
+                </td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_pay_category', category=category.category_id) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit Category</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a href="{{ url_for('list_pay_movies', category=category.category_id) }}" class="button is-link">
+                            <span class="icon is-small">
+                                <i class="fas fa-list"></i>
+                            </span>
+                                <span>List Movies</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a href="{{ url_for('remove_pay_category', category=category.category_id) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    {% if categories.has_prev %}
+        <a href="{{ url_for('list_pay_categories', page=categories.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if categories.has_next %}
+        <a href="{{ url_for('list_pay_categories', page=categories.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <a href="{{ url_for('add_pay_category') }}">
+        <button class="button is-success">
+            <span>Add a Category</span>
+        </button>
+    </a>
+{% endblock %}

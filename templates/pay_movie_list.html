@@ -1,0 +1,86 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}Pay Movies{% endblock %}
+{% block type_name_singular %}Pay Movies{% endblock %}
+
+{% block table_listing %}
+    <br>
+    <a href="{{ url_for('list_pay_categories') }}">Return to Category Listing</a>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Pay Movie ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Length</th>
+            <th scope="col">Poster</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie, _ in movies.items %}
+            <tr>
+                <td>{{ movie.movie_id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.length }}</td>
+                <td><img src="{{ url_for('get_movie_poster', movie_id=movie.movie_id) }}"
+                         alt="Poster for {{ movie.movie_id }}"/></td>
+                {% if video_deletion_enabled %}
+                    <td>
+                        <div class="field has-addons">
+                            <p class="control">
+                                <a href="{{ url_for('remove_pay_movie', movie_id=movie.movie_id) }}"
+                                   class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                    <span>Delete</span>
+                                </a>
+                            </p>
+                        </div>
+                    </td>
+                {% else %}
+                    <td>Deletion has been disabled</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <!-- Previous/Next -->
+    {% if movies.has_prev %}
+        <a href="{{ url_for('list_pay_movies', category=category_id, page=movies.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if movies.has_next %}
+        <a href="{{ url_for('list_pay_movies', category=category_id, page=movies.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <!-- First/Last -->
+    <!-- Ensure we are not on the first page. -->
+    {% if movies.page != 1 %}
+        <a href="{{ url_for('list_pay_movies', category=category_id, page=1) }}">&lt;&lt; First</a>
+    {% else %}
+        &lt;&lt; First
+    {% endif %}
+    |
+    <!-- Ensure we are not on the last page. -->
+    {% if movies.page != movies.pages %}
+        <a href="{{ url_for('list_pay_movies', category=category_id, page=movies.pages) }}">Last &gt;&gt;</a>
+    {% else %}
+        Last &gt;&gt;
+    {% endif %}
+
+    <br/>
+    <a href="{{ url_for('add_pay_movie') }}">
+        <button class="button is-success">
+            <span>Add a Movie</span>
+        </button>
+    </a>
+{% endblock %}

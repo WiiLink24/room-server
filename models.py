@@ -137,18 +137,9 @@ class NewMovies(db.Model):
 class PayMovies(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True, unique=True)
     title = db.Column(db.String(15), nullable=False)
-    length = db.Column(db.String(8), nullable=False)
-    aspect = db.Column(db.Boolean, nullable=False)
-    payenddt = db.Column(db.String(19), nullable=False)
-    ds_dist = db.Column(db.Boolean, nullable=False)
-    ds_mov_id = db.Column(db.Integer)
-    staff = db.Column(db.Boolean, nullable=False)
+    length = db.Column(db.String(), nullable=False)
     note = db.Column(db.String(76), nullable=False)
-    dimg = db.Column(db.Boolean, nullable=False)
-    eval = db.Column(db.Boolean, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    sample = db.Column(db.Boolean, nullable=False)
-    smpap = db.Column(db.Boolean, nullable=False)
     released = db.Column(db.String(10), nullable=False)
 
 
@@ -159,15 +150,9 @@ class PayCategories(db.Model):
     genre_id = db.Column(db.Integer)
 
 
-class PayCategoriesPosters(db.Model):
-    num = db.Column(db.Integer)
+class CategoryPayMovies(db.Model):
     category_id = db.Column(db.Integer)
-    rank = db.Column(db.Integer)
-    movieid = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    pop = db.Column(db.Integer)
-    release_date = db.Column(db.String)
-    price = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
 
 
 class PayCategoryHeaders(db.Model):
@@ -227,3 +212,4 @@ class Rooms(db.Model):
     mii_msg = db.Column(db.String)
     # TODO: implement room type specific logic
     logo2_id = db.Column(db.String)
+
