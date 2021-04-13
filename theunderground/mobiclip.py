@@ -5,8 +5,8 @@ import hashlib
 import os
 from time import gmtime, strftime
 
-from models import Categories
-from theunderground.encodemii import movie_thumbnail_encode
+from models import Categories, PayCategories
+from theunderground.encodemii import movie_thumbnail_encode, pay_movie_thumbnail_encode, pay_poster_thumbnail_encode
 
 
 def get_movie_byte(movie_id: int) -> str:
@@ -23,6 +23,11 @@ def get_movie_byte(movie_id: int) -> str:
 def get_movie_dir(movie_id: int) -> str:
     movie_byte = get_movie_byte(movie_id)
     return f"./assets/movies/{movie_byte}"
+
+
+def get_pay_movie_dir(movie_id: int) -> str:
+    movie_byte = get_movie_byte(movie_id)
+    return f"./assets/pay-movie/{movie_byte}"
 
 
 def validate_mobiclip(file_data: bytes) -> bool:
@@ -43,6 +48,16 @@ def get_category_list():
     choice_categories = []
     for _, category in enumerate(db_categories):
         choice_categories.append([category.category_id, category.name])
+
+    return choice_categories
+
+
+def get_pay_category_list():
+    db_categories = PayCategories.query.all()
+
+    choice_categories = []
+    for _, paycategory in enumerate(db_categories):
+        choice_categories.append([paycategory.category_id, paycategory.name])
 
     return choice_categories
 
@@ -83,8 +98,42 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
     movie.close()
 
 
+def save_pay_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, poster_data: bytes):
+    movie_dir = get_pay_movie_dir(movie_id)
+
+    # Create the holding assets folder if it does not already exist.
+    if not os.path.isdir(movie_dir):
+        os.mkdir(movie_dir)
+        os.mkdir(f"{movie_dir}/{movie_id}")
+
+    # Resize and write thumbnail
+    thumbnail_data = pay_movie_thumbnail_encode(thumbnail_data)
+    thumbnail = open(f"{movie_dir}/{movie_id}/D_{movie_id}-1.img", "wb")
+    thumbnail.write(thumbnail_data)
+    thumbnail.close()
+
+    # Resize and write poster
+    poster_data = pay_poster_thumbnail_encode(poster_data)
+    poster = open(f"{movie_dir}/{movie_id}/{movie_id}.img", "wb")
+    poster.write(poster_data)
+    poster.close()
+
+    # Write movie
+    movie = open(f"{movie_dir}/{movie_id}/S_{movie_id}-H.smo", "wb")
+    movie.write(movie_data)
+    movie.close()
+
+
 def delete_movie_data(movie_id: int):
     movie_dir = get_movie_dir(movie_id)
 
     os.remove(f"{movie_dir}/{movie_id}.img")
     os.remove(f"{movie_dir}/{movie_id}-H.mov")
+
+
+def delete_pay_movie_data(movie_id: int):
+    movie_dir = get_pay_movie_dir(movie_id)
+
+    os.remove(f"{movie_dir}/{movie_id}/{movie_id}.img")
+    os.remove(f"{movie_dir}/{movie_id}/S_{movie_id}-H.smo")
+    os.remove(f"{movie_dir}/{movie_id}/D_{movie_id}-1.img")

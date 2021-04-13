@@ -24,6 +24,10 @@
                class="is-active"{% endif %}><i class="fas fa-video" style="margin-right: .75em; width: 1em; height: 1em;"></i>Categories and Movies</a></li>
     </ul>
     <ul class="menu-list">
+        <li><a href="/theunderground/paycategories" {% if request.url_rule|string== '/theunderground/paycategories' %}
+               class="is-active"{% endif %}><i class="fas fa-money-bill-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Pay Categories and Movies</a></li>
+    </ul>
+    <ul class="menu-list">
         <li><a href="/theunderground/parade" {% if request.url_rule|string== '/theunderground/parade' %}
                class="is-active"{% endif %}><i class="fas fa-child" style="margin-right: .75em; width: 1em; height: 1em;"></i>Parades</a></li>
     </ul>
