@@ -3,7 +3,7 @@ from werkzeug import exceptions
 
 from room import app, db
 from helpers import RepeatedElement, xml_node_name, current_date_and_time
-from models import PayCategoriesPosters
+from models import PayMovies
 
 
 @app.route("/url3/pay/list/category/search/<category_id>")
@@ -11,9 +11,9 @@ from models import PayCategoriesPosters
 @xml_node_name("SearchMovies")
 def search_movies(category_id):
     retrieved_data = (
-        db.session.query(PayCategoriesPosters)
-        .filter(PayCategoriesPosters.category_id == category_id)
-        .order_by(PayCategoriesPosters.movieid)
+        db.session.query(PayMovies)
+        .filter(PayMovies.category_id == category_id)
+        .order_by(PayMovies.movie_id)
         .all()
     )
     results = []
@@ -26,14 +26,14 @@ def search_movies(category_id):
         results.append(
             RepeatedElement(
                 {
-                    "rank": paycategoryposters.rank,
-                    "movieid": paycategoryposters.movieid,
+                    "rank": i + 1,
+                    "movieid": paycategoryposters.movie_id,
                     "title": paycategoryposters.title,
                     "strdt": current_date_and_time(),
-                    "pop": paycategoryposters.pop,
+                    "pop": "1",
                     "kana": 12345678,
                     "refid": "01234567890123456789012345678912",
-                    "released": paycategoryposters.release_date,
+                    "released": paycategoryposters.released,
                     "term": 1,
                     "price": paycategoryposters.price,
                 }
@@ -41,7 +41,7 @@ def search_movies(category_id):
         )
 
     return {
-        "num": paycategoryposters.num,
+        "num": "1",
         "categid": category_id,
         "movieinfo": results,
     }
