@@ -66,6 +66,7 @@ def add_pay_movie():
                     note=form.note.data,
                     price=form.price.data,
                     released=form.release.data,
+                    category_id=form.category.data,
                 )
 
                 db.session.add(db_movie)
