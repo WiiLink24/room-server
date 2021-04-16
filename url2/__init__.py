@@ -1,1 +1,1 @@
-from . import reginfo, related, search
+from . import reginfo, related, search, shop
