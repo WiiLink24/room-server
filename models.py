@@ -141,7 +141,7 @@ class PayMovies(db.Model):
     note = db.Column(db.String(76), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     released = db.Column(db.String(10), nullable=False)
-    category_id= db.Column(db.Integer)
+    category_id = db.Column(db.Integer)
 
 
 class PayCategories(db.Model):
