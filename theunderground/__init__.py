@@ -1,1 +1,13 @@
-from . import admin, categories, concierge, miis, movies, news, parade, posters, rooms, pay_movies, pay_categories
+from . import (
+    admin,
+    categories,
+    concierge,
+    miis,
+    movies,
+    news,
+    parade,
+    posters,
+    rooms,
+    pay_movies,
+    pay_categories,
+)
