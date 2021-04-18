@@ -213,3 +213,4 @@ class Rooms(db.Model):
     mii_msg = db.Column(db.String)
     # TODO: implement room type specific logic
     logo2_id = db.Column(db.String)
+    contact_data = db.Column(db.String)
