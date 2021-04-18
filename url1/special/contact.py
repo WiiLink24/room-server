@@ -1,8 +1,16 @@
 from helpers import xml_node_name
+from werkzeug import exceptions
 from room import app
+from models import Rooms
 
 
-@app.route("/url1/special/<_page>/contact.xml")
+@app.route("/url1/special/<int:_page>/contact.xml")
 @xml_node_name("SpContact")
-def special_contact_n(_page):
-    return {"contact": "Join us on Discord at https://discord.gg/n4ta3w6!"}
+def special_contact_n(_page: int):
+    retrieved_data = Rooms.query.filter_by(room_id=_page).first()
+    if retrieved_data is None:
+        return exceptions.NotFound()
+
+    return {
+        "contact": retrieved_data.contact_data
+    }
