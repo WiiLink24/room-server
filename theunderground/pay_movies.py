@@ -86,7 +86,7 @@ def add_pay_movie():
 
                 # Finally, allow it for indexing.
                 es.index(
-                    index="tv_index",
+                    index="pay_index",
                     body={"title": form.title.data, "movie_id": db_movie.movie_id},
                 )
 
