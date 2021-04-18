@@ -22,7 +22,7 @@ def special_page_n(page):
         return exceptions.NotFound()
 
     queried_room, queried_mii, queried_parade = query
-    menu_data = db.session.query(RoomMenu).filter(Rooms.room_id == page).all()
+    menu_data = db.session.query(RoomMenu).filter(RoomMenu.room_id == page).all()
 
     menus = []
     for place, data in enumerate(menu_data):
