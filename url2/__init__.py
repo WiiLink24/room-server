@@ -1,1 +1,1 @@
-from . import reginfo, related, search, shop, paysearch
+from . import enquete, reginfo, related, search, shop, paysearch
