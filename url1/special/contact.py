@@ -11,6 +11,4 @@ def special_contact_n(_page: int):
     if retrieved_data is None:
         return exceptions.NotFound()
 
-    return {
-        "contact": retrieved_data.contact_data
-    }
+    return {"contact": retrieved_data.contact_data}
