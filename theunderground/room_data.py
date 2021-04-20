@@ -118,3 +118,27 @@ def poll():
             flash("Error uploading movie!")
 
     return render_template("add_vote_room.html", form=form)
+
+
+@app.route("/theunderground/roomtype/mov", methods=["GET", "POST"])
+@login_required
+def movie():
+    form = RoomMovieData()
+
+    if form.validate_on_submit():
+        image = form.image.data
+        if image:
+            image_data = image.read()
+
+            db_json = RoomMenu(data=tv.mov(photo_id(), form.movie_id.data, form.title.data))
+
+            save_mov_data(photo_id(), image_data)
+
+            db.session.add(db_json)
+            db.session.commit()
+
+            return redirect("/theunderground/")
+        else:
+            flash("Error uploading movie!")
+
+    return render_template("add_mov_room.html", form=form)
