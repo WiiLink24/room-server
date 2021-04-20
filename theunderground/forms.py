@@ -148,6 +148,17 @@ class RoomDeliveryData(FlaskForm):
     upload = SubmitField("Upload")
 
 
+class RoomVoteData(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    tv = FileField("TV Screen Image", validators=[FileRequired()])
+    image1 = FileField("Answer Photo 1", validators=[FileRequired()])
+    image2 = FileField("Answer Photo 2", validators=[FileRequired()])
+    image3 = FileField("Answer Photo 3", validators=[FileRequired()])
+    question = StringField("Question", validators=[DataRequired()])
+    mii_msg = StringField("Mii Message", validators=[DataRequired()])
+    upload = SubmitField("Upload")
+
+
 class KillMii(FlaskForm):
     given_id = StringField("Item ID", validators=[DataRequired()])
     submit = SubmitField("Delete!")
