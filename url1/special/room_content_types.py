@@ -6,13 +6,13 @@ in The Underground when appending a new type to the database.
 """
 
 
-def smp(id, title):
+def smp(num, id, title):
     return {
         "type": 1,
-        "imageid": "a1234",
+        "imageid": f"a{num}",
         "smp": {
             "smpid": id,
-            "smptitle": title,
+            "smptitle": f"{title}",
             "smpurl": "http://old.wiilink24.com",
             "smpmov": 1,
             "smpmovap": 1,
@@ -22,7 +22,19 @@ def smp(id, title):
 
 
 def enq():
-    return {"Still working on it"}
+    return {
+        "type": 2,
+        "imageid": "b1234",
+        "enq": {
+            "enqid": 1,
+            "enqq": "Why has Nintendo forsaken us?",
+            "enqa": 3,
+            "enqimgid": "e1234",
+            "enqtitle": "help me",
+            "enqmsginfo": {"enqmsgseq": 1, "enqmsg": "why cant i leave this room"},
+            "enqmov": 0,
+        },
+    }
 
 
 def mov(movie_id, title):
