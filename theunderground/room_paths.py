@@ -1,4 +1,4 @@
-from theunderground.encodemii import room_tv_encode, room_big_img_encode
+from theunderground.encodemii import room_tv_encode, room_big_img_encode, vote_picture_encode
 
 
 def save_delivery_data(
@@ -22,3 +22,30 @@ def save_delivery_data(
     tv = open(f"assets/special-12/a{pic_num}.img", "wb")
     tv.write(tv_data)
     tv.close()
+
+
+def save_vote_data(image_data: bytes, image2_data: bytes, image3_data: bytes, tv_data: bytes, pic_num: int):
+
+    # Resize and write poster
+    tv_data = room_tv_encode(tv_data)
+    tv = open(f"assets/special-12/b{pic_num}.img", "wb")
+    tv.write(tv_data)
+    tv.close()
+
+    # Resize and write poster
+    image_data = vote_picture_encode(image_data)
+    image1 = open(f"assets/special-12/e{pic_num}-1.img", "wb")
+    image1.write(image_data)
+    image1.close()
+
+    # Resize and write poster
+    image2_data = vote_picture_encode(image2_data)
+    image2 = open(f"assets/special-12/e{pic_num}-2.img", "wb")
+    image2.write(image2_data)
+    image2.close()
+
+    # Resize and write poster
+    image3_data = vote_picture_encode(image3_data)
+    image3 = open(f"assets/special-12/e{pic_num}-3.img", "wb")
+    image3.write(image3_data)
+    image3.close()
