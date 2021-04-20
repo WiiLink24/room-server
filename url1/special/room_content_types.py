@@ -1,5 +1,5 @@
 """
-Since there a 6 different types of Room Types, it makes no sense to make a table for each.
+Since there are 6 different types of Room Types, it makes no sense to make a table for each.
 Instead, we use the raw JSON format of the types then convert them to xml when it is passed
 through the page.py script. All of the types are in their own functions, which will be used
 in The Underground when appending a new type to the database.
@@ -21,17 +21,17 @@ def smp(num, id, title):
     }
 
 
-def enq():
+def enq(num, id, question, title, message):
     return {
         "type": 2,
-        "imageid": "b1234",
+        "imageid": f"b{num}",
         "enq": {
-            "enqid": 1,
-            "enqq": "Why has Nintendo forsaken us?",
+            "enqid": id,
+            "enqq": question,
             "enqa": 3,
-            "enqimgid": "e1234",
-            "enqtitle": "help me",
-            "enqmsginfo": {"enqmsgseq": 1, "enqmsg": "why cant i leave this room"},
+            "enqimgid": f"e{num}",
+            "enqtitle": title,
+            "enqmsginfo": {"enqmsgseq": 1, "enqmsg": message},
             "enqmov": 0,
         },
     }
