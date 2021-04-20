@@ -49,3 +49,10 @@ def save_vote_data(image_data: bytes, image2_data: bytes, image3_data: bytes, tv
     image3 = open(f"assets/special-12/e{pic_num}-3.img", "wb")
     image3.write(image3_data)
     image3.close()
+
+    
+def save_mov_data(pic_num: int, tv_data: bytes):
+    tv_data = room_tv_encode(tv_data)
+    tv = open(f"assets/special-12/c{pic_num}.img", "wb")
+    tv.write(tv_data)
+    tv.close()
