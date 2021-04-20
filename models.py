@@ -1,5 +1,7 @@
 import enum
 
+from sqlalchemy import func
+
 from room import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -127,11 +129,7 @@ class Movies(db.Model):
     ds_dist = db.Column(db.Boolean, nullable=False)
     ds_mov_id = db.Column(db.Integer)
     staff = db.Column(db.Boolean, nullable=False)
-
-
-class NewMovies(db.Model):
-    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
-    title = db.Column(db.String(48), nullable=False)
+    date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
 
 class PayMovies(db.Model):
