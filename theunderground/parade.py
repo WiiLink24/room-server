@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
 
-from models import ParadeMiis
+from models import ParadeMiis, Rooms
 from room import app, db
 from theunderground.encodemii import parade_encode
 from theunderground.forms import ParadeForm, KillMii
@@ -16,10 +16,11 @@ def list_parade():
     )
 
 
-@app.route("/theunderground/parade/<mii_id>", methods=["GET", "POST"])
+@app.route("/theunderground/parade/<mii_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_parade(mii_id):
     form = ParadeForm()
+    q = ParadeMiis.query.filter_by(mii_id=mii_id).first()
     if form.validate_on_submit():
         # Encode an image to the appropriate size.
         inserted_image = parade_encode(form.image.data.read())
@@ -28,21 +29,28 @@ def edit_parade(mii_id):
         if list(q):
             mii = q.first()
             mii.logo_bin = inserted_image
-            mii.news = form.news.data
+            mii.news = form.company.data
         else:
             mii = ParadeMiis(
                 mii_id=mii_id,
                 logo_id="g1234",
                 logo_bin=inserted_image,
-                news=form.news.data,
+                news=form.company.data,
                 level=1,
             )
 
         db.session.add(mii)
         db.session.commit()
+
+        f = Rooms.query.filter_by(room_id=mii_id).first()
+        f.intro_msg = form.news.data
+
+        db.session.add(f)
+        db.session.commit()
+
         return redirect(url_for("list_parade"))
 
-    return render_template("parade_edit.html", form=form)
+    return render_template("parade_edit.html", form=form, room=q)
 
 
 @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
@@ -57,7 +65,7 @@ def remove_parade(mii_id):
             return redirect(url_for("list_parade"))
         else:
             flash("Incorrect Mii ID!")
-    return render_template("parade_delete.html", form=form, mii_id=mii_id)
+    return render_template("parade_delete.html", form=form, item_id=mii_id)
 
 
 @app.route("/theunderground/parade/<mii_id>/banner.jpg")
