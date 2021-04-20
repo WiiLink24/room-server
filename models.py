@@ -198,6 +198,33 @@ class RoomBGMTypes(enum.Enum):
 
     def __str__(self):
         return str(self.value)
+    
+    
+class RoomContentBGMTypes(enum.Enum):
+    Sadness = 1
+    Upbeat = 2
+    Relaxing = 3
+    Classical = 4
+    Playful = 5
+    Chill = 6
+    Adventurous = 7
+    Jolly = 8
+    Happiness = 9
+    Casino = 10
+    Parade = 11
+    Excitement = 12
+    idk = 13
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
 
 
 class Rooms(db.Model):
