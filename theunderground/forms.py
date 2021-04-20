@@ -157,6 +157,13 @@ class RoomVoteData(FlaskForm):
     question = StringField("Question", validators=[DataRequired()])
     mii_msg = StringField("Mii Message", validators=[DataRequired()])
     upload = SubmitField("Upload")
+    
+
+class RoomMovieData(FlaskForm):
+    movie_id = StringField("Movie ID(Make sure you know the ID of the movie you want)", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired()])
+    image = FileField("TV Screen Image", validators=[FileRequired()])
+    upload = SubmitField("Upload")
 
 
 class KillMii(FlaskForm):
