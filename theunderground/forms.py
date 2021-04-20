@@ -114,7 +114,6 @@ class CategoryEditForm(FlaskForm):
 
 
 class ParadeForm(FlaskForm):
-    news = StringField("News", validators=[DataRequired()])
     company = StringField("Company", validators=[DataRequired()])
     image = FileField("Parade Banner", validators=[FileRequired()])
     submit = SubmitField("Create")
