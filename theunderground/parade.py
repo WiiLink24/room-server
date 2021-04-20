@@ -42,12 +42,6 @@ def edit_parade(mii_id):
         db.session.add(mii)
         db.session.commit()
 
-        f = Rooms.query.filter_by(room_id=mii_id).first()
-        f.intro_msg = form.news.data
-
-        db.session.add(f)
-        db.session.commit()
-
         return redirect(url_for("list_parade"))
 
     return render_template("parade_edit.html", form=form, room=q)
