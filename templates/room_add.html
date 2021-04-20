@@ -1,26 +1,10 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Edit Room
+    Add Room
 {% endblock %}
 
 {% block content %}
-        <article class="message is-info">
-        <div class="message-header">
-            <p>Information</p>
-        </div>
-        <div class="message-body">
-             This parade currently has the following banner:
-            <br>
-            <br>
-            <img
-                src="{{ url_for('get_room_logo', room_id=room_id) }}"
-                alt="Thumbnail for category ID {{ room_id }}"
-                width="50%"
-            />
-            <br>
-        </div>
-    </article>
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         {{ form.bgm.label(class_="label") }}

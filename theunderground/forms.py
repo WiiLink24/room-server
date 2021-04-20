@@ -11,7 +11,7 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Length, ValidationError
 
-from models import RoomBGMTypes
+from models import RoomBGMTypes, RoomContentBGMTypes
 
 """
 Reference:
@@ -92,9 +92,7 @@ class PayMovieUploadForm(FlaskForm):
     thumbnail = FileField("Thumbnail", validators=[FileRequired()])
     # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
     title = StringField("Title", validators=[DataRequired(), Length(max=15)])
-    release = StringField(
-        "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
-    )
+    release = StringField("Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)])
     note = StringField("Description", validators=[DataRequired()])
     price = StringField("Price", validators=[DataRequired()])
     category = SelectField("Movie Category", validators=[DataRequired()])
@@ -115,7 +113,7 @@ class CategoryEditForm(FlaskForm):
 
 class ParadeForm(FlaskForm):
     company = StringField("Company", validators=[DataRequired()])
-    image = FileField("Parade Banner", validators=[FileRequired()])
+    image = FileField("Parade Banner")
     submit = SubmitField("Create")
 
 
@@ -130,7 +128,24 @@ class RoomForm(FlaskForm):
     has_contact = BooleanField("Show Contact Information")
     intro_msg = StringField("Intro Message", validators=[DataRequired()])
     mii_msg = StringField("Mii Message", validators=[DataRequired()])
+    contact = StringField("Contact Information", validators=[DataRequired()])
     submit = SubmitField("Create")
+
+
+class PreRoomData(FlaskForm):
+    type = SelectField(
+        "Type",
+        choices=[("Delivery"), ("Poll"), ("Movie"), ("Coupon"), ("Link"), ("Picture")]
+    )
+    next = SubmitField("Next")
+
+
+class RoomDeliveryData(FlaskForm):
+    movie = FileField("Movie", validators=[FileRequired()])
+    title = StringField("Title", validators=[DataRequired()])
+    tv = FileField("TV Screen Image", validators=[FileRequired()])
+    image = FileField("Image After Movie", validators=[FileRequired()])
+    upload = SubmitField("Upload")
 
 
 class KillMii(FlaskForm):

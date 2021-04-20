@@ -8,30 +8,6 @@ from room import db
 from theunderground.encodemii import room_logo
 from theunderground.forms import KillMii, RoomForm
 from room import app
-from theunderground.forms import RoomMovieForm
-from models import RoomMenu
-
-
-@app.route("/theunderground/rooms/<id>/movie", methods=["GET", "POST"])
-@login_required
-def roommovie(id):
-    form = RoomMovieForm()
-    if form.validate_on_submit():
-        movie_id = form.movie_id.data
-        place = form.place.data
-        imageid = form.imageid.data
-        title = form.title.data
-        data = {
-            "type": 3,
-            "imageid": imageid,
-            "mov": {"movieid": movie_id, "title": title},
-        }
-        menu = RoomMenu(room_id=id, data=data)
-        db.session.add(menu)
-        db.session.commit()
-        return redirect(url_for("edit_room", id))
-
-    return render_template("room_movie.html", form=form)
 
 
 @app.route("/theunderground/rooms")
@@ -64,22 +40,48 @@ def edit_room(room_id):
             room.contact = form.has_contact.data
             room.intro_msg = form.intro_msg.data
             room.mii_msg = form.mii_msg.data
-        else:
-            room = Rooms(
-                room_id=room_id,
-                bgm=form.bgm.data,
-                mascot=form.has_mascot.data,
-                contact=form.has_contact.data,
-                intro_msg=form.intro_msg.data,
-                mii_msg=form.mii_msg.data,
-                logo2_id="f1234",
-            )
+            room.contact_data = form.contact.data
 
         db.session.add(room)
         db.session.commit()
         return redirect(url_for("list_room"))
 
-    return render_template("room_edit.html", form=form)
+    return render_template("room_edit.html", form=form, room_id=room_id)
+
+
+@app.route("/theunderground/rooms/create", methods=["GET", "POST"])
+@login_required
+def create_room():
+    form = RoomForm()
+
+    if form.validate_on_submit():
+        room_id = Rooms.query.order_by(Rooms.room_id.desc()).first()
+        room_id = room_id.room_id + 1
+
+        # Encode an image to the appropriate size.
+        room_image = room_logo(form.room_logo.data.read())
+        # Save to our assets directory.
+        path = get_room_dir(room_id) + "/f1234.img"
+        file = open(path, "wb")
+        file.write(room_image)
+        file.close()
+
+        room = Rooms(
+            room_id=room_id,
+            bgm=form.bgm.data,
+            mascot=form.has_mascot.data,
+            contact=form.has_contact.data,
+            intro_msg=form.intro_msg.data,
+            mii_msg=form.mii_msg.data,
+            logo2_id="f1234",
+            contact_data=form.contact.data,
+        )
+
+        db.session.add(room)
+        db.session.commit()
+        return redirect(url_for("list_room"))
+
+    return render_template("room_add.html", form=form)
 
 
 @app.route("/theunderground/rooms/<room_id>/remove", methods=["GET", "POST"])

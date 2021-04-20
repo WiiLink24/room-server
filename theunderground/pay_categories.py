@@ -41,9 +41,7 @@ def add_pay_category():
         db.session.commit()
 
         # With this ID, write the thumbnail.
-        write_pay_category_thumbnail(
-            new_category.category_id, form.thumbnail.data.read()
-        )
+        write_pay_category_thumbnail(new_category.category_id, form.thumbnail.data.read())
         return redirect(url_for("list_pay_categories"))
 
     return render_template("pay_category_add.html", form=form)
@@ -77,9 +75,7 @@ def edit_pay_category(category):
         # category_add.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
 
-    return render_template(
-        "pay_category_edit.html", category=current_category, form=form
-    )
+    return render_template("pay_category_edit.html", category=current_category, form=form)
 
 
 @app.route("/theunderground/paycategories/<category>/remove", methods=["GET", "POST"])

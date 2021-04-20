@@ -28,6 +28,14 @@ def category_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 160, 120)
 
 
+def room_tv_encode(infile: bytes) -> bytes:
+    return generic_encode(infile, 160, 120)
+
+
+def room_big_img_encode(infile: bytes) -> bytes:
+    return generic_encode(infile, 832, 456)
+
+
 def generic_encode(in_bytes: bytes, w: int, h: int) -> bytes:
     """Encodes an image to a format suitable for the Wii."""
     im = Image.open(io.BytesIO(in_bytes))

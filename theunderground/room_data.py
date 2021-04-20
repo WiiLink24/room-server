@@ -52,8 +52,6 @@ def id():
 def photo_id():
     num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
 
-    print(num.id)
-
     return num.id + 1234
 
 
@@ -88,3 +86,6 @@ def delivery():
             flash("Error uploading movie!")
 
     return render_template("add_delivery_room.html", form=form)
+
+
+
