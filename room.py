@@ -1,3 +1,5 @@
+from ssl import create_default_context
+
 from elasticsearch import Elasticsearch
 from flask import Flask, session, request
 from flask_sqlalchemy import SQLAlchemy
@@ -15,9 +17,15 @@ app.config["SECRET_KEY"] = config.secret_key
 
 login = LoginManager()
 
+# Elastic may need a custom root CA for communication.
+es_context = create_default_context()
+if config.elasticsearch_ca_path:
+    es_context.load_verify_locations(cafile=config.elasticsearch_ca_path)
+
 es = Elasticsearch(
     config.elasticsearch_url,
     http_auth=(config.elasticsearch_user, config.elasticsearch_pass),
+    ssl_context=es_context
 )
 
 # Ensure DB tables are created.
