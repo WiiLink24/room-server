@@ -66,7 +66,6 @@ def add_pay_movie():
                     note=form.note.data,
                     price=form.price.data,
                     released=form.release.data,
-                    category_id=form.category.data,
                 )
 
                 db.session.add(db_movie)
@@ -80,9 +79,7 @@ def add_pay_movie():
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
-                save_pay_movie_data(
-                    db_movie.movie_id, thumbnail_data, movie_data, poster_data
-                )
+                save_pay_movie_data(db_movie.movie_id, thumbnail_data, movie_data, poster_data)
 
                 # Finally, allow it for indexing.
                 es.index(
@@ -127,3 +124,4 @@ if video_deletion_enabled:
 def get_movie_poster(movie_id):
     movie_dir = get_pay_movie_dir(movie_id)
     return send_from_directory(movie_dir, f"{movie_id}/{movie_id}.img")
+

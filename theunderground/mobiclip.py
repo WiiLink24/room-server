@@ -6,11 +6,7 @@ import os
 from time import gmtime, strftime
 
 from models import Categories, PayCategories
-from theunderground.encodemii import (
-    movie_thumbnail_encode,
-    pay_movie_thumbnail_encode,
-    pay_poster_thumbnail_encode,
-)
+from theunderground.encodemii import movie_thumbnail_encode, pay_movie_thumbnail_encode, pay_poster_thumbnail_encode
 
 
 def get_movie_byte(movie_id: int) -> str:
@@ -102,9 +98,7 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
     movie.close()
 
 
-def save_pay_movie_data(
-    movie_id: int, thumbnail_data: bytes, movie_data: bytes, poster_data: bytes
-):
+def save_pay_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, poster_data: bytes):
     movie_dir = get_pay_movie_dir(movie_id)
 
     # Create the holding assets folder if it does not already exist.
