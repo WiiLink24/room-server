@@ -1,0 +1,17 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Choose Room Content Type
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.type.label(class_="label") }} {{ form.type }}
+        </p>
+        <br>
+
+        <p>{{ form.next(class_="button is-success") }}</p>
+    </form>
+{% endblock %}
