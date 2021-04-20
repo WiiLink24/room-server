@@ -25,7 +25,7 @@ if config.elasticsearch_ca_path:
 es = Elasticsearch(
     config.elasticsearch_url,
     http_auth=(config.elasticsearch_user, config.elasticsearch_pass),
-    ssl_context=es_context
+    ssl_context=es_context,
 )
 
 # Ensure DB tables are created.
