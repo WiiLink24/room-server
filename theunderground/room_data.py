@@ -5,10 +5,10 @@ from config import video_deletion_enabled
 from room import app, db
 from models import RoomMenu
 
-from theunderground.forms import KillMii, PreRoomData, RoomDeliveryData
+from theunderground.forms import KillMii, PreRoomData, RoomDeliveryData, RoomVoteData
 from theunderground.mobiclip import validate_mobiclip
 from theunderground import roomtvtypes as tv
-from theunderground.room_paths import save_delivery_data
+from theunderground.room_paths import save_delivery_data, save_vote_data
 
 
 @app.route("/theunderground/roomtype/choose", methods=["GET", "POST"])
@@ -24,7 +24,7 @@ def choose_type():
             return redirect(url_for("delivery"))
 
         if value == "Poll":
-            return redirect("/theunderground/")
+            return redirect(url_for("poll"))
 
         if value == "Movie":
             return redirect("/theunderground/")
@@ -88,4 +88,33 @@ def delivery():
     return render_template("add_delivery_room.html", form=form)
 
 
+@app.route("/theunderground/roomtype/poll", methods=["GET", "POST"])
+@login_required
+def poll():
+    form = RoomVoteData()
 
+    if form.validate_on_submit():
+        image1 = form.image1.data
+        image2 = form.image2.data
+        image3 = form.image3.data
+        thumbnail = form.tv.data
+        if thumbnail and image1:
+            image1_data = image1.read()
+            image2_data = image2.read()
+            image3_data = image3.read()
+            thumbnail_data = thumbnail.read()
+
+            db_json = RoomMenu(
+                data=tv.enq(photo_id(), id(), form.question.data, form.title.data, form.mii_msg.data)
+            )
+
+            save_vote_data(image1_data, image2_data, image3_data, thumbnail_data, photo_id())
+
+            db.session.add(db_json)
+            db.session.commit()
+
+            return redirect("/theunderground/")
+        else:
+            flash("Error uploading movie!")
+
+    return render_template("add_vote_room.html", form=form)
