@@ -3,12 +3,24 @@ from flask_login import login_required
 
 from config import video_deletion_enabled
 from room import app, db
-from models import RoomMenu
+from models import RoomMenu, RoomContentBGMTypes
 
-from theunderground.forms import KillMii, PreRoomData, RoomDeliveryData, RoomVoteData
+from theunderground.forms import (
+    KillMii,
+    PreRoomData,
+    RoomDeliveryData,
+    RoomVoteData,
+    RoomMovieData,
+    RoomLinkData
+)
 from theunderground.mobiclip import validate_mobiclip
 from theunderground import roomtvtypes as tv
-from theunderground.room_paths import save_delivery_data, save_vote_data
+from theunderground.room_paths import (
+    save_delivery_data,
+    save_vote_data,
+    save_mov_data,
+    save_link_data
+)
 
 
 @app.route("/theunderground/roomtype/choose", methods=["GET", "POST"])
@@ -27,7 +39,7 @@ def choose_type():
             return redirect(url_for("poll"))
 
         if value == "Movie":
-            return redirect("/theunderground/")
+            return redirect(url_for("movie"))
 
         if value == "Coupon":
             return redirect("/theunderground/")
@@ -142,3 +154,42 @@ def movie():
             flash("Error uploading movie!")
 
     return render_template("add_mov_room.html", form=form)
+
+
+@app.route("/theunderground/roomtype/link", methods=["GET", "POST"])
+@login_required
+def link():
+    form = RoomLinkData()
+
+    if form.validate_on_submit():
+        movie = form.movie.data
+        thumbnail = form.tv.data
+        image1 = form.image1.data
+        image2 = form.image2.data
+        if movie and tv:
+            movie_data = movie.read()
+            tv_data = thumbnail.read()
+            image1_data = image1.read()
+            image2_data = image2.read()
+            if validate_mobiclip(movie_data):
+
+                db_json = RoomMenu(
+                    data=tv.link(photo_id(), id(), form.title.data, form.link.data, form.bgm.data.value)
+                )
+
+                save_link_data(id(), movie_data, image1_data, image2_data, tv_data, photo_id())
+
+                db.session.add(db_json)
+                db.session.commit()
+
+                return redirect("/theunderground/")
+            else:
+                flash("Invalid movie!")
+        else:
+            flash("Error uploading movie!")
+
+    return render_template("add_link_room.html", form=form)
+
+
+
+
