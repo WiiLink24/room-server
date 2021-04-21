@@ -92,7 +92,9 @@ class PayMovieUploadForm(FlaskForm):
     thumbnail = FileField("Thumbnail", validators=[FileRequired()])
     # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
     title = StringField("Title", validators=[DataRequired(), Length(max=15)])
-    release = StringField("Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)])
+    release = StringField(
+        "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
+    )
     note = StringField("Description", validators=[DataRequired()])
     price = StringField("Price", validators=[DataRequired()])
     category = SelectField("Movie Category", validators=[DataRequired()])
@@ -135,7 +137,7 @@ class RoomForm(FlaskForm):
 class PreRoomData(FlaskForm):
     type = SelectField(
         "Type",
-        choices=[("Delivery"), ("Poll"), ("Movie"), ("Coupon"), ("Link"), ("Picture")]
+        choices=[("Delivery"), ("Poll"), ("Movie"), ("Coupon"), ("Link"), ("Picture")],
     )
     next = SubmitField("Next")
 
@@ -160,7 +162,10 @@ class RoomVoteData(FlaskForm):
 
 
 class RoomMovieData(FlaskForm):
-    movie_id = StringField("Movie ID(Make sure you know the ID of the movie you want)", validators=[DataRequired()])
+    movie_id = StringField(
+        "Movie ID(Make sure you know the ID of the movie you want)",
+        validators=[DataRequired()],
+    )
     title = StringField("Title", validators=[DataRequired()])
     image = FileField("TV Screen Image", validators=[FileRequired()])
     upload = SubmitField("Upload")

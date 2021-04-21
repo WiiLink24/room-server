@@ -198,8 +198,8 @@ class RoomBGMTypes(enum.Enum):
 
     def __str__(self):
         return str(self.value)
-    
-    
+
+
 class RoomContentBGMTypes(enum.Enum):
     Sadness = 1
     Upbeat = 2
