@@ -1,4 +1,4 @@
-from url1.special import all, allbin, contact, page
+from url1.special import agree, all, allbin, contact, page
 
 from . import (
     beacon,
