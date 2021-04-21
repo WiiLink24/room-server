@@ -11,7 +11,7 @@ from theunderground.forms import (
     RoomDeliveryData,
     RoomVoteData,
     RoomMovieData,
-    RoomLinkData
+    RoomLinkData,
 )
 from theunderground.mobiclip import validate_mobiclip
 from theunderground import roomtvtypes as tv
@@ -19,7 +19,7 @@ from theunderground.room_paths import (
     save_delivery_data,
     save_vote_data,
     save_mov_data,
-    save_link_data
+    save_link_data,
 )
 
 
@@ -117,10 +117,18 @@ def poll():
             thumbnail_data = thumbnail.read()
 
             db_json = RoomMenu(
-                data=tv.enq(photo_id(), id(), form.question.data, form.title.data, form.mii_msg.data)
+                data=tv.enq(
+                    photo_id(),
+                    id(),
+                    form.question.data,
+                    form.title.data,
+                    form.mii_msg.data,
+                )
             )
 
-            save_vote_data(image1_data, image2_data, image3_data, thumbnail_data, photo_id())
+            save_vote_data(
+                image1_data, image2_data, image3_data, thumbnail_data, photo_id()
+            )
 
             db.session.add(db_json)
             db.session.commit()
@@ -142,7 +150,9 @@ def movie():
         if image:
             image_data = image.read()
 
-            db_json = RoomMenu(data=tv.mov(photo_id(), form.movie_id.data, form.title.data))
+            db_json = RoomMenu(
+                data=tv.mov(photo_id(), form.movie_id.data, form.title.data)
+            )
 
             save_mov_data(photo_id(), image_data)
 
@@ -174,10 +184,18 @@ def link():
             if validate_mobiclip(movie_data):
 
                 db_json = RoomMenu(
-                    data=tv.link(photo_id(), id(), form.title.data, form.link.data, form.bgm.data.value)
+                    data=tv.link(
+                        photo_id(),
+                        id(),
+                        form.title.data,
+                        form.link.data,
+                        form.bgm.data.value,
+                    )
                 )
 
-                save_link_data(id(), movie_data, image1_data, image2_data, tv_data, photo_id())
+                save_link_data(
+                    id(), movie_data, image1_data, image2_data, tv_data, photo_id()
+                )
 
                 db.session.add(db_json)
                 db.session.commit()
@@ -189,7 +207,3 @@ def link():
             flash("Error uploading movie!")
 
     return render_template("add_link_room.html", form=form)
-
-
-
-

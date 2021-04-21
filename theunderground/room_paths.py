@@ -1,4 +1,8 @@
-from theunderground.encodemii import room_tv_encode, room_big_img_encode, vote_picture_encode
+from theunderground.encodemii import (
+    room_tv_encode,
+    room_big_img_encode,
+    vote_picture_encode,
+)
 
 
 def save_delivery_data(
@@ -24,7 +28,13 @@ def save_delivery_data(
     tv.close()
 
 
-def save_vote_data(image_data: bytes, image2_data: bytes, image3_data: bytes, tv_data: bytes, pic_num: int):
+def save_vote_data(
+    image_data: bytes,
+    image2_data: bytes,
+    image3_data: bytes,
+    tv_data: bytes,
+    pic_num: int,
+):
 
     # Resize and write poster
     tv_data = room_tv_encode(tv_data)
@@ -59,7 +69,12 @@ def save_mov_data(pic_num: int, tv_data: bytes):
 
 
 def save_link_data(
-    movie_id: int, movie_data: bytes, image1_data: bytes, image2_data: bytes, tv_data: bytes, pic_num: int
+    movie_id: int,
+    movie_data: bytes,
+    image1_data: bytes,
+    image2_data: bytes,
+    tv_data: bytes,
+    pic_num: int,
 ):
     movie_dir = "assets/urllink"
 
