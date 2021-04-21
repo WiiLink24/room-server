@@ -157,12 +157,27 @@ class RoomVoteData(FlaskForm):
     question = StringField("Question", validators=[DataRequired()])
     mii_msg = StringField("Mii Message", validators=[DataRequired()])
     upload = SubmitField("Upload")
-    
+
 
 class RoomMovieData(FlaskForm):
     movie_id = StringField("Movie ID(Make sure you know the ID of the movie you want)", validators=[DataRequired()])
     title = StringField("Title", validators=[DataRequired()])
     image = FileField("TV Screen Image", validators=[FileRequired()])
+    upload = SubmitField("Upload")
+
+
+class RoomLinkData(FlaskForm):
+    bgm = SelectField(
+        "Background Music",
+        choices=RoomContentBGMTypes.choices(),
+        coerce=RoomContentBGMTypes.coerce,
+    )
+    title = StringField("Title", validators=[DataRequired()])
+    link = StringField("Link", validators=[DataRequired()])
+    tv = FileField("TV Screen Image", validators=[FileRequired()])
+    image1 = FileField("Image After Movie", validators=[FileRequired()])
+    image2 = FileField("Link Image", validators=[FileRequired()])
+    movie = FileField("Movie", validators=[FileRequired()])
     upload = SubmitField("Upload")
 
 
