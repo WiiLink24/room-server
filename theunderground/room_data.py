@@ -1,12 +1,10 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
 
-from config import video_deletion_enabled
 from room import app, db
-from models import RoomMenu, RoomContentBGMTypes
+from models import RoomMenu
 
 from theunderground.forms import (
-    KillMii,
     PreRoomData,
     RoomDeliveryData,
     RoomVoteData,
@@ -14,7 +12,7 @@ from theunderground.forms import (
     RoomLinkData,
 )
 from theunderground.mobiclip import validate_mobiclip
-from theunderground import roomtvtypes as tv
+from url1.special import room_content_types as tv
 from theunderground.room_paths import (
     save_delivery_data,
     save_vote_data,
