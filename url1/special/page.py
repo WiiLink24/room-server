@@ -64,8 +64,68 @@ def special_page_n(page):
     }
 
 
-if app.debug:
+@app.route("/url1/special/0/page.xml")
+@xml_node_name("SpPage")
+def page_0():
+    # TODO: revert from temporary, pre-determined value to database schema
+    intro_filler = []
+    for i in range(9):
+        intro_filler.append(
+            RepeatedElement(
+                {
+                    "inmsgseq": i + 1,
+                    "inmsg": "Hello!",
+                }
+            )
+        )
 
+    msginfo_filler = []
+    for i in range(3):
+        msginfo_filler.append(
+            RepeatedElement(
+                {
+                    "msgseq": i + 1,
+                    "msg": "Testing...",
+                }
+            )
+        )
+
+    return {
+        "sppageid": "0",
+        # TODO: database schema should handle proper times regarding catalog.
+        "strdt": current_date_and_time(),
+        "enddt": current_date_and_time(),
+        "name": "Testing: The Movie",
+        "stopflag": 0,
+        "level": 1,
+        "bgm": 2,
+        "mascot": 0,
+        "contact": 0,
+        "intro": {"inmsginfo": intro_filler},
+        "miiinfo": {
+            "seq": 1,
+            "miiid": 1,
+            "color1": "ffcd00",
+            "color2": "000000",
+            "msginfo": msginfo_filler,
+        },
+        "menu": {
+            "place": 1,
+            "type": 4,
+            "imageid": "d1234",
+            "coup": {
+                "coupid": 1,
+                "couptitle": "coupon test",
+                "couplimit": 10,
+                "coupmov": 1,
+                "coupmovap": 0,
+            },
+        },
+        "logo": {"logo1id": "g1234", "logo2id": "f1234"},
+    }
+
+
+if app.debug:
     @app.route("/url1/special/<page>/img/<img>")
     def handle_img(page, img):
         # Handles logo images, for instance:
@@ -73,7 +133,30 @@ if app.debug:
         # Gets g1234.img
         return send_from_directory("assets/special-" + page, img)
 
-    @app.route("/url1/delivery/<asset_name>")
-    def handle_delivery_asset(asset_name):
-        # Handles all non-dynamic delivery assets.
-        return send_from_directory("assets/delivery", asset_name)
+
+    @app.route("/url1/urllink/<movie_id>.mov")
+    def handle_urllink(movie_id):
+        # Handles movies for room type "link"
+        return send_from_directory("assets/urllink", movie_id + ".mov")
+
+    @app.route("/url1/urllink/<movie_id>.img")
+    def handle_urlink(movie_id):
+        # Handles movies for room type "link"
+        return send_from_directory("assets/urllink", movie_id + ".img")
+
+    @app.route("/url1/urllink/<movie_id>.mov")
+    def handle_picture(movie_id):
+        # Handles movies for room type "link"
+        return send_from_directory("assets/picture", movie_id + ".mov")
+
+    @app.route("/url1/delivery/<movie_id>.mov")
+    def handle_delivery(movie_id):
+        # Handles movies for room type "link"
+        return send_from_directory("assets/delivery", movie_id + ".mov")
+
+    @app.route("/url1/delivery/<img>.img")
+    def handle_deliveryimg(img):
+        # Handles logo images, for instance:
+        # GET /url1/special/1/img/g1234.img
+        # Gets g1234.img
+        return send_from_directory("assets/delivery", img + ".img")
