@@ -40,13 +40,13 @@ def choose_type():
             return redirect(url_for("movie"))
 
         if value == "Coupon":
-            return redirect("/theunderground/")
+            return redirect(url_for("root"))
 
         if value == "Link":
-            return redirect("/theunderground/")
+            return redirect(url_for("root"))
 
         if value == "Picture":
-            return redirect("/theunderground/")
+            return redirect(url_for("root"))
 
     return render_template("choose_room_type.html", form=form)
 
@@ -89,7 +89,7 @@ def delivery():
                 db.session.add(db_json)
                 db.session.commit()
 
-                return redirect("/theunderground/")
+                return redirect(url_for("root"))
             else:
                 flash("Invalid movie!")
         else:
@@ -131,7 +131,7 @@ def poll():
             db.session.add(db_json)
             db.session.commit()
 
-            return redirect("/theunderground/")
+            return redirect(url_for("root"))
         else:
             flash("Error uploading movie!")
 
@@ -157,7 +157,7 @@ def movie():
             db.session.add(db_json)
             db.session.commit()
 
-            return redirect("/theunderground/")
+            return redirect(url_for("root"))
         else:
             flash("Error uploading movie!")
 
@@ -198,7 +198,7 @@ def link():
                 db.session.add(db_json)
                 db.session.commit()
 
-                return redirect("/theunderground/")
+                return redirect(url_for("root"))
             else:
                 flash("Invalid movie!")
         else:

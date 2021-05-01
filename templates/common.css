@@ -17,3 +17,9 @@ table, th, td {
 .warning {
     color: red;
 }
+
+.navigation-list-item {
+    margin-right: .75em;
+    width: 1em;
+    height: 1em;
+}
