@@ -10,7 +10,7 @@ from theunderground.forms import MiiUploadForm
 @app.route("/theunderground/miis")
 @login_required
 def list_miis():
-    miis = MiiData.query.all()
+    miis = MiiData.query.order_by(MiiData.mii_id).all()
 
     return render_template("mii_list.html", miis=miis, type_length=len(miis))
 
