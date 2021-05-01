@@ -33,7 +33,7 @@ def list_pay_movies(category):
         db.session.query(PayMovies, CategoryPayMovies)
         .filter(CategoryPayMovies.category_id == category)
         .filter(CategoryPayMovies.movie_id == PayMovies.movie_id)
-        .paginate(page_num, 10, error_out=False)
+        .paginate(page_num, 20, error_out=False)
     )
 
     return render_template(
