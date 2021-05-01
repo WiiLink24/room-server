@@ -4,11 +4,11 @@ from room import app
 from models import Rooms
 
 
-@app.route("/url1/special/<int:_page>/contact.xml")
+@app.route("/url1/special/<int:page_id>/contact.xml")
 @xml_node_name("SpContact")
-def special_contact_n(_page: int):
-    retrieved_data = Rooms.query.filter_by(room_id=_page).first()
-    if retrieved_data is None:
+def special_contact_n(page_id: int):
+    retrieved_data = Rooms.query.filter_by(room_id=page_id).first()
+    if retrieved_data is None or retrieved_data.contact_data is None:
         return exceptions.NotFound()
 
     return {"contact": retrieved_data.contact_data}
