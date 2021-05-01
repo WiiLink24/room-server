@@ -67,47 +67,35 @@ def special_page_n(page):
 @app.route("/url1/special/0/page.xml")
 @xml_node_name("SpPage")
 def page_0():
-    # TODO: revert from temporary, pre-determined value to database schema
-    intro_filler = []
-    for i in range(9):
-        intro_filler.append(
-            RepeatedElement(
-                {
-                    "inmsgseq": i + 1,
-                    "inmsg": "Hello!",
-                }
-            )
-        )
-
-    msginfo_filler = []
-    for i in range(3):
-        msginfo_filler.append(
-            RepeatedElement(
-                {
-                    "msgseq": i + 1,
-                    "msg": "Testing...",
-                }
-            )
-        )
-
     return {
         "sppageid": "0",
-        # TODO: database schema should handle proper times regarding catalog.
         "strdt": current_date_and_time(),
         "enddt": current_date_and_time(),
-        "name": "Testing: The Movie",
+        "name": "Secret",
         "stopflag": 0,
         "level": 1,
         "bgm": 2,
         "mascot": 0,
         "contact": 0,
-        "intro": {"inmsginfo": intro_filler},
+        "intro": {
+            "inmsginfo": {
+                "inmsgseq": 1,
+                "inmsg": "Hello from the WiiLink24 Team!",
+            }
+        },
         "miiinfo": {
             "seq": 1,
             "miiid": 1,
             "color1": "ffcd00",
             "color2": "000000",
-            "msginfo": msginfo_filler,
+            "msginfo": [
+                RepeatedElement(
+                    {
+                        "msgseq": 1,
+                        "msg": "This room exists so movies function.",
+                    }
+                ),
+            ],
         },
         "menu": {
             "place": 1,
@@ -115,7 +103,7 @@ def page_0():
             "imageid": "d1234",
             "coup": {
                 "coupid": 1,
-                "couptitle": "coupon test",
+                "couptitle": "Coupon test!",
                 "couplimit": 10,
                 "coupmov": 1,
                 "coupmovap": 0,
