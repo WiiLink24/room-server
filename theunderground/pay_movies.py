@@ -1,4 +1,11 @@
-from flask import render_template, redirect, flash, send_from_directory, request
+from flask import (
+    render_template,
+    redirect,
+    flash,
+    send_from_directory,
+    request,
+    url_for,
+)
 from flask_login import login_required
 
 from config import video_deletion_enabled
@@ -89,7 +96,7 @@ def add_pay_movie():
                     body={"title": form.title.data, "movie_id": db_movie.movie_id},
                 )
 
-                return redirect("/theunderground/paycategories")
+                return redirect(url_for("list_pay_categories"))
             else:
                 flash("Invalid movie!")
         else:
@@ -115,7 +122,7 @@ if video_deletion_enabled:
 
                 delete_pay_movie_data(movie_id)
 
-                return redirect("/theunderground/paycategories")
+                return redirect(url_for("list_pay_categories"))
             else:
                 flash("Incorrect Mii ID!")
         return render_template("pay_movie_delete.html", form=form, item_id=movie_id)

@@ -1,53 +1,35 @@
+{% macro menu_item(name, redirect_func, icon_name) %}
+    <ul class="menu-list">
+        <li>
+            <a href="{{ url_for(redirect_func) }}" {% if request.url_rule | string == url_for(redirect_func) %} class="is-active"{% endif %}>
+                <i class="navigation-list-item fas {{ icon_name }}"></i>{{ name }}
+            </a>
+        </li>
+    </ul>
+{% endmacro %}
+
 <aside class="menu">
     {% if current_user.is_authenticated %}
     <p class="menu-label">
         General
     </p>
-    <ul class="menu-list">
-        <li>
-            <a href="/theunderground/admin" {% if request.url_rule|string== '/theunderground/admin' %} class="is-active"{% endif %}><i class="fas fa-home" style="margin-right: .75em; width: 1em; height: 1em;"></i>Dashboard</a>
-        </li>
-    </ul>
+    {{ menu_item('Dashboard', 'admin', 'fa-home') }}
     <p class="menu-label">
         Management
     </p>
-    <ul class="menu-list">
-        <li><a href="/theunderground/miis" {% if request.url_rule|string== '/theunderground/miis' %} class="is-active"{% endif %}><i class="far fa-smile" style="margin-right: .75em; width: 1em; height: 1em;"></i>Miis</a>
-        </li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/concierge" {% if request.url_rule|string== '/theunderground/concierge' %}
-               class="is-active"{% endif %}><i class="fas fa-star" style="margin-right: .75em; width: 1em; height: 1em;"></i>Concierge Miis</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/categories" {% if request.url_rule|string== '/theunderground/categories' %}
-               class="is-active"{% endif %}><i class="fas fa-video" style="margin-right: .75em; width: 1em; height: 1em;"></i>Categories and Movies</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/paycategories" {% if request.url_rule|string== '/theunderground/paycategories' %}
-               class="is-active"{% endif %}><i class="fas fa-money-bill-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Pay Categories and Movies</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/parade" {% if request.url_rule|string== '/theunderground/parade' %}
-               class="is-active"{% endif %}><i class="fas fa-child" style="margin-right: .75em; width: 1em; height: 1em;"></i>Parades</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/rooms" {% if request.url_rule|string== '/theunderground/rooms' %}
-               class="is-active"{% endif %}><i class="fas fa-door-closed" style="margin-right: .75em; width: 1em; height: 1em;"></i>Rooms</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/news" {% if request.url_rule|string== '/theunderground/news' %}
-               class="is-active"{% endif %}><i class="fas fa-newspaper" style="margin-right: .75em; width: 1em; height: 1em;"></i>News</a></li>
-    </ul>
+    {{ menu_item('Miis', 'list_miis', 'fa-smile') }}
+    {{ menu_item('Concierge', 'list_concierge', 'fa-star') }}
+    {{ menu_item('Categories and Movies', 'list_categories', 'fa-video') }}
+    {{ menu_item('Pay Categories and Movies', 'list_pay_categories', 'fa-money-bill-alt') }}
+    {{ menu_item('Parades', 'list_parade', 'fa-child') }}
+    {{ menu_item('Rooms', 'list_room', 'fa-door-closed') }}
+    {{ menu_item('News', 'list_news', 'fa-newspaper') }}
     <p class="menu-label">
         Account
     </p>
+    {{ menu_item('Change Password', 'change_password', 'fa-key') }}
     <ul class="menu-list">
-        <li><a href="/theunderground/change_password" {% if request.url_rule|string== '/theunderground/change_password' %}
-               class="is-active"{% endif %}><i class="fas fa-key" style="margin-right: .75em; width: 1em; height: 1em;"></i>Change Password</a></li>
-    </ul>
-    <ul class="menu-list">
-        <li><a href="/theunderground/logout"><i class="fas fa-sign-out-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Logout</a></li>
+        <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Logout</a></li>
     </ul>
     {% else %}
     <p class="menu-label">

@@ -73,7 +73,7 @@ def remove_concierge(mii_id):
             db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
             db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
             db.session.commit()
-            return redirect("/theunderground/concierge")
+            return redirect(url_for("list_concierge"))
         else:
             flash("Incorrect Mii ID!")
     return render_template("concierge_delete.html", form=form, item_id=mii_id)

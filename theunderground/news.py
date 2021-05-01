@@ -69,7 +69,7 @@ def remove_news(news_id):
         if form.given_id.data == news_id:
             db.session.delete(News.query.filter_by(id=news_id).first())
             db.session.commit()
-            return redirect("/theunderground/news")
+            return redirect(url_for("list_news"))
         else:
             flash("Incorrect news ID!")
 

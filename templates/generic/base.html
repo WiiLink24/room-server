@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="/theunderground/common.css"/>
+    <link rel="stylesheet" href="{{ url_for('common_css') }}"/>
     {% include 'includes/header.html' %}
 </head>
 <body>
@@ -24,7 +24,7 @@
             <div class="column">
                 <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                     <ul>
-                        <li><a href="/admin">The Underground</a></li>
+                        <li><a href="{{ url_for('root') }}">The Underground</a></li>
                         <li class="is-active"><a href="" aria-current="page">{{ self.title() }}</a></li>
                     </ul>
                 </nav>
