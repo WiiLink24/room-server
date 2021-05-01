@@ -126,13 +126,13 @@ def page_0():
 
 
 if app.debug:
+
     @app.route("/url1/special/<page>/img/<img>")
     def handle_img(page, img):
         # Handles logo images, for instance:
         # GET /url1/special/1/img/g1234.img
         # Gets g1234.img
         return send_from_directory("assets/special-" + page, img)
-
 
     @app.route("/url1/urllink/<movie_id>.mov")
     def handle_urllink(movie_id):
