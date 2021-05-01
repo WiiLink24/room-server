@@ -10,7 +10,7 @@ from room import app
 
 
 def xml_node_name(node_name):
-    """ Custom decorator to serialize a returned dictionary as XML with a given name. """
+    """Custom decorator to serialize a returned dictionary as XML with a given name."""
 
     def decorator(func):
         @functools.wraps(func)
@@ -46,7 +46,7 @@ def xml_node_name(node_name):
 
 
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
-    """ Derived from https://stackoverflow.com/a/10076823. """
+    """Derived from https://stackoverflow.com/a/10076823."""
 
     def _to_etree(d, root):
         if d is None:
@@ -101,13 +101,13 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
 
 
 def current_date_and_time():
-    """ Returns the current date time in a format usable by Nintendo. """
+    """Returns the current date time in a format usable by Nintendo."""
 
     return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
 
 
 def current_date():
-    """ Returns the current date in a format usable by Nintendo. """
+    """Returns the current date in a format usable by Nintendo."""
 
     return datetime.utcnow().strftime("%Y-%m-%d")
 
