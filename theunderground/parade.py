@@ -44,7 +44,7 @@ def create_parade(mii_id):
 
         return redirect(url_for("list_parade"))
 
-    return render_template("add_parade.html", form=form, room=q)
+    return render_template("parade_add.html", form=form, room=q)
 
 
 @app.route("/theunderground/parade/<mii_id>/edit", methods=["GET", "POST"])

@@ -95,7 +95,7 @@ def delivery():
         else:
             flash("Error uploading movie!")
 
-    return render_template("add_delivery_room.html", form=form)
+    return render_template("room_add_delivery.html", form=form)
 
 
 @app.route("/theunderground/roomtype/poll", methods=["GET", "POST"])
@@ -135,7 +135,7 @@ def poll():
         else:
             flash("Error uploading movie!")
 
-    return render_template("add_vote_room.html", form=form)
+    return render_template("room_add_vote.html", form=form)
 
 
 @app.route("/theunderground/roomtype/mov", methods=["GET", "POST"])
@@ -161,7 +161,7 @@ def movie():
         else:
             flash("Error uploading movie!")
 
-    return render_template("add_mov_room.html", form=form)
+    return render_template("room_add_mov.html", form=form)
 
 
 @app.route("/theunderground/roomtype/link", methods=["GET", "POST"])
@@ -204,4 +204,4 @@ def link():
         else:
             flash("Error uploading movie!")
 
-    return render_template("add_link_room.html", form=form)
+    return render_template("room_add_link.html", form=form)
