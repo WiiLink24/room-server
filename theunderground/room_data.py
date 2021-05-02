@@ -53,7 +53,7 @@ def choose_type():
 
 # In order for rooms to have different photos and movies, both their respective id's and photo_id
 # must be different. These functions query the database for the last value then adds by 1 or 1234.
-def id():
+def room_id():
     num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
 
     return num.id + 1
@@ -80,7 +80,7 @@ def delivery():
             tv_data = thumbnail.read()
 
             if validate_mobiclip(movie_data):
-                db_json = RoomMenu(data=tv.smp(photo_id(), id(), form.title.data))
+                db_json = RoomMenu(data=tv.smp(photo_id(), room_id(), form.title.data))
 
                 # Since the photo ID and ID are pulled from the db, committing before
                 # saving the files will cause mismatched file names.
@@ -117,7 +117,7 @@ def poll():
             db_json = RoomMenu(
                 data=tv.enq(
                     photo_id(),
-                    id(),
+                    room_id(),
                     form.question.data,
                     form.title.data,
                     form.mii_msg.data,
@@ -184,7 +184,7 @@ def link():
                 db_json = RoomMenu(
                     data=tv.link(
                         photo_id(),
-                        id(),
+                        room_id(),
                         form.title.data,
                         form.link.data,
                         form.bgm.data.value,
@@ -192,7 +192,7 @@ def link():
                 )
 
                 save_link_data(
-                    id(), movie_data, image1_data, image2_data, tv_data, photo_id()
+                    room_id(), movie_data, image1_data, image2_data, tv_data, photo_id()
                 )
 
                 db.session.add(db_json)
