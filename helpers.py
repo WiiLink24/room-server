@@ -2,11 +2,23 @@ import base64
 import functools
 from datetime import datetime
 
-from flask import request, session, g
+from flask import request, g
 from lxml import etree
-from werkzeug import exceptions, LocalProxy
+from werkzeug import exceptions
+from werkzeug.local import LocalProxy
 
 from room import app
+
+
+def check_if_v770():
+    if "is_v770" not in g:
+        # We default to not having v770 support
+        return False
+    else:
+        return g.is_v770
+
+
+is_v770 = LocalProxy(check_if_v770)
 
 
 def xml_node_name(node_name):
@@ -27,7 +39,7 @@ def xml_node_name(node_name):
                 # As such, 399 was chosen for no other reason than the fact this is true.
                 # v770 requires a version of 1.
                 ver = etree.SubElement(elements, "ver")
-                if is_v770():
+                if is_v770:
                     ver.text = "1"
                 else:
                     ver.text = "399"
@@ -164,14 +176,3 @@ def determine_version():
     else:
         # No User-Agent, no business.
         return exceptions.NotFound()
-
-
-def check_if_v770():
-    if "is_v770" not in g:
-        # We default to not having v770 support
-        return False
-    else:
-        return g.is_v770
-
-
-is_v770 = LocalProxy(check_if_v770)
