@@ -38,4 +38,4 @@ def cal(date):
 
         response_dict.append(RepeatedElement(date_info))
 
-    return {"dateinfo": response_dict}
+    return {"dayinfo": response_dict}
