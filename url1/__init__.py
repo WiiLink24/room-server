@@ -3,6 +3,7 @@ from url1.special import agree, all, allbin, contact, page
 from . import (
     beacon,
     cal,
+    caldaily,
     category_n,
     category_search,
     eula,
