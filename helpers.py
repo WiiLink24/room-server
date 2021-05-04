@@ -112,16 +112,24 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     return node
 
 
-def current_date_and_time():
+def iso_date_and_time(date: datetime) -> str:
+    return date.strftime("%Y-%m-%dT%H:%M:%S")
+
+
+def current_date_and_time() -> str:
     """Returns the current date time in a format usable by Nintendo."""
 
-    return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    return iso_date_and_time(datetime.utcnow())
+
+
+def iso_date(date: datetime) -> str:
+    return date.strftime("%Y-%m-%d")
 
 
 def current_date():
     """Returns the current date in a format usable by Nintendo."""
 
-    return datetime.utcnow().strftime("%Y-%m-%d")
+    return iso_date(datetime.utcnow())
 
 
 class RepeatedKey:
