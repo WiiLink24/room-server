@@ -176,3 +176,25 @@ def determine_version():
     else:
         # No User-Agent, no business.
         return exceptions.NotFound()
+
+
+def parse_caldate(passed_date: str) -> datetime:
+    return datetime.strptime(passed_date, "%Y%m%d")
+
+
+def get_weekday(passed_date: datetime) -> str:
+    weekday_num = passed_date.weekday()
+    if weekday_num == 0:
+        return "MO"
+    elif weekday_num == 1:
+        return "TU"
+    elif weekday_num == 2:
+        return "WE"
+    elif weekday_num == 3:
+        return "TH"
+    elif weekday_num == 4:
+        return "FR"
+    elif weekday_num == 5:
+        return "SA"
+    else:
+        return "SU"
