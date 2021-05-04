@@ -13,7 +13,7 @@ def pay_event_today():
         PayPosters.query.order_by(PayPosters.poster_id.asc()).limit(20).all()
     )
 
-    if is_v770():
+    if is_v770:
         return pay_event_today_v770(queried_posters)
     else:
         return pay_event_today_v1025(queried_posters)

@@ -65,7 +65,7 @@ def event_today():
         },
     }
 
-    if is_v770():
+    if is_v770:
         # v770 expects only one poster.
         # As we've already queried the DB, insert the first poster.
         poster_id = posters[0].contents["posterid"]
