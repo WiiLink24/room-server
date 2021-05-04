@@ -2,9 +2,9 @@ import base64
 import functools
 from datetime import datetime
 
-from flask import request, session
+from flask import request, session, g
 from lxml import etree
-from werkzeug import exceptions
+from werkzeug import exceptions, LocalProxy
 
 from room import app
 
@@ -160,11 +160,18 @@ class RepeatedElement:
 def determine_version():
     if "User-Agent" in request.headers:
         user_agent = request.headers["User-Agent"]
-        session["v770"] = user_agent.startswith("WM/9198/091105181944")
+        g.is_v770 = user_agent.startswith("WM/9198/091105181944")
     else:
         # No User-Agent, no business.
         return exceptions.NotFound()
 
 
-def is_v770():
-    return session["v770"]
+def check_if_v770():
+    if "is_v770" not in g:
+        # We default to not having v770 support
+        return False
+    else:
+        return g.is_v770
+
+
+is_v770 = LocalProxy(check_if_v770)
