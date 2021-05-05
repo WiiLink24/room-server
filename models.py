@@ -140,6 +140,7 @@ class PayMovies(db.Model):
     price = db.Column(db.Integer, nullable=False)
     released = db.Column(db.String(10), nullable=False)
     category_id = db.Column(db.Integer)
+    date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
 
 class PayCategories(db.Model):
