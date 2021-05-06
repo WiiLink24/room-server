@@ -1,12 +1,12 @@
 {% extends "generic/base.html" %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 {% block type_name %}{% endblock %}
 
 {% block title %}
     Delete {{ self.type_name() | title }}
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <article class="message is-danger">
         <div class="message-header">
             <p>Delete {{ self.type_name() | title }}</p>
@@ -20,14 +20,7 @@
             <br/>
 
             <br>
-            <form action="" method="post">
-                <p>
-                    {{ form.hidden_tag() }}
-                    {{ form.given_id.label(class_="label") }} {{ form.given_id(size=32, class_="input") }}
-                </p>
-                <br>
-                <p>{{ form.submit(class_="button is-danger") }}</p>
-            </form>
+            {% wtf.quick_form(form) %}
         </div>
     </article>
 {% endblock %}
