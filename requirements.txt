@@ -11,3 +11,4 @@ elasticsearch>=7.10
 pycryptodome>=3.9
 geoip2>=4.1
 tzdata; platform_system == 'Windows'
+Flask-Bootstrap
