@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "bootstrap/base.html" %}
+{% block head %}
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('common_css') }}"/>
     {% include 'includes/header.html' %}
-</head>
-<body>
+{% endblock %}
+{% block navbar %}
 {% include 'includes/navigation.html' %}
+{% endblock %}
+{% 
 {% with messages = get_flashed_messages() %}
     {% for message in messages %}
         <p>
@@ -14,7 +15,7 @@
         </p>
     {% endfor %}
 {% endwith %}
-
+{% block content %}
 <section class="section">
     <div class="container">
         <div class="columns">
@@ -28,10 +29,10 @@
                         <li class="is-active"><a href="" aria-current="page">{{ self.title() }}</a></li>
                     </ul>
                 </nav>
-                {% block content %}{% endblock %}
+                
             </div>
         </div>
     </div>
 </section>
-</body>
-</html>
+{% block body %}{% endblock %} {# Todo, is this right? #}
+{% endblock %}
