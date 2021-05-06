@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from werkzeug.middleware.proxy_fix import ProxyFix
-
+from flask_bootstrap import Bootstrap
 import config
 
 app = Flask(__name__)
@@ -37,6 +37,9 @@ migrate = Migrate(app, db)
 
 # Allow authentication.
 login = LoginManager(app)
+
+# Various Bootstrap Things
+bootstrap = Bootstrap(app)
 
 # Ensure schema is available.
 import models
