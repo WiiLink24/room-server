@@ -69,7 +69,7 @@ def event_today():
         # v770 expects only one poster.
         # As we've already queried the DB, insert the first poster.
         poster_id = posters[0].contents["posterid"]
-        return_dict["posterid"] = poster_id
+        return_dict["posterid"] = poster_id + 1000000
     else:
         # v1025 expects multiple posters, similar to how we've queried.
         return_dict["posterinfo"] = posters
