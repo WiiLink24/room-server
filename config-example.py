@@ -27,3 +27,7 @@ video_deletion_enabled = True
 # If true, queries MaxMind using the beneath credentials.
 use_localized_time = False
 maxmind_db_location = "assets/GeoLite2-City.mmdb"
+
+# Sentry configuration for error logging.
+use_sentry = False
+sentry_dsn = "https://public@sentry.example.com/1"
