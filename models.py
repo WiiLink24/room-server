@@ -121,6 +121,12 @@ class MiiMsgInfo(db.Model):
 
 class Movies(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True, unique=True)
+    category_id = db.Column(
+        db.Integer,
+        db.ForeignKey("categories.category_id"),
+        primary_key=True,
+        nullable=False,
+    )
     title = db.Column(db.String(48), nullable=False)
     length = db.Column(db.String(8), nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)
@@ -139,7 +145,12 @@ class PayMovies(db.Model):
     note = db.Column(db.String(76), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     released = db.Column(db.String(10), nullable=False)
-    category_id = db.Column(db.Integer)
+    category_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pay_categories.category_id"),
+        primary_key=True,
+        nullable=False,
+    )
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
 
@@ -150,11 +161,6 @@ class PayCategories(db.Model):
     genre_id = db.Column(db.Integer)
 
 
-class CategoryPayMovies(db.Model):
-    category_id = db.Column(db.Integer)
-    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
-
-
 class PayCategoryHeaders(db.Model):
     title = db.Column(db.String, primary_key=True, unique=True)
 
@@ -162,21 +168,6 @@ class PayCategoryHeaders(db.Model):
 class Categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
-
-
-class CategoryMovies(db.Model):
-    category_id = db.Column(
-        db.Integer,
-        db.ForeignKey("categories.category_id"),
-        primary_key=True,
-        nullable=False,
-    )
-    movie_id = db.Column(
-        db.Integer,
-        db.ForeignKey("movies.movie_id"),
-        primary_key=True,
-        nullable=False,
-    )
 
 
 class RoomBGMTypes(enum.Enum):

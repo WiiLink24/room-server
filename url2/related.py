@@ -1,7 +1,7 @@
 from flask import request
 from werkzeug import exceptions
 
-from models import CategoryMovies, Movies
+from models import Movies
 from room import app, db
 from helpers import xml_node_name, RepeatedElement
 
@@ -16,16 +16,14 @@ def miiinfo():
 @xml_node_name("RelatedMovies")
 def related():
     movie = request.args.get("movieid")
-    category_result = CategoryMovies.query.filter_by(movie_id=movie).first()
+    category_result = Movies.query.filter_by(movie_id=movie).first()
     if category_result is None:
         return exceptions.NotFound()
 
     category_id = category_result.category_id
 
     movies = (
-        db.session.query(CategoryMovies, Movies)
-        .filter(CategoryMovies.category_id == category_id)
-        .filter(CategoryMovies.movie_id == Movies.movie_id)
+        Movies.quer.filter(Movies.category_id == category_id)
         .order_by(Movies.date_added)
         .limit(15)
         .all()
@@ -37,7 +35,7 @@ def related():
     # Our loop will increment it before using it as a rank.
     rank = 0
 
-    for _, movie in movies:
+    for movie in movies:
         rank += 1
         movie_info.append(
             RepeatedElement(

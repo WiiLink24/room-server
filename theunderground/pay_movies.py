@@ -9,7 +9,7 @@ from flask import (
 from flask_login import login_required
 
 from config import video_deletion_enabled
-from models import PayMovies, CategoryPayMovies
+from models import PayMovies
 from room import app, db, es
 from theunderground.mobiclip import (
     get_pay_category_list,
@@ -29,11 +29,8 @@ def list_pay_movies(category):
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 10 posters per page.
-    movies = (
-        db.session.query(PayMovies, CategoryPayMovies)
-        .filter(CategoryPayMovies.category_id == category)
-        .filter(CategoryPayMovies.movie_id == PayMovies.movie_id)
-        .paginate(page_num, 20, error_out=False)
+    movies = PayMovies.query.filter(PayMovies.category_id == category).paginate(
+        page_num, 20, error_out=False
     )
 
     return render_template(
@@ -77,13 +74,6 @@ def add_pay_movie():
                 )
 
                 db.session.add(db_movie)
-                db.session.commit()
-
-                db.session.add(
-                    CategoryPayMovies(
-                        category_id=form.category.data, movie_id=db_movie.movie_id
-                    )
-                )
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.

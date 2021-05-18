@@ -1,7 +1,7 @@
 from werkzeug import exceptions
 
-from models import CategoryMovies, Movies
-from room import app, db
+from models import Movies
+from room import app
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 
@@ -9,9 +9,7 @@ from helpers import xml_node_name, RepeatedElement, current_date_and_time
 @xml_node_name("SearchMovies")
 def list_category_search(categ_id):
     retrieved_data = (
-        db.session.query(CategoryMovies, Movies)
-        .filter(CategoryMovies.category_id == categ_id)
-        .filter(CategoryMovies.movie_id == Movies.movie_id)
+        Movies.query.filter(Movies.category_id == categ_id)
         .order_by(Movies.movie_id)
         .all()
     )
@@ -21,9 +19,7 @@ def list_category_search(categ_id):
         # Looks like this category does not exist, or contains no movies.
         return exceptions.NotFound()
 
-    for i, data in enumerate(retrieved_data):
-        _, movie_data = data
-
+    for i, movie_data in enumerate(retrieved_data):
         # Items must be indexed by 1.
         results.append(
             RepeatedElement(
