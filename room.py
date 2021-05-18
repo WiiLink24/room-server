@@ -12,15 +12,15 @@ import config
 import sentry_sdk
 
 # Initialize Sentry
-sentry_sdk.init(
-    dsn="please_enter_the_url_sentry_gives_you"
-    integrations=[FlaskIntegration()],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0
-)
+if config.use_sentry:
+    sentry_sdk.init(
+        dsn=config.sentry_dsn,
+        integrations=[FlaskIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+    )
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2)
