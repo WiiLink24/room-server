@@ -9,7 +9,7 @@ from flask import (
 from flask_login import login_required
 
 from config import video_deletion_enabled
-from models import Movies, CategoryMovies
+from models import Movies
 from room import app, db, es
 from theunderground.mobiclip import (
     get_category_list,
@@ -29,11 +29,8 @@ def list_movies(category):
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 20 movies per page.
-    movies = (
-        db.session.query(Movies, CategoryMovies)
-        .filter(CategoryMovies.category_id == category)
-        .filter(CategoryMovies.movie_id == Movies.movie_id)
-        .paginate(page_num, 20, error_out=False)
+    movies = Movies.query.filter(Movies.category_id == category).paginate(
+        page_num, 20, error_out=False
     )
 
     return render_template(
@@ -67,6 +64,7 @@ def add_movie():
                 # For right now, we will assume defaults.
                 db_movie = Movies(
                     title=form.title.data,
+                    category_id=form.category.data,
                     length=length,
                     aspect=True,
                     genre=0,
@@ -76,13 +74,6 @@ def add_movie():
                 )
 
                 db.session.add(db_movie)
-                db.session.commit()
-
-                db.session.add(
-                    CategoryMovies(
-                        category_id=form.category.data, movie_id=db_movie.movie_id
-                    )
-                )
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
@@ -112,9 +103,6 @@ if video_deletion_enabled:
         if form.validate_on_submit():
             # While this is easily circumvented, we need the user to pay attention.
             if form.given_id.data == movie_id:
-                db.session.delete(
-                    CategoryMovies.query.filter_by(movie_id=movie_id).first()
-                )
                 db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
                 db.session.commit()
 
