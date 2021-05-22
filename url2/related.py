@@ -23,7 +23,7 @@ def related():
     category_id = category_result.category_id
 
     movies = (
-        Movies.quer.filter(Movies.category_id == category_id)
+        Movies.query.filter(Movies.category_id == category_id)
         .order_by(Movies.date_added)
         .limit(15)
         .all()
