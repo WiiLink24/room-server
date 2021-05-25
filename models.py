@@ -120,7 +120,7 @@ class MiiMsgInfo(db.Model):
 
 
 class Movies(db.Model):
-    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
+    movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     category_id = db.Column(
         db.Integer,
         db.ForeignKey("categories.category_id"),
@@ -139,7 +139,7 @@ class Movies(db.Model):
 
 
 class PayMovies(db.Model):
-    movie_id = db.Column(db.Integer, primary_key=True, unique=True)
+    movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     title = db.Column(db.String(15), nullable=False)
     length = db.Column(db.String(), nullable=False)
     note = db.Column(db.String(76), nullable=False)
