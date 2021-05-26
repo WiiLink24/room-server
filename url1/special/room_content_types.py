@@ -37,14 +37,14 @@ def enq(num, id, question, title, message):
     }
 
 
-def mov(movie_id, title):
-    return {"type": 3, "imageid": "c1234", "mov": {"movieid": movie_id, "title": title}}
+def mov(num, movie_id, title):
+    return {"type": 3, "imageid": f"c{num}", "mov": {"movieid": movie_id, "title": title}}
 
 
-def coupon(id, title):
+def coupon(num, id, title):
     return {
         "type": 4,
-        "imageid": "d1234",
+        "imageid": f"d{num}",
         "coup": {
             "coupid": id,
             "couptitle": title,
@@ -55,10 +55,10 @@ def coupon(id, title):
     }
 
 
-def link(id, title, bgm):
+def link(num, id, title, link, bgm):
     return {
         "type": 5,
-        "imageid": "h1234",
+        "imageid": f"h{num}",
         "link": {
             "linkid": id,
             "linktitle": title,
@@ -66,16 +66,17 @@ def link(id, title, bgm):
             "linkmov": 1,
             "linkmovap": 1,
             "linkpicnum": 1,
-            "linkurl": "http://old.wiilink24.com",
+            # linkurl must be a non-secure website.
+            "linkurl": link,
             "linkpicbgm": bgm,
         },
     }
 
 
-def pic(id, title, bgm):
+def pic(num, id, title, bgm):
     return {
         "type": 6,
-        "imageid": "i1234",
+        "imageid": f"i{num}",
         "pic": {
             "picid": id,
             "pictitle": title,
