@@ -39,7 +39,6 @@ def event_today():
         "frameid": 2,
         "color": "000000",
         "postertime": 5,
-        "posterinfo": posters,
         "adinfo": (
             RepeatedKey(
                 {
@@ -69,7 +68,23 @@ def event_today():
         # v770 expects only one poster.
         # As we've already queried the DB, insert the first poster.
         poster_id = posters[0].contents["posterid"]
-        return_dict["posterid"] = poster_id + 1000000
+        return_dict["posterid"] = poster_id
+
+        # Additionally, ads are sideways on v770. We'll only have one ad ID.
+        return_dict["adinfo"] = (
+            RepeatedKey(
+                {
+                    "pref": 2,
+                    "adid": 1000001,
+                }
+            ),
+            RepeatedKey(
+                {
+                    "pref": 1,
+                    "adid": 1000001,
+                }
+            ),
+        )
     else:
         # v1025 expects multiple posters, similar to how we've queried.
         return_dict["posterinfo"] = posters
