@@ -132,8 +132,7 @@ class Movies(db.Model):
     aspect = db.Column(db.Boolean, nullable=False)
     genre = db.Column(db.Integer, nullable=False)
     sp_page_id = db.Column(db.Integer, nullable=False)
-    ds_dist = db.Column(db.Boolean, nullable=False)
-    ds_mov_id = db.Column(db.Integer)
+    ds_mov_id = db.Column(db.Integer, nullable=True)
     staff = db.Column(db.Boolean, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
 

@@ -14,7 +14,9 @@ def movie_metadata(_hash_byte, movie_id: int):
     if metadata is None:
         return exceptions.NotFound()
 
-    # Wii no Ma expects the response to be ordered as follows.
+    # If a ds_mov_id is present for this row, present it.
+    has_ds_mov = metadata.ds_mov_id is not None
+
     movie = {
         "movieid": metadata.movie_id,
         "title": metadata.title,
@@ -22,11 +24,11 @@ def movie_metadata(_hash_byte, movie_id: int):
         "aspect": metadata.aspect,
         "genre": metadata.genre,
         "sppageid": metadata.sp_page_id,
-        "dsdist": metadata.ds_dist,
+        "dsdist": has_ds_mov,
     }
 
     # This key must follow "dsdist" if used.
-    if metadata.ds_dist:
+    if has_ds_mov:
         movie["dsmovid"] = metadata.ds_mov_id
 
     # Staff must be the final key.

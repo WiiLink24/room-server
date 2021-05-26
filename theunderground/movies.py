@@ -69,7 +69,6 @@ def add_movie():
                     aspect=True,
                     genre=0,
                     sp_page_id=0,
-                    ds_dist=False,
                     staff=False,
                 )
 
