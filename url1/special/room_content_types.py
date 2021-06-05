@@ -38,7 +38,11 @@ def enq(num, id, question, title, message):
 
 
 def mov(num, movie_id, title):
-    return {"type": 3, "imageid": f"c{num}", "mov": {"movieid": movie_id, "title": title}}
+    return {
+        "type": 3,
+        "imageid": f"c{num}",
+        "mov": {"movieid": movie_id, "title": title},
+    }
 
 
 def coupon(num, id, title):
