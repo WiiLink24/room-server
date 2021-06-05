@@ -105,9 +105,6 @@ if video_deletion_enabled:
         if form.validate_on_submit():
             # While this is easily circumvented, we need the user to pay attention.
             if form.given_id.data == movie_id:
-                db.session.delete(
-                    CategoryPayMovies.query.filter_by(movie_id=movie_id).first()
-                )
                 db.session.delete(PayMovies.query.filter_by(movie_id=movie_id).first())
                 db.session.commit()
 
@@ -115,7 +112,7 @@ if video_deletion_enabled:
 
                 return redirect(url_for("list_pay_categories"))
             else:
-                flash("Incorrect Mii ID!")
+                flash("Incorrect pay movie ID!")
         return render_template("pay_movie_delete.html", form=form, item_id=movie_id)
 
 
