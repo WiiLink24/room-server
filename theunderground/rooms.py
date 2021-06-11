@@ -96,7 +96,9 @@ def remove_room(room_id):
             return redirect(url_for("list_room"))
         else:
             flash("Incorrect room ID!")
-    return render_template("room_delete.html", form=form, item_id=room_id)
+    return render_template(
+        "delete_item.html", form=form, item_id=room_id, type_name="room"
+    )
 
 
 @app.route("/theunderground/rooms/<room_id>/banner.jpg")

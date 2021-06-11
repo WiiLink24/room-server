@@ -110,7 +110,9 @@ if video_deletion_enabled:
                 return redirect(url_for("list_categories"))
             else:
                 flash("Incorrect Mii ID!")
-        return render_template("movie_delete.html", form=form, item_id=movie_id)
+        return render_template(
+            "delete_item.html", form=form, item_id=movie_id, type_name="movie"
+        )
 
 
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")

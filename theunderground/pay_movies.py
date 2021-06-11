@@ -113,7 +113,9 @@ if video_deletion_enabled:
                 return redirect(url_for("list_pay_categories"))
             else:
                 flash("Incorrect pay movie ID!")
-        return render_template("pay_movie_delete.html", form=form, item_id=movie_id)
+        return render_template(
+            "delete_item.html", form=form, item_id=movie_id, type_name="pay movie"
+        )
 
 
 @app.route("/theunderground/paymovies/<movie_id>/thumbnail.jpg")

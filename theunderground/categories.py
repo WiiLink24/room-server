@@ -83,6 +83,7 @@ def remove_category(category):
     current_category = Categories.query.filter(
         Categories.category_id == category
     ).first()
+
     if not current_category:
         return exceptions.NotFound()
 
@@ -95,7 +96,9 @@ def remove_category(category):
 
         return redirect(url_for("list_categories"))
 
-    return render_template("category_delete.html", form=form, item_id=category)
+    return render_template(
+        "delete_item.html", form=form, type_name="category", item_id=category
+    )
 
 
 def get_category_location(category_id: int):

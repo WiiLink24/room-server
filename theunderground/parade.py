@@ -90,7 +90,9 @@ def remove_parade(mii_id):
             return redirect(url_for("list_parade"))
         else:
             flash("Incorrect Mii ID!")
-    return render_template("parade_delete.html", form=form, item_id=mii_id)
+    return render_template(
+        "delete_item.html", form=form, item_id=mii_id, type_name="Parade Mii"
+    )
 
 
 @app.route("/theunderground/parade/<mii_id>/banner.jpg")

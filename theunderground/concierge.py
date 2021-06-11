@@ -76,4 +76,6 @@ def remove_concierge(mii_id):
             return redirect(url_for("list_concierge"))
         else:
             flash("Incorrect Mii ID!")
-    return render_template("concierge_delete.html", form=form, item_id=mii_id)
+    return render_template(
+        "delete_item.html", form=form, item_id=mii_id, type_name="Concierge Mii"
+    )

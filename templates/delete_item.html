@@ -1,18 +1,16 @@
 {% extends "generic/base.html" %}
 
-{% block type_name %}{% endblock %}
-
 {% block title %}
-    Delete {{ self.type_name() | title }}
+    Delete {{ type_name | title }}
 {% endblock %}
 
 {% block content %}
     <article class="message is-danger">
         <div class="message-header">
-            <p>Delete {{ self.type_name() | title }}</p>
+            <p>Delete {{ type_name | title }}</p>
         </div>
         <div class="message-body">
-            You are about to <strong>delete</strong> the {{ self.type_name() }} with ID {{ item_id }}.
+            You are about to <strong>delete</strong> the {{ type_name }} with ID {{ item_id }}.
             <br>
             Are you certain you want to continue?
             <br/>

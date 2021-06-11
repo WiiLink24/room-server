@@ -100,7 +100,9 @@ def remove_pay_category(category):
 
         return redirect(url_for("list_pay_categories"))
 
-    return render_template("pay_category_delete.html", form=form, item_id=category)
+    return render_template(
+        "delete_item.html", form=form, item_id=category, type_name="pay category"
+    )
 
 
 def get_pay_category_location(category_id: int):

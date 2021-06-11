@@ -73,4 +73,6 @@ def remove_news(news_id):
         else:
             flash("Incorrect news ID!")
 
-    return render_template("news_delete.html", form=form, item_id=news_id)
+    return render_template(
+        "delete_item.html", form=form, item_id=news_id, type_name="news"
+    )
