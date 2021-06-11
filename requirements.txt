@@ -12,3 +12,4 @@ pycryptodome>=3.10
 geoip2>=4.1
 sentry-sdk[flask]>=1.1.0
 tzdata; platform_system == 'Windows'
+python-dotenv
