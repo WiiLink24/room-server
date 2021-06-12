@@ -7,8 +7,8 @@ from werkzeug import exceptions
 from models import PayCategories
 from room import app, db
 from theunderground.encodemii import category_encode
-from theunderground.forms import KillMii, CategoryEditForm, CategoryAddForm
-from theunderground.pay_movies import list_pay_movies
+from theunderground.forms import CategoryEditForm, CategoryAddForm
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/paycategories")
@@ -85,24 +85,21 @@ def edit_pay_category(category):
 @app.route("/theunderground/paycategories/<category>/remove", methods=["GET", "POST"])
 @login_required
 def remove_pay_category(category):
+    def drop_pay_category():
+        os.unlink(get_pay_category_location(category))
+
+        db.session.delete(current_category)
+        db.session.commit()
+
+        return redirect(url_for("list_pay_categories"))
+
     current_category = PayCategories.query.filter(
         PayCategories.category_id == category
     ).first()
     if not current_category:
         return exceptions.NotFound()
 
-    form = KillMii()
-    if form.validate_on_submit():
-        db.session.delete(current_category)
-        db.session.commit()
-
-        delete_pay_category_thumbnail(current_category.category_id)
-
-        return redirect(url_for("list_pay_categories"))
-
-    return render_template(
-        "delete_item.html", form=form, item_id=category, type_name="pay category"
-    )
+    return manage_delete_item(category, "pay category", drop_pay_category)
 
 
 def get_pay_category_location(category_id: int):
@@ -113,10 +110,6 @@ def write_pay_category_thumbnail(category_id: int, given_file: bytes):
     encoded_image = category_encode(given_file)
     with open(get_pay_category_location(category_id), "wb") as thumbnail_file:
         thumbnail_file.write(encoded_image)
-
-
-def delete_pay_category_thumbnail(category_id: int):
-    os.unlink(get_pay_category_location(category_id))
 
 
 @app.route("/theunderground/paycategories/<category>/thumbnail.jpg")

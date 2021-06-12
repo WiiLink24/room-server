@@ -186,9 +186,9 @@ class RoomLinkData(FlaskForm):
     upload = SubmitField("Upload")
 
 
-class KillMii(FlaskForm):
-    given_id = StringField("Item ID", validators=[DataRequired()])
-    submit = SubmitField("Delete!")
+class DeleteForm(FlaskForm):
+    given_id = StringField("ID", validators=[DataRequired()])
+    submit = SubmitField("Delete")
 
 
 class ConciergeForm(FlaskForm):

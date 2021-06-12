@@ -1,10 +1,11 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for
 from flask_login import login_required
 
-from models import ParadeMiis, MiiData
+from models import ParadeMiis
 from room import app, db
 from theunderground.encodemii import parade_encode
-from theunderground.forms import ParadeForm, KillMii
+from theunderground.forms import ParadeForm
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/parade")
@@ -81,18 +82,12 @@ def edit_parade(mii_id):
 @app.route("/theunderground/parade/<mii_id>/remove", methods=["GET", "POST"])
 @login_required
 def remove_parade(mii_id):
-    form = KillMii()
-    if form.validate_on_submit():
-        # While this is easily circumvented, we need the user to pay attention.
-        if form.given_id.data == mii_id:
-            db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
-            db.session.commit()
-            return redirect(url_for("list_parade"))
-        else:
-            flash("Incorrect Mii ID!")
-    return render_template(
-        "delete_item.html", form=form, item_id=mii_id, type_name="Parade Mii"
-    )
+    def drop_parade():
+        db.session.delete(ParadeMiis.query.filter_by(mii_id=mii_id).first())
+        db.session.commit()
+        return redirect(url_for("list_parade"))
+
+    return manage_delete_item(mii_id, "Parade Mii", drop_parade)
 
 
 @app.route("/theunderground/parade/<mii_id>/banner.jpg")

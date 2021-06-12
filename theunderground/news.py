@@ -1,10 +1,11 @@
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, redirect
 from flask_login import login_required
 from werkzeug import exceptions
 
 from models import News
 from room import app, db
-from theunderground.forms import NewsForm, KillMii
+from theunderground.forms import NewsForm
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/news")
@@ -63,16 +64,9 @@ def add_news():
 @app.route("/theunderground/news/<news_id>/remove", methods=["GET", "POST"])
 @login_required
 def remove_news(news_id):
-    form = KillMii()
-    if form.validate_on_submit():
-        # While this is easily circumvented, we need the user to pay attention.
-        if form.given_id.data == news_id:
-            db.session.delete(News.query.filter_by(id=news_id).first())
-            db.session.commit()
-            return redirect(url_for("list_news"))
-        else:
-            flash("Incorrect news ID!")
+    def drop_news():
+        db.session.delete(News.query.filter_by(id=news_id).first())
+        db.session.commit()
+        return redirect(url_for("list_news"))
 
-    return render_template(
-        "delete_item.html", form=form, item_id=news_id, type_name="news"
-    )
+    return manage_delete_item(news_id, "news", drop_news)

@@ -8,7 +8,6 @@ from flask import (
 )
 from flask_login import login_required
 
-from config import video_deletion_enabled
 from models import Movies
 from room import app, db, es
 from theunderground.mobiclip import (
@@ -19,7 +18,8 @@ from theunderground.mobiclip import (
     delete_movie_data,
     get_movie_dir,
 )
-from theunderground.forms import KillMii, MovieUploadForm
+from theunderground.forms import MovieUploadForm
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/categories/<category>")
@@ -37,7 +37,6 @@ def list_movies(category):
         "movie_list.html",
         movies=movies,
         category_id=category,
-        video_deletion_enabled=video_deletion_enabled,
         type_length=movies.total,
         type_max_count=64,
     )
@@ -93,26 +92,18 @@ def add_movie():
     return render_template("movie_add.html", form=form)
 
 
-if video_deletion_enabled:
+@app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
+@login_required
+def remove_movie(movie_id):
+    def drop_movie():
+        db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
+        db.session.commit()
 
-    @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
-    @login_required
-    def remove_movie(movie_id):
-        form = KillMii()
-        if form.validate_on_submit():
-            # While this is easily circumvented, we need the user to pay attention.
-            if form.given_id.data == movie_id:
-                db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
-                db.session.commit()
+        delete_movie_data(movie_id)
 
-                delete_movie_data(movie_id)
+        return redirect(url_for("list_categories"))
 
-                return redirect(url_for("list_categories"))
-            else:
-                flash("Incorrect Mii ID!")
-        return render_template(
-            "delete_item.html", form=form, item_id=movie_id, type_name="movie"
-        )
+    return manage_delete_item(movie_id, "movie", drop_movie)
 
 
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")

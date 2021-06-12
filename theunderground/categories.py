@@ -7,7 +7,8 @@ from werkzeug import exceptions
 from models import Categories
 from room import app, db
 from theunderground.encodemii import category_encode
-from theunderground.forms import KillMii, CategoryEditForm, CategoryAddForm
+from theunderground.forms import CategoryEditForm, CategoryAddForm
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/categories")
@@ -80,6 +81,14 @@ def edit_category(category):
 @app.route("/theunderground/categories/<category>/remove", methods=["GET", "POST"])
 @login_required
 def remove_category(category):
+    def drop_category():
+        db.session.delete(current_category)
+        db.session.commit()
+
+        os.unlink(get_category_location(category))
+
+        return redirect(url_for("list_categories"))
+
     current_category = Categories.query.filter(
         Categories.category_id == category
     ).first()
@@ -87,18 +96,7 @@ def remove_category(category):
     if not current_category:
         return exceptions.NotFound()
 
-    form = KillMii()
-    if form.validate_on_submit():
-        db.session.delete(current_category)
-        db.session.commit()
-
-        delete_category_thumbnail(current_category.category_id)
-
-        return redirect(url_for("list_categories"))
-
-    return render_template(
-        "delete_item.html", form=form, type_name="category", item_id=category
-    )
+    return manage_delete_item(category, "category", drop_category)
 
 
 def get_category_location(category_id: int):
@@ -109,10 +107,6 @@ def write_category_thumbnail(category_id: int, given_file: bytes):
     encoded_image = category_encode(given_file)
     with open(get_category_location(category_id), "wb") as thumbnail_file:
         thumbnail_file.write(encoded_image)
-
-
-def delete_category_thumbnail(category_id: int):
-    os.unlink(get_category_location(category_id))
 
 
 @app.route("/theunderground/categories/<category>/thumbnail.jpg")

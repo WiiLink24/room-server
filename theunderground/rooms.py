@@ -1,13 +1,14 @@
 import os
 
-from flask import render_template, redirect, url_for, flash, send_from_directory
+from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 
 from models import Rooms
 from room import db
 from theunderground.encodemii import room_logo
-from theunderground.forms import KillMii, RoomForm
+from theunderground.forms import RoomForm
 from room import app
+from theunderground.operations import manage_delete_item
 
 
 @app.route("/theunderground/rooms")
@@ -87,18 +88,12 @@ def create_room():
 @app.route("/theunderground/rooms/<room_id>/remove", methods=["GET", "POST"])
 @login_required
 def remove_room(room_id):
-    form = KillMii()
-    if form.validate_on_submit():
-        # While this is easily circumvented, we need the user to pay attention.
-        if form.given_id.data == room_id:
-            db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
-            db.session.commit()
-            return redirect(url_for("list_room"))
-        else:
-            flash("Incorrect room ID!")
-    return render_template(
-        "delete_item.html", form=form, item_id=room_id, type_name="room"
-    )
+    def drop_room():
+        db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
+        db.session.commit()
+        return redirect(url_for("list_room"))
+
+    return manage_delete_item(room_id, "room", drop_room)
 
 
 @app.route("/theunderground/rooms/<room_id>/banner.jpg")
