@@ -21,9 +21,6 @@ root_separate_subdomain = False
 # Used to secure the web panel.
 secret_key = "please_change_thank_you"
 
-# If using a setup with multiple versions of room-server, set this to False.
-video_deletion_enabled = True
-
 # If true, queries MaxMind using the beneath credentials.
 use_localized_time = False
 maxmind_db_location = "assets/GeoLite2-City.mmdb"

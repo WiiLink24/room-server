@@ -24,23 +24,19 @@
                 <td>{{ movie.length }}</td>
                 <td><img src="{{ url_for('get_movie_poster', movie_id=movie.movie_id) }}"
                          alt="Poster for {{ movie.movie_id }}"/></td>
-                {% if video_deletion_enabled %}
-                    <td>
-                        <div class="field has-addons">
-                            <p class="control">
-                                <a href="{{ url_for('remove_pay_movie', movie_id=movie.movie_id) }}"
-                                   class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                    <span>Delete</span>
-                                </a>
-                            </p>
-                        </div>
-                    </td>
-                {% else %}
-                    <td>Deletion has been disabled</td>
-                {% endif %}
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('remove_pay_movie', movie_id=movie.movie_id) }}"
+                               class="button is-danger">
+                                <span class="icon is-small">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
