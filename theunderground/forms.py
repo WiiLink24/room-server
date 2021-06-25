@@ -91,7 +91,7 @@ class PayMovieUploadForm(FlaskForm):
     poster = FileField("Poster", validators=[FileRequired()])
     thumbnail = FileField("Thumbnail", validators=[FileRequired()])
     # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
-    title = StringField("Title", validators=[DataRequired(), Length(max=15)])
+    title = StringField("Title", validators=[DataRequired()])
     release = StringField(
         "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
     )
