@@ -42,6 +42,7 @@ def vote_picture_encode(infile: bytes) -> bytes:
 
 def generic_encode(in_bytes: bytes, w: int, h: int) -> bytes:
     """Encodes an image to a format suitable for the Wii."""
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
     im = Image.open(io.BytesIO(in_bytes))
 
     # If we have an alpha channel, it must be removed.
