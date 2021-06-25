@@ -1,7 +1,7 @@
 import base64
 import io
 
-from PIL import Image
+from PIL import Image, ImageFile
 
 
 def room_logo(infile: bytes) -> bytes:
