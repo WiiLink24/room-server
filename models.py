@@ -139,7 +139,7 @@ class Movies(db.Model):
 
 class PayMovies(db.Model):
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    title = db.Column(db.String(15), nullable=False)
+    title = db.Column(db.String, nullable=False)
     length = db.Column(db.String(), nullable=False)
     note = db.Column(db.String(76), nullable=False)
     price = db.Column(db.Integer, nullable=False)
