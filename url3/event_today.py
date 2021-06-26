@@ -44,7 +44,7 @@ def pay_event_today_v1025(queried_posters):
             "dimg": 1,
             "random": 0,
             "linktype": 5,
-            "linkid": 1,
+            "linkid": 10000,
         },
     }
 
