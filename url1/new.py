@@ -6,7 +6,7 @@ from models import Movies
 @app.route("/url1/list/new/all.xml")
 @xml_node_name("New")
 def new_all():
-    queried_movies = Movies.query.order_by(Movies.date_added.asc()).limit(64)
+    queried_movies = Movies.query.order_by(Movies.date_added.desc()).limit(12)
     filler = []
     for i, new_movies in enumerate(queried_movies):
         # Items must be indexed by 1.

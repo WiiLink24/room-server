@@ -10,7 +10,7 @@ from helpers import xml_node_name, RepeatedElement, current_date_and_time
 def list_category_search(categ_id):
     retrieved_data = (
         Movies.query.filter(Movies.category_id == categ_id)
-        .order_by(Movies.movie_id)
+        .order_by(Movies.date_added.desc())
         .all()
     )
     results = []

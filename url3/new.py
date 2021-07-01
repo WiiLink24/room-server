@@ -6,7 +6,7 @@ from models import PayMovies
 @app.route("/url3/pay/list/new/all.xml")
 @xml_node_name("New")
 def pay_new_all():
-    queried_movies = PayMovies.query.order_by(PayMovies.date_added.asc()).limit(64)
+    queried_movies = PayMovies.query.order_by(PayMovies.date_added.desc()).limit(64)
     filler = []
 
     for i, new_movies in enumerate(queried_movies):
