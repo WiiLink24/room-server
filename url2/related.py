@@ -1,7 +1,7 @@
 from flask import request
 from werkzeug import exceptions
 
-from models import Movies
+from models import Movies, EvaluateData
 from room import app, db
 from helpers import xml_node_name, RepeatedElement
 
@@ -24,9 +24,9 @@ def related():
 
     movies = (
         Movies.query.filter(Movies.category_id == category_id)
-        .order_by(Movies.date_added)
-        .limit(15)
-        .all()
+            .order_by(Movies.date_added)
+            .limit(15)
+            .all()
     )
 
     movie_info = []
@@ -70,5 +70,30 @@ def related():
 @app.route("/url2/evaluate.cgi", methods=["GET", "POST"])
 @xml_node_name("Evaluate")
 def evaluate():
-    # TODO! Write mii to a database!
+    if request.form.get("macadr"[:6]) == "0017ab" or "0009bf":
+        # We won't count votes made on Dolphin
+        return {"code": 1, "msg": "awesome thanks"}
+
+    # 8 is the maximum amount of Mii's that can be registered.
+    for i in range(8):
+        vote = request.form.get("eval%s" % i)
+        gender = request.form.get("sex%s" % i)
+        blood = request.form.get("blood%s" % i)
+        age = request.form.get("age%s" % i)
+        movie_id = request.form.get("movieid")
+        if vote:
+            data = EvaluateData(
+                movie_id=movie_id,
+                gender=gender,
+                blood=blood,
+                age=age,
+                vote=vote
+            )
+
+            db.session.add(data)
+            db.session.commit()
+        else:
+            # Either this Mii didn't vote, or doesn't exist
+            continue
+
     return {"code": 1, "msg": "awesome thanks"}

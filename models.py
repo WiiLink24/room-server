@@ -230,3 +230,13 @@ class Rooms(db.Model):
     # TODO: implement room type specific logic
     logo2_id = db.Column(db.String)
     contact_data = db.Column(db.String)
+
+
+class EvaluateData(db.Model):
+    # ID only exists so postgres doesn't get pissed that there isn't a private key
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
+    movie_id = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
+    blood = db.Column(db.Integer)
+    age = db.Column(db.Integer)
+    vote = db.Column(db.Integer)
