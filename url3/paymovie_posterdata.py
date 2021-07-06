@@ -1,5 +1,6 @@
-from flask import send_from_directory, safe_join
+from flask import send_from_directory
 from werkzeug import exceptions
+from werkzeug.security import safe_join
 
 from room import app, db
 from helpers import RepeatedElement, xml_node_name, current_date_and_time
@@ -68,4 +69,11 @@ if app.debug:
     def serve_pay_trailer(unk, name, name1):
         return send_from_directory(
             safe_join("assets/pay-movie/", unk, name), name1 + ".smo"
+        )
+
+    @app.route("/url3/pay/movie/<unk>/<name>/<name1>.sem")
+    # Grabs the encrypted trailer
+    def serve_pay_enc_trailer(unk, name, name1):
+        return send_from_directory(
+            safe_join("assets/pay-movie/", unk, name), name1 + ".sem"
         )
