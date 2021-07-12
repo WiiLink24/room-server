@@ -24,9 +24,9 @@ def related():
 
     movies = (
         Movies.query.filter(Movies.category_id == category_id)
-            .order_by(Movies.date_added)
-            .limit(15)
-            .all()
+        .order_by(Movies.date_added)
+        .limit(15)
+        .all()
     )
 
     movie_info = []
@@ -83,11 +83,7 @@ def evaluate():
         movie_id = request.form.get("movieid")
         if vote:
             data = EvaluateData(
-                movie_id=movie_id,
-                gender=gender,
-                blood=blood,
-                age=age,
-                vote=vote
+                movie_id=movie_id, gender=gender, blood=blood, age=age, vote=vote
             )
 
             db.session.add(data)
