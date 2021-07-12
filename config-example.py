@@ -21,10 +21,6 @@ root_separate_subdomain = False
 # Used to secure the web panel.
 secret_key = "please_change_thank_you"
 
-# If true, queries MaxMind using the beneath credentials.
-use_localized_time = False
-maxmind_db_location = "assets/GeoLite2-City.mmdb"
-
 # Sentry configuration for error logging.
 use_sentry = False
 sentry_dsn = "https://public@sentry.example.com/1"
