@@ -20,11 +20,7 @@ def handle_enquete():
 
         if choice:
             data = PollData(
-                poll_id=poll_id,
-                wii_num=wii_num,
-                choice=choice,
-                age=age,
-                gender=gender
+                poll_id=poll_id, wii_num=wii_num, choice=choice, age=age, gender=gender
             )
             db.session.add(data)
             db.session.commit()

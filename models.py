@@ -250,4 +250,3 @@ class PollData(db.Model):
     choice = db.Column(db.Integer)
     age = db.Column(db.Integer)
     gender = db.Column(db.Integer)
-
