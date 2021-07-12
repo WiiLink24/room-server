@@ -240,3 +240,14 @@ class EvaluateData(db.Model):
     blood = db.Column(db.Integer)
     age = db.Column(db.Integer)
     vote = db.Column(db.Integer)
+
+
+class PollData(db.Model):
+    # ID only exists so postgres doesn't get pissed that there isn't a private key
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
+    poll_id = db.Column(db.Integer)
+    wii_num = db.Column(db.BigInteger)
+    choice = db.Column(db.Integer)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
+
