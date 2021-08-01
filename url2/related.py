@@ -70,8 +70,8 @@ def related():
 @app.route("/url2/evaluate.cgi", methods=["GET", "POST"])
 @xml_node_name("Evaluate")
 def evaluate():
-    if request.form.get("macadr"[:6]) == "0017ab" or "0009bf":
-        # We won't count votes made on Dolphin
+    if request.form.get("wiiid") == "0000000000000000":
+        # We won't count votes made on Dolphin without a real NAND
         return {"code": 1, "msg": "awesome thanks"}
 
     # 8 is the maximum amount of Mii's that can be registered.
