@@ -7,8 +7,8 @@ from flask import request
 @app.route("/url2/enquete.cgi", methods=["GET", "POST"])
 @xml_node_name("Enquete")
 def handle_enquete():
-    if request.form.get("macadr"[:6]) == "0017ab" or "0009bf":
-        # We won't count votes made on Dolphin
+    if request.form.get("wiiid") == "0000000000000000":
+        # We won't count votes made on Dolphin without a real NAND
         return {"code": "2", "msg": "Vote recorded."}
 
     for i in range(8):
