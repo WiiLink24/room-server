@@ -235,7 +235,7 @@ class Rooms(db.Model):
 class EvaluateData(db.Model):
     # ID only exists so postgres doesn't get pissed that there isn't a private key
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    movie_id = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer, index=True)
     gender = db.Column(db.Integer)
     blood = db.Column(db.Integer)
     age = db.Column(db.Integer)
@@ -245,7 +245,7 @@ class EvaluateData(db.Model):
 class PollData(db.Model):
     # ID only exists so postgres doesn't get pissed that there isn't a private key
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    poll_id = db.Column(db.Integer)
+    poll_id = db.Column(db.Integer, index=True)
     wii_num = db.Column(db.BigInteger)
     choice = db.Column(db.Integer)
     age = db.Column(db.Integer)
