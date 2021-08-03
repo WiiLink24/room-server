@@ -9,7 +9,7 @@ from url1.popular_all import query_popular
 def popular_blood_a():
     return {
         "type": 1,
-        "movieinfo": query_popular(EvaluateData.gender == 1),
+        "movieinfo": query_popular(EvaluateData.blood == 1),
     }
 
 
@@ -18,7 +18,7 @@ def popular_blood_a():
 def popular_blood_b():
     return {
         "type": 1,
-        "movieinfo": query_popular(EvaluateData.gender == 2),
+        "movieinfo": query_popular(EvaluateData.blood == 2),
     }
 
 
@@ -27,7 +27,7 @@ def popular_blood_b():
 def popular_blood_o():
     return {
         "type": 1,
-        "movieinfo": query_popular(EvaluateData.age < 9),
+        "movieinfo": query_popular(EvaluateData.blood == 3),
     }
 
 
@@ -36,5 +36,5 @@ def popular_blood_o():
 def popular_blood_ab():
     return {
         "type": 1,
-        "movieinfo": query_popular(EvaluateData.age >= 10, EvaluateData.age < 20),
+        "movieinfo": query_popular(EvaluateData.blood == 4),
     }
