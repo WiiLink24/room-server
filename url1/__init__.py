@@ -13,6 +13,7 @@ from . import (
     new,
     paylink,
     popular_all,
-    popular_n,
+    popular_age,
+    popular_blood,
     wall_metadata,
 )

@@ -5,11 +5,8 @@ from room import app, db
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 
-@app.route("/url1/list/popular/all.xml")
-@xml_node_name("Popular")
-def popular_all():
-    # Sort for the all time popular movies.
-    popular_movies = (
+def query_popular(*criteria):
+    query = (
         db.session.query(EvaluateData, Movies)
         # Select movie_id and title...
         .with_entities(EvaluateData.movie_id, Movies.title)
@@ -19,9 +16,14 @@ def popular_all():
         .filter(EvaluateData.movie_id == Movies.movie_id)
         # ...and then sort by highest voted movies...
         .order_by(func.sum(EvaluateData.vote).desc())
-        # ...but no more than 64 of them.
-        .limit(64).all()
     )
+
+    # Finally, apply all needed criteria!
+    for expression in criteria:
+        query = query.filter(expression)
+
+    # Limit to 64, and go wild!
+    popular_movies = query.limit(64).all()
 
     movieinfo = []
     for i, movie in enumerate(popular_movies):
@@ -39,6 +41,12 @@ def popular_all():
             )
         )
 
+    return movieinfo
+
+
+@app.route("/url1/list/popular/all.xml")
+@xml_node_name("Popular")
+def popular_all():
     return {
-        "movieinfo": movieinfo,
+        "movieinfo": query_popular(),
     }
