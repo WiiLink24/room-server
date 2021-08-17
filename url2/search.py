@@ -1,42 +1,38 @@
 from flask import request
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
-from room import app, es
+from helpers import xml_node_name, RepeatedElement, iso_date_and_time
+from models import Movies
+from room import app
+
+EMPTY_RESPONSE = {"num": 1, "categid": 12345}
 
 
 @app.route("/url2/search.cgi")
 @xml_node_name("SearchMovies")
-def search():
+def general_search():
     q = request.args.get("q")
     if q is None:
-        return {"num": 1, "categid": 12345}
+        return EMPTY_RESPONSE
 
-    s = es.search(index="tv_index", body={"query": {"match": {"title": q}}})
-    shows = s["hits"]["hits"]
+    movies = Movies.query.search(q).limit(64).all()
 
-    show_ids = {}
-    for i in shows:
-        show_ids[i["_source"]["movie_id"]] = i["_source"]["title"]
-
-    movieinfos = []
+    movie_infos = []
     rank = 0
-    has_results = False
-    if len(shows) != 0:
-        has_results = True
-        for i in show_ids.keys():
-            rank += 1
-            movieinfos.append(
-                RepeatedElement(
-                    {
-                        "rank": rank,
-                        "movieid": i,
-                        "title": show_ids[i],
-                        "genre": 1,
-                        "strdt": current_date_and_time(),
-                        "pop": 0,
-                    }
-                )
+    for movie in movies:
+        rank += 1
+        movie_infos.append(
+            RepeatedElement(
+                {
+                    "rank": rank,
+                    "movieid": movie.movie_id,
+                    "title": movie.title,
+                    "genre": movie.genre,
+                    "strdt": iso_date_and_time(movie.date_added),
+                    "pop": 0,
+                }
             )
-    if has_results:
-        return {"num": 1, "categid": 12345, "movieinfo": movieinfos}
+        )
+
+    if movie_infos:
+        return {"num": 1, "categid": 12345, "movieinfo": movie_infos}
     else:
         return {"num": 1, "categid": 12345}

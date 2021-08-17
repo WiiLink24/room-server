@@ -9,7 +9,7 @@ from flask import (
 from flask_login import login_required
 
 from models import Movies
-from room import app, db, es
+from room import app, db
 from theunderground.mobiclip import (
     get_category_list,
     validate_mobiclip,
@@ -76,12 +76,6 @@ def add_movie():
 
                 # Now that we've inserted the movie, we can properly move it.
                 save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
-
-                # Finally, allow it for indexing.
-                es.index(
-                    index="tv_index",
-                    body={"title": form.title.data, "movie_id": db_movie.movie_id},
-                )
 
                 return redirect(url_for("list_categories"))
             else:

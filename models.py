@@ -1,6 +1,9 @@
 import enum
 
+from flask_sqlalchemy import BaseQuery
 from sqlalchemy import func
+from sqlalchemy_searchable import SearchQueryMixin
+from sqlalchemy_utils import TSVectorType
 
 from room import db
 from flask_login import UserMixin
@@ -119,7 +122,13 @@ class MiiMsgInfo(db.Model):
     face = db.Column(db.Integer, nullable=False)
 
 
+class FullTextSearchable(BaseQuery, SearchQueryMixin):
+    pass
+
+
 class Movies(db.Model):
+    query_class = FullTextSearchable
+
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     category_id = db.Column(
         db.Integer,
@@ -136,8 +145,12 @@ class Movies(db.Model):
     staff = db.Column(db.Boolean, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
 
+    search_vector = db.Column(TSVectorType("title"))
+
 
 class PayMovies(db.Model):
+    query_class = FullTextSearchable
+
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     title = db.Column(db.String, nullable=False)
     length = db.Column(db.String(), nullable=False)
@@ -151,6 +164,7 @@ class PayMovies(db.Model):
         nullable=False,
     )
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
+    search_vector = db.Column(TSVectorType("title", "note"))
 
 
 class PayCategories(db.Model):

@@ -1,46 +1,42 @@
 from flask import request
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
-from room import app, es
+from helpers import xml_node_name, RepeatedElement, iso_date_and_time
+from models import PayMovies
+from room import app
+
+EMPTY_RESPONSE = {"num": 1, "categid": 12345}
 
 
 @app.route("/url2/pay/psearch.cgi")
 @xml_node_name("PaySearchMovies")
-def paysearch():
+def pay_search():
     q = request.args.get("q")
     if q is None:
-        return {"num": 1, "categid": 12345}
+        return EMPTY_RESPONSE
 
-    s = es.search(index="pay_index", body={"query": {"match": {"title": q}}})
-    shows = s["hits"]["hits"]
+    pay_movies = PayMovies.query.search(q).limit(64).all()
 
-    show_ids = {}
-    for i in shows:
-        show_ids[i["_source"]["movie_id"]] = i["_source"]["title"]
-
-    movieinfos = []
+    movie_infos = []
     rank = 0
-    has_results = False
-    if len(shows) != 0:
-        has_results = True
-        for i in show_ids.keys():
-            rank += 1
-            movieinfos.append(
-                RepeatedElement(
-                    {
-                        "rank": rank,
-                        "movieid": i,
-                        "title": show_ids[i],
-                        "kana": "12345678",
-                        "refid": "01234567890123456789012345678912",
-                        "strdt": current_date_and_time(),
-                        "pop": 0,
-                        "released": "2020-08-08",
-                        "term": 1,
-                        "price": "0",
-                    }
-                )
+    for pay_movie in pay_movies:
+        rank += 1
+        movie_infos.append(
+            RepeatedElement(
+                {
+                    "rank": rank,
+                    "movieid": pay_movie.movie_id,
+                    "title": pay_movie.title,
+                    "kana": "12345678",
+                    "refid": "01234567890123456789012345678912",
+                    "strdt": iso_date_and_time(pay_movie.date_added),
+                    "pop": 0,
+                    "released": pay_movie.released,
+                    "term": 1,
+                    "price": pay_movie.price,
+                }
             )
-    if has_results:
-        return {"num": 1, "categid": 12345, "movieinfo": movieinfos}
+        )
+
+    if movie_infos:
+        return {"num": 1, "categid": 12345, "movieinfo": movie_infos}
     else:
         return {"num": 1, "categid": 12345}
