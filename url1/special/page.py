@@ -13,8 +13,8 @@ def special_page_n(page):
     query = (
         db.session.query(Rooms, MiiData, ParadeMiis)
         .filter(Rooms.room_id == page)
-        .filter(Rooms.room_id == MiiData.mii_id)
-        .filter(Rooms.room_id == ParadeMiis.mii_id)
+        .filter(Rooms.mii_id == MiiData.mii_id)
+        .filter(Rooms.mii_id == ParadeMiis.mii_id)
         .first()
     )
 

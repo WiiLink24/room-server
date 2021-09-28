@@ -233,9 +233,8 @@ class RoomContentBGMTypes(enum.Enum):
 
 
 class Rooms(db.Model):
-    room_id = db.Column(
-        db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True, nullable=False
-    )
+    room_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
+    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     bgm = db.Column(db.Enum(RoomBGMTypes))
     mascot = db.Column(db.Boolean)
     contact = db.Column(db.Boolean)
