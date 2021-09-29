@@ -1,7 +1,6 @@
 from flask import render_template, redirect, url_for
 from flask_login import login_required
 
-from models import ParadeMiis
 from room import app, db
 from theunderground.encodemii import parade_encode
 from theunderground.forms import ParadeForm

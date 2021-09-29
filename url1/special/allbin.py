@@ -1,6 +1,6 @@
 from helpers import xml_node_name, RepeatedElement
 from room import app, db
-from models import ParadeMiis, MiiData, Rooms
+from models import MiiData, Rooms, RoomMiis
 
 
 @app.route("/url1/special/allbin.xml")
@@ -10,24 +10,29 @@ def special_allbin():
 
     # Join queries. We select all ParadeMii data alongside MiiData table data with equal Mii IDs.
     # TODO: determine maximum limit we can select and return.
-    parade_miis = (
-        db.session.query(ParadeMiis, MiiData, Rooms)
-        .filter(ParadeMiis.mii_id == MiiData.mii_id)
-        .filter(ParadeMiis.mii_id == Rooms.mii_id)
-        .order_by(ParadeMiis.mii_id)
+    queried_data = (
+        db.session.query(Rooms, RoomMiis, MiiData)
+        .filter(Rooms.mii_id == RoomMiis.room_id)
+        .filter(RoomMiis.mii_id == MiiData.mii_id)
+        .order_by(RoomMiis.room_id)
         .all()
     )
 
-    # We now have a tuple with ParadeMii data in index 0 and MiiData in index 1.
-    for parade_mii, mii_data, room_data in parade_miis:
+    for room_data, room_mii, mii_data in queried_data:
+        # Read the parade banner image for this room ID.
+        parade_banner = open(
+            f"./assets/special/{room_data.room_id}/parade_banner.jpg", "rb"
+        ).read()
+
         bin_info.append(
             RepeatedElement(
                 {
                     "sppageid": room_data.room_id,
                     "miiid": mii_data.mii_id,
                     "miibin": mii_data.data,
-                    "logo1id": parade_mii.logo_id,
-                    "logobin": parade_mii.logo_bin,
+                    # We hardcode all parade logo IDs to g1234.
+                    "logo1id": "g1234",
+                    "logobin": parade_banner,
                 }
             )
         )

@@ -1,4 +1,4 @@
-from models import ParadeMiis, MiiData, Rooms
+from models import MiiData, Rooms, RoomMiis
 from room import app, db
 from helpers import current_date_and_time, xml_node_name, RepeatedElement
 
@@ -9,25 +9,26 @@ def special_all():
     page_info = []
 
     parade_miis = (
-        db.session.query(ParadeMiis, MiiData, Rooms)
-        .filter(ParadeMiis.mii_id == MiiData.mii_id)
-        .filter(ParadeMiis.mii_id == Rooms.mii_id)
-        .order_by(ParadeMiis.mii_id)
+        db.session.query(Rooms, RoomMiis, MiiData)
+        .filter(Rooms.room_id == RoomMiis.room_id)
+        .filter(RoomMiis.mii_id == MiiData.mii_id)
+        .order_by(RoomMiis.room_id)
         .all()
     )
 
-    for parade_mii, mii_data, room_data in parade_miis:
+    for room_data, room_mii, mii_data in parade_miis:
         page_info.append(
             RepeatedElement(
                 {
                     "sppageid": room_data.room_id,
                     "name": mii_data.name,
-                    "level": parade_mii.level,
+                    "level": room_data.level,
                     "miiid": mii_data.mii_id,
                     "color1": mii_data.color1,
                     "color2": mii_data.color2,
-                    "logo1id": parade_mii.logo_id,
-                    "news": parade_mii.news,
+                    # We hardcode all parade logo IDs to g1234.
+                    "logo1id": "g1234",
+                    "news": room_data.news,
                     "valid": 1,
                     "pref": "11111111111111111111111111111111111111111111111",
                 }

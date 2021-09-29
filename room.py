@@ -41,7 +41,6 @@ login = LoginManager(app)
 import models
 
 db.configure_mappers()
-db.create_all()
 
 # Import routes here.
 import first

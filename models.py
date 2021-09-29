@@ -44,15 +44,6 @@ class RoomMenu(db.Model):
     # TODO: Figure out a suitable UI, maybe even using Javascript?
 
 
-class ParadeMiis(db.Model):
-    # We need to be able to select by both the Mii's ID and the logo.
-    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True)
-    logo_id = db.Column(db.String(5), primary_key=True)
-    logo_bin = db.Column(db.LargeBinary(8000))
-    news = db.Column(db.String)
-    level = db.Column(db.Integer, default=1)
-
-
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     id = db.Column(db.Integer, primary_key=True, default=1)
@@ -239,10 +230,16 @@ class Rooms(db.Model):
     mascot = db.Column(db.Boolean)
     contact = db.Column(db.Boolean)
     intro_msg = db.Column(db.String)
-    mii_msg = db.Column(db.String)
-    # TODO: implement room type specific logic
-    logo2_id = db.Column(db.String)
     contact_data = db.Column(db.String)
+    news = db.Column(db.String)
+    level = db.Column(db.Integer, default=1)
+
+
+class RoomMiis(db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    room_id = db.Column(db.Integer, db.ForeignKey("rooms.room_id"), nullable=False)
+    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
+    mii_msg = db.Column(db.String)
 
 
 class EvaluateData(db.Model):
