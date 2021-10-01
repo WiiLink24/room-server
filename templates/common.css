@@ -9,7 +9,6 @@ input {
 }
 
 table, th, td {
-    border: 1px solid #ccc;
     padding: 0.5rem;
     border-collapse: collapse;
 }

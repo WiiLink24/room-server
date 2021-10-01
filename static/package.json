@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@creativebulma/bulma-divider": "^1.1.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@vizuaalog/bulmajs": "^0.12.1",
+    "bulma": "^0.9.3",
+    "bulma-prefers-dark": "^0.1.0-beta.0",
+    "bulma-ribbon": "^0.1.1"
+  }
+}

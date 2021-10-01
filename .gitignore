@@ -14,3 +14,5 @@ assets/
 
 # Make sure MaxMind DBs aren't commited
 *.mmdb
+
+/static/node_modules
