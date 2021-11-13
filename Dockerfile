@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.9
 
 RUN addgroup --gid 1000 server && adduser --uid 1000 --gid 1000 --system server
 WORKDIR /home/server
