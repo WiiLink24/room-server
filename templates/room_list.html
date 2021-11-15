@@ -8,6 +8,7 @@
         <thead>
         <tr>
             <th scope="col">Room ID</th>
+            <th scope="col">Company</th>
             <th scope="col">Banner</th>
             <th scope="col">Action</th>
         </tr>
@@ -16,6 +17,7 @@
         {% for room in rooms %}
             <tr>
                 <td>{{ room.room_id }}</td>
+                <td>{{ room.news }}</td>
                 <td><img alt="Banner for {{ room.room_id }}" src="{{ url_for('get_room_logo', room_id=room.room_id) }}"/></td>
                 <td style="text-align: center;">
                     <div class="field has-addons">

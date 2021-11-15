@@ -12,7 +12,7 @@ def special_allbin():
     # TODO: determine maximum limit we can select and return.
     queried_data = (
         db.session.query(Rooms, RoomMiis, MiiData)
-        .filter(Rooms.mii_id == RoomMiis.room_id)
+        .filter(Rooms.room_id == RoomMiis.room_id)
         .filter(RoomMiis.mii_id == MiiData.mii_id)
         .order_by(RoomMiis.room_id)
         .all()
@@ -20,6 +20,7 @@ def special_allbin():
 
     for room_data, room_mii, mii_data in queried_data:
         # Read the parade banner image for this room ID.
+        print(room_data.room_id)
         parade_banner = open(
             f"./assets/special/{room_data.room_id}/parade_banner.jpg", "rb"
         ).read()

@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th scope="col">Mii ID</th>
-            <th scope="col">Name</th>
+            <th scope="col">Mii Message</th>
             <th scope="col">Banner</th>
             <th scope="col">Action</th>
         </tr>
@@ -17,8 +17,8 @@
         {% for mii in miis %}
             <tr>
                 <td>{{ mii.mii_id }}</td>
-                <td>{{ mii.news }}</td>
-                <td><img alt="Banner for {{ mii.mii_id }}" src="{{ url_for('get_parade_banner', mii_id=mii.mii_id) }}"/></td>
+                <td>{{ mii.mii_msg }}</td>
+                <td><img alt="Banner for {{ mii.mii_id }}" src="{{ url_for('get_parade_banner', room_id=mii.room_id) }}"/></td>
                 <td style="text-align: center;">
                     <div class="field has-addons">
                         <p class="control">
@@ -31,7 +31,7 @@
                         </p>
 
                         <p class="control">
-                            <a href="{{ url_for('remove_parade', mii_id=mii.mii_id) }}" class="button is-danger">
+                            <a href="{{ url_for('remove_parade', room_id=mii.room_id) }}" class="button is-danger">
                             <span class="icon is-small">
                                 <i class="fas fa-trash"></i>
                             </span>

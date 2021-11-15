@@ -225,7 +225,6 @@ class RoomContentBGMTypes(enum.Enum):
 
 class Rooms(db.Model):
     room_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     bgm = db.Column(db.Enum(RoomBGMTypes))
     mascot = db.Column(db.Boolean)
     contact = db.Column(db.Boolean)
@@ -236,8 +235,7 @@ class Rooms(db.Model):
 
 
 class RoomMiis(db.Model):
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    room_id = db.Column(db.Integer, db.ForeignKey("rooms.room_id"), nullable=False)
+    room_id = db.Column(db.Integer, primary_key=True, unique=True)
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     mii_msg = db.Column(db.String)
 

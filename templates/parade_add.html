@@ -8,8 +8,14 @@
     <form action="" method="post" enctype="multipart/form-data">
         <p>
             {{ form.hidden_tag() }}
-            {{ form.company.label(class_="label") }}
-            {{ form.company(class="input") }}
+            {{ form.room_id.label(class_="label") }}
+            {{ form.room_id(class="input") }}
+        </p>
+        <br>
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.mii_msg.label(class_="label") }}
+            {{ form.mii_msg(class="input") }}
         </p>
         <br>
         <p>

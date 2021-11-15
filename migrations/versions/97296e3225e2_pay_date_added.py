@@ -21,7 +21,7 @@ def upgrade():
     op.create_unique_constraint(None, "category_pay_movies", ["movie_id"])
     op.create_unique_constraint(None, "concierge_miis", ["mii_id"])
     op.create_unique_constraint(None, "movies", ["movie_id"])
-    op.create_unique_constraint(None, "news", ["id"])
+    op.create_unique_constraint(None, "mii_msg", ["id"])
     op.create_unique_constraint(None, "pay_categories", ["category_id"])
     op.create_unique_constraint(None, "pay_category_headers", ["title"])
     op.add_column(
@@ -44,7 +44,7 @@ def downgrade():
     op.drop_column("pay_movies", "date_added")
     op.drop_constraint(None, "pay_category_headers", type_="unique")
     op.drop_constraint(None, "pay_categories", type_="unique")
-    op.drop_constraint(None, "news", type_="unique")
+    op.drop_constraint(None, "mii_msg", type_="unique")
     op.drop_constraint(None, "movies", type_="unique")
     op.drop_constraint(None, "concierge_miis", type_="unique")
     op.drop_constraint(None, "category_pay_movies", type_="unique")

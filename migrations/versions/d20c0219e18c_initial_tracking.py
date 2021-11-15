@@ -60,7 +60,7 @@ def upgrade():
         sa.UniqueConstraint("movie_id"),
     )
     op.create_table(
-        "news",
+        "mii_msg",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("msg", sa.String(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
@@ -174,7 +174,7 @@ def upgrade():
         sa.Column("mii_id", sa.Integer(), nullable=False),
         sa.Column("logo_id", sa.String(length=5), nullable=False),
         sa.Column("logo_bin", sa.LargeBinary(length=8000), nullable=True),
-        sa.Column("news", sa.String(), nullable=True),
+        sa.Column("mii_msg", sa.String(), nullable=True),
         sa.Column("level", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["mii_id"],
@@ -229,7 +229,7 @@ def downgrade():
     op.drop_table("pay_movies")
     op.drop_table("pay_category_headers")
     op.drop_table("pay_categories")
-    op.drop_table("news")
+    op.drop_table("mii_msg")
     op.drop_table("movies")
     op.drop_table("mii_data")
     op.drop_table("category_pay_movies")

@@ -14,8 +14,8 @@
             <br>
             <br>
             <img
-                src="{{ url_for('get_parade_banner', mii_id=room.mii_id) }}"
-                alt="Thumbnail for category ID {{ room.mii_id }}"
+                src="{{ url_for('get_parade_banner', room_id=room.room_id) }}"
+                alt="Thumbnail for category ID {{ room.room_id }}"
                 width="50%"
             />
             <br>
@@ -25,8 +25,14 @@
     <form action="" method="post" enctype="multipart/form-data">
         <p>
             {{ form.hidden_tag() }}
-            {{ form.company.label(class_="label") }}
-            {{ form.company(class="input") }}
+            {{ form.room_id.label(class_="label") }}
+            {{ form.room_id(class="input") }}
+        </p>
+        <br>
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.mii_msg.label(class_="label") }}
+            {{ form.mii_msg(class="input") }}
         </p>
         <br>
         <p>
