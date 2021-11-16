@@ -37,7 +37,10 @@ def list_room_data(room_id):
     )
 
 
-@app.route("/theunderground/rooms/<room_id>/remove/<data_id>/<image_id>", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/rooms/<room_id>/remove/<data_id>/<image_id>",
+    methods=["GET", "POST"],
+)
 @login_required
 def remove_tv_item(room_id, data_id, image_id):
     def drop_tv_item():

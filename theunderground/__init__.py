@@ -11,5 +11,5 @@ from . import (
     pay_movies,
     pay_categories,
     room_types,
-    room_data
+    room_data,
 )

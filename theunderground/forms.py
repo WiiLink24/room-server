@@ -200,6 +200,7 @@ class RoomPicData(FlaskForm):
     image3 = FileField("Image 3", validators=[FileRequired()])
     upload = SubmitField("Upload")
 
+
 class DeleteForm(FlaskForm):
     given_id = StringField("ID", validators=[DataRequired()])
     submit = SubmitField("Delete")

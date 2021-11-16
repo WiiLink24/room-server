@@ -11,7 +11,12 @@ def write_to_path(filename: str, data: bytes):
 
 
 def save_delivery_data(
-        movie_id: int, movie_data: bytes, image_data: bytes, tv_data: bytes, pic_num: int, room_id: int
+    movie_id: int,
+    movie_data: bytes,
+    image_data: bytes,
+    tv_data: bytes,
+    pic_num: int,
+    room_id: int,
 ):
     movie_dir = "assets/delivery"
 
@@ -28,12 +33,12 @@ def save_delivery_data(
 
 
 def save_vote_data(
-        image_data: bytes,
-        image2_data: bytes,
-        image3_data: bytes,
-        tv_data: bytes,
-        pic_num: int,
-        room_id: int
+    image_data: bytes,
+    image2_data: bytes,
+    image3_data: bytes,
+    tv_data: bytes,
+    pic_num: int,
+    room_id: int,
 ):
     # Resize and write poster
     tv_data = room_tv_encode(tv_data)
@@ -58,13 +63,13 @@ def save_mov_data(pic_num: int, tv_data: bytes, room_id: int):
 
 
 def save_link_data(
-        movie_id: int,
-        movie_data: bytes,
-        image1_data: bytes,
-        image2_data: bytes,
-        tv_data: bytes,
-        pic_num: int,
-        room_id: int
+    movie_id: int,
+    movie_data: bytes,
+    image1_data: bytes,
+    image2_data: bytes,
+    tv_data: bytes,
+    pic_num: int,
+    room_id: int,
 ):
     movie_dir = "assets/urllink"
 
@@ -85,13 +90,13 @@ def save_link_data(
 
 
 def save_pic_data(
-        image1_data: bytes,
-        image2_data: bytes,
-        image3_data: bytes,
-        tv_data: bytes,
-        pic_id: int,
-        pic_num: int,
-        room_id: int
+    image1_data: bytes,
+    image2_data: bytes,
+    image3_data: bytes,
+    tv_data: bytes,
+    pic_id: int,
+    pic_num: int,
+    room_id: int,
 ):
     pic_dir = "assets/picture"
 

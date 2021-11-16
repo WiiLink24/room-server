@@ -10,7 +10,7 @@ from theunderground.forms import (
     RoomVoteData,
     RoomMovieData,
     RoomLinkData,
-    RoomPicData
+    RoomPicData,
 )
 from theunderground.mobiclip import validate_mobiclip
 from url1.special import room_content_types as tv
@@ -19,7 +19,7 @@ from theunderground.room_paths import (
     save_vote_data,
     save_mov_data,
     save_link_data,
-    save_pic_data
+    save_pic_data,
 )
 
 
@@ -88,11 +88,15 @@ def delivery(room_id):
             tv_data = thumbnail.read()
 
             if validate_mobiclip(movie_data):
-                db_json = RoomMenu(room_id=room_id, data=tv.smp(photo_id(), x_id(), form.title.data))
+                db_json = RoomMenu(
+                    room_id=room_id, data=tv.smp(photo_id(), x_id(), form.title.data)
+                )
 
                 # Since the photo ID and ID are pulled from the db, committing before
                 # saving the files will cause mismatched file names.
-                save_delivery_data(x_id(), movie_data, image_data, tv_data, photo_id(), room_id)
+                save_delivery_data(
+                    x_id(), movie_data, image_data, tv_data, photo_id(), room_id
+                )
 
                 db.session.add(db_json)
                 db.session.commit()
@@ -130,11 +134,16 @@ def poll(room_id):
                     form.question.data,
                     form.title.data,
                     form.mii_msg.data,
-                )
+                ),
             )
 
             save_vote_data(
-                image1_data, image2_data, image3_data, thumbnail_data, photo_id(), room_id
+                image1_data,
+                image2_data,
+                image3_data,
+                thumbnail_data,
+                photo_id(),
+                room_id,
             )
 
             db.session.add(db_json)
@@ -159,7 +168,7 @@ def movie(room_id):
 
             db_json = RoomMenu(
                 room_id=room_id,
-                data=tv.mov(photo_id(), form.movie_id.data, form.title.data)
+                data=tv.mov(photo_id(), form.movie_id.data, form.title.data),
             )
 
             save_mov_data(photo_id(), image_data, room_id)
@@ -199,11 +208,17 @@ def link(room_id):
                         form.title.data,
                         form.link.data,
                         form.bgm.data.value,
-                    )
+                    ),
                 )
 
                 save_link_data(
-                    x_id(), movie_data, image1_data, image2_data, tv_data, photo_id(), room_id
+                    x_id(),
+                    movie_data,
+                    image1_data,
+                    image2_data,
+                    tv_data,
+                    photo_id(),
+                    room_id,
                 )
 
                 db.session.add(db_json)
@@ -241,10 +256,18 @@ def pic(room_id):
                     x_id(),
                     form.title.data,
                     form.bgm.data.value,
-                )
+                ),
             )
 
-            save_pic_data(image1_data, image2_data, image3_data, tv_data, x_id(), photo_id(), room_id)
+            save_pic_data(
+                image1_data,
+                image2_data,
+                image3_data,
+                tv_data,
+                x_id(),
+                photo_id(),
+                room_id,
+            )
 
             db.session.add(db_json)
             db.session.commit()
