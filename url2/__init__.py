@@ -1,1 +1,1 @@
-from . import enquete, reginfo, related, search, shop, paysearch, riv
+from . import enquete, reginfo, related, search, shop, paysearch, riv, piceval

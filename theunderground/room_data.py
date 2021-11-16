@@ -1,207 +1,55 @@
-from flask import render_template, redirect, url_for, flash
-from flask_login import login_required
+import os
 
 from room import app, db
+from flask_login import login_required
+from flask import render_template, send_from_directory, redirect, url_for
 from models import RoomMenu
-
-from theunderground.forms import (
-    PreRoomData,
-    RoomDeliveryData,
-    RoomVoteData,
-    RoomMovieData,
-    RoomLinkData,
-)
-from theunderground.mobiclip import validate_mobiclip
-from url1.special import room_content_types as tv
-from theunderground.room_paths import (
-    save_delivery_data,
-    save_vote_data,
-    save_mov_data,
-    save_link_data,
-)
+from theunderground.operations import manage_delete_item
 
 
-@app.route("/theunderground/roomtype/choose", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/<room_id>")
 @login_required
-def choose_type():
-    form = PreRoomData()
+def list_room_data(room_id):
+    data = RoomMenu.query.filter_by(room_id=room_id).all()
 
-    if form.validate_on_submit():
-        value = form.type.data
-        print(value)
+    # Iterate through the data so we can replace the type numbers with their names
+    for tv in data:
+        if tv.data["type"] == 1:
+            tv.data["type"] = "Delivery"
 
-        if value == "Delivery":
-            return redirect(url_for("delivery"))
+        elif tv.data["type"] == 2:
+            tv.data["type"] = "Voting"
 
-        if value == "Poll":
-            return redirect(url_for("poll"))
+        elif tv.data["type"] == 3:
+            tv.data["type"] = "Movie"
 
-        if value == "Movie":
-            return redirect(url_for("movie"))
+        elif tv.data["type"] == 4:
+            tv.data["type"] = "Coupon"
 
-        if value == "Coupon":
-            return redirect(url_for("root"))
+        elif tv.data["type"] == 5:
+            tv.data["type"] = "Link"
 
-        if value == "Link":
-            return redirect(url_for("root"))
+        elif tv.data["type"] == 6:
+            tv.data["type"] = "Picture"
 
-        if value == "Picture":
-            return redirect(url_for("root"))
-
-    return render_template("choose_room_type.html", form=form)
-
-
-# In order for rooms to have different photos and movies, both their respective id's and photo_id
-# must be different. These functions query the database for the last value then adds by 1 or 1234.
-def room_id():
-    num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
-
-    return num.id + 1
+    return render_template(
+        "room_data_list.html", datas=data, type_length=len(data), room_id=room_id
+    )
 
 
-def photo_id():
-    num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
-
-    return num.id + 1234
-
-
-@app.route("/theunderground/roomtype/delivery", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/<room_id>/remove/<data_id>/<image_id>", methods=["GET", "POST"])
 @login_required
-def delivery():
-    form = RoomDeliveryData()
+def remove_tv_item(room_id, data_id, image_id):
+    def drop_tv_item():
+        db.session.delete(RoomMenu.query.filter_by(id=data_id).first())
+        db.session.commit()
+        os.remove(f"./assets/special/{room_id}/{image_id}.img")
+        return redirect(url_for("list_room_data", room_id=room_id))
 
-    if form.validate_on_submit():
-        movie = form.movie.data
-        image = form.image.data
-        thumbnail = form.tv.data
-        if movie and image:
-            movie_data = movie.read()
-            image_data = image.read()
-            tv_data = thumbnail.read()
-
-            if validate_mobiclip(movie_data):
-                db_json = RoomMenu(data=tv.smp(photo_id(), room_id(), form.title.data))
-
-                # Since the photo ID and ID are pulled from the db, committing before
-                # saving the files will cause mismatched file names.
-                save_delivery_data(id(), movie_data, image_data, tv_data, photo_id())
-
-                db.session.add(db_json)
-                db.session.commit()
-
-                return redirect(url_for("root"))
-            else:
-                flash("Invalid movie!")
-        else:
-            flash("Error uploading movie!")
-
-    return render_template("room_add_delivery.html", form=form)
+    return manage_delete_item(data_id, "Room Data", drop_tv_item)
 
 
-@app.route("/theunderground/roomtype/poll", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/<room_id>/TV/<image_id>.jpg")
 @login_required
-def poll():
-    form = RoomVoteData()
-
-    if form.validate_on_submit():
-        image1 = form.image1.data
-        image2 = form.image2.data
-        image3 = form.image3.data
-        thumbnail = form.tv.data
-        if thumbnail and image1:
-            image1_data = image1.read()
-            image2_data = image2.read()
-            image3_data = image3.read()
-            thumbnail_data = thumbnail.read()
-
-            db_json = RoomMenu(
-                data=tv.enq(
-                    photo_id(),
-                    room_id(),
-                    form.question.data,
-                    form.title.data,
-                    form.mii_msg.data,
-                )
-            )
-
-            save_vote_data(
-                image1_data, image2_data, image3_data, thumbnail_data, photo_id()
-            )
-
-            db.session.add(db_json)
-            db.session.commit()
-
-            return redirect(url_for("root"))
-        else:
-            flash("Error uploading movie!")
-
-    return render_template("room_add_vote.html", form=form)
-
-
-@app.route("/theunderground/roomtype/mov", methods=["GET", "POST"])
-@login_required
-def movie():
-    form = RoomMovieData()
-
-    if form.validate_on_submit():
-        image = form.image.data
-        if image:
-            image_data = image.read()
-
-            db_json = RoomMenu(
-                data=tv.mov(photo_id(), form.movie_id.data, form.title.data)
-            )
-
-            save_mov_data(photo_id(), image_data)
-
-            db.session.add(db_json)
-            db.session.commit()
-
-            return redirect(url_for("root"))
-        else:
-            flash("Error uploading movie!")
-
-    return render_template("room_add_mov.html", form=form)
-
-
-@app.route("/theunderground/roomtype/link", methods=["GET", "POST"])
-@login_required
-def link():
-    form = RoomLinkData()
-
-    if form.validate_on_submit():
-        movie = form.movie.data
-        thumbnail = form.tv.data
-        image1 = form.image1.data
-        image2 = form.image2.data
-        if movie and tv:
-            movie_data = movie.read()
-            tv_data = thumbnail.read()
-            image1_data = image1.read()
-            image2_data = image2.read()
-            if validate_mobiclip(movie_data):
-
-                db_json = RoomMenu(
-                    data=tv.link(
-                        photo_id(),
-                        room_id(),
-                        form.title.data,
-                        form.link.data,
-                        form.bgm.data.value,
-                    )
-                )
-
-                save_link_data(
-                    room_id(), movie_data, image1_data, image2_data, tv_data, photo_id()
-                )
-
-                db.session.add(db_json)
-                db.session.commit()
-
-                return redirect(url_for("root"))
-            else:
-                flash("Invalid movie!")
-        else:
-            flash("Error uploading movie!")
-
-    return render_template("room_add_link.html", form=form)
+def serve_room_data_image(room_id, image_id):
+    return send_from_directory(f"./assets/special/{room_id}", image_id + ".img")

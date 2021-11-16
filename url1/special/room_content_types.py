@@ -70,7 +70,7 @@ def link(num, id, title, link, bgm):
             "linkmov": 1,
             "linkmovap": 1,
             "linkpicnum": 1,
-            # linkurl must be a non-secure website.
+            # linkurl must be an http website.
             "linkurl": link,
             "linkpicbgm": bgm,
         },
@@ -84,9 +84,8 @@ def pic(num, id, title, bgm):
         "pic": {
             "picid": id,
             "pictitle": title,
-            "picmov": 1,
-            "picmovap": 1,
-            "picnum": 1,
+            "picmov": 0,
+            "picnum": 3,
             "picbgm": bgm,
         },
     }

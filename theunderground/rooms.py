@@ -20,7 +20,7 @@ def list_room():
     )
 
 
-@app.route("/theunderground/rooms/<room_id>", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/edit/<room_id>", methods=["GET", "POST"])
 @login_required
 def edit_room(room_id):
     form = RoomForm()

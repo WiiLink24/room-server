@@ -142,14 +142,14 @@ if app.debug:
         # Handles movies for room type "link"
         return send_from_directory("assets/urllink", movie_id + ".img")
 
-    @app.route("/url1/urllink/<movie_id>.mov")
+    @app.route("/url1/picture/<movie_id>")
     def handle_picture(movie_id):
-        # Handles movies for room type "link"
-        return send_from_directory("assets/picture", movie_id + ".mov")
+        # Handles movies for room type "pic"
+        return send_from_directory("assets/picture", movie_id)
 
     @app.route("/url1/delivery/<movie_id>.mov")
     def handle_delivery(movie_id):
-        # Handles movies for room type "link"
+        # Handles movies for room type "delivery"
         return send_from_directory("assets/delivery", movie_id + ".mov")
 
     @app.route("/url1/delivery/<img>.img")

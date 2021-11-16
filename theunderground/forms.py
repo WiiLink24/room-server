@@ -187,6 +187,19 @@ class RoomLinkData(FlaskForm):
     upload = SubmitField("Upload")
 
 
+class RoomPicData(FlaskForm):
+    bgm = SelectField(
+        "Background Music",
+        choices=RoomContentBGMTypes.choices(),
+        coerce=RoomContentBGMTypes.coerce,
+    )
+    title = StringField("Title", validators=[DataRequired()])
+    tv = FileField("TV Screen Image", validators=[FileRequired()])
+    image1 = FileField("Image 1", validators=[FileRequired()])
+    image2 = FileField("Image 2", validators=[FileRequired()])
+    image3 = FileField("Image 3", validators=[FileRequired()])
+    upload = SubmitField("Upload")
+
 class DeleteForm(FlaskForm):
     given_id = StringField("ID", validators=[DataRequired()])
     submit = SubmitField("Delete")

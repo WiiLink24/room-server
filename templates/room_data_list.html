@@ -1,0 +1,45 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}room data{% endblock %}
+{% block type_name_singular %}room data{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Image</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            <tr>
+                <td>{{ data.data["type"] }}</td>
+                <td><img alt="Banner for {{ data.room_id }} TV ID: {{ data.id }}" src="{{ url_for('serve_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}"/></td>
+                <td style="text-align: center;">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('remove_tv_item', room_id=data.room_id, data_id=data.id, image_id=data.data['imageid']) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('choose_type', room_id=room_id) }}">
+        <button class="button is-success">
+            <span>Create a Room TV</span>
+        </button>
+    </a>
+{% endblock %}
+
