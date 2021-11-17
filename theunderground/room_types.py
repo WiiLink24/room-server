@@ -50,7 +50,7 @@ def choose_type(room_id):
         if value == "Picture":
             return redirect(url_for("pic", room_id=room_id))
 
-    return render_template("choose_room_type.html", form=form)
+    return render_template("room_type_choose.html", form=form)
 
 
 # In order for rooms to have different photos and movies, both their respective id's and photo_id
