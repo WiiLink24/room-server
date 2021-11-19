@@ -121,7 +121,7 @@ class ParadeForm(FlaskForm):
 
 
 class RoomForm(FlaskForm):
-    mii_id = StringField("Intro Message")
+    mii = StringField("Mii ID")
     bgm = SelectField(
         "Background Music",
         choices=RoomBGMTypes.choices(),
