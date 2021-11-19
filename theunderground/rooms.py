@@ -57,6 +57,7 @@ def create_room():
 
     if form.validate_on_submit():
         room = Rooms(
+            mii_id=form.mii.data,
             bgm=form.bgm.data,
             mascot=form.has_mascot.data,
             contact=form.has_contact.data,
