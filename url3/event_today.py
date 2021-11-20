@@ -61,7 +61,7 @@ def pay_event_today_v770(queried_posters):
         "introinfo": {
             "seq": 1,
             # Movie IDs must be 16 digits.
-            "intromovid": f"{1:16}",
+            "intromovid": "1".rjust(16, "0"),
             "linktype": 1,
             "movieid": 1,
         },
@@ -73,3 +73,8 @@ if app.debug:
     @app.route("/url3/pay/intro/<name>.img")
     def serve_pay_intro(name):
         return send_from_directory("assets/pay-intro", name + ".img")
+
+
+    @app.route("/url3/pay/intro/<movie_id>.mov")
+    def serve_pay_intro_movie(movie_id):
+        return send_from_directory("assets/pay-intro", movie_id + ".mov")
