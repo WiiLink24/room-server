@@ -1,14 +1,14 @@
-Flask>=1.1
-lxml>=4.6
-psycopg2>=2.8
+Flask>=2.0
+lxml>=4.8
+psycopg2>=2.9
 flask_sqlalchemy>=2.5
 flask-login>=0.5
-flask-wtf>=0.14
-flask-migrate>=2.7
+flask-wtf>=1.0
+flask-migrate>=3.1
 crc16>=0.1
-pillow>=8
-pycryptodome>=3.10
-python-dotenv
-sentry-sdk[flask]>=1.1.0
+pillow>=9
+pycryptodome>=3.14
+python-dotenv>=0.19
+sentry-sdk[flask]>=1.5.0
 SQLAlchemy-Searchable>=1.4.1
 tzdata; platform_system == 'Windows'
