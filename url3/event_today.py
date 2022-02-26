@@ -74,7 +74,6 @@ if app.debug:
     def serve_pay_intro(name):
         return send_from_directory("assets/pay-intro", name + ".img")
 
-
     @app.route("/url3/pay/intro/<movie_id>.mov")
     def serve_pay_intro_movie(movie_id):
         return send_from_directory("assets/pay-intro", movie_id + ".mov")
