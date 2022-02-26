@@ -34,8 +34,7 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    # Add mii_msg and level columns.
-    op.add_column("rooms", sa.Column("mii_msg", sa.String(), nullable=True))
+    # Add a level column for transfer purposes.
     op.add_column("rooms", sa.Column("level", sa.Integer(), nullable=True))
 
     # Before we drop parade_miis and similar, we need to salvage
