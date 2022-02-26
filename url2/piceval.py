@@ -1,5 +1,5 @@
 from helpers import xml_node_name
-from room import app, db
+from room import app
 
 
 @app.route("/url2/piceval.cgi", methods=["GET", "POST"])

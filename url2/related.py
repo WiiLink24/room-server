@@ -1,8 +1,8 @@
 from flask import request
 from werkzeug import exceptions
 
-from models import Movies, EvaluateData
-from room import app, db
+from models import Movies, EvaluateData, db
+from room import app
 from helpers import xml_node_name, RepeatedElement
 
 

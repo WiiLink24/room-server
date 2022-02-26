@@ -1,6 +1,6 @@
 from helpers import xml_node_name
 from flask import send_from_directory
-from room import app, db
+from room import app
 
 
 @app.route("/url2/pay/rivtoken.cgi", methods=["GET", "POST"])

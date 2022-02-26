@@ -1,5 +1,5 @@
-from models import MiiData, Rooms, RoomMiis
-from room import app, db
+from models import MiiData, Rooms, RoomMiis, db
+from room import app
 from helpers import current_date_and_time, xml_node_name, RepeatedElement
 
 

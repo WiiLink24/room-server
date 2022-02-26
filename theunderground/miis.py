@@ -2,8 +2,8 @@ import crc16
 from flask import render_template, redirect, flash, url_for
 from flask_login import login_required
 
-from models import MiiData
-from room import app, db
+from models import MiiData, db
+from room import app
 from theunderground.forms import MiiUploadForm
 
 

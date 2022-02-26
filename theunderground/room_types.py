@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
 
-from room import app, db
-from models import RoomMenu
+from room import app
+from models import RoomMenu, db
 
 from theunderground.forms import (
     PreRoomData,

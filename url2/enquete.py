@@ -1,6 +1,6 @@
 from helpers import xml_node_name
-from room import app, db
-from models import PollData
+from room import app
+from models import PollData, db
 from flask import request
 
 

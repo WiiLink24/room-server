@@ -2,8 +2,8 @@
 from werkzeug import exceptions
 
 from helpers import current_date_and_time, RepeatedElement, xml_node_name
-from models import Rooms, MiiData, RoomMenu, RoomMiis
-from room import app, db
+from models import Rooms, MiiData, RoomMenu, RoomMiis, db
+from room import app
 from flask import send_from_directory
 
 

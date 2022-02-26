@@ -4,8 +4,8 @@ import shutil
 from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 
-from room import app, db
-from models import RoomMiis
+from room import app
+from models import RoomMiis, db
 from theunderground.encodemii import parade_encode
 from theunderground.forms import ParadeForm
 from theunderground.operations import manage_delete_item

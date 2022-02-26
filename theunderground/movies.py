@@ -8,8 +8,8 @@ from flask import (
 )
 from flask_login import login_required
 
-from models import Movies
-from room import app, db
+from models import Movies, db
+from room import app
 from theunderground.mobiclip import (
     get_category_list,
     validate_mobiclip,

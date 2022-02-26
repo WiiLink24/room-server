@@ -4,8 +4,8 @@ from flask import redirect, render_template, send_from_directory, request, url_f
 from flask_login import login_required
 from werkzeug import exceptions
 
-from models import PayCategories
-from room import app, db
+from models import PayCategories, db
+from room import app
 from theunderground.encodemii import category_encode
 from theunderground.forms import CategoryEditForm, CategoryAddForm
 from theunderground.operations import manage_delete_item

@@ -2,8 +2,8 @@ from flask import render_template, url_for, redirect
 from flask_login import login_required
 from werkzeug import exceptions
 
-from models import News
-from room import app, db
+from models import News, db
+from room import app
 from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
 

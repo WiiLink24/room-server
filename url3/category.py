@@ -1,6 +1,6 @@
-from room import app, db
+from room import app
 from helpers import xml_node_name, RepeatedElement
-from models import PayCategories
+from models import PayCategories, db
 
 from werkzeug import exceptions
 from flask import send_from_directory

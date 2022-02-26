@@ -2,8 +2,8 @@ from flask import url_for, flash, render_template, send_from_directory
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.utils import redirect
 
-from models import User
-from room import app, db
+from models import User, db
+from room import app
 from theunderground.forms import LoginForm, NewUserForm, ChangePasswordForm
 
 

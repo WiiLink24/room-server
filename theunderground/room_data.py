@@ -1,9 +1,9 @@
 import os
 
-from room import app, db
+from room import app
 from flask_login import login_required
 from flask import render_template, send_from_directory, redirect, url_for
-from models import RoomMenu
+from models import RoomMenu, db
 from theunderground.operations import manage_delete_item
 
 

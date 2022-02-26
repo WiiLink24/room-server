@@ -1,6 +1,6 @@
 from helpers import xml_node_name, RepeatedElement
-from room import app, db
-from models import MiiData, Rooms, RoomMiis
+from room import app
+from models import MiiData, Rooms, RoomMiis, db
 
 
 @app.route("/url1/special/allbin.xml")

@@ -1,7 +1,7 @@
 from sqlalchemy import func
 
-from models import EvaluateData, Movies
-from room import app, db
+from models import EvaluateData, Movies, db
+from room import app
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 

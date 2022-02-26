@@ -2,9 +2,9 @@ from flask import send_from_directory
 from werkzeug import exceptions
 from werkzeug.security import safe_join
 
-from room import app, db
+from room import app
 from helpers import RepeatedElement, xml_node_name, current_date_and_time
-from models import PayMovies
+from models import PayMovies, db
 
 
 @app.route("/url3/pay/list/category/search/<category_id>")
