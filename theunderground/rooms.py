@@ -3,8 +3,7 @@ import os
 from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 
-from models import Rooms
-from room import db
+from models import db, Rooms
 from theunderground.encodemii import room_logo
 from theunderground.forms import RoomForm
 from room import app

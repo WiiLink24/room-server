@@ -1,8 +1,8 @@
 from flask import render_template, url_for, redirect
 from flask_login import login_required
 
-from models import ConciergeMiis, MiiMsgInfo, MiiData
-from room import db, app
+from models import db, ConciergeMiis, MiiMsgInfo, MiiData
+from room import app
 from theunderground.forms import ConciergeForm
 from theunderground.operations import manage_delete_item
 

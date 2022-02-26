@@ -1,24 +1,23 @@
 import enum
 
-from flask_sqlalchemy import BaseQuery
+from flask_sqlalchemy import BaseQuery, SQLAlchemy
 from sqlalchemy import func
+from sqlalchemy.types import TypeDecorator
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils import TSVectorType
 
-from room import db
-from flask_login import UserMixin
+from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from room import login
 import sqlalchemy
+import json
+
+db = SQLAlchemy()
+login = LoginManager()
 
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-
-from sqlalchemy.types import TypeDecorator
-import json
 
 
 class DictType(TypeDecorator):

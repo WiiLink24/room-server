@@ -1,9 +1,9 @@
 from flask import send_from_directory
 from werkzeug import exceptions
 
-from room import app, db
+from room import app
 from helpers import xml_node_name, RepeatedElement
-from models import ConciergeMiis, MiiData, MiiMsgInfo
+from models import db, ConciergeMiis, MiiData, MiiMsgInfo
 
 
 @app.route("/url1/mii/<int:mii_id>.mii")

@@ -1,9 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sqlalchemy_searchable import make_searchable
+
+from models import db, login
 
 import config
 import sentry_sdk
@@ -28,17 +29,19 @@ app.config["SECRET_KEY"] = config.secret_key
 # Importing models must occur after the DB is instantiated.
 # It must not initialize around an app so that we can create
 # models automatically within a test context.
-db = SQLAlchemy(app)
+db.init_app(app)
 make_searchable(db.metadata)
 
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db)
+login.init_app(app)
 
-# Allow authentication.
-login = LoginManager(app)
 
-# Ensure schema is available.
-import models
+@app.before_first_request
+def initialize_server():
+    # Ensure our database is present.
+    db.create_all()
+
 
 db.configure_mappers()
 
