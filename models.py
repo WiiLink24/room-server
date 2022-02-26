@@ -2,6 +2,7 @@ import enum
 
 from flask_sqlalchemy import BaseQuery, SQLAlchemy
 from sqlalchemy import func
+from sqlalchemy.event import listens_for
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils import TSVectorType
@@ -54,6 +55,19 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+@listens_for(User.__table__, "after_create")
+def create_default_user(target, connection, **kw):
+    """Adds a default user to The Underground.
+    By default, we assume admin:admin."""
+    table = User.__table__
+    connection.execute(
+        table.insert().values(
+            username="admin",
+            password_hash=generate_password_hash("admin"),
+        )
+    )
 
 
 class Posters(db.Model):
