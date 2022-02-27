@@ -34,7 +34,8 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    # Add a level column for transfer purposes.
+    # Add level and news columns for transfer purposes.
+    op.add_column("rooms", sa.Column("news", sa.Integer(), nullable=True))
     op.add_column("rooms", sa.Column("level", sa.Integer(), nullable=True))
 
     # Before we drop parade_miis and similar, we need to salvage
@@ -59,7 +60,7 @@ def upgrade():
     )
     op.get_bind().execute(
         "UPDATE rooms "
-        "SET level = parade_miis.level, mii_msg = parade_miis.mii_msg "
+        "SET level = parade_miis.level, mii_msg = parade_miis.mii_msg, news = parade_miis.news "
         "FROM parade_miis "
         "WHERE rooms.mii_id = parade_miis.mii_id"
     )
