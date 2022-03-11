@@ -1,10 +1,11 @@
 import os
+import shutil
 
 from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 
-from models import db, Rooms
-from theunderground.encodemii import room_logo
+from models import db, Rooms, RoomMiis
+from theunderground.encodemii import room_logo, parade_encode
 from theunderground.forms import RoomForm
 from room import app
 from theunderground.operations import manage_delete_item
@@ -33,6 +34,17 @@ def edit_room(room_id):
         file.write(room_image)
         file.close()
 
+        # Save the parade image
+        save_parade_image(form.parade_banner.data.read(), room_id)
+
+        mii = RoomMiis.query.filter_by(room_id=room_id).first()
+        if mii:
+            mii.mii_id = form.mii.data
+            mii.mii_msg = form.mii_msg.data
+
+        db.session.add(mii)
+        db.session.commit()
+
         room = Rooms.query.filter_by(room_id=room_id).first()
         if room:
             room.bgm = form.bgm.data
@@ -55,8 +67,19 @@ def create_room():
     form = RoomForm()
 
     if form.validate_on_submit():
-        room = Rooms(
+        # First write Mii data.
+        mii = RoomMiis(
             mii_id=form.mii.data,
+            mii_msg=form.mii_msg.data,
+        )
+
+        db.session.add(mii)
+        db.session.commit()
+
+        # Now room data
+        room = Rooms(
+            # I do not trust autoincrement so we will use RoomMiis assigned ID.
+            room_id=mii.room_id,
             bgm=form.bgm.data,
             mascot=form.has_mascot.data,
             contact=form.has_contact.data,
@@ -76,6 +99,9 @@ def create_room():
         file.write(room_image)
         file.close()
 
+        # Save the parade image
+        save_parade_image(form.parade_banner.data.read(), mii.room_id)
+
         return redirect(url_for("list_room"))
 
     return render_template("room_add.html", form=form)
@@ -85,8 +111,10 @@ def create_room():
 @login_required
 def remove_room(room_id):
     def drop_room():
+        db.session.delete(RoomMiis.query.filter_by(room_id=room_id).first())
         db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
         db.session.commit()
+        shutil.rmtree(f"./assets/special/{room_id}")
         return redirect(url_for("list_room"))
 
     return manage_delete_item(room_id, "room", drop_room)
@@ -98,6 +126,12 @@ def get_room_logo(room_id):
     return send_from_directory(f"./assets/special/{room_id}/", "f1234.img")
 
 
+@app.route("/theunderground/rooms/<room_id>/parade_banner.jpg")
+@login_required
+def get_parade_banner(room_id):
+    return send_from_directory(f"assets/special/{room_id}", "parade_banner.jpg")
+
+
 def get_room_dir(room_id: int) -> str:
     path = f"./assets/special/{room_id}"
 
@@ -105,3 +139,14 @@ def get_room_dir(room_id: int) -> str:
         os.mkdir(path)
 
     return path
+
+
+def save_parade_image(data: bytes, room_id: int):
+    # Create the holding assets folder if it does not already exist.
+    if not os.path.isdir(f"./assets/special/{room_id}"):
+        os.mkdir(f"./assets/special/{room_id}")
+
+    image_data = parade_encode(data)
+    image = open(f"./assets/special/{room_id}/parade_banner.jpg", "wb")
+    image.write(image_data)
+    image.close()

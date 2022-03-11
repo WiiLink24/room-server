@@ -248,7 +248,7 @@ class Rooms(db.Model):
 
 
 class RoomMiis(db.Model):
-    room_id = db.Column(db.Integer, primary_key=True, unique=True)
+    room_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     mii_msg = db.Column(db.String)
 

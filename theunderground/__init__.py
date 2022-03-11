@@ -5,7 +5,6 @@ from . import (
     miis,
     movies,
     news,
-    parade,
     posters,
     rooms,
     pay_movies,

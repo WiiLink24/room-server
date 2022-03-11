@@ -20,7 +20,6 @@ def special_allbin():
 
     for room_data, room_mii, mii_data in queried_data:
         # Read the parade banner image for this room ID.
-        print(room_data.room_id)
         parade_banner = open(
             f"./assets/special/{room_data.room_id}/parade_banner.jpg", "rb"
         ).read()

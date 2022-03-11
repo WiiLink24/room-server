@@ -113,13 +113,6 @@ class CategoryEditForm(FlaskForm):
     submit = SubmitField("Edit")
 
 
-class ParadeForm(FlaskForm):
-    room_id = StringField("Room ID", validators=[DataRequired()])
-    mii_msg = StringField("Mii Message", validators=[DataRequired()])
-    image = FileField("Parade Banner")
-    submit = SubmitField("Create")
-
-
 class RoomForm(FlaskForm):
     mii = StringField("Mii ID")
     bgm = SelectField(
@@ -128,9 +121,11 @@ class RoomForm(FlaskForm):
         coerce=RoomBGMTypes.coerce,
     )
     room_logo = FileField("Room Logo", validators=[FileRequired()])
+    parade_banner = FileField("Parade Banner")
     has_mascot = BooleanField("Mascot Enabled")
     has_contact = BooleanField("Show Contact Information")
     intro_msg = StringField("Intro Message", validators=[DataRequired()])
+    mii_msg = StringField("Mii Message", validators=[DataRequired()])
     news = StringField("Company", validators=[DataRequired()])
     contact = StringField("Contact Information", validators=[DataRequired()])
     submit = SubmitField("Create")

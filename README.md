@@ -25,3 +25,5 @@ flask run
 ```
 6. You will now be able to visit The Underground (http://root_domain/theunderground). The default username is `admin`, and password `admin`.
 It's highly advised to change it as soon as possible.
+6. You will now be able to visit The Underground (http://root_domain/theunderground). The default username is `admin`, and password `admin`.
+It's highly advised to change it as soon as possible.
