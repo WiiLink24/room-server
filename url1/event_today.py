@@ -2,7 +2,7 @@ from flask import send_from_directory
 
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey, is_v770
-from models import Posters, ConciergeMiis, News
+from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes
 
 
 @app.route("/url1/event/today.xml")
@@ -13,11 +13,15 @@ def event_today():
     queried_miis = (
         ConciergeMiis.query.order_by(ConciergeMiis.mii_id.asc()).limit(20).all()
     )
+    queried_intro_info = (
+        IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).all()
+    )
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
     miiinfos = []
     newsinfos = []
+    introinfos = []
     for seq, poster in enumerate(queried_posters):
         posters.append(
             RepeatedElement(
@@ -33,6 +37,26 @@ def event_today():
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
     for page, news in enumerate(News.query.order_by(News.id).all()):
         newsinfos.append(RepeatedElement({"page": page + 1, "news": news.msg}))
+    for seq, info in enumerate(queried_intro_info):
+        data = {
+            "seq": seq + 1,
+            "cntid": info.cnt_id,
+            "cnttype": info.cnt_type.value,
+            "random": 0,
+            "linktype": info.link_type.value
+        }
+
+        if info.cnt_type == ContentTypes.Image:
+            data["dispsec"] = 5
+            data["dimg"] = 1
+
+        if info.link_type != LinkTypes.Regular:
+            data["linkid"] = info.link_id
+
+        if info.cat_name:
+            data["catname"] = info.cat_name
+
+        introinfos.append(RepeatedElement(data))
 
     return_dict = {
         "date": current_date(),
@@ -52,16 +76,7 @@ def event_today():
                     "adid": 1,
                 }
             ),
-        ),
-        "introinfo": {
-            "seq": 1,
-            "cntid": 1,
-            "cnttype": 1,
-            "dispsec": 5,
-            "dimg": 1,
-            "random": 0,
-            "linktype": 0,
-        },
+        )
     }
 
     if is_v770:
@@ -89,6 +104,9 @@ def event_today():
         # v1025 expects multiple posters, similar to how we've queried.
         return_dict["posterinfo"] = posters
 
+    if introinfos:
+        return_dict["introinfo"] = introinfos
+
     if newsinfos:
         return_dict["newsinfo"] = newsinfos
 
@@ -99,7 +117,10 @@ def event_today():
 
 
 if app.debug:
-
     @app.route("/url1/intro/<name>.img")
     def serve_intro(name):
         return send_from_directory("assets/normal-intro", name + ".img")
+
+    @app.route("/url1/intro/<name>.mov")
+    def serve_intro_movie(name):
+        return send_from_directory("assets/normal-intro", name + ".mov")

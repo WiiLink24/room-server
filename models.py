@@ -254,7 +254,6 @@ class RoomMiis(db.Model):
 
 
 class EvaluateData(db.Model):
-    # ID only exists so postgres doesn't get pissed that there isn't a private key
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     movie_id = db.Column(db.Integer, index=True)
     gender = db.Column(db.Integer)
@@ -264,10 +263,53 @@ class EvaluateData(db.Model):
 
 
 class PollData(db.Model):
-    # ID only exists so postgres doesn't get pissed that there isn't a private key
     id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     poll_id = db.Column(db.Integer, index=True)
     wii_num = db.Column(db.BigInteger)
     choice = db.Column(db.Integer)
     age = db.Column(db.Integer)
     gender = db.Column(db.Integer)
+
+
+class ContentTypes(enum.Enum):
+    Video = 0
+    Image = 1
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
+
+
+class LinkTypes(enum.Enum):
+    Regular = 0
+    TheatreMovie = 1
+    TheatreCategory = 2
+    Shop = 3
+    Room = 4
+    Category = 5
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
+
+
+class IntroInfo(db.Model):
+    cnt_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
+    cnt_type = db.Column(db.Enum(ContentTypes))
+    cat_name = db.Column(db.String)
+    link_type = db.Column(db.Enum(LinkTypes))
+    link_id = db.Column(db.Integer)
