@@ -1,5 +1,6 @@
-from flask import send_from_directory, safe_join
+from flask import send_from_directory
 from werkzeug import exceptions
+from werkzeug.security import safe_join
 
 from room import app
 from helpers import xml_node_name
