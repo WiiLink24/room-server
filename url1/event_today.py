@@ -13,9 +13,7 @@ def event_today():
     queried_miis = (
         ConciergeMiis.query.order_by(ConciergeMiis.mii_id.asc()).limit(20).all()
     )
-    queried_intro_info = (
-        IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).all()
-    )
+    queried_intro_info = IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).all()
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
@@ -43,7 +41,7 @@ def event_today():
             "cntid": info.cnt_id,
             "cnttype": info.cnt_type.value,
             "random": 0,
-            "linktype": info.link_type.value
+            "linktype": info.link_type.value,
         }
 
         if info.cnt_type == ContentTypes.Image:
@@ -76,7 +74,7 @@ def event_today():
                     "adid": 1,
                 }
             ),
-        )
+        ),
     }
 
     if is_v770:
@@ -117,6 +115,7 @@ def event_today():
 
 
 if app.debug:
+
     @app.route("/url1/intro/<name>.img")
     def serve_intro(name):
         return send_from_directory("assets/normal-intro", name + ".img")
