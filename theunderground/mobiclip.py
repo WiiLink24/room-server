@@ -88,7 +88,7 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
 
     # Create the holding assets folder if it does not already exist.
     if not os.path.isdir(movie_dir):
-        os.mkdir(movie_dir)
+        os.makedirs(movie_dir)
 
     # Resize and write thumbnail
     thumbnail_data = movie_thumbnail_encode(thumbnail_data)
@@ -109,8 +109,7 @@ def save_pay_movie_data(
 
     # Create the holding assets folder if it does not already exist.
     if not os.path.isdir(movie_dir):
-        os.mkdir(movie_dir)
-        os.mkdir(f"{movie_dir}/{movie_id}")
+        os.makedirs(f"{movie_dir}/{movie_id}")
 
     # Resize and write thumbnail
     thumbnail_data = pay_movie_thumbnail_encode(thumbnail_data)
