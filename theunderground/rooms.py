@@ -136,7 +136,7 @@ def get_room_dir(room_id: int) -> str:
     path = f"./assets/special/{room_id}"
 
     if not os.path.exists(path):
-        os.mkdir(path)
+        os.makedirs(path)
 
     return path
 
@@ -144,7 +144,7 @@ def get_room_dir(room_id: int) -> str:
 def save_parade_image(data: bytes, room_id: int):
     # Create the holding assets folder if it does not already exist.
     if not os.path.isdir(f"./assets/special/{room_id}"):
-        os.mkdir(f"./assets/special/{room_id}")
+        os.makedirs(f"./assets/special/{room_id}")
 
     image_data = parade_encode(data)
     image = open(f"./assets/special/{room_id}/parade_banner.jpg", "wb")
