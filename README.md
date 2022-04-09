@@ -8,7 +8,7 @@ room-server provides a server usable with [Wii no Ma](https://en.wikipedia.org/w
 ```
 python3 -m venv virtualenv
 ```
-Ensure you active the environment.
+Ensure you activate the environment.
 
 2. Regardless of the above, ensure you have installed requirements:
 ```
