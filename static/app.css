@@ -1,0 +1,8 @@
+/* Add dependencies here. */
+@import 'bulma/css/bulma.min.css';
+@import 'bulma-prefers-dark/css/bulma-prefers-dark.min.css';
+@import 'bulma-ribbon/dist/css/bulma-ribbon.min.css';
+
+/* We only use the solid icons from Font Awesome. */
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
