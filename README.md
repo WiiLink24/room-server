@@ -16,6 +16,10 @@ pip3 install -r requirements.txt
 # Useful for reading .flaskenv.
 pip3 install python-dotenv
 ```
+Note: You may need to install these packages if psycopg2 fails to install
+```
+libpq-dev python3-dev
+```
 
 3. You'll then need to install [PostgreSQL](https://www.postgresql.org/download/). Refer to the database entry in the [room-server wiki](https://github.com/WiiLink24/room-server/wiki/Database-Setup) for more detailed download instructions.
 
