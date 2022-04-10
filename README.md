@@ -20,7 +20,7 @@ Note: If psycopg2 fails to install, install these packages and try again.
 ```
 libpq-dev python3-dev
 ```
-If you use RHEL install these
+If you use RHEL or Fedora install these
 ```
 libpq-devel python3-dev
 ```
