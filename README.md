@@ -16,7 +16,7 @@ pip3 install -r requirements.txt
 # Useful for reading .flaskenv.
 pip3 install python-dotenv
 ```
-Note: You may need to install these packages if psycopg2 fails to install
+Note: If psycopg2 fails to install, install these packages and try again.
 ```
 libpq-dev python3-dev
 ```
