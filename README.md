@@ -20,7 +20,10 @@ Note: If psycopg2 fails to install, install these packages and try again.
 ```
 libpq-dev python3-dev
 ```
-
+If you use RHEL install these
+```
+libpq-devel python3-dev
+```
 3. You'll then need to install [PostgreSQL](https://www.postgresql.org/download/). Refer to the database entry in the [room-server wiki](https://github.com/WiiLink24/room-server/wiki/Database-Setup) for more detailed download instructions.
 
 
