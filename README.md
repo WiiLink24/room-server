@@ -17,11 +17,16 @@ pip3 install -r requirements.txt
 pip3 install python-dotenv
 ```
 
-3. You'll then need to install PostgreSQL. Copy `config-example.py` to `config.py` and update this config.
-4. Read `conf/README.md` for instructions of static files you should provide.
-5. Finally, start the server:
+3. You'll then need to install [PostgreSQL](https://www.postgresql.org/download/). Refer to the database entry in the [room-server wiki](https://github.com/WiiLink24/room-server/wiki/Database-Setup) for more detailed download instructions.
+
+
+4. Copy `config-example.py` to `config.py` and update this config.
+5. Read `conf/README.md` for instructions of static files you should provide.
+6. Finally, start the server:
 ```
-flask run
+flask run -h 0.0.0.0 -p 80
 ```
-6. You will now be able to visit The Underground (http://root_domain/theunderground). The default username is `admin`, and password `admin`.
-It's highly advised to change it as soon as possible.
+6. Before launching Wii no Ma, you will need to visit The Underground (http://root_domain/theunderground) to set up the database. 
+The default username is `admin`, and password `admin`. It's highly advised to change it as soon as possible.
+
+7. Refer to the [room-server wiki](https://github.com/WiiLink24/room-server/wiki) for further instructions on set up.
