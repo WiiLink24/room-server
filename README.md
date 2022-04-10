@@ -22,7 +22,7 @@ libpq-dev python3-dev
 ```
 If you use RHEL or Fedora install these
 ```
-libpq-devel python3-dev
+libpq-devel python3-devel
 ```
 3. You'll then need to install [PostgreSQL](https://www.postgresql.org/download/). Refer to the database entry in the [room-server wiki](https://github.com/WiiLink24/room-server/wiki/Database-Setup) for more detailed download instructions.
 
