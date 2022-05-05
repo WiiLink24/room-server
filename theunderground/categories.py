@@ -105,6 +105,7 @@ def get_category_location(category_id: int):
 
 def write_category_thumbnail(category_id: int, given_file: bytes):
     encoded_image = category_encode(given_file)
+    os.makedirs("./asset/normal-category", exist_ok=True)
     with open(get_category_location(category_id), "wb") as thumbnail_file:
         thumbnail_file.write(encoded_image)
 
