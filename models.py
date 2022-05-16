@@ -248,7 +248,9 @@ class Rooms(db.Model):
 
 
 class RoomMiis(db.Model):
-    room_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    room_id = db.Column(
+        db.Integer, db.ForeignKey("rooms.room_id"), primary_key=True, unique=True
+    )
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     mii_msg = db.Column(db.String)
 
@@ -308,7 +310,9 @@ class LinkTypes(enum.Enum):
 
 
 class IntroInfo(db.Model):
-    cnt_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
+    cnt_id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+    )
     cnt_type = db.Column(db.Enum(ContentTypes))
     cat_name = db.Column(db.String)
     link_type = db.Column(db.Enum(LinkTypes))

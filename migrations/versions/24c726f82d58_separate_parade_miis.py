@@ -20,8 +20,7 @@ def upgrade():
     # Create our room_miis table.
     op.create_table(
         "room_miis",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column("room_id", sa.Integer(), nullable=False),
+        sa.Column("room_id", sa.Integer(), nullable=False, unique=True),
         sa.Column("mii_id", sa.Integer(), nullable=False),
         sa.Column("mii_msg", sa.String(), nullable=True),
         sa.ForeignKeyConstraint(
@@ -32,7 +31,7 @@ def upgrade():
             ["room_id"],
             ["rooms.room_id"],
         ),
-        sa.PrimaryKeyConstraint("id"),
+        sa.PrimaryKeyConstraint("room_id"),
     )
     # Add level and news columns for transfer purposes.
     op.add_column("rooms", sa.Column("news", sa.String(), nullable=True))
@@ -66,6 +65,7 @@ def upgrade():
     )
 
     op.drop_table("parade_miis")
+    op.drop_column("rooms", "mii_id")
     op.drop_column("rooms", "mii_msg")
     op.drop_column("rooms", "logo2_id")
 
