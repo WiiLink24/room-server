@@ -18,7 +18,10 @@
             <tr>
                 <td>{{ room.room_id }}</td>
                 <td>{{ room.news }}</td>
-                <td><img alt="Banner for {{ room.room_id }}" src="{{ url_for('get_room_logo', room_id=room.room_id) }}"/></td>
+                <td><img alt="Banner for {{ room.room_id }}"
+                         src="{{ url_for('get_room_logo', room_id=room.room_id) }}"
+                         width="50%"
+                /></td>
                 <td style="text-align: center;">
                     <div class="field has-addons">
                         <p class="control">
