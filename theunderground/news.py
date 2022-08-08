@@ -47,12 +47,7 @@ def edit_news(news_id):
 def add_news():
     form = NewsForm()
     if form.validate_on_submit():
-        nq = News.query.all()
-        if len(nq) != 0:
-            id = News.query.filter_by(id=len(nq) - 1).first().id + 1
-        else:
-            id = 0
-        created_news = News(id=id, msg=form.news.data)
+        created_news = News(msg=form.news.data)
         db.session.add(created_news)
         db.session.commit()
 
