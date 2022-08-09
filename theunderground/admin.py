@@ -72,11 +72,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/theunderground/common.css")
-def common_css():
-    return send_from_directory("templates", "common.css")
-
-
 @app.route("/theunderground/admin")
 @login_required
 def admin():
