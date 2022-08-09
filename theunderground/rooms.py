@@ -50,7 +50,6 @@ def edit_room(room_id):
 
         room.bgm = form.bgm.data
         room.mascot = form.has_mascot.data
-        room.contact = form.has_contact.data
         room.intro_msg = form.intro_msg.data
         room.contact_data = form.contact.data
         room.news = form.news.data
@@ -65,7 +64,6 @@ def edit_room(room_id):
         form.mii_msg.data = mii.mii_msg
         form.bgm.data = room.bgm
         form.has_mascot.data = room.mascot
-        form.has_contact.data = room.contact
         form.intro_msg.data = room.intro_msg
         form.contact.data = room.contact_data
         form.news.data = room.news
@@ -88,7 +86,6 @@ def create_room():
         room = Rooms(
             bgm=form.bgm.data,
             mascot=form.has_mascot.data,
-            contact=form.has_contact.data,
             intro_msg=form.intro_msg.data,
             contact_data=form.contact.data,
             news=form.news.data,

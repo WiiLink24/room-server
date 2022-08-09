@@ -117,11 +117,12 @@ class RoomForm(FlaskForm):
     room_logo = FileField("Room Logo")
     parade_banner = FileField("Parade Banner")
     has_mascot = BooleanField("Mascot Enabled")
-    has_contact = BooleanField("Show Contact Information")
     intro_msg = StringField("Intro Message", validators=[DataRequired()])
     mii_msg = StringField("Mii Message", validators=[DataRequired()])
     news = StringField("Company", validators=[DataRequired()])
-    contact = StringField("Contact Information", validators=[DataRequired()])
+    # PostgreSQL treats an empty string ('') separately from NULL (None in Python).
+    # https://stackoverflow.com/a/21853689
+    contact = StringField("Contact Information", filters=[lambda x: x or None])
     submit = SubmitField("Create")
 
 

@@ -38,7 +38,8 @@ def special_page_n(page):
         "level": room_data.level,
         "bgm": room_data.bgm.value,
         "mascot": room_data.mascot,
-        "contact": room_data.contact,
+        # If we have contact data, we should enable contacting.
+        "contact": room_data.contact_data is not None,
         "intro": {
             "inmsginfo": {
                 "inmsgseq": 1,

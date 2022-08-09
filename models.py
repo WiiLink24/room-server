@@ -240,7 +240,6 @@ class Rooms(db.Model):
     room_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     bgm = db.Column(db.Enum(RoomBGMTypes))
     mascot = db.Column(db.Boolean)
-    contact = db.Column(db.Boolean)
     intro_msg = db.Column(db.String)
     contact_data = db.Column(db.String)
     news = db.Column(db.String)
