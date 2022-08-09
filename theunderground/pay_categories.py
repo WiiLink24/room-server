@@ -2,12 +2,13 @@ import os
 
 from flask import redirect, render_template, send_from_directory, request, url_for
 from flask_login import login_required
+from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
 from models import PayCategories, db
 from room import app
 from theunderground.encodemii import category_encode
-from theunderground.forms import CategoryEditForm, CategoryAddForm
+from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 
 
@@ -31,7 +32,9 @@ def list_pay_categories():
 @app.route("/theunderground/paycategories/add", methods=["GET", "POST"])
 @login_required
 def add_pay_category():
-    form = CategoryAddForm()
+    form = CategoryForm()
+    # As we're adding, ensure a file is required.
+    form.thumbnail.flags.required = True
 
     if form.validate_on_submit():
         new_category = PayCategories(name=form.category_name.data)
@@ -46,13 +49,14 @@ def add_pay_category():
         )
         return redirect(url_for("list_pay_categories"))
 
-    return render_template("pay_category_add.html", form=form)
+    return render_template("pay_category_action.html", form=form, action="Add")
 
 
 @app.route("/theunderground/paycategories/<category>/edit", methods=["GET", "POST"])
 @login_required
 def edit_pay_category(category):
-    form = CategoryEditForm()
+    form = CategoryForm()
+    form.submit.label.text = "Edit"
 
     # Populate data
     current_category = PayCategories.query.filter(
@@ -78,7 +82,7 @@ def edit_pay_category(category):
         form.category_name.data = current_category.name
 
     return render_template(
-        "pay_category_edit.html", category=current_category, form=form
+        "pay_category_action.html", category=current_category, form=form, action="Edit"
     )
 
 

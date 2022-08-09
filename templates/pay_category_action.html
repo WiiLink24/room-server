@@ -1,0 +1,21 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    {{ action }} a Pay Category
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p class="block">
+            {{ form.hidden_tag() }}
+            {{ form.category_name.label(class_="label") }} {{ form.category_name(class_="input block") }}
+
+            {{ form.thumbnail.label(class_="label") }}
+            {% if category %}
+            {{ existing_image('category', url_for('get_pay_category_thumbnail', category=category.category_id)) }}
+            {% endif %}
+            {{ form.thumbnail(class="block") }}
+        </p>
+        <p>{{ form.submit(class_="button is-success block") }}</p>
+    </form>
+{% endblock %}

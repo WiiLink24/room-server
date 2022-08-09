@@ -2,12 +2,13 @@ import os
 
 from flask import redirect, render_template, send_from_directory, request, url_for
 from flask_login import login_required
+from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
 from models import Categories, db
 from room import app
 from theunderground.encodemii import category_encode
-from theunderground.forms import CategoryEditForm, CategoryAddForm
+from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 
 
@@ -31,7 +32,9 @@ def list_categories():
 @app.route("/theunderground/categories/add", methods=["GET", "POST"])
 @login_required
 def add_category():
-    form = CategoryAddForm()
+    form = CategoryForm()
+    # As we're adding, ensure a file is required.
+    form.thumbnail.validators = [FileRequired()]
 
     if form.validate_on_submit():
         new_category = Categories(name=form.category_name.data)
@@ -44,13 +47,14 @@ def add_category():
         write_category_thumbnail(new_category.category_id, form.thumbnail.data.read())
         return redirect(url_for("list_categories"))
 
-    return render_template("category_add.html", form=form)
+    return render_template("category_action.html", form=form)
 
 
 @app.route("/theunderground/categories/<category>/edit", methods=["GET", "POST"])
 @login_required
 def edit_category(category):
-    form = CategoryEditForm()
+    form = CategoryForm()
+    form.submit.label.text = "Edit"
 
     # Populate data
     current_category = Categories.query.filter(
@@ -72,10 +76,10 @@ def edit_category(category):
         return redirect(url_for("list_categories"))
     else:
         # Populate the current name.
-        # category_add.html below will populate the current thumbnail.
+        # category_action.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
 
-    return render_template("category_edit.html", category=current_category, form=form)
+    return render_template("category_action.html", category=current_category, form=form)
 
 
 @app.route("/theunderground/categories/<category>/remove", methods=["GET", "POST"])
