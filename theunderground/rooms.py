@@ -37,7 +37,7 @@ def edit_room(room_id):
     if form.validate_on_submit():
         # Encode our room logo, if updated.
         if form.room_logo.data:
-            save_room_logo(form.parade_banner.data.read(), room_id)
+            save_room_logo(form.room_logo.data.read(), room_id)
 
         # Save the parade image, if updated.
         if form.parade_banner.data:
