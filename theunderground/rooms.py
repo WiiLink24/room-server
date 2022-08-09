@@ -58,13 +58,17 @@ def edit_room(room_id):
         db.session.commit()
         return redirect(url_for("list_room"))
 
-    return render_template("room_edit.html", form=form, room_id=room_id)
+    return render_template(
+        "room_action.html", form=form, room_id=room_id, action="Edit"
+    )
 
 
 @app.route("/theunderground/rooms/create", methods=["GET", "POST"])
 @login_required
 def create_room():
     form = RoomForm()
+    form.parade_banner.flags.required = True
+    form.room_logo.flags.required = True
 
     if form.validate_on_submit():
         # First, add our room. Auto-increment will give us a
@@ -103,7 +107,7 @@ def create_room():
 
         return redirect(url_for("list_room"))
 
-    return render_template("room_add.html", form=form)
+    return render_template("room_action.html", form=form, action="Create")
 
 
 @app.route("/theunderground/rooms/<room_id>/remove", methods=["GET", "POST"])

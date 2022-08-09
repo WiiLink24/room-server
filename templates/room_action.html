@@ -1,0 +1,43 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    {{ action }} Room
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p class="block">
+            {{ form.hidden_tag() }}
+            {{ form.bgm.label(class_="label") }}
+            <div class="control has-icons-left block">
+                <div class="select">{{ form.bgm }}
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-music"></i>
+                </div>
+            </div>
+
+            {{ form.has_mascot.label }}: {{ form.has_mascot }}
+            <br>
+            {{ form.has_contact.label }}: {{ form.has_contact(class_="block") }}
+            {{ form.mii.label(class_="label") }} {{ form.mii(class_="input block") }}
+            {{ form.mii_msg.label(class_="label") }} {{ form.mii_msg(class="input block") }}
+            {{ form.intro_msg.label(class_="label") }} {{ form.intro_msg(class_="input block") }}
+            {{ form.news.label(class_="label") }} {{ form.news(class_="input block") }}
+            {{ form.contact.label(class_="label") }} {{ form.contact(class_="input block") }}
+
+            {{ form.room_logo.label(class_="label") }}
+            {% if room_id %}
+            {{ existing_image('room logo', url_for('get_room_logo', room_id=room_id)) }}
+            {% endif %}
+            {{ form.room_logo(class_="block") }}
+
+            {{ form.parade_banner.label(class_="label block") }}
+            {% if room_id %}
+            {{ existing_image('parade banner', url_for('get_parade_banner', room_id=room_id)) }}
+            {% endif %}
+            {{ form.parade_banner(class_="block") }}
+        </p>
+        <p>{{ form.submit(class_="button is-success block") }}</p>
+    </form>
+{% endblock %}

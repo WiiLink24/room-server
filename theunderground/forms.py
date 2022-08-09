@@ -114,7 +114,7 @@ class RoomForm(FlaskForm):
         choices=RoomBGMTypes.choices(),
         coerce=RoomBGMTypes.coerce,
     )
-    room_logo = FileField("Room Logo", validators=[FileRequired()])
+    room_logo = FileField("Room Logo")
     parade_banner = FileField("Parade Banner")
     has_mascot = BooleanField("Mascot Enabled")
     has_contact = BooleanField("Show Contact Information")
