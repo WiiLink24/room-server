@@ -5,31 +5,6 @@
 {% endblock %}
 
 {% block content %}
-        <article class="message is-info">
-        <div class="message-header">
-            <p>Information</p>
-        </div>
-        <div class="message-body">
-             This room currently has the following banner:
-            <br>
-            <br>
-            <img
-                src="{{ url_for('get_room_logo', room_id=room_id) }}"
-                alt="Thumbnail for category ID {{ room_id }}"
-                width="50%"
-            />
-            <br>
-            <br>
-            The parade for this room has the following banner:
-            <br>
-            <br>
-            <img
-                src="{{ url_for('get_parade_banner', room_id=room_id) }}"
-                alt="Thumbnail for category ID {{ room_id }}"
-                width="50%"
-            />
-        </div>
-    </article>
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         {{ form.bgm.label(class_="label") }}
@@ -61,12 +36,15 @@
         {{ form.contact.label(class_="label") }} {{ form.contact(class_="input") }}
         <br>
         <br>
-        {{ form.room_logo.label(class_="label") }} {{ form.room_logo }}
+        {{ form.room_logo.label(class_="label") }}
+        {{ existing_image('parade banner', url_for('get_room_logo', room_id=room_id), width='30%') }}
+        {{ form.room_logo }}
         <br>
         <br>
         <p>
-            {{ form.parade_banner.label(class_="label") }}
-            {{ form.parade_banner }}
+        {{ form.parade_banner.label(class_="label") }}
+        {{ existing_image('parade banner', url_for('get_parade_banner', room_id=room_id), width='30%') }}
+        {{ form.parade_banner }}
         </p>
         <br>
         <br>

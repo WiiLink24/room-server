@@ -5,6 +5,7 @@
     {% include 'includes/header.html' %}
 </head>
 <body>
+{% from 'includes/existing_image.html' import existing_image %}
 {% include 'includes/navigation.html' %}
 {% with messages = get_flashed_messages() %}
     {% for message in messages %}

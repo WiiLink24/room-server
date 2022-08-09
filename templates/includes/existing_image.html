@@ -1,0 +1,19 @@
+{% macro existing_image(type_name, image_src, width) %}
+    <article class="message is-info">
+        <div class="message-header">
+            <p>Existing Image</p>
+        </div>
+        <div class="message-body">
+            <div class="block">
+                This {{ type_name }} currently has the following image.
+                <br>
+                You can set a new one below, or leave it empty to keep the current one.
+            </div>
+            <img
+                src="{{ image_src }}"
+                alt="Thumbnail for {{ type_name }}"
+                width="{{ width or '15%' }}"
+            />
+        </div>
+    </article>
+{% endmacro %}
