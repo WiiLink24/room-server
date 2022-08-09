@@ -1,6 +1,7 @@
 # Handles pages and logo images
 from werkzeug import exceptions
 
+from asset_data import ParadeBannerAsset
 from helpers import current_date_and_time, RepeatedElement, xml_node_name
 from models import Rooms, MiiData, RoomMenu, RoomMiis, db
 from room import app
@@ -121,16 +122,12 @@ def page_0():
 
 if app.debug:
 
-    @app.route("/url1/special/<page>/img/g1234.img")
-    def handle_parade_banner(page):
-        # Handles parade banner.
-        return send_from_directory(f"assets/special/{page}", "parade_banner.jpg")
+    @app.route("/url1/special/<room_id>/img/g1234.img")
+    def handle_parade_banner(room_id):
+        return ParadeBannerAsset(room_id).send_file()
 
     @app.route("/url1/special/<page>/img/<img>")
     def handle_img(page, img):
-        # Handles logo images, for instance:
-        # GET /url1/special/1/img/f1234.img
-        # Gets f1234.img
         return send_from_directory(f"assets/special/{page}", img)
 
     @app.route("/url1/urllink/<movie_id>.mov")

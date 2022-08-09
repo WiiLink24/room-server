@@ -1,3 +1,4 @@
+from asset_data import ParadeBannerAsset
 from helpers import xml_node_name, RepeatedElement
 from room import app
 from models import MiiData, Rooms, RoomMiis, db
@@ -20,14 +21,15 @@ def special_allbin():
 
     for room_data, room_mii, mii_data in queried_data:
         # Read the parade banner image for this room ID.
-        parade_banner = open(
-            f"./assets/special/{room_data.room_id}/parade_banner.jpg", "rb"
-        ).read()
+        room_id = room_data.room_id
+
+        with ParadeBannerAsset(room_id).asset_path().open("rb") as asset:
+            parade_banner = asset.read()
 
         bin_info.append(
             RepeatedElement(
                 {
-                    "sppageid": room_data.room_id,
+                    "sppageid": room_id,
                     "miiid": mii_data.mii_id,
                     "miibin": mii_data.data,
                     # We hardcode all parade logo IDs to g1234.

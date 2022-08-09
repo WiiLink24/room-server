@@ -1,15 +1,6 @@
-import base64
 import io
 
 from PIL import Image, ImageFile
-
-
-def room_logo_encode(infile: bytes) -> bytes:
-    return generic_encode(infile, 320, 180)
-
-
-def parade_encode(infile: bytes) -> bytes:
-    return generic_encode(infile, 184, 80)
 
 
 def movie_thumbnail_encode(infile: bytes) -> bytes:
