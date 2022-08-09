@@ -67,19 +67,9 @@ def create_room():
     form = RoomForm()
 
     if form.validate_on_submit():
-        # First write Mii data.
-        mii = RoomMiis(
-            mii_id=form.mii.data,
-            mii_msg=form.mii_msg.data,
-        )
-
-        db.session.add(mii)
-        db.session.commit()
-
-        # Now room data
+        # First, add our room. Auto-increment will give us a
+        # room ID to associate images and Miis with.
         room = Rooms(
-            # I do not trust autoincrement so we will use RoomMiis assigned ID.
-            room_id=mii.room_id,
             bgm=form.bgm.data,
             mascot=form.has_mascot.data,
             contact=form.has_contact.data,
@@ -87,10 +77,10 @@ def create_room():
             contact_data=form.contact.data,
             news=form.news.data,
         )
-
         db.session.add(room)
         db.session.commit()
 
+        # Next, handle room data.
         # Encode an image to the appropriate size.
         room_image = room_logo(form.room_logo.data.read())
         # Save to our assets directory.
@@ -100,7 +90,16 @@ def create_room():
         file.close()
 
         # Save the parade image
-        save_parade_image(form.parade_banner.data.read(), mii.room_id)
+        save_parade_image(form.parade_banner.data.read(), room.room_id)
+
+        # Finally, add our Mii.
+        mii = RoomMiis(
+            room_id=room.room_id,
+            mii_id=form.mii.data,
+            mii_msg=form.mii_msg.data,
+        )
+        db.session.add(mii)
+        db.session.commit()
 
         return redirect(url_for("list_room"))
 
