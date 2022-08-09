@@ -4,7 +4,7 @@ import io
 from PIL import Image, ImageFile
 
 
-def room_logo(infile: bytes) -> bytes:
+def room_logo_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 320, 180)
 
 

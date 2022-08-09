@@ -3,9 +3,10 @@ import shutil
 
 from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
+from werkzeug import exceptions
 
 from models import db, Rooms, RoomMiis
-from theunderground.encodemii import room_logo, parade_encode
+from theunderground.encodemii import room_logo_encode, parade_encode
 from theunderground.forms import RoomForm
 from room import app
 from theunderground.operations import manage_delete_item
@@ -25,38 +26,49 @@ def list_room():
 def edit_room(room_id):
     form = RoomForm()
 
+    mii = RoomMiis.query.filter_by(room_id=room_id).first()
+    if not mii:
+        return exceptions.NotFound()
+
+    room = Rooms.query.filter_by(room_id=room_id).first()
+    if not room:
+        return exceptions.NotFound()
+
     if form.validate_on_submit():
-        # Encode an image to the appropriate size.
-        room_image = room_logo(form.room_logo.data.read())
-        # Save to our assets directory.
-        path = get_room_dir(room_id) + "/f1234.img"
-        file = open(path, "wb")
-        file.write(room_image)
-        file.close()
+        # Encode our room logo, if updated.
+        if form.room_logo.data:
+            save_room_logo(form.parade_banner.data.read(), room_id)
 
-        # Save the parade image
-        save_parade_image(form.parade_banner.data.read(), room_id)
+        # Save the parade image, if updated.
+        if form.parade_banner.data:
+            save_parade_image(form.parade_banner.data.read(), room_id)
 
-        mii = RoomMiis.query.filter_by(room_id=room_id).first()
-        if mii:
-            mii.mii_id = form.mii.data
-            mii.mii_msg = form.mii_msg.data
-
+        mii.mii_id = form.mii.data
+        mii.mii_msg = form.mii_msg.data
         db.session.add(mii)
         db.session.commit()
 
-        room = Rooms.query.filter_by(room_id=room_id).first()
-        if room:
-            room.bgm = form.bgm.data
-            room.mascot = form.has_mascot.data
-            room.contact = form.has_contact.data
-            room.intro_msg = form.intro_msg.data
-            room.contact_data = form.contact.data
-            room.news = form.news.data
-
+        room.bgm = form.bgm.data
+        room.mascot = form.has_mascot.data
+        room.contact = form.has_contact.data
+        room.intro_msg = form.intro_msg.data
+        room.contact_data = form.contact.data
+        room.news = form.news.data
         db.session.add(room)
         db.session.commit()
+
         return redirect(url_for("list_room"))
+    else:
+        # Populate our form.
+        # This is long and unwieldy...
+        form.mii.data = mii.mii_id
+        form.mii_msg.data = mii.mii_msg
+        form.bgm.data = room.bgm
+        form.has_mascot.data = room.mascot
+        form.has_contact.data = room.contact
+        form.intro_msg.data = room.intro_msg
+        form.contact.data = room.contact_data
+        form.news.data = room.news
 
     return render_template(
         "room_action.html", form=form, room_id=room_id, action="Edit"
@@ -84,16 +96,8 @@ def create_room():
         db.session.add(room)
         db.session.commit()
 
-        # Next, handle room data.
-        # Encode an image to the appropriate size.
-        room_image = room_logo(form.room_logo.data.read())
-        # Save to our assets directory.
-        path = get_room_dir(room.room_id) + "/f1234.img"
-        file = open(path, "wb")
-        file.write(room_image)
-        file.close()
-
-        # Save the parade image
+        # Next, handle room data - our room logo, and parade banner.
+        save_room_logo(form.room_logo.data.read(), room.room_id)
         save_parade_image(form.parade_banner.data.read(), room.room_id)
 
         # Finally, add our Mii.
@@ -145,11 +149,16 @@ def get_room_dir(room_id: int) -> str:
 
 
 def save_parade_image(data: bytes, room_id: int):
-    # Create the holding assets folder if it does not already exist.
-    if not os.path.isdir(f"./assets/special/{room_id}"):
-        os.makedirs(f"./assets/special/{room_id}")
-
+    room_dir = get_room_dir(room_id)
     image_data = parade_encode(data)
-    image = open(f"./assets/special/{room_id}/parade_banner.jpg", "wb")
+    image = open(f"{room_dir }/parade_banner.jpg", "wb")
+    image.write(image_data)
+    image.close()
+
+
+def save_room_logo(data: bytes, room_id: int):
+    room_dir = get_room_dir(room_id)
+    image_data = room_logo_encode(data)
+    image = open(f"{room_dir }/f1234.img", "wb")
     image.write(image_data)
     image.close()
