@@ -1,3 +1,4 @@
+from asset_data import PayCategoryAsset
 from room import app
 from helpers import xml_node_name, RepeatedElement
 from models import PayCategories, db
@@ -39,8 +40,8 @@ def pay_list_category(list_id: int):
             return exceptions.NotFound()
 
         for i, pay_categories in enumerate(retrieved_data):
-            # This section allows us to sort the categories into genres
-            # Instead of them showing up in all of the genres
+            # This section allows us to sort the categories into genres,
+            # instead of them showing up in all genres.
             filler.append(
                 RepeatedElement(
                     {
@@ -62,7 +63,7 @@ def pay_list_category(list_id: int):
 
 if app.debug:
 
-    @app.route("/url3/pay/list/category/img/<name>.img")
+    @app.route("/url3/pay/list/category/img/<category_id>.img")
     # Grabs the thumbnail for the categories
-    def serve_pay_category_thumbnail(name):
-        return send_from_directory("assets/pay-category", name + ".img")
+    def serve_pay_category_thumbnail(category_id):
+        return PayCategoryAsset(category_id).send_file()

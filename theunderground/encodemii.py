@@ -15,10 +15,6 @@ def pay_poster_thumbnail_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 320, 456)
 
 
-def category_encode(infile: bytes) -> bytes:
-    return generic_encode(infile, 160, 120)
-
-
 def room_tv_encode(infile: bytes) -> bytes:
     return generic_encode(infile, 160, 120)
 

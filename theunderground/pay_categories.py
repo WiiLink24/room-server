@@ -1,13 +1,12 @@
 import os
 
-from flask import redirect, render_template, send_from_directory, request, url_for
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required
-from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
+from asset_data import PayCategoryAsset
 from models import PayCategories, db
 from room import app
-from theunderground.encodemii import category_encode
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 
@@ -44,9 +43,7 @@ def add_pay_category():
         db.session.commit()
 
         # With this ID, write the thumbnail.
-        write_pay_category_thumbnail(
-            new_category.category_id, form.thumbnail.data.read()
-        )
+        PayCategoryAsset(new_category.category_id).encode(form.thumbnail)
         return redirect(url_for("list_pay_categories"))
 
     return render_template("pay_category_action.html", form=form, action="Add")
@@ -71,9 +68,7 @@ def edit_pay_category(category):
 
         # Check if we have a new thumbnail.
         if form.thumbnail.data:
-            write_pay_category_thumbnail(
-                current_category.category_id, form.thumbnail.data.read()
-            )
+            PayCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
         return redirect(url_for("list_pay_categories"))
     else:
@@ -90,8 +85,7 @@ def edit_pay_category(category):
 @login_required
 def remove_pay_category(category):
     def drop_pay_category():
-        os.unlink(get_pay_category_location(category))
-
+        os.unlink(PayCategoryAsset(category).asset_path())
         db.session.delete(current_category)
         db.session.commit()
 
@@ -106,17 +100,7 @@ def remove_pay_category(category):
     return manage_delete_item(category, "pay category", drop_pay_category)
 
 
-def get_pay_category_location(category_id: int):
-    return f"./assets/pay-category/{category_id}.img"
-
-
-def write_pay_category_thumbnail(category_id: int, given_file: bytes):
-    encoded_image = category_encode(given_file)
-    with open(get_pay_category_location(category_id), "wb") as thumbnail_file:
-        thumbnail_file.write(encoded_image)
-
-
 @app.route("/theunderground/paycategories/<category>/thumbnail.jpg")
 @login_required
 def get_pay_category_thumbnail(category):
-    return send_from_directory("./assets/pay-category", f"{category}.img")
+    return PayCategoryAsset(category).send_file()

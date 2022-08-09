@@ -1,13 +1,13 @@
 import os
 
-from flask import redirect, render_template, send_from_directory, request, url_for
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
+from asset_data import NormalCategoryAsset
 from models import Categories, db
 from room import app
-from theunderground.encodemii import category_encode
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 
@@ -44,7 +44,7 @@ def add_category():
         db.session.commit()
 
         # With this ID, write the thumbnail.
-        write_category_thumbnail(new_category.category_id, form.thumbnail.data.read())
+        NormalCategoryAsset(new_category.category_id).encode(form.thumbnail)
         return redirect(url_for("list_categories"))
 
     return render_template("category_action.html", form=form)
@@ -69,9 +69,7 @@ def edit_category(category):
 
         # Check if we have a new thumbnail.
         if form.thumbnail.data:
-            write_category_thumbnail(
-                current_category.category_id, form.thumbnail.data.read()
-            )
+            NormalCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
         return redirect(url_for("list_categories"))
     else:
@@ -88,8 +86,7 @@ def remove_category(category):
     def drop_category():
         db.session.delete(current_category)
         db.session.commit()
-
-        os.unlink(get_category_location(category))
+        os.unlink(NormalCategoryAsset(category).asset_path())
 
         return redirect(url_for("list_categories"))
 
@@ -103,18 +100,7 @@ def remove_category(category):
     return manage_delete_item(category, "category", drop_category)
 
 
-def get_category_location(category_id: int):
-    return f"./assets/normal-category/{category_id}.img"
-
-
-def write_category_thumbnail(category_id: int, given_file: bytes):
-    encoded_image = category_encode(given_file)
-    os.makedirs("./asset/normal-category", exist_ok=True)
-    with open(get_category_location(category_id), "wb") as thumbnail_file:
-        thumbnail_file.write(encoded_image)
-
-
 @app.route("/theunderground/categories/<category>/thumbnail.jpg")
 @login_required
 def get_category_thumbnail(category):
-    return send_from_directory("./assets/normal-category", f"{category}.img")
+    return NormalCategoryAsset(category).send_file()
