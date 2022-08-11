@@ -7,46 +7,46 @@
     <table class="table is-fullwidth is-hoverable is-striped">
         <thead>
         <tr>
-            <th scope="col">Room ID</th>
             <th scope="col">Company</th>
-            <th scope="col">Banner</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
         {% for room in rooms %}
             <tr>
-                <td>{{ room.room_id }}</td>
-                <td>{{ room.news }}</td>
-                <td><img alt="Banner for {{ room.room_id }}"
+                <td>
+                    <b>{{ room.news }}</b>
+                    <br>
+                    <img alt="Banner for {{ room.room_id }}"
                          src="{{ url_for('get_room_logo', room_id=room.room_id) }}"
                          width="50%"
-                /></td>
-                <td style="text-align: center;">
-                    <div class="field has-addons">
+                    />
+                </td>
+                <td>
+                    <div class="field is-grouped">
                         <p class="control">
                             <a href="{{ url_for('edit_room', room_id=room.room_id) }}" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
-                            </span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-edit"></i>
+                                </span>
                                 <span>Edit</span>
                             </a>
                         </p>
 
                         <p class="control">
                             <a href="{{ url_for('remove_room', room_id=room.room_id) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-trash"></i>
+                                </span>
                                 <span>Delete</span>
                             </a>
                         </p>
 
                         <p class="control">
                             <a href="{{ url_for('list_room_data', room_id=room.room_id) }}" class="button is-success">
-                            <span class="icon is-small">
-                                <i class="fas fa-tv"></i>
-                            </span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-tv"></i>
+                                </span>
                                 <span>Room Data</span>
                             </a>
                         </p>
