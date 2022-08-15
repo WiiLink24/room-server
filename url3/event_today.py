@@ -2,7 +2,7 @@ from flask import send_from_directory
 
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, is_v770
-from models import PayPosters
+from models import PayPosters, Categories
 
 
 @app.route("/url3/pay/event/today.xml")
@@ -32,6 +32,10 @@ def pay_event_today_v1025(queried_posters):
             )
         )
 
+    # In order to avoid hardcoding a category ID, we get the
+    # first category's ID.
+    first_category = Categories.query.order_by(Categories.category_id.asc()).first()
+
     return {
         "date": current_date(),
         "postertime": 5,
@@ -44,7 +48,7 @@ def pay_event_today_v1025(queried_posters):
             "dimg": 1,
             "random": 0,
             "linktype": 5,
-            "linkid": 10000,
+            "linkid": first_category.category_id,
         },
     }
 
