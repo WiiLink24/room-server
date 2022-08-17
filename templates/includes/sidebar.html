@@ -1,3 +1,5 @@
+{# Variable 'sidebar_menu' is used to add custom items to this page's sidebar menu. #}
+
 {% macro menu_item(name, redirect_func, icon_name) %}
     <ul class="menu-list">
         <li>
@@ -10,6 +12,12 @@
                 <i class="navigation-list-item fas {{ icon_name }}"></i>{{ name }}
             </a>
         </li>
+
+        {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}
+            {% if sidebar_menu %}
+                {{ sidebar_menu }}
+            {% endif %}
+        {% endif %}
     </ul>
 {% endmacro %}
 

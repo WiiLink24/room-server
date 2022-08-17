@@ -67,8 +67,10 @@ def edit_room(room_id):
         form.contact.data = room.contact_data
         form.news.data = room.news
 
+    rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
+
     return render_template(
-        "room_action.html", form=form, room_id=room_id, action="Edit"
+        "room_action.html", form=form, room_id=room_id, action="Edit", rooms=rooms
     )
 
 

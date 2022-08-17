@@ -4,6 +4,25 @@
     {{ action }} Room
 {% endblock %}
 
+{% set sidebar_menu %}
+    <li>
+        <ul>
+            {% for room in rooms %}
+                <li>
+                    <a
+                        href="{{ url_for('edit_room', room_id=room.room_id) }}"
+                        {% if url_for(request.endpoint, **request.view_args) == url_for('edit_room', room_id=room.room_id) %}
+                            class="is-active"
+                        {% endif %}
+                    >
+                        {{ room.news }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endset %}
+
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
         <p class="block">
