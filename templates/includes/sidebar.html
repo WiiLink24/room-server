@@ -1,7 +1,12 @@
 {% macro menu_item(name, redirect_func, icon_name) %}
     <ul class="menu-list">
         <li>
-            <a href="{{ url_for(redirect_func) }}" {% if request.url_rule | string == url_for(redirect_func) %} class="is-active"{% endif %}>
+            <a
+                href="{{ url_for(redirect_func) }}"
+                {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}
+                    class="is-active"
+                {% endif %}
+            >
                 <i class="navigation-list-item fas {{ icon_name }}"></i>{{ name }}
             </a>
         </li>
