@@ -2,6 +2,7 @@ from . import (
     admin,
     categories,
     concierge,
+    intro_info,
     miis,
     movies,
     news,

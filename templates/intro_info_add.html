@@ -1,0 +1,145 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Add Intro Info
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="control has-icons-left">
+            {{ form.hidden_tag() }}
+            <div class="select" id="cnt_type">
+                {{ form.cnt_type }}
+            </div>
+            <div class="icon is-small is-left">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        <br>
+        <div class="control has-icons-left">
+            {{ form.hidden_tag() }}
+            <div class="select" id="link_type">
+                {{ form.link_type }}
+            </div>
+            <div class="icon is-small is-left">
+                <i class="fas fa-music"></i>
+            </div>
+        </div>
+        <br>
+        {{ form.link_id.label(class_="label", id="link_id") }} {{ form.link_id(class_="input", id="link_id") }}
+        <br>
+        <br>
+        {{ form.cat_name.label(class_="label", id="catname") }} {{ form.cat_name(class_="input", id="catname") }}
+        <br>
+        <br>
+        {{ form.asset.label(class_="label", id="asset") }} {{ form.asset(size=32, class_="file", id="asset") }}
+        <br>
+        <br>
+        <p>{{ form.upload(class_="button is-success") }}</p>
+
+        <script>
+            window.onload = function () {
+                // When the page loads, hide everything that should appear when a certain type is selected
+                let labels = document.getElementsByClassName("label");
+                let inputs = document.getElementsByClassName("input");
+
+                for (const label of labels) {
+                    if (label.id !== "asset") {
+                        label.style.display = "none";
+                    }
+                }
+
+                for (const input of inputs) {
+                    input.style.display = "none";
+                }
+            };
+
+
+            document
+                .getElementById("link_type")
+                .addEventListener("change", function () {
+                    let menu = this.children.item(0);
+                    let value = menu.options[menu.selectedIndex].value;
+
+                    let labels = document.getElementsByClassName("label");
+                    let inputs = document.getElementsByClassName("input");
+
+                    for (const label of labels) {
+                        if (label.id === "asset") {
+                            continue;
+                        }
+
+                        if (label.id === "link_id" && value !== "0") {
+                            label.style.display = "block";
+                        } else {
+                            // Block value isn't 0.
+                            label.style.display = "none";
+                        }
+
+                        // Make catname appear for link types 2 and 5
+                        if (label.id === "catname" && (value === "2" || value === "5")) {
+                            label.style.display = "block";
+                        } else {
+                            // Block if we don't need a catname
+                            if (label.id === "catname") {
+                                label.style.display = "none";
+                            }
+                        }
+                    }
+
+                    for (const input of inputs) {
+                        if (input.id === "asset") {
+                            continue;
+                        }
+
+                        if (input.id === "link_id" && value !== "0") {
+                            input.style.display = "block";
+                        } else {
+                            // Block value isn't 0.
+                            input.style.display = "none";
+                        }
+
+                        // Make catname appear for link types 2 and 5
+                        if (input.id === "catname" && (value === "2" || value === "5")) {
+                            input.style.display = "block";
+                        } else {
+                            // Block if we don't need a catname
+                            if (input.id === "catname") {
+                                input.style.display = "none";
+                            }
+                        }
+                    }
+                });
+
+            document
+                .getElementById("cnt_type")
+                .addEventListener("change", function () {
+                    let menu = this.children.item(0);
+                    let value = menu.options[menu.selectedIndex].value;
+
+                    let labels = document.getElementsByClassName("label");
+                    let inputs = document.getElementsByClassName("file");
+
+                    for (const label of labels) {
+                        if (label.id === "link_id" || label.id === "catname") {
+                            continue;
+                        }
+
+                        if (label.id === value) {
+                            label.style.display = "none";
+                        } else {
+                            label.style.display = "block";
+                        }
+                    }
+
+                    for (const input of inputs) {
+                       if (input.id === value) {
+                            input.style.display = "none";
+                        } else {
+                            input.style.display = "block";
+                        }
+                    }
+                });
+        </script>
+    </form>
+{% endblock %}

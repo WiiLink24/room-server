@@ -56,3 +56,17 @@ def conf_first_bin():
     encrypted_xml = cipher.encrypt(pad(returned_xml, AES.block_size))
 
     return encrypted_xml
+
+
+class ABC:
+    def __init__(self, text: str):
+        self.text = text
+
+    def print_func(self):
+        print(self.text)
+
+
+class DEF(ABC):
+    def __init__(self):
+        lol = super("lmfao")
+        lol.print_func()

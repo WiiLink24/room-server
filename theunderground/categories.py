@@ -47,7 +47,7 @@ def add_category():
         NormalCategoryAsset(new_category.category_id).encode(form.thumbnail)
         return redirect(url_for("list_categories"))
 
-    return render_template("category_action.html", form=form)
+    return render_template("category_action.html", form=form, action="Add")
 
 
 @app.route("/theunderground/categories/<category>/edit", methods=["GET", "POST"])
@@ -77,7 +77,9 @@ def edit_category(category):
         # category_action.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
 
-    return render_template("category_action.html", category=current_category, form=form)
+    return render_template(
+        "category_action.html", category=current_category, form=form, action="Edit"
+    )
 
 
 @app.route("/theunderground/categories/<category>/remove", methods=["GET", "POST"])

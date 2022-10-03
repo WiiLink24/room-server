@@ -1,0 +1,62 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}intro info{% endblock %}
+{% block type_name_singular %}intro info{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Sequence Number</th>
+            <th scope="col">Content Type</th>
+            <th scope="col">Link Type</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for info in infos.items %}
+            <tr>
+                <td>{{ info.cnt_id }}</td>
+                <td>{{ info.cnt_type.name }}</td>
+                <td>{{ info.link_type.name }}</td>
+                {% if info.cnt_id != 1 %}
+                <!-- We will not allow for the first info to be deleted, things will tragically break if it is.-->
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('remove_intro_info', id=info.cnt_id) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    {% if infos.has_prev %}
+        <a href="{{ url_for('list_intro_info', page=infos.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if infos.has_next %}
+        <a href="{{ url_for('list_intro_info', page=infos.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <a href="{{ url_for('add_intro_info') }}">
+        <button class="button is-success">
+            <span>Add a screen</span>
+        </button>
+    </a>
+{% endblock %}

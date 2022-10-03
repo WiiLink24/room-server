@@ -8,10 +8,11 @@ from wtforms import (
     SelectField,
     TextAreaField,
     BooleanField,
+    IntegerField,
 )
 from wtforms.validators import DataRequired, Length, ValidationError
 
-from models import RoomBGMTypes, RoomContentBGMTypes
+from models import RoomBGMTypes, RoomContentBGMTypes, ContentTypes, LinkTypes
 
 """
 Reference:
@@ -20,14 +21,6 @@ Reference:
         imageid = form.imageid.data
         title = form.title.data
 """
-
-
-class RoomMovieForm(FlaskForm):
-    movie_id = StringField("Movie ID")
-    place = StringField("Place in Room")
-    imageid = StringField("Image ID")
-    title = StringField("Movie Title")
-    submit = SubmitField("Done!")
 
 
 class LoginForm(FlaskForm):
@@ -211,7 +204,26 @@ class ConciergeForm(FlaskForm):
 
 
 class PosterForm(FlaskForm):
-    file = FileField("Poster Image", validators=[FileRequired()])
     title = StringField("Title", validators=[DataRequired()])
     msg = StringField("Message", validators=[DataRequired()])
+    movie_id = IntegerField("Movie ID", validators=[DataRequired()])
+    poster = FileField("Poster", validators=[FileRequired()])
     upload = SubmitField("Create Poster!")
+
+
+class IntroInfoForm(FlaskForm):
+    cnt_type = SelectField(
+        "Content Type", choices=ContentTypes.choices(), coerce=ContentTypes.coerce
+    )
+    link_type = SelectField(
+        "Link Type", choices=LinkTypes.choices(), coerce=LinkTypes.coerce
+    )
+    link_id = IntegerField("Link ID")
+    cat_name = StringField("Category Name")
+    asset = FileField("Asset", validators=[FileRequired()])
+    upload = SubmitField("Create Intro Info!")
+
+
+class PayCategoryHeaderForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    submit = SubmitField("Create!")

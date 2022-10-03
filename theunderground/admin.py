@@ -1,3 +1,5 @@
+import uuid
+
 from flask import url_for, flash, render_template, send_from_directory
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.utils import redirect
@@ -41,9 +43,11 @@ def new_user():
     form = NewUserForm()
     if form.validate_on_submit():
         u = User(username=form.username.data)
-        u.set_password(form.password.data)
+        u.set_password(form.password1.data)
         db.session.add(u)
         db.session.commit()
+
+        return redirect(url_for("root"))
 
     return render_template("user_new.html", form=form)
 

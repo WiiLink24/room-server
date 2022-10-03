@@ -1,4 +1,6 @@
 from asset import Asset
+from typing import Union
+from wtforms import FileField
 
 
 class RoomLogoAsset(Asset):
@@ -35,3 +37,50 @@ class PayCategoryAsset(Asset):
         self.dimensions = (160, 120)
         self.asset_dir = self.base_asset_dir / "pay-category"
         self.asset_name = f"{category_id}.img"
+
+
+class TVScreenAsset(Asset):
+    """Used in both the Normal and Theatre room TV's"""
+
+    def __init__(self, seq: int, is_theatre: bool, is_movie: bool):
+        if is_theatre:
+            asset_dir = "pay-intro"
+        else:
+            asset_dir = "normal-intro"
+
+        if is_movie:
+            asset_name = f"{seq}-1.mov"
+        else:
+            asset_name = f"{seq}-1.img"
+
+        self.dimensions = (832, 456)
+        self.asset_dir = self.base_asset_dir / asset_dir
+        self.asset_name = asset_name
+
+    def upload_movie(self, in_bytes: Union[bytes, FileField]):
+        """Uploads a movie to its proper path"""
+        if isinstance(in_bytes, FileField):
+            content = in_bytes.data.read()
+        else:
+            content = in_bytes
+
+        self.ensure_exists()
+
+        with open(self.asset_path(), "wb") as file:
+            file.write(content)
+
+
+class PosterAsset(Asset):
+    """Used for posters in the Theatre or Normal room"""
+
+    def __init__(self, seq: int, is_theatre: bool):
+        if is_theatre:
+            asset_dir = "pay-wall"
+        else:
+            asset_dir = "normal-wall"
+
+        asset_name = f"{seq}.img"
+
+        self.dimensions = (256, 360)
+        self.asset_dir = self.base_asset_dir / asset_dir
+        self.asset_name = asset_name

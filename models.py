@@ -46,7 +46,7 @@ class RoomMenu(db.Model):
 
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
-    id = db.Column(db.Integer, primary_key=True, default=1)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     username = db.Column(db.String(100))
     password_hash = db.Column(db.String)
 

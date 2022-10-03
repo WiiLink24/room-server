@@ -30,15 +30,18 @@
     <p class="menu-label">
         Management
     </p>
+    {{ menu_item('Intro Info', 'list_intro_info', 'fa-tv') }}
     {{ menu_item('Miis', 'list_miis', 'fa-smile') }}
     {{ menu_item('Concierge', 'list_concierge', 'fa-star') }}
     {{ menu_item('Categories and Movies', 'list_categories', 'fa-video') }}
     {{ menu_item('Pay Categories and Movies', 'list_pay_categories', 'fa-money-bill-alt') }}
     {{ menu_item('Rooms', 'list_room', 'fa-door-closed') }}
+    {{ menu_item('Posters', 'list_posters', 'fa-scroll') }}
     {{ menu_item('News', 'list_news', 'fa-newspaper') }}
     <p class="menu-label">
         Account
     </p>
+    {{ menu_item('Add User', 'new_user', 'fa-user') }}
     {{ menu_item('Change Password', 'change_password', 'fa-key') }}
     <ul class="menu-list">
         <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Logout</a></li>

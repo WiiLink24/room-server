@@ -1,5 +1,17 @@
 {% extends "generic/base_manage.html" %}
 
+{% set sidebar_menu %}
+    <li>
+        <ul>
+                <li>
+                    <a href="{{ url_for('list_pay_category_headers') }}">
+                        Genres
+                    </a>
+                </li>
+        </ul>
+    </li>
+{% endset %}
+
 {% block type_name %}pay categories{% endblock %}
 {% block type_name_singular %}pay category{% endblock %}
 

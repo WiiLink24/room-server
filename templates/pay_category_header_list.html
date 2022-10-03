@@ -1,0 +1,68 @@
+{% extends "generic/base_manage.html" %}
+
+{% set sidebar_menu %}
+    <li>
+        <ul>
+                <li>
+                    <a
+                        href="{{ url_for('list_pay_category_headers') }}"
+                        {% if url_for(request.endpoint, **request.view_args) == url_for('list_pay_category_headers') %}
+                            class="is-active"
+                        {% endif %}
+                    >
+                        Genres
+                    </a>
+                </li>
+        </ul>
+    </li>
+{% endset %}
+
+{% block type_name %}genres{% endblock %}
+{% block type_name_singular %}genre{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Genre Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for genre in genres.items %}
+            <tr>
+                <td>{{ genre.title }}</td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_pay_category_header', title=genre.title) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit Genre</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a href="{{ url_for('remove_pay_category_header', title=genre.title) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('add_pay_category_header') }}">
+        <button class="button is-success">
+            <span>Add a Genre</span>
+        </button>
+    </a>
+{% endblock %}
