@@ -167,6 +167,9 @@ class PayMovies(db.Model):
         primary_key=True,
         nullable=False,
     )
+    reference_id = db.Column(db.String(32), nullable=False)
+    # Must be 7 digits long
+    price_code = db.Column(db.Integer, autoincrement=True, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
     search_vector = db.Column(TSVectorType("title", "note"))
 

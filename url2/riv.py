@@ -7,8 +7,3 @@ from room import app
 @xml_node_name("RIVToken")
 def riv_token():
     return {"code": 1, "token": 1, "msg": "Vote recorded."}
-
-
-@app.post("/test")
-def test():
-    return send_from_directory("./assets/delivery", "1.xml")

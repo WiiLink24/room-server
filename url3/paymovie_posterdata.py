@@ -33,9 +33,9 @@ def search_movies(category_id):
                     "strdt": current_date_and_time(),
                     "pop": "1",
                     "kana": 12345678,
-                    "refid": "01234567890123456789012345678912",
+                    "refid": paycategoryposters.reference_id,
                     "released": paycategoryposters.released,
-                    "term": 1,
+                    "term": 30,
                     "price": paycategoryposters.price,
                 }
             )
@@ -69,6 +69,13 @@ if app.debug:
     def serve_pay_trailer(unk, name, name1):
         return send_from_directory(
             safe_join("assets/pay-movie/", unk, name), name1 + ".smo"
+        )
+
+    @app.route("/url3/pay/movie/<unk>/<name>/<name1>.emo")
+    # Grabs the trailer
+    def serve_pay_movie(unk, name, name1):
+        return send_from_directory(
+            safe_join("assets/pay-movie/", unk, name), name1 + ".emo"
         )
 
     @app.route("/url3/pay/movie/<unk>/<name>/<name1>.sem")

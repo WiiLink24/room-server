@@ -88,6 +88,8 @@ class PayMovieUploadForm(FlaskForm):
     release = StringField(
         "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
     )
+    price_code = IntegerField("Price Code", validators=[DataRequired()])
+    ref_id = StringField("Reference ID", validators=[DataRequired(), Length(min=16)])
     note = StringField("Description", validators=[DataRequired()])
     price = StringField("Price", validators=[DataRequired()])
     category = SelectField("Movie Category", validators=[DataRequired()])

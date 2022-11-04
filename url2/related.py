@@ -1,7 +1,7 @@
 from flask import request
 from werkzeug import exceptions
 
-from models import Movies, EvaluateData, db
+from models import Movies, PayMovies, EvaluateData, db
 from room import app
 from helpers import xml_node_name, RepeatedElement
 
@@ -65,6 +65,68 @@ def related():
             )
 
     return {"leftmovieinfo": movie_info, "rightmovieinfo": movie_info}
+
+
+@app.route("/url2/pay/prelated.cgi")
+@xml_node_name("PayRelatedMovies")
+def pay_related():
+    movie = request.args.get("movieid")
+    category_result = PayMovies.query.filter_by(movie_id=movie).first()
+    if category_result is None:
+        return exceptions.NotFound()
+
+    category_id = category_result.category_id
+
+    movies = (
+        PayMovies.query.filter(PayMovies.category_id == category_id)
+        .order_by(PayMovies.date_added)
+        .limit(4)
+        .all()
+    )
+
+    movie_info = []
+
+    rank = 0
+
+    for movie in movies:
+        rank += 1
+        movie_info.append(
+            RepeatedElement(
+                {
+                    "rank": rank,
+                    "movieid": movie.movie_id,
+                    "title": movie.title,
+                }
+            )
+        )
+
+    movie_info_len = len(movie_info)
+    if movie_info_len != 4:
+        last_movie = movie_info[movie_info_len - 1]
+        repeated_movie_id = last_movie.contents.get("movieid")
+        repeated_title = last_movie.contents.get("title")
+
+        for i in range(4 - movie_info_len):
+            rank += 1
+            movie_info.append(
+                RepeatedElement(
+                    {
+                        "rank": rank,
+                        "movieid": repeated_movie_id,
+                        "title": repeated_title,
+                    }
+                )
+            )
+
+    return {"movieinfo": movie_info}
+
+
+@app.route("/url2/pay/pevaluate.cgi", methods=["GET", "POST"])
+@xml_node_name("PayEvaluate")
+def pay_evaluate():
+    # The form returns metrics such as watch time, wii number, mac address and if the user sent to DSi.
+    # We do not care about this stuff, so we will just return success
+    return {"code": 1, "msg": "awesome thanks"}
 
 
 @app.route("/url2/evaluate.cgi", methods=["GET", "POST"])
