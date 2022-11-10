@@ -53,9 +53,12 @@ def pay_challenge():
 @app.post("/url2/pay/verify.cgi")
 @xml_node_name("Verify")
 def pay_verify_movie():
+    # The eblob form field must be accessed or the channel will error.
+    _ = request.form.get("eblob")
+
     return {
         "code": 1,
-        "url": get_config_url("url3"),
+        "url": get_config_url("url3").removesuffix("/"),
         "cookie": "I love cookies this does literally nothing though",
         "key": "5ab362aa57dbb1dc16849e3e2d1cf2ff",
         "msg": "The movie is encrypted",
@@ -65,8 +68,11 @@ def pay_verify_movie():
 @app.post("/url2/pay/support.cgi")
 @xml_node_name("Support")
 def pay_support():
+    # The eblob form field must be accessed or the channel will error.
+    _ = request.form.get("eblob")
+
     return {
         "code": 1,
-        "supportid": "This is legit free  ",
+        "supportid": "discord.gg/wiilink  ",
         "msg": "This is literally free",
     }
