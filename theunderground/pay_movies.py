@@ -30,7 +30,7 @@ def list_pay_movies(category):
 
     # We want at most 10 posters per page.
     movies = PayMovies.query.filter(PayMovies.category_id == category).paginate(
-        page_num, 20, error_out=False
+        page=page_num, per_page=20, error_out=False
     )
 
     return render_template(

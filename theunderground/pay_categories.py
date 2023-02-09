@@ -17,7 +17,7 @@ def list_pay_categories():
     page_num = request.args.get("page", default=1, type=int)
 
     categories = PayCategories.query.order_by(PayCategories.category_id.asc()).paginate(
-        page_num, 15, error_out=False
+        page=page_num, per_page=15, error_out=False
     )
 
     return render_template(
@@ -104,7 +104,7 @@ def remove_pay_category(category):
 @login_required
 def list_pay_category_headers():
     """Internally named headers, basically genres."""
-    genres = PayCategoryHeaders.query.paginate(1, 15, error_out=False)
+    genres = PayCategoryHeaders.query.paginate(page=1, per_page=15, error_out=False)
 
     return render_template(
         "pay_category_header_list.html",

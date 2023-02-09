@@ -15,7 +15,7 @@ def list_intro_info():
     page_num = request.args.get("page", default=1, type=int)
 
     infos = IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).paginate(
-        page_num, 15, error_out=False
+        page=page_num, per_page=15, error_out=False
     )
 
     return render_template(
