@@ -33,6 +33,6 @@ def pay_category_metadata(unk, num, num1: int):
         "sample": 1,
         "smpap": 1,
         "released": payposter_metadata.released,
-        "encrypt": "1",
+        "encrypt": "0",
         "geofilter": "1",
     }
