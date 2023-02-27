@@ -1,3 +1,4 @@
+from first import get_config_url
 """
 Since there are 6 different types of Room Types, it makes no sense to make a table for each.
 Instead, we use the raw JSON format of the types then convert them to xml when it is passed
@@ -13,7 +14,7 @@ def smp(num, id, title):
         "smp": {
             "smpid": id,
             "smptitle": f"{title}",
-            "smpurl": "http://old.wiilink24.com",
+            "smpurl": f"{get_config_url('url2')}/url2/smp.cgi",
             "smpmov": 1,
             "smpmovap": 1,
             "smpdup": 1,
