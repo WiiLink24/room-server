@@ -327,3 +327,4 @@ class Giveaways(db.Model):
     )
     giveaway_id = db.Column(db.Integer, nullable=False)
     wii_id = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)

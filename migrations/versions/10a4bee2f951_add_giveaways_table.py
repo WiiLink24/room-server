@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('giveaway_id', sa.Integer(), nullable=False),
     sa.Column('wii_id', sa.String(), nullable=False),
+    sa.Column('email', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
