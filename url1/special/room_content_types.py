@@ -1,4 +1,5 @@
 from first import get_config_url
+
 """
 Since there are 6 different types of Room Types, it makes no sense to make a table for each.
 Instead, we use the raw JSON format of the types then convert them to xml when it is passed
