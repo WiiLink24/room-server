@@ -16,5 +16,4 @@ def delivery_response():
         db.session.add(data)
         db.session.commit()
 
-    request_dump(request)
     return {"code": 1, "msg": "Vote recorded."}
