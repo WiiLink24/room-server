@@ -319,3 +319,11 @@ class IntroInfo(db.Model):
     cat_name = db.Column(db.String)
     link_type = db.Column(db.Enum(LinkTypes))
     link_id = db.Column(db.Integer)
+
+
+class Giveaways(db.Model):
+    id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+    )
+    giveaway_id = db.Column(db.Integer, nullable=False)
+    wii_id = db.Column(db.String, nullable=False)
