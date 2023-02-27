@@ -2,7 +2,6 @@ from room import app, db
 from flask import request
 from helpers import xml_node_name
 from models import Giveaways
-from debug import request_dump
 
 
 @app.route("/url2/smp.cgi", methods=["POST"])
