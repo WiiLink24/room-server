@@ -15,7 +15,7 @@ def smp(num, id, title):
         "smp": {
             "smpid": id,
             "smptitle": f"{title}",
-            "smpurl": f"{get_config_url('url2')}/url2/smp.cgi",
+            "smpurl": f"{get_config_url('url2')}/smp.cgi",
             "smpmov": 1,
             "smpmovap": 1,
             "smpdup": 1,
