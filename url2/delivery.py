@@ -11,7 +11,11 @@ def delivery_response():
     giveaway_id = request.form.get("smpid")
     email = request.form.get("mail")
 
-    user = Giveaways.query.filter_by(giveaway_id=giveaway_id).filter_by(wii_id=wii_id).first()
+    user = (
+        Giveaways.query.filter_by(giveaway_id=giveaway_id)
+        .filter_by(wii_id=wii_id)
+        .first()
+    )
     if user is None:
         data = Giveaways(giveaway_id=giveaway_id, wii_id=wii_id, email=email)
         db.session.add(data)
