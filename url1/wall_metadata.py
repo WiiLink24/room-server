@@ -9,7 +9,6 @@ from models import Posters
 @app.route("/url1/wall/<int:met_id>.met")
 @xml_node_name("PosterMeta")
 def wall_metadata(met_id: int):
-
     if is_v770:
         # v770 requires we have poster metadata for the poster in the back of the room.
         if met_id == 2:

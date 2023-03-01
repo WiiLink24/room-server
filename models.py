@@ -22,7 +22,6 @@ def load_user(id):
 
 
 class DictType(TypeDecorator):
-
     impl = sqlalchemy.Text()
 
     def process_bind_param(self, value, dialect):

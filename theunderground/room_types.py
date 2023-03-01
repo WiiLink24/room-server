@@ -199,7 +199,6 @@ def link(room_id):
             image1_data = image1.read()
             image2_data = image2.read()
             if validate_mobiclip(movie_data):
-
                 db_json = RoomMenu(
                     room_id=room_id,
                     data=tv.link(
