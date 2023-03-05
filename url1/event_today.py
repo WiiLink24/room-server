@@ -58,7 +58,7 @@ def event_today():
 
     return_dict = {
         "date": current_date(),
-        "frameid": 100000,
+        "frameid": 2,
         "color": "000000",
         "postertime": 5,
         "adinfo": (
