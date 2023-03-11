@@ -20,7 +20,7 @@ def pay_category_metadata(unk, num, num1: int):
         "len": payposter_metadata.length,
         "aspect": 1,
         "payenddt": "2022-12-12T23:00:00",
-        "dsdist": 0,
+        "dsdist": 1,
         "dsmovid": payposter_metadata.movie_id,
         "staff": 0,
         "note": payposter_metadata.note,
