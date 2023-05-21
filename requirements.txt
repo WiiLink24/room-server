@@ -1,4 +1,4 @@
-Flask>=2.2
+Flask==2.2
 lxml>=4.8
 psycopg2>=2.9
 flask_sqlalchemy>=3.0.3
