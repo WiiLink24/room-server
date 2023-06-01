@@ -58,7 +58,7 @@ def pay_verify_movie():
 
     return {
         "code": 1,
-        "url": get_config_url("url3").removesuffix("/"),
+        "url": get_config_url("url3"),
         "cookie": "I love cookies this does literally nothing though",
         "key": "5ab362aa57dbb1dc16849e3e2d1cf2ff",
         "msg": "The movie is encrypted",

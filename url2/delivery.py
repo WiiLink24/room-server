@@ -10,7 +10,7 @@ def delivery_response():
     wii_id = request.form.get("wiiid")
     giveaway_id = request.form.get("smpid")
     email = request.form.get("mail")
-    
+
     if not email:
         return {"code": 1, "msg": "Vote recorded."}
 

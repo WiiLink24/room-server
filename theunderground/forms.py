@@ -213,6 +213,14 @@ class PosterForm(FlaskForm):
     upload = SubmitField("Create Poster!")
 
 
+class PayPosterForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    msg = StringField("Message", validators=[DataRequired()])
+    poster = FileField("Poster", validators=[FileRequired()])
+    movie = FileField("Movie", validators=[FileRequired()])
+    upload = SubmitField("Create Poster!")
+
+
 class IntroInfoForm(FlaskForm):
     cnt_type = SelectField(
         "Content Type", choices=ContentTypes.choices(), coerce=ContentTypes.coerce

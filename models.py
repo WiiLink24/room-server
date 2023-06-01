@@ -87,7 +87,6 @@ class News(db.Model):
 class PayPosters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
-    movie_id = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String(47), nullable=False)
     type = db.Column(db.Integer, nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)

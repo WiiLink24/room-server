@@ -1,0 +1,62 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}pay posters{% endblock %}
+{% block type_name_singular %}pay poster{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Message</th>
+            <th scope="col">Title</th>
+            <th scope="col">Poster</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for poster in posters.items %}
+            <tr>
+                <td>{{ poster.poster_id }}</td>
+                <td>{{ poster.msg }}</td>
+                <td>{{ poster.title }}</td>
+                <td>
+                    <img src="{{ url_for('get_pay_poster', poster=poster.poster_id) }}"
+                         alt="Poster for poster ID {{ poster.poster_id }}"
+                         width="50%"
+                    />
+                </td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit Poster</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a href="{{ url_for('remove_pay_poster', poster=poster.poster_id) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('add_pay_poster') }}">
+        <button class="button is-success">
+            <span>Add a poster</span>
+        </button>
+    </a>
+{% endblock %}

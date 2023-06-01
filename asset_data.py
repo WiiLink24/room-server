@@ -84,3 +84,23 @@ class PosterAsset(Asset):
         self.dimensions = (256, 360)
         self.asset_dir = self.base_asset_dir / asset_dir
         self.asset_name = asset_name
+
+
+class PayMovieAsset(Asset):
+    def __init__(self, seq: int):
+        asset_name = f"{seq}.emo"
+
+        self.asset_dir = self.base_asset_dir / "pay-wall"
+        self.asset_name = asset_name
+
+    def upload_movie(self, in_bytes: Union[bytes, FileField]):
+        """Uploads a movie to its proper path"""
+        if isinstance(in_bytes, FileField):
+            content = in_bytes.data.read()
+        else:
+            content = in_bytes
+
+        self.ensure_exists()
+
+        with open(self.asset_path(), "wb") as file:
+            file.write(content)

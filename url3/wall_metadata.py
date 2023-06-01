@@ -17,7 +17,7 @@ def pay_wall_metadata(met_id: int):
     return {
         "posterid": poster_metadata.poster_id,
         "msg": poster_metadata.msg,
-        "movieid": poster_metadata.movie_id,
+        "movieid": poster_metadata.poster_id,
         "title": poster_metadata.title,
         "type": poster_metadata.type,
         "aspect": poster_metadata.aspect,
@@ -29,3 +29,8 @@ if app.debug:
     @app.route("/url3/pay/wall/<name>.img")
     def serve_pay_images(name):
         return send_from_directory("assets/pay-wall", name + ".img")
+
+    @app.route("/url3/pay/wall/<name>-H.emo")
+    @app.route("/url3/pay/wall/<name>-L.emo")
+    def serve_pay_poster_trailers(name):
+        return send_from_directory("assets/pay-wall", name + ".emo")

@@ -12,4 +12,5 @@ from . import (
     pay_categories,
     room_types,
     room_data,
+    pay_posters,
 )
