@@ -1,6 +1,7 @@
 from flask import render_template, flash, url_for, redirect
 from flask_login import login_required
 from theunderground.forms import PosterForm
+from theunderground.operations import manage_delete_item
 from asset_data import PosterAsset
 from models import Posters, db
 from room import app
@@ -42,6 +43,20 @@ def add_poster():
         return redirect(url_for("list_posters"))
 
     return render_template("poster_add.html", form=form)
+
+
+@app.route("/theunderground/posters/<poster>/remove", methods=["GET", "POST"])
+@login_required
+def remove_poster(poster: int):
+    def drop_poster():
+        db.session.delete(Posters.query.filter_by(poster_id=poster).first())
+        db.session.commit()
+
+        PosterAsset(poster, False).delete()
+
+        return redirect(url_for("list_posters"))
+
+    return manage_delete_item(poster, "poster", drop_poster)
 
 
 @app.route("/theunderground/posters/<poster>/thumbnail.jpg")

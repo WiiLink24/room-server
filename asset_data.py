@@ -2,6 +2,8 @@ from asset import Asset
 from typing import Union
 from wtforms import FileField
 
+import os
+
 
 class RoomLogoAsset(Asset):
     """Used for a company logo within a room."""
@@ -84,6 +86,9 @@ class PosterAsset(Asset):
         self.dimensions = (256, 360)
         self.asset_dir = self.base_asset_dir / asset_dir
         self.asset_name = asset_name
+
+    def delete(self):
+        os.remove(self.asset_path())
 
 
 class PayMovieAsset(Asset):
