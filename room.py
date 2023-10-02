@@ -37,8 +37,7 @@ migrate = Migrate(app, db)
 login.init_app(app)
 
 
-@app.before_first_request
-def initialize_server():
+with app.app_context():
     # Ensure our database is present.
     db.create_all()
 
