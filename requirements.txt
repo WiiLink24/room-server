@@ -12,4 +12,4 @@ python-dotenv>=0.19
 sentry-sdk[flask]>=1.5.0
 SQLAlchemy-Searchable>=1.4.1
 tzdata; platform_system == 'Windows'
-werkzeug==2.2.0
+werkzeug==2.2.3
