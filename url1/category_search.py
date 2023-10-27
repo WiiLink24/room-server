@@ -13,27 +13,23 @@ def list_category_search(categ_id):
         .order_by(Movies.date_added.desc())
         .all()
     )
-    results = []
-
     if not retrieved_data:
         # Looks like this category does not exist, or contains no movies.
         return exceptions.NotFound()
 
-    for i, movie_data in enumerate(retrieved_data):
-        # Items must be indexed by 1.
-        results.append(
-            RepeatedElement(
-                {
-                    "rank": i + 1,
-                    "movieid": movie_data.movie_id,
-                    "title": movie_data.title,
-                    "genre": movie_data.genre,
-                    "strdt": current_date_and_time(),
-                    "pop": 0,
-                }
-            )
+    results = [
+        RepeatedElement(
+            {
+                "rank": i + 1,
+                "movieid": movie_data.movie_id,
+                "title": movie_data.title,
+                "genre": movie_data.genre,
+                "strdt": current_date_and_time(),
+                "pop": 0,
+            }
         )
-
+        for i, movie_data in enumerate(retrieved_data)
+    ]
     return {
         "num": 1,
         "categid": categ_id,

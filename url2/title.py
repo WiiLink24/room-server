@@ -10,9 +10,7 @@ from werkzeug import exceptions
 @xml_node_name("PayTitle")
 def pay_title():
     movieinfo = []
-    rank = 1
-
-    for _, value in request.form.items(multi=True):
+    for rank, (_, value) in enumerate(request.form.items(multi=True), start=1):
         movie = PayMovies.query.filter_by(reference_id=value).first()
         if movie is None:
             return exceptions.NotFound()
@@ -33,8 +31,6 @@ def pay_title():
                 }
             )
         )
-
-        rank += 1
 
     return {"movieinfo": movieinfo}
 

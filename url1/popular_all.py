@@ -25,23 +25,19 @@ def query_popular(*criteria):
     # Limit to 64, and go wild!
     popular_movies = query.limit(64).all()
 
-    movieinfo = []
-    for i, movie in enumerate(popular_movies):
-        # Items must be indexed by 1.
-        movieinfo.append(
-            RepeatedElement(
-                {
-                    "rank": i + 1,
-                    "movieid": movie.movie_id,
-                    "title": movie.title,
-                    "genre": 1,
-                    "strdt": current_date_and_time(),
-                    "pop": 0,
-                }
-            )
+    return [
+        RepeatedElement(
+            {
+                "rank": i + 1,
+                "movieid": movie.movie_id,
+                "title": movie.title,
+                "genre": 1,
+                "strdt": current_date_and_time(),
+                "pop": 0,
+            }
         )
-
-    return movieinfo
+        for i, movie in enumerate(popular_movies)
+    ]
 
 
 @app.route("/url1/list/popular/all.xml")

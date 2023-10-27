@@ -25,10 +25,10 @@ def special_page_n(page):
     room_data, room_mii, mii_data = query
     menu_data = db.session.query(RoomMenu).filter(RoomMenu.room_id == page).all()
 
-    menus = []
-    for place, data in enumerate(menu_data):
-        menus.append(RepeatedElement(data.data | {"place": place + 1}))
-
+    menus = [
+        RepeatedElement(data.data | {"place": place + 1})
+        for place, data in enumerate(menu_data)
+    ]
     return {
         "sppageid": page,
         # TODO: database schema should handle proper times regarding catalog.
@@ -133,12 +133,12 @@ if app.debug:
     @app.route("/url1/urllink/<movie_id>.mov")
     def handle_urllink(movie_id):
         # Handles movies for room type "link"
-        return send_from_directory("assets/urllink", movie_id + ".mov")
+        return send_from_directory("assets/urllink", f"{movie_id}.mov")
 
     @app.route("/url1/urllink/<movie_id>.img")
     def handle_urlink(movie_id):
         # Handles movies for room type "link"
-        return send_from_directory("assets/urllink", movie_id + ".img")
+        return send_from_directory("assets/urllink", f"{movie_id}.img")
 
     @app.route("/url1/picture/<movie_id>")
     def handle_picture(movie_id):
@@ -148,9 +148,9 @@ if app.debug:
     @app.route("/url1/delivery/<movie_id>.mov")
     def handle_delivery(movie_id):
         # Handles movies for room type "delivery"
-        return send_from_directory("assets/delivery", movie_id + ".mov")
+        return send_from_directory("assets/delivery", f"{movie_id}.mov")
 
     @app.route("/url1/delivery/<img>.img")
     def handle_deliveryimg(img):
         # Handles movies for room type "delivery"
-        return send_from_directory("assets/delivery", img + ".img")
+        return send_from_directory("assets/delivery", f"{img}.img")

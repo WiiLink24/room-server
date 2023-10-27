@@ -57,20 +57,12 @@ def choose_type(room_id):
 # must be different. These functions query the database for the last value then adds by 1.
 def x_id():
     num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
-    if num is not None:
-        return num.id + 1
-    else:
-        return 1
+    return num.id + 1 if num is not None else 1
 
 
 def photo_id():
     num = RoomMenu.query.order_by(RoomMenu.id.desc()).first()
-    if num is not None:
-        proper_id = int(num.data["imageid"][1:]) + 1
-
-        return proper_id
-    else:
-        return 1000
+    return int(num.data["imageid"][1:]) + 1 if num is not None else 1000
 
 
 @app.route("/theunderground/rooms/<room_id>/add/delivery", methods=["GET", "POST"])
@@ -81,10 +73,10 @@ def delivery(room_id):
     if form.validate_on_submit():
         movie = form.movie.data
         image = form.image.data
-        thumbnail = form.tv.data
         if movie and image:
             movie_data = movie.read()
             image_data = image.read()
+            thumbnail = form.tv.data
             tv_data = thumbnail.read()
 
             if validate_mobiclip(movie_data):
@@ -162,8 +154,7 @@ def movie(room_id):
     form = RoomMovieData()
 
     if form.validate_on_submit():
-        image = form.image.data
-        if image:
+        if image := form.image.data:
             image_data = image.read()
 
             db_json = RoomMenu(
@@ -190,11 +181,11 @@ def link(room_id):
 
     if form.validate_on_submit():
         movie = form.movie.data
-        thumbnail = form.tv.data
         image1 = form.image1.data
         image2 = form.image2.data
         if movie and tv:
             movie_data = movie.read()
+            thumbnail = form.tv.data
             tv_data = thumbnail.read()
             image1_data = image1.read()
             image2_data = image2.read()
@@ -238,11 +229,11 @@ def pic(room_id):
     form = RoomPicData()
 
     if form.validate_on_submit():
-        thumbnail = form.tv.data
         image1 = form.image1.data
         image2 = form.image2.data
         image3 = form.image3.data
         if tv:
+            thumbnail = form.tv.data
             tv_data = thumbnail.read()
             image1_data = image1.read()
             image2_data = image2.read()

@@ -34,11 +34,7 @@ class Asset(object):
 
     def encode(self, in_bytes: Union[bytes, FileField]):
         """Encodes an image to a format suitable for the Wii."""
-        if isinstance(in_bytes, FileField):
-            content = in_bytes.data.read()
-        else:
-            content = in_bytes
-
+        content = in_bytes.data.read() if isinstance(in_bytes, FileField) else in_bytes
         self.ensure_exists()
 
         ImageFile.LOAD_TRUNCATED_IMAGES = True

@@ -21,7 +21,7 @@ def wall_metadata(met_id: int):
 
         # Additionally, we hardcode anything above 100000 to be the same as normal.
         # We split the metadata from its imagery due to a need for different dimensions.
-        if met_id > 1000000 and is_v770:
+        if met_id > 1000000:
             met_id -= 1000000
 
     # Determine if we have metadata for this poster.
@@ -41,4 +41,4 @@ if app.debug:
 
     @app.route("/url1/wall/<name>.img")
     def serve_images(name):
-        return send_from_directory("assets/normal-wall", name + ".img")
+        return send_from_directory("assets/normal-wall", f"{name}.img")

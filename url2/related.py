@@ -106,7 +106,7 @@ def pay_related():
         repeated_movie_id = last_movie.contents.get("movieid")
         repeated_title = last_movie.contents.get("title")
 
-        for i in range(4 - movie_info_len):
+        for _ in range(4 - movie_info_len):
             rank += 1
             movie_info.append(
                 RepeatedElement(
@@ -138,10 +138,10 @@ def evaluate():
 
     # 8 is the maximum amount of Mii's that can be registered.
     for i in range(8):
-        vote = request.form.get("eval%s" % i)
-        gender = request.form.get("sex%s" % i)
-        blood = request.form.get("blood%s" % i)
-        age = request.form.get("age%s" % i)
+        vote = request.form.get(f"eval{i}")
+        gender = request.form.get(f"sex{i}")
+        blood = request.form.get(f"blood{i}")
+        age = request.form.get(f"age{i}")
         movie_id = request.form.get("movieid")
         if vote:
             data = EvaluateData(

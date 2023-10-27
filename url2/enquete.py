@@ -14,9 +14,9 @@ def handle_enquete():
     for i in range(8):
         poll_id = request.form.get("enqid")
         wii_num = request.form.get("wiiid")
-        choice = request.form.get("choice%s" % i)
-        age = request.form.get("age%s" % i)
-        gender = request.form.get("sex%s" % i)
+        choice = request.form.get(f"choice{i}")
+        age = request.form.get(f"age{i}")
+        gender = request.form.get(f"sex{i}")
 
         if choice:
             data = PollData(

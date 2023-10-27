@@ -9,19 +9,16 @@ def pay_list_category_header():
     queried_categories = PayCategoryHeaders.query.order_by(
         PayCategoryHeaders.title.asc()
     ).all()
-    filler = []
-    for i, pay_category_headers in enumerate(queried_categories):
-        # Titles must be indexed by 1.
-        filler.append(
-            RepeatedElement(
-                {
-                    "place": i + 1,
-                    "type": i + 10,
-                    "text": pay_category_headers.title,
-                }
-            )
+    filler = [
+        RepeatedElement(
+            {
+                "place": i + 1,
+                "type": i + 10,
+                "text": pay_category_headers.title,
+            }
         )
-
+        for i, pay_category_headers in enumerate(queried_categories)
+    ]
     return {
         "img": 0,
         "listinfo": filler,
