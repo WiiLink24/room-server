@@ -21,7 +21,7 @@ def get_movie_byte(movie_id: int) -> str:
     hasher = hashlib.md5()
     hasher.update(movie_id.encode("utf-8"))
     resulting_hash = hasher.hexdigest()
-    return resulting_hash[0:2]
+    return resulting_hash[:2]
 
 
 def get_movie_dir(movie_id: int) -> str:
@@ -36,34 +36,22 @@ def get_pay_movie_dir(movie_id: int) -> str:
 
 def validate_mobiclip(file_data: bytes) -> bool:
     # Validate file magic
-    if file_data[0:4] != b"MOC5":
-        return False
-
-    # Ensure we have a valid keyframe index.
-    if b"KI" not in file_data:
-        return False
-
-    return True
+    return False if file_data[:4] != b"MOC5" else b"KI" in file_data
 
 
 def get_category_list():
     db_categories = Categories.query.all()
 
-    choice_categories = []
-    for _, category in enumerate(db_categories):
-        choice_categories.append([category.category_id, category.name])
-
-    return choice_categories
+    return [[category.category_id, category.name] for category in db_categories]
 
 
 def get_pay_category_list():
     db_categories = PayCategories.query.all()
 
-    choice_categories = []
-    for _, paycategory in enumerate(db_categories):
-        choice_categories.append([paycategory.category_id, paycategory.name])
-
-    return choice_categories
+    return [
+        [paycategory.category_id, paycategory.name]
+        for paycategory in db_categories
+    ]
 
 
 def get_mobiclip_length(file_data: bytes) -> str:
@@ -92,14 +80,10 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
 
     # Resize and write thumbnail
     thumbnail_data = movie_thumbnail_encode(thumbnail_data)
-    thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
-    thumbnail.write(thumbnail_data)
-    thumbnail.close()
-
-    # Write movie
-    movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
-    movie.write(movie_data)
-    movie.close()
+    with open(f"{movie_dir}/{movie_id}.img", "wb") as thumbnail:
+        thumbnail.write(thumbnail_data)
+    with open(f"{movie_dir}/{movie_id}-H.mov", "wb") as movie:
+        movie.write(movie_data)
 
 
 def save_pay_movie_data(
@@ -113,20 +97,14 @@ def save_pay_movie_data(
 
     # Resize and write thumbnail
     thumbnail_data = pay_movie_thumbnail_encode(thumbnail_data)
-    thumbnail = open(f"{movie_dir}/{movie_id}/D_{movie_id}-1.img", "wb")
-    thumbnail.write(thumbnail_data)
-    thumbnail.close()
-
+    with open(f"{movie_dir}/{movie_id}/D_{movie_id}-1.img", "wb") as thumbnail:
+        thumbnail.write(thumbnail_data)
     # Resize and write poster
     poster_data = pay_poster_thumbnail_encode(poster_data)
-    poster = open(f"{movie_dir}/{movie_id}/{movie_id}.img", "wb")
-    poster.write(poster_data)
-    poster.close()
-
-    # Write movie
-    movie = open(f"{movie_dir}/{movie_id}/S_{movie_id}-H.smo", "wb")
-    movie.write(movie_data)
-    movie.close()
+    with open(f"{movie_dir}/{movie_id}/{movie_id}.img", "wb") as poster:
+        poster.write(poster_data)
+    with open(f"{movie_dir}/{movie_id}/S_{movie_id}-H.smo", "wb") as movie:
+        movie.write(movie_data)
 
 
 def delete_movie_data(movie_id: int):

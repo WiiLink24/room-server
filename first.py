@@ -10,10 +10,7 @@ FIRST_BIN_KEY = b"\x94\x3B\x13\xDD\x87\x46\x8B\xA5\xD9\xB7\xA8\xB8\x99\xF9\x18\x
 FIRST_BIN_IV = b"\x66\xB3\x3F\xC1\x37\x3F\xE5\x06\xEC\x2B\x59\xFB\x6B\x97\x7C\x82"
 
 # Determine at import time what protocol to use as sourced from the config.
-if config.root_https_enabled:
-    root_protocol = "https"
-else:
-    root_protocol = "http"
+root_protocol = "https" if config.root_https_enabled else "http"
 
 
 def get_config_url(service_type: str) -> str:
@@ -53,6 +50,4 @@ def conf_first_bin():
 
     # Then, we encrypt.
     cipher = AES.new(FIRST_BIN_KEY, AES.MODE_CBC, iv=FIRST_BIN_IV)
-    encrypted_xml = cipher.encrypt(pad(returned_xml, AES.block_size))
-
-    return encrypted_xml
+    return cipher.encrypt(pad(returned_xml, AES.block_size))

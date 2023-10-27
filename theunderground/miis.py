@@ -20,14 +20,13 @@ def list_miis():
 def add_mii():
     form = MiiUploadForm()
     if form.validate_on_submit():
-        mii = form.mii.data
-        if mii:
+        if mii := form.mii.data:
             data = mii.read()
             mii_length = len(data)
 
             # An uploaded Mii can be with or without its checksum.
             # We'll insert one ourselves all the same.
-            if mii_length == 74 or mii_length == 76:
+            if mii_length in {74, 76}:
                 # If we do have a checksum, split it off.
                 real_data = data[:74]
                 checksum = crc16.crc16xmodem(real_data).to_bytes(

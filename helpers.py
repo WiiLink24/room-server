@@ -11,11 +11,7 @@ from room import app
 
 
 def check_if_v770():
-    if "is_v770" not in g:
-        # We default to not having v770 support
-        return False
-    else:
-        return g.is_v770
+    return False if "is_v770" not in g else g.is_v770
 
 
 is_v770 = LocalProxy(check_if_v770)
@@ -39,11 +35,7 @@ def xml_node_name(node_name):
                 # As such, 399 was chosen for no other reason than the fact this is true.
                 # v770 requires a version of 1.
                 ver = etree.SubElement(elements, "ver")
-                if is_v770:
-                    ver.text = "1"
-                else:
-                    ver.text = "399"
-
+                ver.text = "1" if is_v770 else "399"
                 elements.insert(0, ver)
 
                 # We now must convert from ETree to actual XML we can respond with.
@@ -73,7 +65,7 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = base64.b64encode(d)
-        elif isinstance(d, tuple) or isinstance(d, list):
+        elif isinstance(d, (tuple, list)):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special
             # RepeatedKeys and RepeatedNodes types.
@@ -178,12 +170,11 @@ class RepeatedElement:
 
 @app.before_request
 def determine_version():
-    if "User-Agent" in request.headers:
-        user_agent = request.headers["User-Agent"]
-        g.is_v770 = user_agent.startswith("WM/9198/091105181944")
-    else:
+    if "User-Agent" not in request.headers:
         # No User-Agent, no business.
         return exceptions.NotFound()
+    user_agent = request.headers["User-Agent"]
+    g.is_v770 = user_agent.startswith("WM/9198/091105181944")
 
 
 def parse_caldate(passed_date: str) -> datetime:

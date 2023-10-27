@@ -28,9 +28,9 @@ if app.debug:
 
     @app.route("/url3/pay/wall/<name>.img")
     def serve_pay_images(name):
-        return send_from_directory("assets/pay-wall", name + ".img")
+        return send_from_directory("assets/pay-wall", f"{name}.img")
 
     @app.route("/url3/pay/wall/<name>-H.emo")
     @app.route("/url3/pay/wall/<name>-L.emo")
     def serve_pay_poster_trailers(name):
-        return send_from_directory("assets/pay-wall", name + ".emo")
+        return send_from_directory("assets/pay-wall", f"{name}.emo")

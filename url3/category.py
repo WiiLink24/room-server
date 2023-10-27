@@ -21,38 +21,34 @@ def pay_list_category(list_id: int):
     filler = []
 
     if list_id <= 9:
-        for i, pay_categories in enumerate(queried_categories):
-            # Items must be indexed by 1.
-            filler.append(
-                RepeatedElement(
-                    {
-                        "place": i + 1,
-                        "categid": pay_categories.category_id,
-                        "name": pay_categories.name,
-                        "sppageid": 0,
-                        "splinktext": "Link Text",
-                    }
-                )
+        filler.extend(
+            RepeatedElement(
+                {
+                    "place": i + 1,
+                    "categid": pay_categories.category_id,
+                    "name": pay_categories.name,
+                    "sppageid": 0,
+                    "splinktext": "Link Text",
+                }
             )
+            for i, pay_categories in enumerate(queried_categories)
+        )
+    elif retrieved_data:
+        filler.extend(
+            RepeatedElement(
+                {
+                    "place": i + 1,
+                    "categid": pay_categories.category_id,
+                    "name": pay_categories.name,
+                    "sppageid": 0,
+                    "splinktext": "Link Text",
+                }
+            )
+            for i, pay_categories in enumerate(retrieved_data)
+        )
     else:
-        if not retrieved_data:
-            # Looks like this category does not exist, or contains no movies.
-            return exceptions.NotFound()
-
-        for i, pay_categories in enumerate(retrieved_data):
-            # This section allows us to sort the categories into genres,
-            # instead of them showing up in all genres.
-            filler.append(
-                RepeatedElement(
-                    {
-                        "place": i + 1,
-                        "categid": pay_categories.category_id,
-                        "name": pay_categories.name,
-                        "sppageid": 0,
-                        "splinktext": "Link Text",
-                    }
-                )
-            )
+        # Looks like this category does not exist, or contains no movies.
+        return exceptions.NotFound()
 
     return {
         "type": 3,

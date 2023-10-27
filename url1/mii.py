@@ -65,16 +65,10 @@ def obtain_mii(mii_id):
             RepeatedElement({"seq": info.seq, "msg": info.msg, "face": info.face})
         )
 
-    # Then, convert all separate types to our actual msginfo type.
-    # In these, the type (our previous dict's key) must be separate.
-    # This is absolutely horrifying at this point, and I do not envy
-    # whoever at Nintendo had to design and store this logic.
-    # For the sake of their sanity, I hope this was read off a giant
-    # hardcoded array somehow as that feels far more appealing.
-    msginfo = []
-    for key, value in separate.items():
-        msginfo.append(RepeatedElement({"type": key, "msglist": value}))
-
+    msginfo = [
+        RepeatedElement({"type": key, "msglist": value})
+        for key, value in separate.items()
+    ]
     return {
         "miiid": mii_id,
         "clothes": concierge_mii.clothes,

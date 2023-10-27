@@ -14,27 +14,25 @@ def event_today():
         ConciergeMiis.query.order_by(ConciergeMiis.mii_id.asc()).limit(20).all()
     )
     queried_intro_info = IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).all()
-    # Create a dictionary and append contents.
-    # We require separate posterinfos, so we use RepeatedElement.
-    posters = []
-    miiinfos = []
-    newsinfos = []
     introinfos = []
-    for seq, poster in enumerate(queried_posters):
-        posters.append(
-            RepeatedElement(
-                {
-                    # Seq is indexed by 1, whereas a normal index is 0.
-                    "seq": seq + 1,
-                    "posterid": poster.poster_id,
-                }
-            )
+    posters = [
+        RepeatedElement(
+            {
+                # Seq is indexed by 1, whereas a normal index is 0.
+                "seq": seq + 1,
+                "posterid": poster.poster_id,
+            }
         )
-
-    for seq, mii in enumerate(queried_miis):
-        miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
-    for page, news in enumerate(News.query.order_by(News.id).all()):
-        newsinfos.append(RepeatedElement({"page": page + 1, "news": news.msg}))
+        for seq, poster in enumerate(queried_posters)
+    ]
+    miiinfos = [
+        RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id})
+        for seq, mii in enumerate(queried_miis)
+    ]
+    newsinfos = [
+        RepeatedElement({"page": page + 1, "news": news.msg})
+        for page, news in enumerate(News.query.order_by(News.id).all())
+    ]
     for seq, info in enumerate(queried_intro_info):
         data = {
             "seq": seq + 1,
@@ -118,8 +116,8 @@ if app.debug:
 
     @app.route("/url1/intro/<name>.img")
     def serve_intro(name):
-        return send_from_directory("assets/normal-intro", name + ".img")
+        return send_from_directory("assets/normal-intro", f"{name}.img")
 
     @app.route("/url1/intro/<name>.mov")
     def serve_intro_movie(name):
-        return send_from_directory("assets/normal-intro", name + ".mov")
+        return send_from_directory("assets/normal-intro", f"{name}.mov")
