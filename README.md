@@ -16,5 +16,5 @@ Please make sure you follow these guidelines when contributing:
  - Please add comments if you believe it may be unclear on why something was done. (For example, a limit on a string, or a workaround.)
 
 ## License
-`food-server` is available under the [MIT License](https://github.com/WiiLink24/food-server/blob/master/LICENSE.md).
+`room-server` is available under the [MIT License](https://github.com/WiiLink24/food-server/blob/master/LICENSE.md).
 
