@@ -2,7 +2,7 @@ Flask>=2.2
 lxml>=4.8
 psycopg2>=2.9
 flask_sqlalchemy>=3.0.3
-flask-login>=0.5
+flask-login>=0.6.3
 flask-wtf>=1.0
 flask-migrate>=3.1
 git+https://github.com/WiiLink24/pycrc16@v0.1.2#egg=crc16
@@ -12,4 +12,3 @@ python-dotenv>=0.19
 sentry-sdk[flask]>=1.5.0
 SQLAlchemy-Searchable>=1.4.1
 tzdata; platform_system == 'Windows'
-werkzeug==2.2.0
