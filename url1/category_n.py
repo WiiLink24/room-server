@@ -1,4 +1,3 @@
-from asset_data import NormalCategoryAsset
 from models import Categories
 from room import app
 from helpers import xml_node_name, RepeatedElement
@@ -36,4 +35,6 @@ if app.debug:
 
     @app.route("/url1/list/category/img/<category_id>.img")
     def serve_category_images(category_id):
+        from asset_data import NormalCategoryAsset
+
         return NormalCategoryAsset(category_id).send_file()

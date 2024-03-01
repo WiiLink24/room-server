@@ -7,8 +7,9 @@ from werkzeug import exceptions
 from asset_data import RoomLogoAsset, ParadeBannerAsset
 from models import db, Rooms, RoomMiis
 from theunderground.forms import RoomForm
-from room import app
+from room import app, s3
 from theunderground.operations import manage_delete_item
+import config
 
 
 @app.route("/theunderground/rooms")
@@ -94,11 +95,7 @@ def create_room():
         db.session.add(room)
         db.session.commit()
 
-        # Next, handle room data - our room logo, and parade banner.
-        RoomLogoAsset(room.room_id).encode(form.room_logo)
-        ParadeBannerAsset(room.room_id).encode(form.parade_banner)
-
-        # Finally, add our Mii.
+        # Next, add our Mii.
         mii = RoomMiis(
             room_id=room.room_id,
             mii_id=form.mii.data,
@@ -106,6 +103,10 @@ def create_room():
         )
         db.session.add(mii)
         db.session.commit()
+
+        # Finally, handle room data - our room logo, and parade banner.
+        RoomLogoAsset(room.room_id).encode(form.room_logo)
+        ParadeBannerAsset(room.room_id).encode(form.parade_banner)
 
         return redirect(url_for("list_room"))
 
@@ -120,6 +121,11 @@ def remove_room(room_id):
         db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
         db.session.commit()
         shutil.rmtree(f"./assets/special/{room_id}")
+
+        if s3:
+            # Delete from S3
+            ParadeBannerAsset(room_id).remove_from_s3()
+
         return redirect(url_for("list_room"))
 
     return manage_delete_item(room_id, "room", drop_room)
@@ -128,10 +134,16 @@ def remove_room(room_id):
 @app.route("/theunderground/rooms/<room_id>/banner.jpg")
 @login_required
 def get_room_logo(room_id):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/f1234.img")
+
     return RoomLogoAsset(room_id).send_file()
 
 
 @app.route("/theunderground/rooms/<room_id>/parade_banner.jpg")
 @login_required
 def get_parade_banner(room_id):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/g1234.img")
+
     return ParadeBannerAsset(room_id).send_file()

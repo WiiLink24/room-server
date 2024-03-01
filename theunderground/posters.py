@@ -1,10 +1,14 @@
+from io import BytesIO
+
 from flask import render_template, flash, url_for, redirect
 from flask_login import login_required
 from theunderground.forms import PosterForm
 from theunderground.operations import manage_delete_item
 from asset_data import PosterAsset
 from models import Posters, db
-from room import app
+from room import app, s3
+from url1.event_today import event_today
+import config
 
 
 @app.route("/theunderground/posters")
@@ -33,6 +37,11 @@ def add_poster():
 
         db.session.add(db_poster)
         db.session.commit()
+        if s3:
+            event_xml = event_today()
+            s3.upload_fileobj(
+                BytesIO(event_xml), config.r2_bucket_name, "event/today.xml"
+            )
 
         if form.poster:
             # Now upload poster
@@ -62,4 +71,7 @@ def remove_poster(poster: int):
 @app.route("/theunderground/posters/<poster>/thumbnail.jpg")
 @login_required
 def get_poster(poster):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/wall/{poster}.img")
+
     return PosterAsset(poster, is_theatre=False).send_file()

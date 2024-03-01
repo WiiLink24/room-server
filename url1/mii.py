@@ -7,7 +7,7 @@ from models import db, ConciergeMiis, MiiData, MiiMsgInfo
 
 
 @app.route("/url1/mii/<int:mii_id>.mii")
-def mii_met(mii_id):
+def obtain_mii(mii_id):
     # Do we have this Mii?
     mii = MiiData.query.filter_by(mii_id=mii_id).first()
     if mii is None:
@@ -24,7 +24,7 @@ def mii_met(mii_id):
 
 @app.route("/url1/mii/<int:mii_id>.met")
 @xml_node_name("ConciergeMii")
-def obtain_mii(mii_id):
+def mii_met(mii_id):
     # Do we have this Mii?
     retrieved_data = (
         db.session.query(ConciergeMiis, MiiData)

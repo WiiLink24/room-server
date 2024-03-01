@@ -1,6 +1,7 @@
 import os
+import config
 
-from room import app
+from room import app, s3
 from flask_login import login_required
 from flask import render_template, send_from_directory, redirect, url_for
 from models import RoomMenu, db
@@ -55,4 +56,7 @@ def remove_tv_item(room_id, data_id, image_id):
 @app.route("/theunderground/rooms/<room_id>/TV/<image_id>.jpg")
 @login_required
 def serve_room_data_image(room_id, image_id):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/{image_id}.img")
+
     return send_from_directory(f"./assets/special/{room_id}", image_id + ".img")

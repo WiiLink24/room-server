@@ -1,3 +1,7 @@
+# TODO: This is so flawed must fix later
+
+from io import BytesIO
+
 from flask import render_template, url_for, redirect
 from flask_login import login_required
 
@@ -5,6 +9,11 @@ from models import db, ConciergeMiis, MiiMsgInfo, MiiData
 from room import app
 from theunderground.forms import ConciergeForm
 from theunderground.operations import manage_delete_item
+from room import s3
+from url1.event_today import event_today
+from url1.mii import obtain_mii, mii_met
+
+import config
 
 
 @app.route("/theunderground/concierge")
@@ -57,6 +66,8 @@ def edit_concierge(mii_id):
         db.session.add(msg7)
         db.session.add(concierge_data)
         db.session.commit()
+
+        update_mii_on_s3(mii_id)
         return redirect(url_for("list_concierge"))
 
     return render_template("concierge_edit.html", form=form)
@@ -72,3 +83,18 @@ def remove_concierge(mii_id):
         return redirect(url_for("list_concierge"))
 
     return manage_delete_item(mii_id, "Concierge Mii", drop_concierge)
+
+
+def update_mii_on_s3(mii_id):
+    if s3:
+        # Update the today.xml
+        event_xml = event_today()
+        s3.upload_fileobj(BytesIO(event_xml), config.r2_bucket_name, "event/today.xml")
+
+        # Metadata
+        met = mii_met(mii_id)
+        s3.upload_fileobj(BytesIO(met), config.r2_bucket_name, f"mii/{mii_id}.met")
+
+        # Actual Mii
+        mii = obtain_mii(mii_id)
+        s3.upload_fileobj(BytesIO(mii), config.r2_bucket_name, f"mii/{mii_id}.mii")

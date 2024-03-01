@@ -1,12 +1,17 @@
+from io import BytesIO
+
 from flask_login import login_required
 from flask import render_template, request, flash, redirect, url_for
 from asset_data import TVScreenAsset
-from room import app
+from room import app, s3
 from models import IntroInfo, db, ContentTypes
 from theunderground.forms import IntroInfoForm
 from theunderground.mobiclip import validate_mobiclip
 from theunderground.operations import manage_delete_item
 from werkzeug import exceptions
+from url1.event_today import event_today
+
+import config
 
 
 @app.route("/theunderground/intro_info")
@@ -40,6 +45,7 @@ def add_intro_info():
         # Now push to database.
         db.session.add(intro_db)
         db.session.commit()
+        update_intro_info_on_s3()
 
         # Now encode image/video.
         if form.asset:
@@ -77,3 +83,10 @@ def remove_intro_info(id):
         return exceptions.NotFound()
 
     return manage_delete_item(id, "info intro", drop_intro_info)
+
+
+def update_intro_info_on_s3():
+    # Regenerate event/today.xml on s3 if needed
+    if s3:
+        event_xml = event_today()
+        s3.upload_fileobj(BytesIO(event_xml), config.r2_bucket_name, "event/today.xml")

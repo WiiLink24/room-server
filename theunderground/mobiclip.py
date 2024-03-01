@@ -3,14 +3,20 @@
 import hashlib
 
 import os
+from io import BytesIO
+
+import config
 from time import gmtime, strftime
 
+from room import s3
 from models import Categories, PayCategories
 from theunderground.encodemii import (
     movie_thumbnail_encode,
     pay_movie_thumbnail_encode,
     pay_poster_thumbnail_encode,
 )
+
+from url1.movie_metadata import movie_metadata
 
 
 def get_movie_byte(movie_id: int) -> str:
@@ -24,9 +30,12 @@ def get_movie_byte(movie_id: int) -> str:
     return resulting_hash[0:2]
 
 
-def get_movie_dir(movie_id: int) -> str:
+def get_movie_path(movie_id: int) -> str:
     movie_byte = get_movie_byte(movie_id)
-    return f"./assets/movies/{movie_byte}"
+    if s3:
+        return f"movie/{movie_byte}"
+    else:
+        return f"./assets/movies/{movie_byte}"
 
 
 def get_pay_movie_dir(movie_id: int) -> str:
@@ -84,22 +93,37 @@ def get_mobiclip_length(file_data: bytes) -> str:
 
 
 def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
-    movie_dir = get_movie_dir(movie_id)
+    movie_dir = get_movie_path(movie_id)
+    md5_hash = get_movie_byte(movie_id)
 
-    # Create the holding assets folder if it does not already exist.
-    if not os.path.isdir(movie_dir):
-        os.makedirs(movie_dir)
+    if s3:
+        # Upload movie
+        movie_path = f"{movie_dir}/{movie_id}-H.mov"
+        s3.upload_fileobj(BytesIO(movie_data), config.r2_bucket_name, movie_path)
+        met_xml = movie_metadata(md5_hash, movie_id)
 
-    # Resize and write thumbnail
-    thumbnail_data = movie_thumbnail_encode(thumbnail_data)
-    thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
-    thumbnail.write(thumbnail_data)
-    thumbnail.close()
+        # Metadata XML
+        met_xml = movie_metadata(md5_hash, movie_id)
+        met_path = f"{movie_dir}/{movie_id}.met"
+        s3.upload_fileobj(BytesIO(met_xml), config.r2_bucket_name, met_path)
 
-    # Write movie
-    movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
-    movie.write(movie_data)
-    movie.close()
+        # Thumbnail
+        thumbnail_data = movie_thumbnail_encode(thumbnail_data)
+        thumbnail_path = f"{movie_dir}/{movie_id}.img"
+        s3.upload_fileobj(
+            BytesIO(thumbnail_data), config.r2_bucket_name, thumbnail_path
+        )
+    else:
+        # Resize and write thumbnail
+        thumbnail_data = movie_thumbnail_encode(thumbnail_data)
+        thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
+        thumbnail.write(thumbnail_data)
+        thumbnail.close()
+
+        # Write movie
+        movie = open(movie_dir, "wb")
+        movie.write(movie_data)
+        movie.close()
 
 
 def save_pay_movie_data(
@@ -130,10 +154,21 @@ def save_pay_movie_data(
 
 
 def delete_movie_data(movie_id: int):
-    movie_dir = get_movie_dir(movie_id)
+    movie_dir = get_movie_path(movie_id)
 
-    os.remove(f"{movie_dir}/{movie_id}.img")
-    os.remove(f"{movie_dir}/{movie_id}-H.mov")
+    if s3:
+        s3.delete_object(
+            Bucket=config.r2_bucket_name, Key=f"{movie_dir}/{movie_id}.img"
+        )
+        s3.delete_object(
+            Bucket=config.r2_bucket_name, Key=f"{movie_dir}/{movie_id}-H.mov"
+        )
+        s3.delete_object(
+            Bucket=config.r2_bucket_name, Key=f"{movie_dir}/{movie_id}.met"
+        )
+    else:
+        os.remove(f"{movie_dir}/{movie_id}.img")
+        os.remove(f"{movie_dir}/{movie_id}-H.mov")
 
 
 def delete_pay_movie_data(movie_id: int):

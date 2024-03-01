@@ -1,4 +1,5 @@
 import os
+import config
 
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required
@@ -7,7 +8,7 @@ from werkzeug import exceptions
 
 from asset_data import NormalCategoryAsset
 from models import Categories, db
-from room import app
+from room import app, s3
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 
@@ -105,4 +106,7 @@ def remove_category(category):
 @app.route("/theunderground/categories/<category>/thumbnail.jpg")
 @login_required
 def get_category_thumbnail(category):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/list/category/img/{category}.img")
+
     return NormalCategoryAsset(category).send_file()

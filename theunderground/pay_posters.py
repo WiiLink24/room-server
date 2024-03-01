@@ -45,7 +45,7 @@ def add_pay_poster():
         if form.movie:
             cipher = AES.new(PAY_POSTER_KEY, AES.MODE_CBC, iv=PAY_POSTER_IV)
             encrypted_movie = cipher.encrypt(
-                pad(form.movie.data.read(), AES.block_size)
+                pad(form.movie.data[0].read(), AES.block_size)
             )
             PayMovieAsset(db_poster.poster_id).upload_movie(encrypted_movie)
         else:

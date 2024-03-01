@@ -1,7 +1,9 @@
+from io import BytesIO
+
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required
 
-from room import app
+from room import app, s3
 from models import RoomMenu, db
 
 from theunderground.forms import (
@@ -14,6 +16,7 @@ from theunderground.forms import (
 )
 from theunderground.mobiclip import validate_mobiclip
 from url1.special import room_content_types as tv
+from url1.special.page import special_page_n
 from theunderground.room_paths import (
     save_delivery_data,
     save_vote_data,
@@ -21,6 +24,8 @@ from theunderground.room_paths import (
     save_link_data,
     save_pic_data,
 )
+
+import config
 
 
 @app.route("/theunderground/rooms/<room_id>/choose", methods=["GET", "POST"])
@@ -101,6 +106,7 @@ def delivery(room_id):
                 db.session.add(db_json)
                 db.session.commit()
 
+                save_page_xml_to_s3(room_id)
                 return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")
@@ -149,6 +155,7 @@ def poll(room_id):
             db.session.add(db_json)
             db.session.commit()
 
+            save_page_xml_to_s3(room_id)
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading movie!")
@@ -176,6 +183,7 @@ def movie(room_id):
             db.session.add(db_json)
             db.session.commit()
 
+            save_page_xml_to_s3(room_id)
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading movie!")
@@ -223,6 +231,7 @@ def link(room_id):
                 db.session.add(db_json)
                 db.session.commit()
 
+                save_page_xml_to_s3(room_id)
                 return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")
@@ -271,8 +280,17 @@ def pic(room_id):
             db.session.add(db_json)
             db.session.commit()
 
+            save_page_xml_to_s3(room_id)
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading picture!")
 
     return render_template("room_add_pic.html", form=form)
+
+
+def save_page_xml_to_s3(page_id: int):
+    if s3:
+        page_xml = special_page_n(page_id)
+        s3.upload_fileobj(
+            BytesIO(page_xml), config.r2_bucket_name, f"special/{page_id}/page.xml"
+        )

@@ -1,4 +1,6 @@
+import boto3
 from flask import Flask
+from botocore.client import Config
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -43,6 +45,18 @@ with app.app_context():
 
 
 db.configure_mappers()
+
+if config.use_s3:
+    # Finally start the S3 client
+    s3 = boto3.client(
+        "s3",
+        endpoint_url=config.s3_connection_url,
+        aws_access_key_id=config.s3_access_key_id,
+        aws_secret_access_key=config.s3_secret_access_key,
+        config=Config(signature_version="s3v4"),
+        region_name="us-east-1",
+    )
+
 
 # Import routes here.
 import first

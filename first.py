@@ -29,7 +29,7 @@ def get_config_url(service_type: str) -> str:
 def conf_first_bin_xml():
     return {
         "maint": 0,
-        "url1": get_config_url("url1"),
+        "url1": f"{config.url1_cdn_url}/",
         "url2": get_config_url("url2"),
         "url3": get_config_url("url3"),
         "eulaver": 3,

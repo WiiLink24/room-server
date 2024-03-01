@@ -1,11 +1,16 @@
+from io import BytesIO
+
 from flask import render_template, url_for, redirect
 from flask_login import login_required
 from werkzeug import exceptions
 
 from models import News, db
-from room import app
+from room import app, s3
 from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
+from url1.event_today import event_today
+
+import config
 
 
 @app.route("/theunderground/news")
@@ -34,6 +39,7 @@ def edit_news(news_id):
         db.session.add(news_item)
         db.session.commit()
 
+        update_news_on_s3()
         return redirect(url_for("list_news"))
 
     # Populate with existing news.
@@ -51,6 +57,7 @@ def add_news():
         db.session.add(created_news)
         db.session.commit()
 
+        update_news_on_s3()
         return redirect(url_for("list_news"))
 
     return render_template("news_action.html", action="Add", form=form)
@@ -65,3 +72,10 @@ def remove_news(news_id):
         return redirect(url_for("list_news"))
 
     return manage_delete_item(news_id, "news", drop_news)
+
+
+def update_news_on_s3():
+    # Regenerate event/today.xml on s3 if needed
+    if s3:
+        event_xml = event_today()
+        s3.upload_fileobj(BytesIO(event_xml), config.r2_bucket_name, "event/today.xml")

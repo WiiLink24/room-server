@@ -16,10 +16,14 @@ from theunderground.mobiclip import (
     get_mobiclip_length,
     save_movie_data,
     delete_movie_data,
-    get_movie_dir,
+    get_movie_path,
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
+from room import s3
+import config
+from url1.category_search import list_category_search
+from io import BytesIO
 
 
 @app.route("/theunderground/categories/<category>")
@@ -52,8 +56,8 @@ def add_movie():
         movie = form.movie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
-            movie_data = movie.read()
-            thumbnail_data = thumbnail.read()
+            movie_data = movie[0].read()
+            thumbnail_data = thumbnail[0].read()
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -76,6 +80,12 @@ def add_movie():
 
                 # Now that we've inserted the movie, we can properly move it.
                 save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
+
+                # Finally update the category if needed by S3
+                if s3:
+                    cat_xml = list_category_search(form.category.data)
+                    xml_path = f"list/category/search/{form.category.data}"
+                    s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
                 return redirect(url_for("list_categories"))
             else:
@@ -103,5 +113,8 @@ def remove_movie(movie_id):
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
 @login_required
 def get_movie_thumbnail(movie_id):
-    movie_dir = get_movie_dir(movie_id)
+    movie_dir = get_movie_path(movie_id)
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}.img")
+
     return send_from_directory(movie_dir, f"{movie_id}.img")

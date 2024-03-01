@@ -1,4 +1,6 @@
 import crc16
+import flask_wtf.file
+import werkzeug.datastructures
 from flask import render_template, redirect, flash, url_for
 from flask_login import login_required
 
@@ -20,7 +22,7 @@ def list_miis():
 def add_mii():
     form = MiiUploadForm()
     if form.validate_on_submit():
-        mii = form.mii.data
+        mii = form.mii.data[0]
         if mii:
             data = mii.read()
             mii_length = len(data)

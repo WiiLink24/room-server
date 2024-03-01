@@ -18,3 +18,12 @@ secret_key = "please_change_thank_you"
 # Sentry configuration for error logging.
 use_sentry = False
 sentry_dsn = "https://public@sentry.example.com/1"
+
+use_s3 = False
+r2_account_id = ""
+r2_bucket_name = "room-server"
+s3_connection_url = ""
+s3_access_key_id = ""
+s3_secret_access_key = ""
+
+url1_cdn_url = "http://url1.videos.wiilink24.com"
