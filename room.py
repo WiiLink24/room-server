@@ -1,12 +1,14 @@
 import boto3
 from flask import Flask
+from apscheduler.schedulers.background import BackgroundScheduler
 from botocore.client import Config
-from flask_login import LoginManager
 from flask_migrate import Migrate
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sqlalchemy_searchable import make_searchable
 
 from models import db, login
+from pytz import utc
+
 
 import config
 import sentry_sdk
@@ -47,7 +49,7 @@ with app.app_context():
 db.configure_mappers()
 
 if config.use_s3:
-    # Finally start the S3 client
+    # Start the S3 client
     s3 = boto3.client(
         "s3",
         endpoint_url=config.s3_connection_url,
@@ -57,6 +59,12 @@ if config.use_s3:
         region_name="us-east-1",
     )
 
+    # Finally, start the popular list scheduler.
+    from url1.popular_all import generate_all_popular
+
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(generate_all_popular, "cron", hour=0, minute=0, timezone=utc)
+    scheduler.start()
 
 # Import routes here.
 import first
