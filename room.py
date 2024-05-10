@@ -48,6 +48,7 @@ with app.app_context():
 
 db.configure_mappers()
 
+s3 = None
 if config.use_s3:
     # Start the S3 client
     s3 = boto3.client(
