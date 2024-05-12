@@ -113,6 +113,9 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
             BytesIO(thumbnail_data), config.r2_bucket_name, thumbnail_path
         )
     else:
+        if not os.path.isdir(movie_dir):
+            os.makedirs(movie_dir)
+
         # Resize and write thumbnail
         thumbnail_data = movie_thumbnail_encode(thumbnail_data)
         thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
