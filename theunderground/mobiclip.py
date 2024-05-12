@@ -100,7 +100,6 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
         # Upload movie
         movie_path = f"{movie_dir}/{movie_id}-H.mov"
         s3.upload_fileobj(BytesIO(movie_data), config.r2_bucket_name, movie_path)
-        met_xml = movie_metadata(md5_hash, movie_id)
 
         # Metadata XML
         met_xml = movie_metadata(md5_hash, movie_id)
@@ -121,7 +120,7 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
         thumbnail.close()
 
         # Write movie
-        movie = open(movie_dir, "wb")
+        movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
         movie.write(movie_data)
         movie.close()
 
