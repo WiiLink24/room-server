@@ -63,9 +63,10 @@ def add_movie():
 
             if dsmovie:
                 dsmovie_data = dsmovie[0].read()
-                validation_ds = validate_mobi_dsi(dsmovie_data)
                 genre = 1
+                validation_ds = validate_mobi_dsi(dsmovie_data)
             else:
+                dsmovie_data = None
                 genre = 0
                 validation_ds = False
 
@@ -92,7 +93,7 @@ def add_movie():
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
-                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data, dsmovie_data if dsmovie and validation_ds else None)
+                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data, dsmovie_data)
 
                 # Finally update the category if needed by S3
                 if s3:
