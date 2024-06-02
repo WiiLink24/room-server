@@ -36,6 +36,13 @@ def get_movie_path(movie_id: int) -> str:
         return f"movie/{movie_byte}"
     else:
         return f"./assets/movies/{movie_byte}"
+    
+def get_ds_movie_path(movie_id: int) -> str:
+    movie_byte = get_movie_byte(movie_id)
+    if s3:
+        return f"dsmov/{movie_byte}"
+    else:
+        return f"./assets/dsmov/{movie_byte}"
 
 
 def get_pay_movie_dir(movie_id: int) -> str:
@@ -105,8 +112,9 @@ def get_mobiclip_length(file_data: bytes) -> str:
     return strftime("%H:%M:%S", gmtime(length))
 
 
-def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
+def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, ds_movie_data: bytes = None):
     movie_dir = get_movie_path(movie_id)
+    ds_movie_dir = get_ds_movie_path(movie_id)
     md5_hash = get_movie_byte(movie_id)
 
     if s3:
@@ -125,6 +133,11 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes):
         s3.upload_fileobj(
             BytesIO(thumbnail_data), config.r2_bucket_name, thumbnail_path
         )
+
+        if ds_movie_data:
+            # Upload DS movie
+            ds_movie_path = f"{ds_movie_dir}/{movie_id}.enc"
+            s3.upload_fileobj(BytesIO(ds_movie_data), config.r2_bucket_name, ds_movie_path)
     else:
         if not os.path.isdir(movie_dir):
             os.makedirs(movie_dir)
