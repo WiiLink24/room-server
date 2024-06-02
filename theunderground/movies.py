@@ -62,10 +62,8 @@ def add_movie():
 
             if dsmovie:
                 dsmovie_data = dsmovie[0].read()
-                ds_mov_id = 2
                 genre = 1
             else:
-                ds_mov_id = None
                 genre = 0
 
             if validate_mobiclip(movie_data):
@@ -81,9 +79,11 @@ def add_movie():
                     aspect=True,
                     genre=genre,
                     sp_page_id=0,
-                    ds_mov_id=ds_mov_id,
                     staff=False,
                 )
+
+                if dsmovie:
+                    db_movie.ds_mov_id = db_movie.movie_id
 
                 db.session.add(db_movie)
                 db.session.commit()
