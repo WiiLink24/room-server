@@ -22,7 +22,7 @@ def list_miis():
 def add_mii():
     form = MiiUploadForm()
     if form.validate_on_submit():
-        mii = form.mii.data[0]
+        mii = form.mii.data
         if mii:
             data = mii.read()
             mii_length = len(data)

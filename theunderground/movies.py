@@ -56,8 +56,8 @@ def add_movie():
         movie = form.movie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
-            movie_data = movie[0].read()
-            thumbnail_data = thumbnail[0].read()
+            movie_data = movie.read()
+            thumbnail_data = thumbnail.read()
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
