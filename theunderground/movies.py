@@ -54,10 +54,19 @@ def add_movie():
 
     if form.validate_on_submit():
         movie = form.movie.data
+        dsmovie = form.dsmovie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
             movie_data = movie[0].read()
             thumbnail_data = thumbnail[0].read()
+
+            if dsmovie:
+                dsmovie_data = dsmovie[0].read()
+                ds_mov_id = 2
+                genre = 1
+            else:
+                ds_mov_id = None
+                genre = 0
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -70,8 +79,9 @@ def add_movie():
                     category_id=form.category.data,
                     length=length,
                     aspect=True,
-                    genre=0,
+                    genre=genre,
                     sp_page_id=0,
+                    ds_mov_id=ds_mov_id,
                     staff=False,
                 )
 
@@ -80,6 +90,16 @@ def add_movie():
 
                 # Now that we've inserted the movie, we can properly move it.
                 save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
+
+                # Save the DS movie if it exists to /dsmov/{get_movie_path}/{movie_id}.enc
+                # NOT on s3
+
+                if dsmovie:
+                    dsmovie_dir = get_movie_path(db_movie.movie_id)
+                    dsmovie_path = f"{dsmovie_dir}/{db_movie.movie_id}.enc"
+
+                    with open(dsmovie_path, "wb") as f:
+                        f.write(dsmovie_data)
 
                 # Finally update the category if needed by S3
                 if s3:
