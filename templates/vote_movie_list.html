@@ -1,0 +1,69 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}movies{% endblock %}
+{% block type_name_singular %}movie{% endblock %}
+
+{% block table_listing %}
+    <br>
+    <a href="{{ url_for('list_categories') }}">Return to Category Listing</a>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Movie ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Length</th>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Votes</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies.items %}
+            <tr>
+                <td>{{ movie.movie_id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.length }}</td>
+                <td><img src="{{ url_for('votes_get_movie_thumbnail', movie_id=movie.movie_id) }}"
+                         alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            ◎ 5 ・ 〇 3 ・ △ 4 ・ × 0
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <!-- Previous/Next -->
+    {% if movies.has_prev %}
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if movies.has_next %}
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <!-- First/Last -->
+    <!-- Ensure we are not on the first page. -->
+    {% if movies.page != 1 %}
+        <a href="{{ url_for('list_movies', category=category_id, page=1) }}">&lt;&lt; First</a>
+    {% else %}
+        &lt;&lt; First
+    {% endif %}
+    |
+    <!-- Ensure we are not on the last page. -->
+    {% if movies.page != movies.pages %}
+        <a href="{{ url_for('list_movies', category=category_id, page=movies.pages) }}">Last &gt;&gt;</a>
+    {% else %}
+        Last &gt;&gt;
+    {% endif %}
+{% endblock %}
