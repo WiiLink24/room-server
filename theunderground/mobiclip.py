@@ -54,6 +54,19 @@ def validate_mobiclip(file_data: bytes) -> bool:
 
     return True
 
+def validate_mobi_dsi(file_data: bytes) -> bool:
+    # Validate file magic
+    if file_data[0:4] == b"MODS":
+        pass
+    elif file_data[0:4] == b"SSCF":
+        # Check for NINTENDO header
+        if file_data[17:25] != b"NINTENDO":
+            return False
+    else:
+        return False
+
+    return True
+
 
 def get_category_list():
     db_categories = Categories.query.all()
