@@ -153,6 +153,15 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, ds_
         movie.write(movie_data)
         movie.close()
 
+        if ds_movie_data:
+            if not os.path.isdir(ds_movie_dir):
+                os.makedirs(ds_movie_dir)
+
+            # Write DS movie
+            ds_movie = open(f"{ds_movie_dir}/{movie_id}.enc", "wb")
+            ds_movie.write(ds_movie_data)
+            ds_movie.close()
+
 
 def save_pay_movie_data(
     movie_id: int, thumbnail_data: bytes, movie_data: bytes, poster_data: bytes
