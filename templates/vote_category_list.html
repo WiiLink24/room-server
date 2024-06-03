@@ -44,13 +44,13 @@
 
 {% block add_footer %}
     {% if categories.has_prev %}
-        <a href="{{ url_for('list_categories', page=categories.prev_num) }}">&lt; Previous</a>
+        <a href="{{ url_for('votes_list_categories', page=categories.prev_num) }}">&lt; Previous</a>
     {% else %}
         &lt; Previous
     {% endif %}
     |
     {% if categories.has_next %}
-        <a href="{{ url_for('list_categories', page=categories.next_num) }}">Next &gt;</a>
+        <a href="{{ url_for('votes_list_categories', page=categories.next_num) }}">Next &gt;</a>
     {% else %}
         Next &gt;
     {% endif %}
