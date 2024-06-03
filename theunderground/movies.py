@@ -96,6 +96,16 @@ def add_movie():
     return render_template("movie_add.html", form=form)
 
 
+@app.route("/theunderground/movies/<movie_id>/save", methods=["GET", "POST"])
+@login_required
+def save_movie(movie_id):
+    movie_dir = get_movie_path(movie_id)
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mo")
+    
+    return send_from_directory(movie_dir, f"{movie_id}-H.mov")
+
+
 @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
 @login_required
 def remove_movie(movie_id):

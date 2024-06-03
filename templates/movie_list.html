@@ -27,6 +27,15 @@
                 <td>
                     <div class="field has-addons">
                         <p class="control">
+                            <a href="{{ url_for('save_movie', movie_id=movie.movie_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span>Download</span>
+                            </a>
+                        </p>
+                        <p class="control">
                             <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
                                class="button is-danger">
                                 <span class="icon is-small">
