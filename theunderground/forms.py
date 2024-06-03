@@ -72,7 +72,7 @@ class ChangePasswordForm(FlaskForm):
 
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])
-    dsmovie = FileField("DS Movie")
+    dsmovie = FileField("DSi Movie")
     title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
     thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
     # Choices for the select field are only evaluated once, so we must set it when necessary.
