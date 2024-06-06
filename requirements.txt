@@ -15,3 +15,4 @@ tzdata; platform_system == 'Windows'
 boto3
 APScheduler
 wtforms>=3.1.2
+rsa>=4.9

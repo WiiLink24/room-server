@@ -55,18 +55,21 @@ def add_movie():
 
     if form.validate_on_submit():
         movie = form.movie.data
-        dsmovie = form.dsmovie.data
+        ds_movie = form.ds_movie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
             movie_data = movie.read()
             thumbnail_data = thumbnail.read()
 
-            if dsmovie:
-                dsmovie_data = dsmovie[0].read()
+            if ds_movie:
+                ds_movie_data = ds_movie.read()
                 genre = 1
-                validation_ds = validate_mobi_dsi(dsmovie_data)
+                validation_ds = validate_mobi_dsi(ds_movie_data)
+                if isinstance(validation_ds, bytes):
+                    # We encrypted this movie.
+                    ds_movie_data = validation_ds
             else:
-                dsmovie_data = None
+                ds_movie_data = None
                 genre = 0
                 validation_ds = False
 
@@ -86,14 +89,16 @@ def add_movie():
                     staff=False,
                 )
 
-                if dsmovie and validation_ds:
+                if ds_movie and validation_ds:
                     db_movie.ds_mov_id = db_movie.movie_id
 
                 db.session.add(db_movie)
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
-                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data, dsmovie_data)
+                save_movie_data(
+                    db_movie.movie_id, thumbnail_data, movie_data, ds_movie_data
+                )
 
                 # Finally update the category if needed by S3
                 if s3:
@@ -116,7 +121,7 @@ def save_movie(movie_id):
     movie_dir = get_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mo")
-    
+
     return send_from_directory(movie_dir, f"{movie_id}-H.mov")
 
 

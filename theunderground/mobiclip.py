@@ -3,7 +3,10 @@
 import hashlib
 
 import os
+import rsa
 from io import BytesIO
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
 import config
 from time import gmtime, strftime
@@ -17,6 +20,10 @@ from theunderground.encodemii import (
 )
 
 from url1.movie_metadata import movie_metadata
+from typing import Union
+
+DS_NONCE = b"\x76\xDB\x26\xAE\x09\xBE\x10\x24"
+DS_KEY = b"\x37\xF9\x60\x01\x85\xB4\xDC\xEA\x85\x03\x7B\x32\x5D\xAD\xF6\x44"
 
 
 def get_movie_byte(movie_id: int) -> str:
@@ -36,7 +43,8 @@ def get_movie_path(movie_id: int) -> str:
         return f"movie/{movie_byte}"
     else:
         return f"./assets/movies/{movie_byte}"
-    
+
+
 def get_ds_movie_path(movie_id: int) -> str:
     movie_byte = get_movie_byte(movie_id)
     if s3:
@@ -61,10 +69,42 @@ def validate_mobiclip(file_data: bytes) -> bool:
 
     return True
 
-def validate_mobi_dsi(file_data: bytes) -> bool:
+
+def validate_mobi_dsi(file_data: bytes) -> Union[bool, bytes]:
     # Validate file magic
     if file_data[0:4] == b"MODS":
-        pass
+        # Encrypt the data into the SSCF container
+        data = b"SSCF"
+        data += b"\x00" * 4
+        # Movie size
+        data += len(file_data).to_bytes(4, "little")
+        # Movie offset
+        data += (200).to_bytes(2, "little")
+        # IV offset relative to end of header
+        data += b"\x00\x00"
+        # NINTENDO for some reason
+        data += b"NINTENDO"
+        # 40 null bytes
+        data += b"\x00" * 40
+        # RSA signature gets placed here after
+        data += b"\x00" * 128
+        # IV
+        data += DS_NONCE
+
+        with open(config.ds_rsa_key_path, "rb") as f:
+            private_key = rsa.PrivateKey.load_pkcs1(f.read(), "PEM")
+            signature = rsa.sign(data, private_key, "SHA-1")
+
+        # Now write the signature to the container.
+        data = data[:64]
+        data += signature
+        data += DS_NONCE
+
+        # Next step is to encrypt the movie with AES-128-CTR.
+        # Although CTR doesn't require the data to be block size, Nintendo does.
+        cipher = AES.new(DS_KEY, AES.MODE_CTR, nonce=DS_NONCE)
+        data += cipher.encrypt(pad(file_data, AES.block_size))
+        return data
     elif file_data[0:4] == b"SSCF":
         # Check for NINTENDO header
         if file_data[17:25] != b"NINTENDO":
@@ -112,7 +152,9 @@ def get_mobiclip_length(file_data: bytes) -> str:
     return strftime("%H:%M:%S", gmtime(length))
 
 
-def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, ds_movie_data: bytes = None):
+def save_movie_data(
+    movie_id: int, thumbnail_data: bytes, movie_data: bytes, ds_movie_data: bytes = None
+):
     movie_dir = get_movie_path(movie_id)
     ds_movie_dir = get_ds_movie_path(movie_id)
     md5_hash = get_movie_byte(movie_id)
@@ -137,7 +179,9 @@ def save_movie_data(movie_id: int, thumbnail_data: bytes, movie_data: bytes, ds_
         if ds_movie_data:
             # Upload DS movie
             ds_movie_path = f"{ds_movie_dir}/{movie_id}.enc"
-            s3.upload_fileobj(BytesIO(ds_movie_data), config.r2_bucket_name, ds_movie_path)
+            s3.upload_fileobj(
+                BytesIO(ds_movie_data), config.r2_bucket_name, ds_movie_path
+            )
     else:
         if not os.path.isdir(movie_dir):
             os.makedirs(movie_dir)
