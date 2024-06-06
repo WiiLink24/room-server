@@ -13,6 +13,7 @@ from room import app
 from theunderground.mobiclip import (
     get_category_list,
     validate_mobiclip,
+    validate_mobi_dsi,
     get_mobiclip_length,
     save_movie_data,
     delete_movie_data,
@@ -54,10 +55,20 @@ def add_movie():
 
     if form.validate_on_submit():
         movie = form.movie.data
+        dsmovie = form.dsmovie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
             movie_data = movie.read()
             thumbnail_data = thumbnail.read()
+
+            if dsmovie:
+                dsmovie_data = dsmovie[0].read()
+                genre = 1
+                validation_ds = validate_mobi_dsi(dsmovie_data)
+            else:
+                dsmovie_data = None
+                genre = 0
+                validation_ds = False
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -70,16 +81,19 @@ def add_movie():
                     category_id=form.category.data,
                     length=length,
                     aspect=True,
-                    genre=0,
+                    genre=genre,
                     sp_page_id=0,
                     staff=False,
                 )
+
+                if dsmovie and validation_ds:
+                    db_movie.ds_mov_id = db_movie.movie_id
 
                 db.session.add(db_movie)
                 db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
-                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
+                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data, dsmovie_data)
 
                 # Finally update the category if needed by S3
                 if s3:
