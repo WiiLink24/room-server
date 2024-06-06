@@ -36,9 +36,9 @@ class NewsForm(FlaskForm):
 
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
-    name = StringField("Mii Name", validators=[DataRequired()])
-    color1 = StringField("Shirt Color (Hex)", validators=[DataRequired()])
-    color2 = StringField("Pants Color (Hex)", validators=[DataRequired()])
+    name = StringField("Mii Name", validators=[DataRequired(), Length(max=10)])
+    color1 = StringField("Shirt Color (Hex)", validators=[DataRequired(), Length(max=6)])
+    color2 = StringField("Pants Color (Hex)", validators=[DataRequired(), Length(max=6)])
     upload = SubmitField("Add Mii")
 
 
@@ -85,13 +85,13 @@ class PayMovieUploadForm(FlaskForm):
     poster = FileField("Poster", validators=[FileRequired()])
     thumbnail = FileField("Thumbnail", validators=[FileRequired()])
     # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(max=48)])
     release = StringField(
         "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
     )
     price_code = IntegerField("Price Code", validators=[DataRequired()])
     ref_id = StringField("Reference ID", validators=[DataRequired(), Length(min=16)])
-    note = StringField("Description", validators=[DataRequired()])
+    note = StringField("Description", validators=[DataRequired(), Length(max=76)])
     price = StringField("Price", validators=[DataRequired()])
     category = SelectField("Movie Category", validators=[DataRequired()])
     upload = SubmitField("Add Movie")
@@ -125,7 +125,7 @@ class RoomForm(FlaskForm):
 class PreRoomData(FlaskForm):
     type = SelectField(
         "Type",
-        choices=[("Delivery"), ("Poll"), ("Movie"), ("Coupon"), ("Link"), ("Picture")],
+        choices=["Delivery", "Poll", "Movie", "Coupon", "Link", "Picture"],
     )
     next = SubmitField("Next")
 
@@ -194,7 +194,7 @@ class DeleteForm(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
-    prof = StringField("Profession", validators=[DataRequired()])
+    prof = StringField("Profession", validators=[DataRequired(), Length(max=129)])
     message1 = StringField("Message 1", validators=[DataRequired()])
     message2 = StringField("Message 2", validators=[DataRequired()])
     message3 = StringField("Message 3", validators=[DataRequired()])
@@ -207,16 +207,16 @@ class ConciergeForm(FlaskForm):
 
 
 class PosterForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    msg = StringField("Message", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(max=47)])
+    msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     movie_id = IntegerField("Movie ID", validators=[DataRequired()])
     poster = FileField("Poster", validators=[FileRequired()])
     upload = SubmitField("Create Poster!")
 
 
 class PayPosterForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    msg = StringField("Message", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(max=47)])
+    msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     poster = FileField("Poster", validators=[FileRequired()])
     movie = FileField("Movie", validators=[FileRequired()])
     upload = SubmitField("Create Poster!")
