@@ -1,5 +1,5 @@
-from Cryptodome.Cipher import AES
-from Cryptodome.Util.Padding import pad
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 from flask import render_template, flash, url_for, redirect
 from flask_login import login_required
 from theunderground.forms import PayPosterForm
