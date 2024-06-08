@@ -43,6 +43,17 @@
                                 <span>Download</span>
                             </a>
                         </p>
+                        {% if movie.ds_mov_id is not none %}
+                        <p class="control">
+                            <a href="{{ url_for('save_ds_movie', movie_id=movie.movie_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span>Download DS</span>
+                            </a>
+                        </p>
+                        {% endif %}
                         <p class="control">
                             <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
                                class="button is-danger">

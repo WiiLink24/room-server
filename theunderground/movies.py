@@ -18,6 +18,7 @@ from theunderground.mobiclip import (
     save_movie_data,
     delete_movie_data,
     get_movie_path,
+    get_ds_movie_path
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
@@ -120,10 +121,18 @@ def add_movie():
 def save_movie(movie_id):
     movie_dir = get_movie_path(movie_id)
     if s3:
-        return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mo")
+        return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mov")
 
     return send_from_directory(movie_dir, f"{movie_id}-H.mov")
 
+@app.route("/theunderground/movies/<movie_id>/save_ds", methods=["GET", "POST"])
+@login_required
+def save_ds_movie(movie_id):
+    ds_movie_dir = get_ds_movie_path(movie_id)
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/{ds_movie_dir}/{movie_id}.enc")
+
+    return send_from_directory(ds_movie_dir, f"{movie_id}.enc")
 
 @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
 @login_required
