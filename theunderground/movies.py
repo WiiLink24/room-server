@@ -61,18 +61,7 @@ def add_movie():
         if movie and thumbnail:
             movie_data = movie.read()
             thumbnail_data = thumbnail.read()
-
-            if ds_movie:
-                ds_movie_data = ds_movie.read()
-                genre = 1
-                validation_ds = validate_mobi_dsi(ds_movie_data)
-                if isinstance(validation_ds, bytes):
-                    # We encrypted this movie.
-                    ds_movie_data = validation_ds
-            else:
-                ds_movie_data = None
-                genre = 0
-                validation_ds = False
+            ds_movie_data = None
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -85,16 +74,27 @@ def add_movie():
                     category_id=form.category.data,
                     length=length,
                     aspect=True,
-                    genre=genre,
+                    genre=0,
                     sp_page_id=0,
                     staff=False,
                 )
 
-                if ds_movie and validation_ds:
-                    db_movie.ds_mov_id = db_movie.movie_id
-
                 db.session.add(db_movie)
                 db.session.commit()
+
+                if ds_movie:
+                    ds_movie_data = ds_movie.read()
+                    validation_ds = validate_mobi_dsi(ds_movie_data)
+                    if isinstance(validation_ds, bytes):
+                        # We encrypted this movie.
+                        ds_movie_data = validation_ds
+
+                    if validation_ds:
+                        db_movie.ds_mov_id = db_movie.movie_id
+                        db_movie.genre = 1
+
+                        # Re-commit the DSi stuff
+                        db.session.commit()
 
                 # Now that we've inserted the movie, we can properly move it.
                 save_movie_data(
