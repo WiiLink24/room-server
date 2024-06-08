@@ -9,9 +9,11 @@
     <table class="table is-fullwidth is-hoverable is-striped">
         <thead>
         <tr>
-            <th scope="col">Movie ID</th>
+            <th scope="col">Wii Movie ID</th>
+            <th scope="col">DSi Movie ID</th>
             <th scope="col">Name</th>
             <th scope="col">Length</th>
+            <th scope="col">Genre</th>
             <th scope="col">Thumbnail</th>
             <th scope="col">Actions</th>
         </tr>
@@ -20,8 +22,14 @@
         {% for movie in movies.items %}
             <tr>
                 <td>{{ movie.movie_id }}</td>
+                {% if movie.ds_mov_id is not none %}
+                    <td>{{ movie.ds_mov_id }}</td>
+                {% else %}
+                    <td>N/A</td>
+                {% endif %}
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
+                <td>{{ movie.genre }}</td>
                 <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
                          alt="Thumbnail for {{ movie.movie_id }}"/></td>
                 <td>
