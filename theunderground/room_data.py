@@ -28,7 +28,7 @@ def list_room_data(room_id):
             tv.data["type"] = "Coupon"
 
         elif tv.data["type"] == 5:
-            tv.data["type"] = "Link"
+            tv.data["type"] = "Website Link"
 
         elif tv.data["type"] == 6:
             tv.data["type"] = "Picture"
