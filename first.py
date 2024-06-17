@@ -1,5 +1,5 @@
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
+from Cryptodome.Cipher import AES
+from Cryptodome.Util.Padding import pad
 
 import config
 from helpers import xml_node_name, current_date_and_time
