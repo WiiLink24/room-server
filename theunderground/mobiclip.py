@@ -234,8 +234,10 @@ def save_pay_movie_data(
     movie.close()
 
 
-def delete_movie_data(movie_id: int):
+def delete_movie_data(movie_id: int, ds_movie: bool):
     movie_dir = get_movie_path(movie_id)
+    if ds_movie:
+        ds_movie_dir = get_ds_movie_path(movie_id)
 
     if s3:
         s3.delete_object(
@@ -247,9 +249,15 @@ def delete_movie_data(movie_id: int):
         s3.delete_object(
             Bucket=config.r2_bucket_name, Key=f"{movie_dir}/{movie_id}.met"
         )
+        if ds_movie:
+            s3.delete_object(
+                Bucket=config.r2_bucket_name, Key=f"{ds_movie_dir}/{movie_id}.enc"
+            )
     else:
         os.remove(f"{movie_dir}/{movie_id}.img")
         os.remove(f"{movie_dir}/{movie_id}-H.mov")
+        if ds_movie:
+            os.remove(f"{ds_movie_dir}/{movie_id}.enc")
 
 
 def delete_pay_movie_data(movie_id: int):
