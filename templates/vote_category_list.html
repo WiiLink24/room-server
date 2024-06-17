@@ -4,6 +4,18 @@
 {% block type_name_singular %}category{% endblock %}
 
 {% block table_listing %}
+
+    <p>
+        There is a total of {{ votes['count'] }} vote entries.
+        <br><br>
+        ◎ {{ votes['vote.4'] }} ・ 〇 {{ votes['vote.3'] }} ・ △ {{ votes['vote.2'] }} ・ × {{ votes['vote.1'] }}
+        <br>
+        ♂ {{ votes['gender.1'] }} ({{ ((votes['gender.1'] / votes['count']) * 100)|round|int }}%)
+        ・ 
+        ♀ {{ votes['gender.2'] }} ({{ ((votes['gender.2'] / votes['count']) * 100)|round|int }}%)
+        <br><br>
+    </p>
+
     <table class="table is-fullwidth is-hoverable is-striped">
         <thead>
         <tr>

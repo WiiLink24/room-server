@@ -14,7 +14,7 @@ from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
 from asset_data import NormalCategoryAsset
-from models import Categories, Movies, db
+from models import Categories, Movies, EvaluateData, db
 from room import app, s3
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
@@ -36,9 +36,46 @@ def votes_list_categories():
         page=page_num, per_page=15, error_out=False
     )
 
+    votes = {}
+    evaluatedata = movie_vote = EvaluateData.query
+
+    movie_vote_count = evaluatedata.count()
+
+    movie_vote_t1 = evaluatedata.filter_by(vote=1).count()
+    movie_vote_t2 = evaluatedata.filter_by(vote=2).count()
+    movie_vote_t3 = evaluatedata.filter_by(vote=3).count()
+    movie_vote_t4 = evaluatedata.filter_by(vote=4).count()
+
+    movie_gender_t1 = evaluatedata.filter_by(gender=1).count()
+    movie_gender_t2 = evaluatedata.filter_by(gender=2).count()
+
+    movie_blood_t0 = evaluatedata.filter_by(blood=0).count()
+    movie_blood_t1 = evaluatedata.filter_by(blood=1).count()
+    movie_blood_t2 = evaluatedata.filter_by(blood=2).count()
+    movie_blood_t3 = evaluatedata.filter_by(blood=3).count()
+    movie_blood_t4 = evaluatedata.filter_by(blood=4).count()
+
+    votes = {
+        "count": movie_vote_count,
+        "vote.1": movie_vote_t1,
+        "vote.2": movie_vote_t2,
+        "vote.3": movie_vote_t3,
+        "vote.4": movie_vote_t4,
+        "gender.1": movie_gender_t1,
+        "gender.2": movie_gender_t2,
+        "blood.0": movie_blood_t0,
+        "blood.1": movie_blood_t1,
+        "blood.2": movie_blood_t2,
+        "blood.3": movie_blood_t3,
+        "blood.4": movie_blood_t4,
+        "blood.avg": 0,
+        "age.avg": 0
+    }
+
     return render_template(
         "vote_category_list.html",
         categories=categories,
+        votes=votes,
         type_length=categories.total,
         type_max_count=64,
     )
@@ -60,9 +97,45 @@ def votes_list_movies(category):
         page=page_num, per_page=20, error_out=False
     )
 
+    votes = {}
+    evaluatedata = movie_vote = EvaluateData.query
+
+    for movie in movies.items:
+        movie_vote = evaluatedata.filter_by(movie_id=movie.movie_id)
+
+        movie_vote_count = movie_vote.count()
+
+        movie_vote_t1 = movie_vote.filter_by(vote=1).count()
+        movie_vote_t2 = movie_vote.filter_by(vote=2).count()
+        movie_vote_t3 = movie_vote.filter_by(vote=3).count()
+        movie_vote_t4 = movie_vote.filter_by(vote=4).count()
+
+        movie_gender_t1 = movie_vote.filter_by(gender=1).count()
+        movie_gender_t2 = movie_vote.filter_by(gender=2).count()
+
+        votes[movie.movie_id] = {
+            "count": movie_vote_count,
+            "vote.1": movie_vote_t1,
+            "vote.2": movie_vote_t2,
+            "vote.3": movie_vote_t3,
+            "vote.4": movie_vote_t4,
+            "gender.1": movie_gender_t1,
+            "gender.2": movie_gender_t2,
+            "blood.0": 0,
+            "blood.1": 0,
+            "blood.2": 0,
+            "blood.3": 0,
+            "blood.4": 0,
+            "blood.avg": 0,
+            "age.avg": 0
+        }
+
+    print(votes)
+
     return render_template(
         "vote_movie_list.html",
         movies=movies,
+        votes=votes,
         category_id=category,
         type_length=movies.total,
         type_max_count=64,

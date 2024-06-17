@@ -27,7 +27,13 @@
                 <td>
                     <div class="field has-addons">
                         <p class="control">
-                            ◎ 5 ・ 〇 3 ・ △ 4 ・ × 0
+                            {{ votes[movie.movie_id]['count'] }} votes
+                            <br>
+                            ◎ {{ votes[movie.movie_id]['vote.4'] }} ・ 〇 {{ votes[movie.movie_id]['vote.3'] }} ・ △ {{ votes[movie.movie_id]['vote.2'] }} ・ × {{ votes[movie.movie_id]['vote.1'] }}
+                            <br>
+                            ♂ {{ votes[movie.movie_id]['gender.1'] }} ({{ ((votes[movie.movie_id]['gender.1'] / votes[movie.movie_id]['count']) * 100)|round|int }}%)
+                             ・ 
+                            ♀ {{ votes[movie.movie_id]['gender.2'] }} ({{ ((votes[movie.movie_id]['gender.2'] / votes[movie.movie_id]['count']) * 100)|round|int }}%)
                         </p>
                     </div>
                 </td>
