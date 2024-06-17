@@ -153,7 +153,7 @@ class TVScreenAsset(Asset):
             asset_dir = "normal-intro"
 
         if is_movie:
-            asset_name = f"{seq}-1.mov"
+            asset_name = f"{seq}.mov"
         else:
             asset_name = f"{seq}-1.img"
 

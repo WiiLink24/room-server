@@ -45,6 +45,13 @@ def add_intro_info():
         # Now push to database.
         db.session.add(intro_db)
         db.session.commit()
+
+        if intro_db.cnt_type == ContentTypes.Video:
+            # Videos require the ID to be padded to 16 characters.
+            intro_db.cnt_id = int(str(intro_db.cnt_id).ljust(16, "0"))
+            db.session.add(intro_db)
+            db.session.commit()
+
         update_intro_info_on_s3()
 
         # Now encode image/video.

@@ -311,7 +311,7 @@ class LinkTypes(enum.Enum):
 
 class IntroInfo(db.Model):
     cnt_id = db.Column(
-        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+        db.BigInteger, autoincrement=True, primary_key=True, nullable=False, unique=True
     )
     cnt_type = db.Column(db.Enum(ContentTypes))
     cat_name = db.Column(db.String)

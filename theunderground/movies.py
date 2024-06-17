@@ -13,10 +13,12 @@ from room import app
 from theunderground.mobiclip import (
     get_category_list,
     validate_mobiclip,
+    validate_mobi_dsi,
     get_mobiclip_length,
     save_movie_data,
     delete_movie_data,
     get_movie_path,
+    get_ds_movie_path
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
@@ -54,10 +56,12 @@ def add_movie():
 
     if form.validate_on_submit():
         movie = form.movie.data
+        ds_movie = form.ds_movie.data
         thumbnail = form.thumbnail.data
         if movie and thumbnail:
-            movie_data = movie[0].read()
-            thumbnail_data = thumbnail[0].read()
+            movie_data = movie.read()
+            thumbnail_data = thumbnail.read()
+            ds_movie_data = None
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -78,8 +82,24 @@ def add_movie():
                 db.session.add(db_movie)
                 db.session.commit()
 
+                if ds_movie:
+                    ds_movie_data = ds_movie.read()
+                    validation_ds = validate_mobi_dsi(ds_movie_data)
+                    if isinstance(validation_ds, bytes):
+                        # We encrypted this movie.
+                        ds_movie_data = validation_ds
+
+                    if validation_ds:
+                        db_movie.ds_mov_id = db_movie.movie_id
+                        db_movie.genre = 1
+
+                        # Re-commit the DSi stuff
+                        db.session.commit()
+
                 # Now that we've inserted the movie, we can properly move it.
-                save_movie_data(db_movie.movie_id, thumbnail_data, movie_data)
+                save_movie_data(
+                    db_movie.movie_id, thumbnail_data, movie_data, ds_movie_data
+                )
 
                 # Finally update the category if needed by S3
                 if s3:
@@ -95,6 +115,24 @@ def add_movie():
 
     return render_template("movie_add.html", form=form)
 
+
+@app.route("/theunderground/movies/<movie_id>/save", methods=["GET", "POST"])
+@login_required
+def save_movie(movie_id):
+    movie_dir = get_movie_path(movie_id)
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mov")
+
+    return send_from_directory(movie_dir, f"{movie_id}-H.mov")
+
+@app.route("/theunderground/movies/<movie_id>/save_ds", methods=["GET", "POST"])
+@login_required
+def save_ds_movie(movie_id):
+    ds_movie_dir = get_ds_movie_path(movie_id)
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/{ds_movie_dir}/{movie_id}.enc")
+
+    return send_from_directory(ds_movie_dir, f"{movie_id}.enc")
 
 @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
 @login_required
