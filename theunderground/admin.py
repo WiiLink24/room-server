@@ -14,6 +14,11 @@ def unauthorized():
     return redirect(url_for("root"))
 
 
+@app.route("/")
+def index():
+    return redirect(url_for("root"))
+
+
 @app.route("/theunderground")
 @app.route("/theunderground/")
 def root():
