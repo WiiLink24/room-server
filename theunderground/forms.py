@@ -75,6 +75,7 @@ class MovieUploadForm(FlaskForm):
     ds_movie = FileField("DSi Movie")
     title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
     thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
+    is_collab = BooleanField("Collaboration?")
     # Choices for the select field are only evaluated once, so we must set it when necessary.
     category = SelectField("Movie category", validators=[DataRequired()])
     upload = SubmitField("Add Movie")

@@ -67,6 +67,11 @@ def add_movie():
                 # Get the Mobiclip's length from header.
                 length = get_mobiclip_length(movie_data)
 
+                if form.is_collab.data:
+                    genre = 2
+                else:
+                    genre = 0
+
                 # Insert this movie to the database.
                 # For right now, we will assume defaults.
                 db_movie = Movies(
@@ -74,7 +79,7 @@ def add_movie():
                     category_id=form.category.data,
                     length=length,
                     aspect=True,
-                    genre=0,
+                    genre=genre,
                     sp_page_id=0,
                     staff=False,
                 )
@@ -91,7 +96,8 @@ def add_movie():
 
                     if validation_ds:
                         db_movie.ds_mov_id = db_movie.movie_id
-                        db_movie.genre = 1
+                        if genre == 0:
+                            db_movie.genre = 1
 
                         # Re-commit the DSi stuff
                         db.session.commit()
