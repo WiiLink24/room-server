@@ -29,6 +29,9 @@ def root():
 
 @app.route("/theunderground/login")
 def login():
+    if oidc.user_loggedin:
+        return redirect(url_for("admin"))
+    
     return render_template('login.html')
 
 
