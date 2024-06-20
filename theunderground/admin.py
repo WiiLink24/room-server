@@ -39,13 +39,9 @@ def login():
 @oidc.require_login
 def logout():
     oidc.logout()
-    response = redirect(url_for("loggedout"))
+    response = redirect(url_for("login"))
     response.set_cookie("session", expires=0)
     return response
-
-@app.route("/theunderground/loggedout")
-def loggedout():
-    return render_template('loggedout.html')
 
 @app.route("/theunderground/admin")
 @oidc.require_login
