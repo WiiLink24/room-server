@@ -1,9 +1,10 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from flask import render_template, flash, url_for, redirect
-from flask_login import login_required
+
 from theunderground.forms import PayPosterForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from asset_data import PosterAsset, PayMovieAsset
 from models import PayPosters, db
 from room import app
@@ -15,7 +16,7 @@ PAY_POSTER_IV = b"\x09\xd4\xfb\xfc\xa4\x00\xc1\x3d\xa0\x1c\xbf\x83\x5d\xa3\x24\x
 
 
 @app.route("/theunderground/payposters")
-@login_required
+@oidc.require_login
 def list_pay_posters():
     # Displays a table of posters with options to add and remove them
     posters = PayPosters.query.paginate()
@@ -29,7 +30,7 @@ def list_pay_posters():
 
 
 @app.route("/theunderground/payposters/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_pay_poster():
     form = PayPosterForm()
 
@@ -65,7 +66,7 @@ def add_pay_poster():
 
 
 @app.route("/theunderground/payposters/<poster>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_pay_poster(poster):
     def drop_pay_poster():
         os.unlink(PosterAsset(poster, is_theatre=True).asset_path())
@@ -78,6 +79,6 @@ def remove_pay_poster(poster):
 
 
 @app.route("/theunderground/payposters/<poster>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_pay_poster(poster):
     return PosterAsset(poster, is_theatre=True).send_file()

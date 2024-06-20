@@ -22,13 +22,6 @@ Reference:
         title = form.title.data
 """
 
-
-class LoginForm(FlaskForm):
-    username = StringField("Username")
-    password = PasswordField("Password")
-    submit = SubmitField("Enter the underground")
-
-
 class NewsForm(FlaskForm):
     news = TextAreaField("News Contents", validators=[DataRequired()])
     create = SubmitField("Create!")
@@ -40,35 +33,6 @@ class MiiUploadForm(FlaskForm):
     color1 = StringField("Shirt Color (Hex)", validators=[DataRequired(), Length(max=6)])
     color2 = StringField("Pants Color (Hex)", validators=[DataRequired(), Length(max=6)])
     upload = SubmitField("Add Mii")
-
-
-class NewUserForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    password1 = PasswordField("Password", validators=[DataRequired()])
-    password2 = PasswordField("Confirm Password", validators=[DataRequired()])
-    upload = SubmitField("Complete")
-
-    def validate_password1(self, _):
-        if self.password1.data != self.password2.data:
-            return ValidationError("New passwords must be the same")
-
-
-class ChangePasswordForm(FlaskForm):
-    current_password = PasswordField("Password", validators=[DataRequired()])
-    new_password = PasswordField("New Password", validators=[DataRequired()])
-    new_password_confirmation = PasswordField(
-        "Confirm New Password", validators=[DataRequired()]
-    )
-    complete = SubmitField("Complete")
-
-    def validate_current_password(self, _):
-        if self.current_password.data == self.new_password.data:
-            return ValidationError("New password cannot be the same as current!")
-
-    def validate_new_password(self, _):
-        if self.new_password.data != self.new_password_confirmation.data:
-            return ValidationError("New passwords must be the same")
-
 
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])

@@ -29,3 +29,6 @@ s3_secret_access_key = ""
 url1_cdn_url = "http://url1.videos.wiilink24.com"
 
 ds_rsa_key_path = ""
+
+# OpenID Connect configuration
+client_secrets_path = "client_secrets.json"

@@ -28,6 +28,8 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
+app.config["OIDC_CLIENT_SECRETS"] = config.client_secrets_path
+app.config['OIDC_SCOPES'] = "openid profile"
 
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.

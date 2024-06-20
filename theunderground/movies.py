@@ -6,7 +6,7 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required
+
 
 from models import Movies, db
 from room import app
@@ -22,6 +22,7 @@ from theunderground.mobiclip import (
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from room import s3
 import config
 from url1.category_search import list_category_search
@@ -29,7 +30,7 @@ from io import BytesIO
 
 
 @app.route("/theunderground/categories/<category>")
-@login_required
+@oidc.require_login
 def list_movies(category):
     # Get our current page, or start from scratch.
     page_num = request.args.get("page", default=1, type=int)
@@ -49,7 +50,7 @@ def list_movies(category):
 
 
 @app.route("/theunderground/movies/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_movie():
     form = MovieUploadForm()
     form.category.choices = get_category_list()
@@ -123,7 +124,7 @@ def add_movie():
 
 
 @app.route("/theunderground/movies/<movie_id>/save", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def save_movie(movie_id):
     movie_dir = get_movie_path(movie_id)
     if s3:
@@ -132,7 +133,7 @@ def save_movie(movie_id):
     return send_from_directory(movie_dir, f"{movie_id}-H.mov")
 
 @app.route("/theunderground/movies/<movie_id>/save_ds", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def save_ds_movie(movie_id):
     ds_movie_dir = get_ds_movie_path(movie_id)
     if s3:
@@ -141,7 +142,7 @@ def save_ds_movie(movie_id):
     return send_from_directory(ds_movie_dir, f"{movie_id}.enc")
 
 @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_movie(movie_id):
     def drop_movie():
         db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
@@ -155,7 +156,7 @@ def remove_movie(movie_id):
 
 
 @app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_movie_thumbnail(movie_id):
     movie_dir = get_movie_path(movie_id)
     if s3:

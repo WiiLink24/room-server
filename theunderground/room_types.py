@@ -1,7 +1,7 @@
 from io import BytesIO
 
 from flask import render_template, redirect, url_for, flash
-from flask_login import login_required
+from theunderground.admin import oidc
 
 from room import app, s3
 from models import RoomMenu, db
@@ -29,7 +29,7 @@ import config
 
 
 @app.route("/theunderground/rooms/<room_id>/choose", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def choose_type(room_id):
     form = PreRoomData()
 
@@ -79,7 +79,7 @@ def photo_id():
 
 
 @app.route("/theunderground/rooms/<room_id>/add/delivery", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def delivery(room_id):
     form = RoomDeliveryData()
 
@@ -117,7 +117,7 @@ def delivery(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/add/poll", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def poll(room_id):
     form = RoomVoteData()
 
@@ -164,7 +164,7 @@ def poll(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/add//mov", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def movie(room_id):
     form = RoomMovieData()
 
@@ -192,7 +192,7 @@ def movie(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/add/link", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def link(room_id):
     form = RoomLinkData()
 
@@ -242,7 +242,7 @@ def link(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/add/pic", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def pic(room_id):
     form = RoomPicData()
 

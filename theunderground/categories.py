@@ -2,19 +2,18 @@ import os
 import config
 
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required
+
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
-
 from asset_data import NormalCategoryAsset
 from models import Categories, db
 from room import app, s3
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
-
+from theunderground.admin import oidc
 
 @app.route("/theunderground/categories")
-@login_required
+@oidc.require_login
 def list_categories():
     page_num = request.args.get("page", default=1, type=int)
 
@@ -31,7 +30,7 @@ def list_categories():
 
 
 @app.route("/theunderground/categories/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_category():
     form = CategoryForm()
     # As we're adding, ensure a file is required.
@@ -52,7 +51,7 @@ def add_category():
 
 
 @app.route("/theunderground/categories/<category>/edit", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
@@ -84,7 +83,7 @@ def edit_category(category):
 
 
 @app.route("/theunderground/categories/<category>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_category(category):
     def drop_category():
         db.session.delete(current_category)
@@ -104,7 +103,7 @@ def remove_category(category):
 
 
 @app.route("/theunderground/categories/<category>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_category_thumbnail(category):
     if s3:
         return redirect(f"{config.url1_cdn_url}/list/category/img/{category}.img")

@@ -1,11 +1,12 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Welcome to the Underground
+    Logout
 {% endblock %}
 
 {% block content %}
-    <h1 class="title">Click below to enter the underground.</h1>
+    <h1 class="title">You have been logged out.</h1>
+    <h2 class="subtitle">Click below to log back in.</h2>
     <p class="buttons" style="display: block">
         <a href="{{ url_for('admin') }}">
             <button class="button is-link">Login with WiiLink Internal</button>
