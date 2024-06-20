@@ -2,15 +2,16 @@ import crc16
 import flask_wtf.file
 import werkzeug.datastructures
 from flask import render_template, redirect, flash, url_for
-from flask_login import login_required
+
 
 from models import MiiData, db
 from room import app
 from theunderground.forms import MiiUploadForm
+from theunderground.admin import oidc
 
 
 @app.route("/theunderground/miis")
-@login_required
+@oidc.require_login
 def list_miis():
     miis = MiiData.query.order_by(MiiData.mii_id).all()
 
@@ -18,7 +19,7 @@ def list_miis():
 
 
 @app.route("/theunderground/miis/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_mii():
     form = MiiUploadForm()
     if form.validate_on_submit():

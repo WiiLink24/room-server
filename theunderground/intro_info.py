@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from flask_login import login_required
+
 from flask import render_template, request, flash, redirect, url_for
 from asset_data import TVScreenAsset
 from room import app, s3
@@ -8,6 +8,7 @@ from models import IntroInfo, db, ContentTypes
 from theunderground.forms import IntroInfoForm
 from theunderground.mobiclip import validate_mobiclip
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from werkzeug import exceptions
 from url1.event_today import event_today
 
@@ -15,7 +16,7 @@ import config
 
 
 @app.route("/theunderground/intro_info")
-@login_required
+@oidc.require_login
 def list_intro_info():
     page_num = request.args.get("page", default=1, type=int)
 
@@ -29,7 +30,7 @@ def list_intro_info():
 
 
 @app.route("/theunderground/intro_info/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_intro_info():
     form = IntroInfoForm()
 
@@ -77,7 +78,7 @@ def add_intro_info():
 
 
 @app.route("/theunderground/intro_info/<id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_intro_info(id):
     def drop_intro_info():
         db.session.delete(current_info)

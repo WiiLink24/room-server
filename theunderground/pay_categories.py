@@ -1,7 +1,7 @@
 import os
 
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required
+
 from werkzeug import exceptions
 
 from asset_data import PayCategoryAsset
@@ -9,10 +9,11 @@ from models import PayCategories, db, PayCategoryHeaders
 from room import app
 from theunderground.forms import CategoryForm, PayCategoryHeaderForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 
 
 @app.route("/theunderground/paycategories")
-@login_required
+@oidc.require_login
 def list_pay_categories():
     page_num = request.args.get("page", default=1, type=int)
 
@@ -29,7 +30,7 @@ def list_pay_categories():
 
 
 @app.route("/theunderground/paycategories/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_pay_category():
     form = CategoryForm()
     # As we're adding, ensure a file is required.
@@ -50,7 +51,7 @@ def add_pay_category():
 
 
 @app.route("/theunderground/paycategories/<category>/edit", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_pay_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
@@ -82,7 +83,7 @@ def edit_pay_category(category):
 
 
 @app.route("/theunderground/paycategories/<category>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_pay_category(category):
     def drop_pay_category():
         os.unlink(PayCategoryAsset(category).asset_path())
@@ -101,7 +102,7 @@ def remove_pay_category(category):
 
 
 @app.route("/theunderground/paycategories/headers")
-@login_required
+@oidc.require_login
 def list_pay_category_headers():
     """Internally named headers, basically genres."""
     genres = PayCategoryHeaders.query.paginate(page=1, per_page=15, error_out=False)
@@ -115,7 +116,7 @@ def list_pay_category_headers():
 
 
 @app.route("/theunderground/paycategories/headers/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_pay_category_header():
     form = PayCategoryHeaderForm()
 
@@ -134,7 +135,7 @@ def add_pay_category_header():
 @app.route(
     "/theunderground/paycategories/headers/<title>/edit", methods=["GET", "POST"]
 )
-@login_required
+@oidc.require_login
 def edit_pay_category_header(title):
     form = PayCategoryHeaderForm()
     form.submit.label.text = "Edit"
@@ -162,7 +163,7 @@ def edit_pay_category_header(title):
 @app.route(
     "/theunderground/paycategories/headers/<title>/remove", methods=["GET", "POST"]
 )
-@login_required
+@oidc.require_login
 def remove_pay_category_header(title):
     def drop_pay_category_header():
         db.session.delete(current_category)
@@ -180,6 +181,6 @@ def remove_pay_category_header(title):
 
 
 @app.route("/theunderground/paycategories/<category>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_pay_category_thumbnail(category):
     return PayCategoryAsset(category).send_file()
