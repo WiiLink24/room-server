@@ -8,8 +8,6 @@ venv
 conf/
 config.py
 
-client_secrets.json
-
 # Ensure .gitkeep is recognized
 assets/
 !assets/*/.gitkeep

@@ -31,4 +31,16 @@ url1_cdn_url = "http://url1.videos.wiilink24.com"
 ds_rsa_key_path = ""
 
 # OpenID Connect configuration
-client_secrets_path = "client_secrets.json"
+oidc_client_secrets_json = {
+  "web": {
+    "client_id": "",
+    "client_secret": "",
+    "auth_uri": "",
+    "token_uri": "",
+    "userinfo_uri": "",
+    "issuer": "",
+    "redirect_uris": [
+      "http://localhost:8080/authorize"
+    ]
+  }
+}
