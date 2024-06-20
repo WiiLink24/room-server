@@ -6,6 +6,8 @@ from flask_oidc import OpenIDConnect
 from models import User, db
 from room import app
 
+import config
+
 oidc = OpenIDConnect(app)
 
 @app.context_processor
@@ -39,7 +41,7 @@ def login():
 @oidc.require_login
 def logout():
     oidc.logout()
-    response = redirect(url_for("login"))
+    response = redirect(config.oidc_logout_url)
     response.set_cookie("session", expires=0)
     return response
 

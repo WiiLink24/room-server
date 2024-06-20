@@ -44,3 +44,4 @@ oidc_client_secrets_json = {
     ]
   }
 }
+oidc_logout_url = ""
