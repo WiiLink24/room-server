@@ -3,10 +3,19 @@ import uuid
 from flask import url_for, flash, render_template, send_from_directory
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.utils import redirect
+from first import conf_first_bin_xml
 
 from models import User, db
 from room import app
 from theunderground.forms import LoginForm, NewUserForm, ChangePasswordForm
+
+
+def is_maintenance():
+    returned_xml = conf_first_bin_xml()
+    if b"<maint>1</maint>" in returned_xml:
+        return True
+    else:
+        return False
 
 
 @app.login_manager.unauthorized_handler
@@ -84,4 +93,4 @@ def logout():
 @app.route("/theunderground/admin")
 @login_required
 def admin():
-    return render_template("underground.html")
+    return render_template("underground.html", maintenance=is_maintenance())
