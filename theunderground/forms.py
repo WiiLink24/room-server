@@ -96,7 +96,7 @@ class RoomForm(FlaskForm):
 class PreRoomData(FlaskForm):
     type = SelectField(
         "Type",
-        choices=["Delivery", "Poll", "Movie", "Coupon", "Link", "Picture"],
+        choices=["Delivery", "Poll", "Movie", "Coupon", "Website Link", "Picture"],
     )
     next = SubmitField("Next")
 

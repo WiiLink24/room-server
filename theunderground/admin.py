@@ -3,10 +3,12 @@ import uuid
 from flask import url_for, flash, render_template, send_from_directory
 from werkzeug.utils import redirect
 from flask_oidc import OpenIDConnect
+from first import conf_first_bin_xml
 from models import User, db
 from room import app
 
 import config
+
 
 oidc = OpenIDConnect(app)
 
@@ -14,6 +16,14 @@ oidc = OpenIDConnect(app)
 @app.context_processor
 def inject_oidc():
     return dict(oidc=oidc)
+
+
+def is_maintenance():
+    returned_xml = conf_first_bin_xml()
+    if b"<maint>1</maint>" in returned_xml:
+        return True
+    else:
+        return False
 
 
 @app.route("/")
@@ -47,4 +57,4 @@ def logout():
 @app.route("/theunderground/admin")
 @oidc.require_login
 def admin():
-    return render_template("underground.html")
+    return render_template("underground.html", maintenance=is_maintenance())

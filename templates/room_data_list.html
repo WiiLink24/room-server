@@ -9,14 +9,35 @@
         <tr>
             <th scope="col">Type</th>
             <th scope="col">Image</th>
+            <th scope="col">Title / Data</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for data in datas %}
             <tr>
-                <td>{{ data.data["type"] }}</td>
-                <td><img alt="Banner for {{ data.room_id }} TV ID: {{ data.id }}" src="{{ url_for('serve_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}"/></td>
+                {% set type = data.data["type"] %}
+
+                <td>{{ type }}</td>
+                <td><img alt="Banner for {{ data.room_id }} ・ TV ID: {{ data.id }}" src="{{ url_for('serve_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}"/></td>
+
+                {# missing types 1 and 4, coupon and delivery #}
+
+                {% if type == "Voting" %}
+                    {# 2, enq #}
+                    <td>Poll Title ・ {{ data.data['enq']['enqtitle'] }}<br/>Question ・ {{ data.data['enq']['enqq'] }}<br/>Mii Message ・ {{ data.data['enq']['enqmsginfo']['enqmsg'] }}<br/>Choices ・ {{ data.data['enq']['enqa'] }}</td>
+                {% elif type == "Movie" %}
+                    {# 3, mov #}
+                    <td>Movie Title ・ {{ data.data['mov']['title'] }}<br/>Movie ID ・ {{ data.data['mov']['movieid'] }}</td>
+                {% elif type == "Website Link" %}
+                    {# 5, link #}
+                    <td>Link Title ・ {{ data.data['link']['linktitle'] }}<br/>URL ・ {{ data.data['link']['linkurl'] }}</td>
+                {% elif type == "Picture" %}
+                    {# 6, pic #}
+                    <td>Picture Title ・ {{ data.data['pic']['pictitle'] }}<br/>Picture Count ・ {{ data.data['pic']['picnum'] }}</td>
+                {% else %}
+                <td>{{ data.data }}</td>
+                {% endif %}
                 <td style="text-align: center;">
                     <div class="field has-addons">
                         <p class="control">
