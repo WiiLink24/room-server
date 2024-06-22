@@ -22,6 +22,7 @@ Reference:
         title = form.title.data
 """
 
+
 class NewsForm(FlaskForm):
     news = TextAreaField("News Contents", validators=[DataRequired()])
     create = SubmitField("Create!")
@@ -30,9 +31,14 @@ class NewsForm(FlaskForm):
 class MiiUploadForm(FlaskForm):
     mii = FileField("Mii Selection", validators=[FileRequired()])
     name = StringField("Mii Name", validators=[DataRequired(), Length(max=10)])
-    color1 = StringField("Shirt Color (Hex)", validators=[DataRequired(), Length(max=6)])
-    color2 = StringField("Pants Color (Hex)", validators=[DataRequired(), Length(max=6)])
+    color1 = StringField(
+        "Shirt Color (Hex)", validators=[DataRequired(), Length(max=6)]
+    )
+    color2 = StringField(
+        "Pants Color (Hex)", validators=[DataRequired(), Length(max=6)]
+    )
     upload = SubmitField("Add Mii")
+
 
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])

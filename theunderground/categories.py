@@ -12,6 +12,7 @@ from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 
+
 @app.route("/theunderground/categories")
 @oidc.require_login
 def list_categories():

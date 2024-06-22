@@ -10,13 +10,11 @@ import config
 
 oidc = OpenIDConnect(app)
 
+
 @app.context_processor
 def inject_oidc():
     return dict(oidc=oidc)
 
-@app.login_manager.unauthorized_handler
-def unauthorized():
-    return redirect(url_for("root"))
 
 @app.route("/")
 def index():
@@ -33,8 +31,8 @@ def root():
 def login():
     if oidc.user_loggedin:
         return redirect(url_for("admin"))
-    
-    return render_template('login.html')
+
+    return render_template("login.html")
 
 
 @app.route("/theunderground/logout")
@@ -44,6 +42,7 @@ def logout():
     response = redirect(config.oidc_logout_url)
     response.set_cookie("session", expires=0)
     return response
+
 
 @app.route("/theunderground/admin")
 @oidc.require_login

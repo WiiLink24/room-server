@@ -13,12 +13,6 @@ import sqlalchemy
 import json
 
 db = SQLAlchemy()
-login = LoginManager()
-
-
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 
 class DictType(TypeDecorator):

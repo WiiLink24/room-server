@@ -2,7 +2,6 @@ Flask>=2.2
 lxml>=4.8
 psycopg2>=2.9
 flask_sqlalchemy==3.0.3
-flask-login>=0.6.3
 flask-wtf>=1.2.0
 flask-migrate>=3.1
 flask-oidc>=2.2.0
