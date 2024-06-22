@@ -1,0 +1,30 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}room data{% endblock %}
+{% block type_name_singular %}room data{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Title / Data</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            {% set type = data.data["type"] %}
+            {% if type == "Voting" %}
+            <tr>
+                <td><img alt="Banner for {{ data.room_id }} ・ TV ID: {{ data.id }}" src="{{ url_for('enquete_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}"/></td>
+                <td>Poll Title ・ {{ data.data['enq']['enqtitle'] }}<br/>Question ・ {{ data.data['enq']['enqq'] }}<br/>Mii Message ・ {{ data.data['enq']['enqmsginfo']['enqmsg'] }}<br/>Choices ・ {{ data.data['enq']['enqa'] }}</td>
+                <td style="text-align: center;">
+                    <div class="field has-addons">
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
