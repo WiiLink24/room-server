@@ -18,7 +18,7 @@ from theunderground.mobiclip import (
     save_movie_data,
     delete_movie_data,
     get_movie_path,
-    get_ds_movie_path
+    get_ds_movie_path,
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
@@ -132,6 +132,7 @@ def save_movie(movie_id):
 
     return send_from_directory(movie_dir, f"{movie_id}-H.mov")
 
+
 @app.route("/theunderground/movies/<movie_id>/save_ds", methods=["GET", "POST"])
 @oidc.require_login
 def save_ds_movie(movie_id):
@@ -140,6 +141,7 @@ def save_ds_movie(movie_id):
         return redirect(f"{config.url1_cdn_url}/{ds_movie_dir}/{movie_id}.enc")
 
     return send_from_directory(ds_movie_dir, f"{movie_id}.enc")
+
 
 @app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
 @oidc.require_login
