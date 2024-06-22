@@ -2,14 +2,15 @@ import os
 import config
 
 from room import app, s3
-from flask_login import login_required
+
 from flask import render_template, send_from_directory, redirect, url_for
 from models import RoomMenu, db
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 
 
 @app.route("/theunderground/rooms/<room_id>")
-@login_required
+@oidc.require_login
 def list_room_data(room_id):
     data = RoomMenu.query.filter_by(room_id=room_id).all()
 
@@ -42,7 +43,7 @@ def list_room_data(room_id):
     "/theunderground/rooms/<room_id>/remove/<data_id>/<image_id>",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def remove_tv_item(room_id, data_id, image_id):
     def drop_tv_item():
         db.session.delete(RoomMenu.query.filter_by(id=data_id).first())
@@ -54,7 +55,7 @@ def remove_tv_item(room_id, data_id, image_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/TV/<image_id>.jpg")
-@login_required
+@oidc.require_login
 def serve_room_data_image(room_id, image_id):
     if s3:
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/{image_id}.img")

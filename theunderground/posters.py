@@ -1,9 +1,10 @@
 from io import BytesIO
 
 from flask import render_template, flash, url_for, redirect
-from flask_login import login_required
+
 from theunderground.forms import PosterForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from asset_data import PosterAsset
 from models import Posters, db
 from room import app, s3
@@ -12,7 +13,7 @@ import config
 
 
 @app.route("/theunderground/posters")
-@login_required
+@oidc.require_login
 def list_posters():
     # Displays a table of posters with options to add and remove them
     posters = Posters.query.paginate()
@@ -26,7 +27,7 @@ def list_posters():
 
 
 @app.route("/theunderground/movies/poster", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_poster():
     form = PosterForm()
 
@@ -55,7 +56,7 @@ def add_poster():
 
 
 @app.route("/theunderground/posters/<poster>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_poster(poster: int):
     def drop_poster():
         db.session.delete(Posters.query.filter_by(poster_id=poster).first())
@@ -69,7 +70,7 @@ def remove_poster(poster: int):
 
 
 @app.route("/theunderground/posters/<poster>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_poster(poster):
     if s3:
         return redirect(f"{config.url1_cdn_url}/wall/{poster}.img")

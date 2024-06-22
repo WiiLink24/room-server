@@ -1,7 +1,7 @@
 import shutil
 
 from flask import render_template, redirect, url_for
-from flask_login import login_required
+
 from werkzeug import exceptions
 
 from asset_data import RoomLogoAsset, ParadeBannerAsset
@@ -9,11 +9,12 @@ from models import db, Rooms, RoomMiis
 from theunderground.forms import RoomForm
 from room import app, s3
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 import config
 
 
 @app.route("/theunderground/rooms")
-@login_required
+@oidc.require_login
 def list_room():
     rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
     return render_template(
@@ -22,7 +23,7 @@ def list_room():
 
 
 @app.route("/theunderground/rooms/edit/<room_id>", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_room(room_id):
     form = RoomForm()
 
@@ -76,7 +77,7 @@ def edit_room(room_id):
 
 
 @app.route("/theunderground/rooms/create", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def create_room():
     form = RoomForm()
     form.parade_banner.flags.required = True
@@ -114,7 +115,7 @@ def create_room():
 
 
 @app.route("/theunderground/rooms/<room_id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_room(room_id):
     def drop_room():
         db.session.delete(RoomMiis.query.filter_by(room_id=room_id).first())
@@ -132,7 +133,7 @@ def remove_room(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/banner.jpg")
-@login_required
+@oidc.require_login
 def get_room_logo(room_id):
     if s3:
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/f1234.img")
@@ -141,7 +142,7 @@ def get_room_logo(room_id):
 
 
 @app.route("/theunderground/rooms/<room_id>/parade_banner.jpg")
-@login_required
+@oidc.require_login
 def get_parade_banner(room_id):
     if s3:
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/g1234.img")

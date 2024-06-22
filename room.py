@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sqlalchemy_searchable import make_searchable
 
-from models import db, login
+from models import db
 from pytz import utc
 
 
@@ -28,6 +28,8 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
+app.config["OIDC_CLIENT_SECRETS"] = config.oidc_client_secrets_json
+app.config["OIDC_SCOPES"] = "openid profile"
 
 # Ensure DB tables are created.
 # Importing models must occur after the DB is instantiated.
@@ -38,8 +40,6 @@ make_searchable(db.metadata)
 
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db)
-login.init_app(app)
-
 
 with app.app_context():
     # Ensure our database is present.

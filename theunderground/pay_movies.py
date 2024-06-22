@@ -6,7 +6,7 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required
+
 
 from models import PayMovies, db
 from room import app
@@ -20,10 +20,11 @@ from theunderground.mobiclip import (
 )
 from theunderground.forms import PayMovieUploadForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 
 
 @app.route("/theunderground/paycategories/<category>")
-@login_required
+@oidc.require_login
 def list_pay_movies(category):
     # Get our current page, or start from scratch.
     page_num = request.args.get("page", default=1, type=int)
@@ -43,7 +44,7 @@ def list_pay_movies(category):
 
 
 @app.route("/theunderground/paymovies/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_pay_movie():
     form = PayMovieUploadForm()
     form.category.choices = get_pay_category_list()
@@ -92,7 +93,7 @@ def add_pay_movie():
 
 
 @app.route("/theunderground/paymovies/<movie_id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_pay_movie(movie_id):
     def drop_pay_movie():
         db.session.delete(PayMovies.query.filter_by(movie_id=movie_id).first())
@@ -106,7 +107,7 @@ def remove_pay_movie(movie_id):
 
 
 @app.route("/theunderground/paymovies/<movie_id>/thumbnail.jpg")
-@login_required
+@oidc.require_login
 def get_movie_poster(movie_id):
     movie_dir = get_pay_movie_dir(movie_id)
     return send_from_directory(movie_dir, f"{movie_id}/{movie_id}.img")

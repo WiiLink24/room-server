@@ -1,20 +1,21 @@
 from io import BytesIO
 
 from flask import render_template, url_for, redirect
-from flask_login import login_required
+
 from werkzeug import exceptions
 
 from models import News, db
 from room import app, s3
 from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from url1.event_today import event_today
 
 import config
 
 
 @app.route("/theunderground/news")
-@login_required
+@oidc.require_login
 def list_news():
     news = News.query.all()
     return render_template(
@@ -23,7 +24,7 @@ def list_news():
 
 
 @app.route("/theunderground/news/<news_id>", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_news(news_id):
     form = NewsForm()
 
@@ -49,7 +50,7 @@ def edit_news(news_id):
 
 
 @app.route("/theunderground/news/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_news():
     form = NewsForm()
     if form.validate_on_submit():
@@ -64,7 +65,7 @@ def add_news():
 
 
 @app.route("/theunderground/news/<news_id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_news(news_id):
     def drop_news():
         db.session.delete(News.query.filter_by(id=news_id).first())

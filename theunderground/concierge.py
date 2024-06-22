@@ -3,12 +3,12 @@
 from io import BytesIO
 
 from flask import render_template, url_for, redirect
-from flask_login import login_required
 
 from models import db, ConciergeMiis, MiiMsgInfo, MiiData
 from room import app
 from theunderground.forms import ConciergeForm
 from theunderground.operations import manage_delete_item
+from theunderground.admin import oidc
 from room import s3
 from url1.event_today import event_today
 from url1.mii import obtain_mii, mii_met
@@ -17,7 +17,7 @@ import config
 
 
 @app.route("/theunderground/concierge")
-@login_required
+@oidc.require_login
 def list_concierge():
     concierge_miis = (
         db.session.query(ConciergeMiis, MiiData)
@@ -34,7 +34,7 @@ def list_concierge():
 
 
 @app.route("/theunderground/concierge/<mii_id>", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_concierge(mii_id):
     form = ConciergeForm()
     if form.validate_on_submit():
@@ -74,7 +74,7 @@ def edit_concierge(mii_id):
 
 
 @app.route("/theunderground/concierge/<mii_id>/remove", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_concierge(mii_id):
     def drop_concierge():
         db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
