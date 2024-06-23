@@ -6,8 +6,8 @@ WORKDIR /home/server
 # Copy requirements first as to not disturb cache for other changes.
 COPY requirements.txt .
 
-RUN pip3 install -r requirements.txt && \
-  pip3 install gunicorn
+RUN pip3 install --no-cache-dir -r requirements.txt && \
+  pip3 install --no-cache-dir gunicorn
 
 USER server
 
