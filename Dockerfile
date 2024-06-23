@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10@sha256:<hash_from_docker_pull_command>
 
 RUN addgroup --gid 1000 server && adduser --uid 1000 --gid 1000 --system server
 WORKDIR /home/server
