@@ -28,7 +28,6 @@ from theunderground.mobiclip import (
 )
 
 @app.route("/theunderground/enquete")
-@login_required
 def enquete_room_list():
     rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
     return render_template(
@@ -36,7 +35,6 @@ def enquete_room_list():
     )
 
 @app.route("/theunderground/enquete/<room_id>")
-@login_required
 def enquete_room_data(room_id):
     data = RoomMenu.query.filter_by(room_id=room_id).all()
 
@@ -65,7 +63,6 @@ def enquete_room_data(room_id):
     )
 
 @app.route("/theunderground/enquete/<room_id>/banner.jpg")
-@login_required
 def enquete_get_room_logo(room_id):
     if s3:
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/f1234.img")
@@ -73,7 +70,6 @@ def enquete_get_room_logo(room_id):
     return RoomLogoAsset(room_id).send_file()
 
 @app.route("/theunderground/enquete/<room_id>/TV/<image_id>.jpg")
-@login_required
 def enquete_room_data_image(room_id, image_id):
     if s3:
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/{image_id}.img")
