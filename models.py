@@ -7,7 +7,6 @@ from sqlalchemy.types import TypeDecorator
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils import TSVectorType
 
-from flask_login import LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlalchemy
 import json
