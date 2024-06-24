@@ -36,19 +36,6 @@ class RoomMenu(db.Model):
     # TODO: Figure out a suitable UI, maybe even using Javascript?
 
 
-class User(db.Model, UserMixin):
-    # Used to login to the Admin Panel
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    username = db.Column(db.String(100))
-    password_hash = db.Column(db.String)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-
 @listens_for(User.__table__, "after_create")
 def create_default_user(target, connection, **kw):
     """Adds a default user to The Underground.
