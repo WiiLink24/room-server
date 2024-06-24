@@ -43,3 +43,4 @@ oidc_client_secrets_json = {
     }
 }
 oidc_logout_url = ""
+oidc_overwrite_redirect_uri = "http://localhost:8080/authorize"
