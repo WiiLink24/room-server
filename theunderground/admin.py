@@ -4,7 +4,6 @@ from flask import url_for, flash, render_template, send_from_directory
 from werkzeug.utils import redirect
 from flask_oidc import OpenIDConnect
 from first import conf_first_bin_xml
-from models import User, db
 from room import app
 
 import config
