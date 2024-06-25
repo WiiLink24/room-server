@@ -31,6 +31,7 @@ url1_cdn_url = "http://url1.videos.wiilink24.com"
 ds_rsa_key_path = ""
 
 # OpenID Connect configuration
+oidc_redirect_uri = "http://localhost:8080/authorize"
 oidc_client_secrets_json = {
     "web": {
         "client_id": "",
@@ -39,8 +40,7 @@ oidc_client_secrets_json = {
         "token_uri": "",
         "userinfo_uri": "",
         "issuer": "",
-        "redirect_uris": ["http://localhost:8080/authorize"],
+        "redirect_uris": [oidc_redirect_uri],
     }
 }
 oidc_logout_url = ""
-oidc_overwrite_redirect_uri = "http://localhost:8080/authorize"
