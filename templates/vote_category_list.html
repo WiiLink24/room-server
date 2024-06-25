@@ -1,0 +1,70 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}categories{% endblock %}
+{% block type_name_singular %}category{% endblock %}
+
+{% block table_listing %}
+
+    <p>
+        There is a total of {{ votes['count'] }} vote entries.
+        <br><br>
+        ◎ {{ votes['vote.4'] }} ・ 〇 {{ votes['vote.3'] }} ・ △ {{ votes['vote.2'] }} ・ × {{ votes['vote.1'] }}
+        <br>
+        ♂ {{ votes['gender.1'] }} ({{ ((votes['gender.1'] / votes['count']) * 100)|round|int }}%)
+        ・ 
+        ♀ {{ votes['gender.2'] }} ({{ ((votes['gender.2'] / votes['count']) * 100)|round|int }}%)
+        <br><br>
+    </p>
+
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Category ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories.items %}
+            <tr>
+                <td>{{ category.category_id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <img src="{{ url_for('votes_get_category_thumbnail', category=category.category_id) }}"
+                         alt="Thumbnail for category ID {{ categories.category_id }}"
+                         width="50%"
+                    />
+                </td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('votes_list_movies', category=category.category_id) }}" class="button is-link">
+                            <span class="icon is-small">
+                                <i class="fas fa-list"></i>
+                            </span>
+                                <span>List Movies</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    {% if categories.has_prev %}
+        <a href="{{ url_for('votes_list_categories', page=categories.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if categories.has_next %}
+        <a href="{{ url_for('votes_list_categories', page=categories.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+{% endblock %}
