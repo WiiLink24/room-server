@@ -124,8 +124,6 @@ def votes_list_movies(category):
             "age.avg": 0
         }
 
-    print(votes)
-
     return render_template(
         "vote_movie_list.html",
         movies=movies,
@@ -137,7 +135,6 @@ def votes_list_movies(category):
 
 @app.route("/theunderground/votes/m<movie_id>/thumbnail.jpg")
 def votes_get_movie_thumbnail(movie_id):
-    movie_id=6
     movie_dir = get_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}.img")
