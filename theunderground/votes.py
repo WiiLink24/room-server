@@ -74,7 +74,7 @@ def votes_list_categories():
         type_max_count=64,
     )
 
-@app.route("/theunderground/votes/<category>/thumbnail.jpg")
+@app.route("/theunderground/votes/c<category>/thumbnail.jpg")
 def votes_get_category_thumbnail(category):
     if s3:
         return redirect(f"{config.url1_cdn_url}/list/category/img/{category}.img")
@@ -135,8 +135,9 @@ def votes_list_movies(category):
         type_max_count=64,
     )
 
-@app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
+@app.route("/theunderground/votes/m<movie_id>/thumbnail.jpg")
 def votes_get_movie_thumbnail(movie_id):
+    movie_id=6
     movie_dir = get_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}.img")
