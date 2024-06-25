@@ -36,19 +36,6 @@ class RoomMenu(db.Model):
     # TODO: Figure out a suitable UI, maybe even using Javascript?
 
 
-@listens_for(User.__table__, "after_create")
-def create_default_user(target, connection, **kw):
-    """Adds a default user to The Underground.
-    By default, we assume admin:admin."""
-    table = User.__table__
-    connection.execute(
-        table.insert().values(
-            username="admin",
-            password_hash=generate_password_hash("admin"),
-        )
-    )
-
-
 class Posters(db.Model):
     poster_id = db.Column(db.Integer, primary_key=True, unique=True)
     msg = db.Column(db.String(15), nullable=False)
