@@ -9,7 +9,6 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
