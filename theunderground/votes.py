@@ -13,16 +13,11 @@ from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
 from asset_data import NormalCategoryAsset
-from models import Categories, Movies, EvaluateData, db
+from models import Categories, Movies, EvaluateData
 from room import app, s3
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 from theunderground.mobiclip import (
-    get_category_list,
-    validate_mobiclip,
-    get_mobiclip_length,
-    save_movie_data,
-    delete_movie_data,
     get_movie_path,
 )
 
