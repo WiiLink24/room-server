@@ -13,10 +13,12 @@ from room import app
 from theunderground.mobiclip import (
     get_pay_category_list,
     validate_mobiclip,
+    validate_mobi_dsi,
     get_mobiclip_length,
     save_pay_movie_data,
     delete_pay_movie_data,
     get_pay_movie_dir,
+    get_ds_movie_path,
 )
 from theunderground.forms import PayMovieUploadForm
 from theunderground.operations import manage_delete_item
@@ -57,6 +59,7 @@ def add_pay_movie():
             movie_data = movie.read()
             poster_data = poster.read()
             thumbnail_data = thumbnail.read()
+            ds_movie_data = None
 
             if validate_mobiclip(movie_data):
                 # Get the Mobiclip's length from header.
@@ -78,6 +81,21 @@ def add_pay_movie():
                 db.session.add(db_movie)
                 db.session.commit()
 
+                if ds_movie:
+                    ds_movie_data = ds_movie.read()
+                    validation_ds = validate_mobi_dsi(ds_movie_data)
+                    if isinstance(validation_ds, bytes):
+                        # We encrypted this movie.
+                        ds_movie_data = validation_ds
+
+                    if validation_ds:
+                        db_movie.ds_mov_id = db_movie.movie_id
+                        if genre == 0:
+                            db_movie.genre = 1
+
+                        # Re-commit the DSi stuff
+                        db.session.commit()
+                
                 # Now that we've inserted the movie, we can properly move it.
                 save_pay_movie_data(
                     db_movie.movie_id, thumbnail_data, movie_data, poster_data
