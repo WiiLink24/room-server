@@ -49,7 +49,7 @@ def choose_type(room_id):
         if value == "Coupon":
             return redirect(url_for("root"))
 
-        if value == "Link":
+        if value == "Website Link":
             return redirect(url_for("link", room_id=room_id))
 
         if value == "Picture":
@@ -163,7 +163,7 @@ def poll(room_id):
     return render_template("room_add_vote.html", form=form)
 
 
-@app.route("/theunderground/rooms/<room_id>/add//mov", methods=["GET", "POST"])
+@app.route("/theunderground/rooms/<room_id>/add/mov", methods=["GET", "POST"])
 @oidc.require_login
 def movie(room_id):
     form = RoomMovieData()
