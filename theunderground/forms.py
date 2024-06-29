@@ -3,16 +3,21 @@ from flask_wtf.file import FileRequired
 from wtforms import (
     StringField,
     SubmitField,
-    PasswordField,
     FileField,
     SelectField,
     TextAreaField,
     BooleanField,
     IntegerField,
 )
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.validators import DataRequired, Length
 
-from models import RoomBGMTypes, RoomContentBGMTypes, ContentTypes, LinkTypes
+from models import (
+    RoomBGMTypes,
+    RoomContentBGMTypes,
+    ContentTypes,
+    LinkTypes,
+    ConciergeMiiActions,
+)
 
 """
 Reference:
@@ -165,6 +170,12 @@ class DeleteForm(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
+    action = SelectField(
+        "Mii Action",
+        choices=ConciergeMiiActions.choices(),
+        coerce=ConciergeMiiActions.coerce,
+    )
+
     prof = TextAreaField("Profession", validators=[DataRequired(), Length(max=129)])
     message1 = TextAreaField("Message 1", validators=[DataRequired()])
     message2 = TextAreaField("Message 2", validators=[DataRequired()])

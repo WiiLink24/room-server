@@ -80,7 +80,7 @@ def mii_met(mii_id):
         "clothes": concierge_mii.clothes,
         "color1": mii_metadata.color1,
         "color2": mii_metadata.color2,
-        "action": concierge_mii.action,
+        "action": concierge_mii.action.value,
         "prof": concierge_mii.prof,
         "name": mii_metadata.name,
         "msginfo": msginfo,

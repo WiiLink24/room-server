@@ -42,8 +42,8 @@ def add_concierge(mii_id):
         concierge_data = ConciergeMiis(
             mii_id=mii_id,
             clothes=1,  # TODO: Allow disabling of custom clothes
-            action=1,  # TODO: Allow changing of whatever the heck "action" is
-            prof=form.prof.data,  # TODO: Add this.
+            action=form.action.data,
+            prof=form.prof.data,
             movie_id=form.movieid.data,
             voice=False,  # The web console does not currently support this
         )
@@ -85,6 +85,7 @@ def edit_concierge(mii_id):
     mii_msg_infos = retrieved_data
 
     if form.validate_on_submit():
+        mii_msg_infos[0][0].action = form.action.data
         mii_msg_infos[0][0].prof = form.prof.data
         mii_msg_infos[0][0].movie_id = form.movieid.data
 
@@ -97,6 +98,7 @@ def edit_concierge(mii_id):
         return redirect(url_for("list_concierge"))
     else:
         # Populate the data
+        form.action.data = mii_msg_infos[0][0].action
         form.prof.data = mii_msg_infos[0][0].prof
         form.movieid.data = mii_msg_infos[0][0].movie_id
         for _, info in mii_msg_infos:

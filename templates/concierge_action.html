@@ -7,6 +7,15 @@
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
+        {{ form.action.label(class_="label") }}
+        <div class="control has-icons-left block">
+            <div class="select">{{ form.action }}
+            </div>
+            <div class="icon is-small is-left">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+        </div>
+
         <p>{{ form.prof.label(class_="label") }}</p>
         {{ form.prof(class_="textarea") }}
         <p>{{ form.message1.label(class_="label") }}</p>

@@ -59,12 +59,49 @@ class PayPosters(db.Model):
     aspect = db.Column(db.Boolean, nullable=False)
 
 
+class ConciergeMiiActions(enum.Enum):
+    NormalMaleA = 1
+    NormalFemaleS = 2
+    NormalMaleS = 3
+    NormalFemaleS2 = 4
+    NormalMaleS2 = 5
+    CheerfulMaleA = 6
+    CheerfulFemaleS = 7
+    CheerfulMaleS = 8
+    SaluteMaleA = 9
+    SaluteFemaleS = 10
+    SaluteMaleS = 11
+    ForeignerA = 12
+    ForeignerS = 13
+    CelebrityA = 14
+    CelebrityS = 15
+    CelebrationA = 16
+    CelebrationS = 17
+    AmazingA = 18
+    AmazingS = 19
+    GreetingS = 20
+    ApologyS = 21
+    Zundoko = 24
+    Takeshi = 25
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
+
+
 class ConciergeMiis(db.Model):
     mii_id = db.Column(
         db.Integer, db.ForeignKey("mii_data.mii_id"), primary_key=True, unique=True
     )
     clothes = db.Column(db.Integer, nullable=False)
-    action = db.Column(db.Integer, nullable=False)
+    action = db.Column(db.Enum(ConciergeMiiActions), nullable=False)
     prof = db.Column(db.String(129), nullable=False)
     movie_id = db.Column(db.Integer, nullable=False)
     voice = db.Column(db.Boolean, default=False, nullable=False)
