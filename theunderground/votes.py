@@ -63,7 +63,7 @@ def votes_list_categories():
         "blood.3": movie_blood_t3,
         "blood.4": movie_blood_t4,
         "blood.avg": 0,
-        "age.avg": 0
+        "age.avg": 0,
     }
 
     return render_template(
@@ -74,12 +74,14 @@ def votes_list_categories():
         type_max_count=64,
     )
 
+
 @app.route("/theunderground/votes/c<category>/thumbnail.jpg")
 def votes_get_category_thumbnail(category):
     if s3:
         return redirect(f"{config.url1_cdn_url}/list/category/img/{category}.img")
 
     return NormalCategoryAsset(category).send_file()
+
 
 @app.route("/theunderground/votes/<category>")
 def votes_list_movies(category):
@@ -121,7 +123,7 @@ def votes_list_movies(category):
             "blood.3": 0,
             "blood.4": 0,
             "blood.avg": 0,
-            "age.avg": 0
+            "age.avg": 0,
         }
 
     return render_template(
@@ -132,6 +134,7 @@ def votes_list_movies(category):
         type_length=movies.total,
         type_max_count=64,
     )
+
 
 @app.route("/theunderground/votes/m<movie_id>/thumbnail.jpg")
 def votes_get_movie_thumbnail(movie_id):

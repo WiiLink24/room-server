@@ -13,5 +13,5 @@ from . import (
     room_types,
     room_data,
     pay_posters,
-    votes
+    votes,
 )
