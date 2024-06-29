@@ -2,11 +2,8 @@ name: Code formatting check
 on: [push, pull_request]
 
 jobs:
-  black:
-    runs-on: ubuntu-20.04
+  lint:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Python
-        uses: actions/setup-python@v2
-      - name: Run black
-        uses: psf/black@stable
+      - uses: actions/checkout@v3
+      - uses: psf/black@stable
