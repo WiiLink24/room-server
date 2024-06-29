@@ -329,3 +329,10 @@ class Giveaways(db.Model):
     giveaway_id = db.Column(db.Integer, nullable=False)
     wii_id = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
+
+
+class MovieCredits(db.Model):
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), primary_key=True)
+    role = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    order = db.Column(db.Integer, nullable=False)
