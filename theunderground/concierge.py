@@ -49,7 +49,9 @@ def add_concierge(mii_id):
         )
 
         for i in range(1, 8):
-            msg = MiiMsgInfo(mii_id=mii_id, type=i, seq=1, msg=form[f"message{i}"].data, face=1)
+            msg = MiiMsgInfo(
+                mii_id=mii_id, type=i, seq=1, msg=form[f"message{i}"].data, face=1
+            )
             db.session.add(msg)
 
         db.session.add(concierge_data)

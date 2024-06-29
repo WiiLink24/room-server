@@ -41,9 +41,8 @@ def mii_met(mii_id):
     concierge_mii, mii_metadata = retrieved_data
 
     # Next, ensure we have msginfo data for this Mii.
-    db_msginfo = (
-        MiiMsgInfo.query.filter_by(mii_id=mii_id)
-        .order_by(MiiMsgInfo.type.asc())
+    db_msginfo = MiiMsgInfo.query.filter_by(mii_id=mii_id).order_by(
+        MiiMsgInfo.type.asc()
     )
     if db_msginfo is None:
         # A Mii doesn't have to be a concierge Mii.
@@ -63,7 +62,7 @@ def mii_met(mii_id):
         # Sequencing is handled by a newline in the messages.
         for i, msg in enumerate(info.msg.split("\n")):
             separate[info.type].append(
-                RepeatedElement({"seq": i+1, "msg": msg, "face": info.face})
+                RepeatedElement({"seq": i + 1, "msg": msg, "face": info.face})
             )
 
     # Then, convert all separate types to our actual msginfo type.
