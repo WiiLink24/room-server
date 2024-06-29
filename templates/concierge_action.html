@@ -1,28 +1,28 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-Edit Concierge Mii
+{{ action }} Concierge Mii
 {% endblock %}
 
 {% block content %}
     <form action="" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <p>{{ form.prof.label(class_="label") }}</p>
-        {{ form.prof(class_="input") }}
+        {{ form.prof(class_="textarea") }}
         <p>{{ form.message1.label(class_="label") }}</p>
-        {{ form.message1(class_="input") }}
+        {{ form.message1(class_="textarea") }}
         <p>{{ form.message2.label(class_="label") }}</p>
-        {{ form.message2(class_="input") }}
+        {{ form.message2(class_="textarea") }}
         <p>{{ form.message3.label(class_="label") }}</p>
-        {{ form.message3(class_="input") }}
+        {{ form.message3(class_="textarea") }}
         <p>{{ form.message4.label(class_="label") }}</p>
-        {{ form.message4(class_="input") }}
+        {{ form.message4(class_="textarea") }}
         <p>{{ form.message5.label(class_="label") }}</p>
-        {{ form.message5(class_="input") }}
+        {{ form.message5(class_="textarea") }}
         <p>{{ form.message6.label(class_="label") }}</p>
-        {{ form.message6(class_="input") }}
+        {{ form.message6(class_="textarea") }}
         <p>{{ form.message7.label(class_="label") }}</p>
-        {{ form.message7(class_="input") }}
+        {{ form.message7(class_="textarea") }}
         <p>{{ form.movieid.label(class_="label") }}</p>
         {{ form.movieid(class_="input") }}
         <br>

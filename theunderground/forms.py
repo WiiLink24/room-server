@@ -165,14 +165,14 @@ class DeleteForm(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
-    prof = StringField("Profession", validators=[DataRequired(), Length(max=129)])
-    message1 = StringField("Message 1", validators=[DataRequired()])
-    message2 = StringField("Message 2", validators=[DataRequired()])
-    message3 = StringField("Message 3", validators=[DataRequired()])
-    message4 = StringField("Message 4", validators=[DataRequired()])
-    message5 = StringField("Message 5", validators=[DataRequired()])
-    message6 = StringField("Message 6", validators=[DataRequired()])
-    message7 = StringField("Message 7", validators=[DataRequired()])
+    prof = TextAreaField("Profession", validators=[DataRequired(), Length(max=129)])
+    message1 = TextAreaField("Message 1", validators=[DataRequired()])
+    message2 = TextAreaField("Message 2", validators=[DataRequired()])
+    message3 = TextAreaField("Message 3", validators=[DataRequired()])
+    message4 = TextAreaField("Message 4", validators=[DataRequired()])
+    message5 = TextAreaField("Message 5", validators=[DataRequired()])
+    message6 = TextAreaField("Message 6", validators=[DataRequired()])
+    message7 = TextAreaField("Message 7", validators=[DataRequired()])
     movieid = StringField("Movie ID", validators=[DataRequired()])
     submit = SubmitField("Create!")
 
