@@ -332,7 +332,10 @@ class Giveaways(db.Model):
 
 
 class MovieCredits(db.Model):
-    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), primary_key=True)
+    id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+    )
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
     role = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     order = db.Column(db.Integer, nullable=False)
