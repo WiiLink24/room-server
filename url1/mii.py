@@ -44,7 +44,6 @@ def mii_met(mii_id):
     db_msginfo = (
         MiiMsgInfo.query.filter_by(mii_id=mii_id)
         .order_by(MiiMsgInfo.type.asc())
-        .order_by(MiiMsgInfo.seq.asc())
     )
     if db_msginfo is None:
         # A Mii doesn't have to be a concierge Mii.
@@ -61,9 +60,11 @@ def mii_met(mii_id):
             separate[info.type] = []
 
         # As seq/msg can repeat within a single msginfo, we add with a RepeatedKey.
-        separate[info.type].append(
-            RepeatedElement({"seq": info.seq, "msg": info.msg, "face": info.face})
-        )
+        # Sequencing is handled by a newline in the messages.
+        for i, msg in enumerate(info.msg.split("\n")):
+            separate[info.type].append(
+                RepeatedElement({"seq": i+1, "msg": msg, "face": info.face})
+            )
 
     # Then, convert all separate types to our actual msginfo type.
     # In these, the type (our previous dict's key) must be separate.
