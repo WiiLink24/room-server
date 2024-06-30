@@ -215,7 +215,7 @@ class PosterAsset(Asset):
 
 class PayMovieAsset(Asset):
     def __init__(self, seq: int):
-        asset_name = f"{seq}.emo"
+        asset_name = f"{seq}-H.emo"
 
         self.asset_dir = self.base_asset_dir / "pay-wall"
         self.asset_name = asset_name
