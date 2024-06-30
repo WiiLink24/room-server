@@ -12,7 +12,7 @@ import config
 from time import gmtime, strftime
 
 from room import s3
-from models import Categories, PayCategories
+from models import Categories, PayCategories, Rooms
 from theunderground.encodemii import (
     movie_thumbnail_encode,
     pay_movie_thumbnail_encode,
@@ -123,6 +123,16 @@ def get_category_list():
         choice_categories.append([category.category_id, category.name])
 
     return choice_categories
+
+
+def get_room_list():
+    db_rooms = Rooms.query.all()
+
+    choice_rooms = []
+    for _, room in enumerate(db_rooms):
+        choice_rooms.append([room.room_id, room.news])
+
+    return choice_rooms
 
 
 def get_pay_category_list():

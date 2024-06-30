@@ -20,6 +20,7 @@ from theunderground.mobiclip import (
     delete_movie_data,
     get_movie_path,
     get_ds_movie_path,
+    get_room_list,
 )
 from theunderground.forms import MovieUploadForm
 from theunderground.operations import manage_delete_item
@@ -55,6 +56,7 @@ def list_movies(category):
 def add_movie():
     form = MovieUploadForm()
     form.category.choices = get_category_list()
+    form.room.choices = get_room_list()
     form.movie.validators = [FileRequired()]
     form.thumbnail.validators = [FileRequired()]
 
@@ -79,7 +81,7 @@ def add_movie():
                     length=length,
                     aspect=True,
                     genre=form.genre.data,
-                    sp_page_id=0,
+                    sp_page_id=form.room.data,
                     staff=False,
                 )
 
@@ -123,6 +125,7 @@ def add_movie():
 def edit_movie(movie_id):
     form = MovieUploadForm()
     form.category.choices = get_category_list()
+    form.room.choices = get_room_list()
     form.upload.label.text = "Edit"
 
     movie = Movies.query.filter_by(movie_id=movie_id).first()
@@ -162,6 +165,7 @@ def edit_movie(movie_id):
         movie.title = form.title.data
         movie.genre = form.genre.data
         movie.category_id = form.category.data
+        movie.sp_page_id = form.room.data
         db.session.commit()
 
         if s3:
