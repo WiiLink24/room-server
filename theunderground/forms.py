@@ -193,7 +193,7 @@ class PosterForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(max=47)])
     msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     movie_id = IntegerField("Movie ID", validators=[DataRequired()])
-    poster = FileField("Poster", validators=[FileRequired()])
+    poster = FileField("Poster")
     upload = SubmitField("Create Poster!")
 
 

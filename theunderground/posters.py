@@ -1,6 +1,7 @@
 from io import BytesIO
 
 from flask import render_template, flash, url_for, redirect
+from werkzeug import exceptions
 
 from theunderground.forms import PosterForm
 from theunderground.operations import manage_delete_item
@@ -9,6 +10,7 @@ from asset_data import PosterAsset
 from models import Posters, db
 from room import app, s3
 from url1.event_today import event_today
+from flask_wtf.file import FileRequired
 import config
 
 
@@ -30,6 +32,7 @@ def list_posters():
 @oidc.require_login
 def add_poster():
     form = PosterForm()
+    form.poster.validators = [FileRequired()]
 
     if form.validate_on_submit():
         db_poster = Posters(
@@ -52,7 +55,44 @@ def add_poster():
 
         return redirect(url_for("list_posters"))
 
-    return render_template("poster_add.html", form=form)
+    return render_template("poster_action.html", form=form, action="Upload")
+
+
+@app.route("/theunderground/movies/poster/<poster_id>/edit", methods=["GET", "POST"])
+@oidc.require_login
+def edit_poster(poster_id):
+    form = PosterForm()
+
+    poster = Posters.query.filter_by(poster_id=poster_id).first()
+    if not poster:
+        return exceptions.NotFound()
+
+    if form.validate_on_submit():
+        poster.title = form.title.data
+        poster.msg = form.msg.data
+        poster.movie_id = form.movie_id.data
+
+        if form.poster.data:
+            # Now upload poster
+            PosterAsset(poster_id, False).encode(form.poster)
+
+        # Commit before uploading to s3
+        db.session.commit()
+        if s3:
+            event_xml = event_today()
+            s3.upload_fileobj(
+                BytesIO(event_xml), config.r2_bucket_name, "event/today.xml"
+            )
+
+        return redirect(url_for("list_posters"))
+    else:
+        form.title.data = poster.title
+        form.msg.data = poster.msg
+        form.movie_id.data = poster.movie_id
+
+    return render_template(
+        "poster_action.html", form=form, poster_id=poster_id, action="Edit"
+    )
 
 
 @app.route("/theunderground/posters/<poster>/remove", methods=["GET", "POST"])

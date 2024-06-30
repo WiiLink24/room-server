@@ -30,6 +30,15 @@
                 <td>{{ poster.movie_id }}</td>
                 <td>
                     <div class="field has-addons">
+                         <p class="control">
+                            <a href="{{ url_for('edit_poster', poster_id=poster.poster_id) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit Poster</span>
+                            </a>
+                        </p>
+
                         <p class="control">
                             <a href="{{ url_for('remove_poster', poster=poster.poster_id) }}" class="button is-danger">
                             <span class="icon is-small">
