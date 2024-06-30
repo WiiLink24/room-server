@@ -27,7 +27,7 @@ def list_category_search(categ_id):
                     "rank": i + 1,
                     "movieid": movie_data.movie_id,
                     "title": movie_data.title,
-                    "genre": movie_data.genre,
+                    "genre": movie_data.genre.value,
                     "strdt": current_date_and_time(),
                     "pop": 0,
                 }

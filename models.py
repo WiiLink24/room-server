@@ -2,12 +2,10 @@ import enum
 
 from flask_sqlalchemy import BaseQuery, SQLAlchemy
 from sqlalchemy import func
-from sqlalchemy.event import listens_for
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils import TSVectorType
 
-from werkzeug.security import generate_password_hash, check_password_hash
 import sqlalchemy
 import json
 
@@ -131,6 +129,28 @@ class FullTextSearchable(BaseQuery, SearchQueryMixin):
     pass
 
 
+class MovieGenres(enum.Enum):
+    """For localization’s sake, we use the colours rather than the meanings."""
+
+    White = 0
+    Gray = 1
+    Green = 2
+    Orange = 3
+    Pink = 4
+    Blue = 5
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.name) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
+
+
 class Movies(db.Model):
     query_class = FullTextSearchable
 
@@ -144,7 +164,7 @@ class Movies(db.Model):
     title = db.Column(db.String(48), nullable=False)
     length = db.Column(db.String(8), nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)
-    genre = db.Column(db.Integer, nullable=False)
+    genre = db.Column(db.Enum(MovieGenres), nullable=False)
     sp_page_id = db.Column(db.Integer, nullable=False)
     ds_mov_id = db.Column(db.Integer, nullable=True)
     staff = db.Column(db.Boolean, nullable=False)

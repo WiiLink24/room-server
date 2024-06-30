@@ -25,7 +25,7 @@ def general_search():
                     "rank": rank,
                     "movieid": movie.movie_id,
                     "title": movie.title,
-                    "genre": movie.genre,
+                    "genre": movie.genre.value,
                     "strdt": iso_date_and_time(movie.date_added),
                     "pop": 0,
                 }

@@ -23,7 +23,7 @@ def movie_metadata(_hash_byte, movie_id: int):
         "title": metadata.title,
         "len": metadata.length,
         "aspect": metadata.aspect,
-        "genre": metadata.genre,
+        "genre": metadata.genre.value,
         "sppageid": metadata.sp_page_id,
         "dsdist": has_ds_mov,
     }
