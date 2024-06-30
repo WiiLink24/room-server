@@ -71,55 +71,6 @@ def special_page_n(page):
     }
 
 
-@app.route("/url1/special/0/page.xml")
-@xml_node_name("SpPage")
-def page_0():
-    return {
-        "sppageid": "0",
-        "strdt": current_date_and_time(),
-        "enddt": current_date_and_time(),
-        "name": "Secret",
-        "stopflag": 0,
-        "level": 1,
-        "bgm": 2,
-        "mascot": 0,
-        "contact": 0,
-        "intro": {
-            "inmsginfo": {
-                "inmsgseq": 1,
-                "inmsg": "Hello from the WiiLink24 Team!",
-            }
-        },
-        "miiinfo": {
-            "seq": 1,
-            "miiid": 1,
-            "color1": "ffcd00",
-            "color2": "000000",
-            "msginfo": [
-                RepeatedElement(
-                    {
-                        "msgseq": 1,
-                        "msg": "This room exists so movies function.",
-                    }
-                ),
-            ],
-        },
-        "menu": {
-            "place": 1,
-            "type": 4,
-            "imageid": "d1234",
-            "coup": {
-                "coupid": 1,
-                "couptitle": "Coupon test!",
-                "couplimit": 10,
-                "coupmov": 1,
-                "coupmovap": 0,
-            },
-        },
-        "logo": {"logo1id": "g1234", "logo2id": "f1234"},
-    }
-
-
 if app.debug:
 
     @app.route("/url1/special/<room_id>/img/g1234.img")
@@ -166,3 +117,7 @@ if app.debug:
     @app.route("/url1/coupon/<movie_id>.enc")
     def handle_coupon(movie_id):
         return send_from_directory("assets/coupon", movie_id + ".enc")
+
+    @app.route("/url1/special/<page>/mascot.bin")
+    def handle_mascot(page):
+        return send_from_directory(f"assets/special/{page}", "mascot.bin")
