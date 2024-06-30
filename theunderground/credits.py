@@ -52,8 +52,17 @@ def edit_credits(movie_id):
 
     queried_credits = []
     if form.validate_on_submit():
+        received_length = len(form.role_and_name_list.data) / 2
+        original_length = MovieCredits.query.filter_by(movie_id=movie_id).count()
+        if received_length < original_length:
+            # If the edited credits is less than what is in the database, we must delete the removed.
+            MovieCredits.query.filter_by(movie_id=movie_id).where(
+                MovieCredits.order > received_length
+            ).delete()
+
+        # We can handle any edits now.
         order = 1
-        for i in range(0, len(form.role_and_name_list.data), 2):
+        for i in range(0, int(received_length) * 2, 2):
             # Query the row
             data = (
                 MovieCredits.query.filter_by(movie_id=movie_id)

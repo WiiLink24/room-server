@@ -11,6 +11,7 @@
             {{ form.role_and_name_list }}
 
             <button type="button" class="button is-info" id="addNewField">Add Field</button>
+            <button type="button" class="button is-danger" id="removeField">Remove Field</button>
         </p>
         <br>
         <p>{{ form.submit(class_="button is-success") }}</p>
@@ -55,5 +56,14 @@
 
         document.addEventListener("DOMContentLoaded", createStaffPair);
         document.getElementById("addNewField").addEventListener("click", createStaffPair);
+        document.getElementById("removeField").addEventListener("click", function(){
+            // Remove last field pair
+            for (var i = 0; i < 7; i++) {
+                document.getElementById("role_and_name_list").removeChild(document.getElementById("role_and_name_list").lastChild);
+            }
+
+            // Finally decrement the fieldNum
+            fieldNum--;
+        })
     </script>
 {% endblock %}
