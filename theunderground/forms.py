@@ -8,6 +8,7 @@ from wtforms import (
     TextAreaField,
     BooleanField,
     IntegerField,
+    FieldList,
 )
 from wtforms.validators import DataRequired, Length
 
@@ -219,4 +220,9 @@ class IntroInfoForm(FlaskForm):
 
 class PayCategoryHeaderForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
+    submit = SubmitField("Create!")
+
+
+class CreditsForm(FlaskForm):
+    role_and_name_list = FieldList(StringField())
     submit = SubmitField("Create!")

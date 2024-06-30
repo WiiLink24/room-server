@@ -1,0 +1,59 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Add Credits
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.role_and_name_list }}
+
+            <button type="button" class="button is-info" id="addNewField">Add Field</button>
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+
+    <script>
+        var fieldNum = 0;
+        function createStaffPair() {
+            // Staff Roll
+            var newLabel = document.createElement("label")
+            newLabel.className = "label"
+            newLabel.htmlFor = "role_and_name_list-" + fieldNum;
+            newLabel.textContent = "Role"
+
+            var newTextArea = document.createElement("input");
+            newTextArea.className = "input";
+            newTextArea.id = "role_and_name_list-" + fieldNum;
+            newTextArea.name = "role_and_name_list-" + fieldNum;
+            fieldNum++;
+
+            // Staff Name
+            var newLabelName = document.createElement("label")
+            newLabelName.className = "label"
+            newLabelName.htmlFor = "role_and_name_list-" + fieldNum;
+            newLabelName.textContent = "Name"
+
+            var newTextAreaName = document.createElement("input");
+            newTextAreaName.className = "input";
+            newTextAreaName.id = "role_and_name_list-" + fieldNum;
+            newTextAreaName.name = "role_and_name_list-" + fieldNum;
+            fieldNum++;
+
+            document.getElementById("role_and_name_list").appendChild(newLabel);
+            document.getElementById("role_and_name_list").appendChild(newTextArea);
+            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
+
+            document.getElementById("role_and_name_list").appendChild(newLabelName);
+            document.getElementById("role_and_name_list").appendChild(newTextAreaName);
+            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
+            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
+        }
+
+        document.addEventListener("DOMContentLoaded", createStaffPair);
+        document.getElementById("addNewField").addEventListener("click", createStaffPair);
+    </script>
+{% endblock %}

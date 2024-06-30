@@ -52,6 +52,27 @@
                             </a>
                         </p>
                         {% endif %}
+                        {% if movie.staff %}
+                        <p class="control">
+                            <a href="{{ url_for('edit_credits', movie_id=movie.movie_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-scroll"></i>
+                                </span>
+                                <span>Edit Credits</span>
+                            </a>
+                        </p>
+                        {% else %}
+                        <p class="control">
+                            <a href="{{ url_for('add_credits', movie_id=movie.movie_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-scroll"></i>
+                                </span>
+                                <span>Add Credits</span>
+                            </a>
+                        </p>
+                        {% endif %}
                         <p class="control">
                             <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
                                class="button is-danger">
