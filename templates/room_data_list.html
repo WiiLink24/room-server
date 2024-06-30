@@ -29,6 +29,9 @@
                 {% elif type == "Movie" %}
                     {# 3, mov #}
                     <td>Movie Title ・ {{ data.data['mov']['title'] }}<br/>Movie ID ・ {{ data.data['mov']['movieid'] }}</td>
+                {% elif type == "Coupon" %}
+                    {# 4, coupon #}
+                    <td>Coupon Title ・ {{ data.data['coup']['couptitle'] }}<br/>Coupon ID ・ {{ data.data['coup']['coupid'] }}</td>
                 {% elif type == "Website Link" %}
                     {# 5, link #}
                     <td>Link Title ・ {{ data.data['link']['linktitle'] }}<br/>URL ・ {{ data.data['link']['linkurl'] }}</td>
