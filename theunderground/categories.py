@@ -40,7 +40,9 @@ def add_category():
     form.thumbnail.validators = [FileRequired()]
 
     if form.validate_on_submit():
-        new_category = Categories(name=form.category_name.data, sp_page_id=form.room.data)
+        new_category = Categories(
+            name=form.category_name.data, sp_page_id=form.room.data
+        )
 
         # Add to retrieve the category ID.
         db.session.add(new_category)

@@ -1,26 +1,29 @@
-from models import Categories
-from room import app
+from models import Categories, Rooms
+from room import app, db
 from helpers import xml_node_name, RepeatedElement
 
 
 @app.route("/url1/list/category/<list_id>.xml")
 @xml_node_name("CategoryList")
 def list_category_n(list_id):
-    queried_categories = (
-        Categories.query.order_by(Categories.name.asc()).limit(64).all()
+    queried_data = (
+        db.session.query(Categories, Rooms)
+        .filter(Categories.sp_page_id == Rooms.room_id)
+        .order_by(Categories.category_id)
+        .all()
     )
     results = []
 
-    for i, category in enumerate(queried_categories):
+    for i, category in enumerate(queried_data):
         # Items must be indexed by 1.
         results.append(
             RepeatedElement(
                 {
                     "place": i + 1,
-                    "categid": category.category_id,
-                    "name": category.name,
-                    "sppageid": 0,
-                    "splinktext": "Link text",
+                    "categid": category[0].category_id,
+                    "name": category[0].name,
+                    "sppageid": category[1].room_id,
+                    "splinktext": category[1].news,
                 }
             )
         )
