@@ -13,8 +13,9 @@ from theunderground.forms import (
     RoomMovieData,
     RoomLinkData,
     RoomPicData,
+    RoomCouponData,
 )
-from theunderground.mobiclip import validate_mobiclip
+from theunderground.mobiclip import validate_mobiclip, validate_mobi_dsi
 from url1.special import room_content_types as tv
 from url1.special.page import special_page_n
 from theunderground.room_paths import (
@@ -23,6 +24,7 @@ from theunderground.room_paths import (
     save_mov_data,
     save_link_data,
     save_pic_data,
+    save_coupon_data,
 )
 
 import config
@@ -45,9 +47,8 @@ def choose_type(room_id):
         if value == "Movie":
             return redirect(url_for("movie", room_id=room_id))
 
-        # TODO: Figure out coupons for Dokodemo
         if value == "Coupon":
-            return redirect(url_for("root"))
+            return redirect(url_for("coupon", room_id=room_id))
 
         if value == "Website Link":
             return redirect(url_for("link", room_id=room_id))
@@ -286,6 +287,62 @@ def pic(room_id):
             flash("Error uploading picture!")
 
     return render_template("room_add_pic.html", form=form)
+
+
+@app.route("/theunderground/rooms/<room_id>/add/coupon", methods=["GET", "POST"])
+@oidc.require_login
+def coupon(room_id):
+    form = RoomCouponData()
+
+    if form.validate_on_submit():
+        movie = form.movie.data
+        thumbnail = form.tv.data
+        image_after = form.image_after.data
+        coup = form.coupon.data
+        if movie and tv:
+            movie_data = movie.read()
+            tv_data = thumbnail.read()
+            image_after_data = image_after.read()
+            coupon_data = coup.read()
+            if validate_mobiclip(movie_data):
+                db_json = RoomMenu(
+                    room_id=room_id,
+                    data=tv.coupon(
+                        photo_id(),
+                        x_id(),
+                        form.title.data,
+                    ),
+                )
+
+                validation_ds = validate_mobi_dsi(coupon_data)
+                if isinstance(validation_ds, bytes):
+                    # We encrypted this movie.
+                    coupon_data = validation_ds
+
+                if not validation_ds:
+                    flash("Invalid coupon!")
+                else:
+                    save_coupon_data(
+                        x_id(),
+                        movie_data,
+                        image_after_data,
+                        tv_data,
+                        coupon_data,
+                        photo_id(),
+                        room_id,
+                    )
+
+                    db.session.add(db_json)
+                    db.session.commit()
+
+                    save_page_xml_to_s3(room_id)
+                    return redirect(url_for("list_room_data", room_id=room_id))
+            else:
+                flash("Invalid movie!")
+        else:
+            flash("Error uploading movie!")
+
+    return render_template("room_add_coupon.html", form=form)
 
 
 def save_page_xml_to_s3(page_id: int):

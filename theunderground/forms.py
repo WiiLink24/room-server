@@ -226,3 +226,12 @@ class PayCategoryHeaderForm(FlaskForm):
 class CreditsForm(FlaskForm):
     role_and_name_list = FieldList(StringField())
     submit = SubmitField("Create!")
+
+
+class RoomCouponData(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    tv = FileField("TV Screen Image", validators=[FileRequired()])
+    image_after = FileField("Image After Movie", validators=[FileRequired()])
+    movie = FileField("Movie", validators=[FileRequired()])
+    coupon = FileField("Coupon", validators=[FileRequired()])
+    upload = SubmitField("Upload")

@@ -227,3 +227,55 @@ def save_pic_data(
 
         # Resize and write poster
         write_to_path(f"assets/special/{room_id}/i{pic_num}.img", tv_data)
+
+
+def save_coupon_data(
+    movie_id: int,
+    movie_data: bytes,
+    image_after_data: bytes,
+    tv_data: bytes,
+    coupon_data: bytes,
+    pic_num: int,
+    room_id: int,
+):
+    image_after_data_enc = room_big_img_encode(image_after_data)
+    tv_data = room_tv_encode(tv_data)
+
+    if s3:
+        s3.upload_fileobj(
+            BytesIO(movie_data), config.r2_bucket_name, f"coupon/{movie_id}-H.mov"
+        )
+
+        s3.upload_fileobj(
+            BytesIO(image_after_data_enc),
+            config.r2_bucket_name,
+            f"coupon/{movie_id}-W.img",
+            ExtraArgs={"ContentType": "image/jpeg"},
+        )
+
+        s3.upload_fileobj(
+            BytesIO(tv_data),
+            config.r2_bucket_name,
+            f"special/{room_id}/img/d{pic_num}.img",
+            ExtraArgs={"ContentType": "image/jpeg"},
+        )
+
+        s3.upload_fileobj(
+            BytesIO(coupon_data),
+            config.r2_bucket_name,
+            f"coupon/{movie_id}.enc",
+        )
+    else:
+        movie_dir = "assets/coupon"
+
+        # Write movie
+        write_to_path(f"{movie_dir}/{movie_id}-H.mov", movie_data)
+
+        # Resize and write thumbnail
+        write_to_path(f"{movie_dir}/{movie_id}-W.img", image_after_data_enc)
+
+        # Write coupon
+        write_to_path(f"{movie_dir}/{movie_id}.enc", coupon_data)
+
+        # Resize and write poster
+        write_to_path(f"assets/special/{room_id}/d{pic_num}.img", tv_data)

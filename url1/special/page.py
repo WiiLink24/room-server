@@ -154,3 +154,15 @@ if app.debug:
     def handle_deliveryimg(img):
         # Handles movies for room type "delivery"
         return send_from_directory("assets/delivery", img + ".img")
+
+    @app.route("/url1/coupon/<movie_id>.mov")
+    def handle_coupon_movie(movie_id):
+        return send_from_directory("assets/coupon", movie_id + ".mov")
+
+    @app.route("/url1/coupon/<movie_id>-W.img")
+    def handle_coupon_image(movie_id):
+        return send_from_directory("assets/coupon", movie_id + "-W.img")
+
+    @app.route("/url1/coupon/<movie_id>.enc")
+    def handle_coupon(movie_id):
+        return send_from_directory("assets/coupon", movie_id + ".enc")
