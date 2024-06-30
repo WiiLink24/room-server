@@ -9,7 +9,8 @@ def list_category_n(list_id):
     queried_data = (
         db.session.query(Categories, Rooms)
         .filter(Categories.sp_page_id == Rooms.room_id)
-        .order_by(Categories.category_id)
+        .order_by(Categories.name.asc())
+        .limit(64)
         .all()
     )
     results = []
