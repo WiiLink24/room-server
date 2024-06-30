@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from flask import render_template, flash, url_for, redirect
+from werkzeug import exceptions
 
 from theunderground.forms import PayPosterForm
 from theunderground.operations import manage_delete_item
@@ -8,6 +9,7 @@ from theunderground.admin import oidc
 from asset_data import PosterAsset, PayMovieAsset
 from models import PayPosters, db
 from room import app
+from flask_wtf.file import FileRequired
 
 import os
 
@@ -33,6 +35,10 @@ def list_pay_posters():
 @oidc.require_login
 def add_pay_poster():
     form = PayPosterForm()
+
+    # Add the file validators
+    form.poster.validators = [FileRequired()]
+    form.movie.validators = [FileRequired()]
 
     if form.validate_on_submit():
         db_poster = PayPosters(
@@ -62,7 +68,43 @@ def add_pay_poster():
 
         return redirect(url_for("list_pay_posters"))
 
-    return render_template("pay_poster_add.html", form=form)
+    return render_template("pay_poster_action.html", form=form, action="Upload")
+
+
+@app.route("/theunderground/payposters/<poster_id>/edit", methods=["GET", "POST"])
+@oidc.require_login
+def edit_pay_poster(poster_id):
+    form = PayPosterForm()
+
+    poster = PayPosters.query.filter_by(poster_id=poster_id).first()
+    if not poster:
+        return exceptions.NotFound()
+
+    if form.validate_on_submit():
+        poster.msg = form.msg.data
+        poster.title = form.title.data
+
+        # Encrypt movie
+        if form.movie.data:
+            cipher = AES.new(PAY_POSTER_KEY, AES.MODE_CBC, iv=PAY_POSTER_IV)
+            encrypted_movie = cipher.encrypt(
+                pad(form.movie.data.read(), AES.block_size)
+            )
+            PayMovieAsset(poster.poster_id).upload_movie(encrypted_movie)
+
+        if form.poster.data:
+            # Now upload poster
+            PosterAsset(poster.poster_id, True).encode(form.poster)
+
+        db.session.commit()
+        return redirect(url_for("list_pay_posters"))
+    else:
+        form.msg.data = poster.msg
+        form.title.data = poster.title
+
+    return render_template(
+        "pay_poster_action.html", form=form, action="Edit", poster_id=poster_id
+    )
 
 
 @app.route("/theunderground/payposters/<poster>/remove", methods=["GET", "POST"])

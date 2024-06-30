@@ -1,7 +1,7 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Upload a Pay Poster
+    {{ action }} a Pay Poster
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,11 @@
             {{ form.movie.label(class_="label") }} {{ form.movie(size=32) }}
             <br>
             <br>
-            {{ form.poster.label(class_="label") }} {{ form.poster(size=32) }}
+            {{ form.poster.label(class_="label") }}
+            {% if poster_id %}
+            {{ existing_image('poster', url_for('get_pay_poster', poster=poster_id)) }}
+            {% endif %}
+            {{ form.poster(size=32) }}
         </p>
         <br>
         <p>{{ form.upload(class_="button is-success") }}</p>
