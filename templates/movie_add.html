@@ -8,6 +8,15 @@
     <form action="" method="post" enctype="multipart/form-data">
         <p>
             {{ form.hidden_tag() }}
+            {{ form.genre.label(class_="label") }}
+            <div class="control has-icons-left block">
+                <div class="select">{{ form.genre }}
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-paint-roller"></i>
+                </div>
+            </div>
+
             {{ form.movie.label(class_="label") }} {{ form.movie(size=32) }}
             <br>
             <br>
@@ -18,9 +27,6 @@
             <br>
             <br>
             {{ form.thumbnail.label(class_="label") }} {{ form.thumbnail(size=32) }}
-            <br>
-            <br>
-            {{ form.is_collab.label(class_="label") }} {{ form.is_collab }}
             <br>
             <br>
             {{ form.category.label(class_="label") }} {{ form.category }}
