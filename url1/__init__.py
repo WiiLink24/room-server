@@ -6,6 +6,7 @@ from . import (
     caldaily,
     category_n,
     category_search,
+    credits,
     eula,
     event_today,
     mii,
