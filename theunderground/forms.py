@@ -82,6 +82,7 @@ class PayMovieUploadForm(FlaskForm):
 
 class CategoryForm(FlaskForm):
     category_name = StringField("Category Name", validators=[DataRequired()])
+    room = SelectField("Room", validators=[DataRequired()])
     thumbnail = FileField("Category Thumbnail")
     submit = SubmitField("Add")
 

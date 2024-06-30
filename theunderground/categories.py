@@ -11,6 +11,7 @@ from room import app, s3
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.mobiclip import get_room_list
 
 
 @app.route("/theunderground/categories")
@@ -34,11 +35,12 @@ def list_categories():
 @oidc.require_login
 def add_category():
     form = CategoryForm()
+    form.room.data = get_room_list()
     # As we're adding, ensure a file is required.
     form.thumbnail.validators = [FileRequired()]
 
     if form.validate_on_submit():
-        new_category = Categories(name=form.category_name.data)
+        new_category = Categories(name=form.category_name.data, sp_page_id=form.room.data)
 
         # Add to retrieve the category ID.
         db.session.add(new_category)
@@ -56,6 +58,7 @@ def add_category():
 def edit_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
+    form.room.choices = get_room_list()
 
     # Populate data
     current_category = Categories.query.filter(
@@ -66,6 +69,7 @@ def edit_category(category):
 
     if form.validate_on_submit():
         current_category.name = form.category_name.data
+        current_category.sp_page_id = form.room.data
         db.session.commit()
 
         # Check if we have a new thumbnail.
