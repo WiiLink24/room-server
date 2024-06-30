@@ -48,10 +48,10 @@ class MiiUploadForm(FlaskForm):
 
 
 class MovieUploadForm(FlaskForm):
-    movie = FileField("Movie", validators=[FileRequired()])
+    movie = FileField("Movie")
     ds_movie = FileField("DSi Movie")
     title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
-    thumbnail = FileField("Movie thumbnail", validators=[FileRequired()])
+    thumbnail = FileField("Movie thumbnail")
     genre = SelectField(
         "Genre",
         choices=MovieGenres.choices(),

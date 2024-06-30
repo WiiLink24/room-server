@@ -161,8 +161,9 @@ def save_movie_data(
 
     if s3:
         # Upload movie
-        movie_path = f"{movie_dir}/{movie_id}-H.mov"
-        s3.upload_fileobj(BytesIO(movie_data), config.r2_bucket_name, movie_path)
+        if movie_data:
+            movie_path = f"{movie_dir}/{movie_id}-H.mov"
+            s3.upload_fileobj(BytesIO(movie_data), config.r2_bucket_name, movie_path)
 
         # Metadata XML
         met_xml = movie_metadata(md5_hash, movie_id)
@@ -170,11 +171,12 @@ def save_movie_data(
         s3.upload_fileobj(BytesIO(met_xml), config.r2_bucket_name, met_path)
 
         # Thumbnail
-        thumbnail_data = movie_thumbnail_encode(thumbnail_data)
-        thumbnail_path = f"{movie_dir}/{movie_id}.img"
-        s3.upload_fileobj(
-            BytesIO(thumbnail_data), config.r2_bucket_name, thumbnail_path
-        )
+        if thumbnail_data:
+            thumbnail_data = movie_thumbnail_encode(thumbnail_data)
+            thumbnail_path = f"{movie_dir}/{movie_id}.img"
+            s3.upload_fileobj(
+                BytesIO(thumbnail_data), config.r2_bucket_name, thumbnail_path
+            )
 
         if ds_movie_data:
             # Upload DS movie
@@ -186,16 +188,18 @@ def save_movie_data(
         if not os.path.isdir(movie_dir):
             os.makedirs(movie_dir)
 
-        # Resize and write thumbnail
-        thumbnail_data = movie_thumbnail_encode(thumbnail_data)
-        thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
-        thumbnail.write(thumbnail_data)
-        thumbnail.close()
+        if thumbnail_data:
+            # Resize and write thumbnail
+            thumbnail_data = movie_thumbnail_encode(thumbnail_data)
+            thumbnail = open(f"{movie_dir}/{movie_id}.img", "wb")
+            thumbnail.write(thumbnail_data)
+            thumbnail.close()
 
-        # Write movie
-        movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
-        movie.write(movie_data)
-        movie.close()
+        if movie_data:
+            # Write movie
+            movie = open(f"{movie_dir}/{movie_id}-H.mov", "wb")
+            movie.write(movie_data)
+            movie.close()
 
         if ds_movie_data:
             if not os.path.isdir(ds_movie_dir):

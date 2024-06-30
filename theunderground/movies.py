@@ -6,7 +6,8 @@ from flask import (
     request,
     url_for,
 )
-
+from flask_wtf.file import FileRequired
+from werkzeug import exceptions
 
 from models import Movies, db
 from room import app
@@ -54,6 +55,8 @@ def list_movies(category):
 def add_movie():
     form = MovieUploadForm()
     form.category.choices = get_category_list()
+    form.movie.validators = [FileRequired()]
+    form.thumbnail.validators = [FileRequired()]
 
     if form.validate_on_submit():
         movie = form.movie.data
@@ -112,7 +115,69 @@ def add_movie():
         else:
             flash("Error uploading movie!")
 
-    return render_template("movie_add.html", form=form)
+    return render_template("movie_action.html", form=form, action="Add")
+
+
+@app.route("/theunderground/movies/<movie_id>/edit", methods=["GET", "POST"])
+@oidc.require_login
+def edit_movie(movie_id):
+    form = MovieUploadForm()
+    form.category.choices = get_category_list()
+    form.upload.label.text = "Edit"
+
+    movie = Movies.query.filter_by(movie_id=movie_id).first()
+    if not movie:
+        return exceptions.NotFound()
+
+    if form.validate_on_submit():
+        thumbnail_data = None
+        movie_data = None
+        ds_movie_data = None
+        if form.movie.data:
+            movie_data = form.movie.data.read()
+            if validate_mobiclip(movie_data):
+                length = get_mobiclip_length(movie_data)
+                movie.length = length
+            else:
+                flash("Invalid movie")
+                return render_template("movie_action.html", form=form, action="Edit")
+
+        if form.thumbnail.data:
+            thumbnail_data = form.thumbnail.data.read()
+
+        if form.ds_movie.data:
+            ds_movie_data = form.ds_movie.data.read()
+            validation_ds = validate_mobi_dsi(ds_movie_data)
+            if isinstance(validation_ds, bytes):
+                # We encrypted this movie.
+                ds_movie_data = validation_ds
+
+            if not validation_ds:
+                flash("Invalid DS movie")
+                return render_template("movie_action.html", form=form, action="Edit")
+
+        save_movie_data(movie.movie_id, thumbnail_data, movie_data, ds_movie_data)
+
+        # Finally update the title, genre and category.
+        movie.title = form.title.data
+        movie.genre = form.genre.data
+        movie.category_id = form.category.data
+        db.session.commit()
+
+        if s3:
+            cat_xml = list_category_search(form.category.data)
+            xml_path = f"list/category/search/{form.category.data}"
+            s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
+
+        return redirect(url_for("list_categories"))
+    else:
+        form.title.data = movie.title
+        form.genre.data = movie.genre
+        form.category.data = movie.category_id
+
+    return render_template(
+        "movie_action.html", form=form, action="Edit", movie_id=movie_id
+    )
 
 
 @app.route("/theunderground/movies/<movie_id>/save", methods=["GET", "POST"])

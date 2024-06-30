@@ -1,7 +1,7 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Upload a Movie
+    {{ action }} a Movie
 {% endblock %}
 
 {% block content %}
@@ -26,7 +26,11 @@
             {{ form.title.label(class_="label") }} {{ form.title(class_="input") }}
             <br>
             <br>
-            {{ form.thumbnail.label(class_="label") }} {{ form.thumbnail(size=32) }}
+            {{ form.thumbnail.label(class_="label") }}
+            {% if movie_id %}
+            {{ existing_image('movie thumbnail', url_for('get_movie_thumbnail', movie_id=movie_id)) }}
+            {% endif %}
+            {{ form.thumbnail(size=32) }}
             <br>
             <br>
             {{ form.category.label(class_="label") }} {{ form.category }}
