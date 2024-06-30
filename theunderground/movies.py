@@ -147,10 +147,12 @@ def save_ds_movie(movie_id):
 @oidc.require_login
 def remove_movie(movie_id):
     def drop_movie():
-        db.session.delete(Movies.query.filter_by(movie_id=movie_id).first())
+        movie = Movies.query.filter_by(movie_id=movie_id).first()
+        has_ds = movie.ds_mov_id is not None
+        db.session.delete(movie)
         db.session.commit()
 
-        delete_movie_data(movie_id)
+        delete_movie_data(movie_id, has_ds)
 
         return redirect(url_for("list_categories"))
 
