@@ -209,6 +209,7 @@ class PayCategoryHeaders(db.Model):
 class Categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String)
+    sp_page_id = db.Column(db.Integer)
 
 
 class RoomBGMTypes(enum.Enum):
