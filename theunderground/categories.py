@@ -35,7 +35,7 @@ def list_categories():
 @oidc.require_login
 def add_category():
     form = CategoryForm()
-    form.room.data = get_room_list()
+    form.room.choices = get_room_list()
     # As we're adding, ensure a file is required.
     form.thumbnail.validators = [FileRequired()]
 
