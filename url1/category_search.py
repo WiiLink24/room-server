@@ -1,6 +1,6 @@
 from werkzeug import exceptions
 
-from models import Movies, ConciergeMovies
+from models import Movies, ConciergeMovies, Rooms
 from room import app
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
@@ -12,6 +12,7 @@ def list_category_search(categ_id):
         retrieved_data = (
             Movies.query.filter(Movies.category_id == categ_id)
             .order_by(Movies.date_added.desc())
+            .limit(100)
             .all()
         )
     elif 20000 <= categ_id <= 29999:
@@ -20,11 +21,17 @@ def list_category_search(categ_id):
             Movies.query.filter(Movies.movie_id == ConciergeMovies.movie_id)
             .filter(ConciergeMovies.mii_id == categ_id - 20000)
             .order_by(Movies.date_added.desc())
+            .limit(100)
             .all()
         )
     else:
-        # TODO: This will be rooms
-        retrieved_data = None
+        retrieved_data = (
+            Movies.query.filter(Movies.sp_page_id == Rooms.room_id)
+            .filter(Rooms.room_id == categ_id - 30000)
+            .order_by(Movies.date_added.desc())
+            .limit(100)
+            .all()
+        )
 
     results = []
 

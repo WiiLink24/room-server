@@ -13,24 +13,20 @@ def list_category_n(list_id):
     results = []
     match list_id:
         case "01":
-            queried_data = (
-                db.session.query(Categories, Rooms)
-                .filter(Categories.sp_page_id == Rooms.room_id)
-                .order_by(Categories.name.asc())
-                .limit(64)
-                .all()
+            queried_categories = (
+                Categories.query.order_by(Categories.name.asc()).limit(64).all()
             )
 
-            for i, category in enumerate(queried_data):
+            for i, category in enumerate(queried_categories):
                 # Items must be indexed by 1.
                 results.append(
                     RepeatedElement(
                         {
                             "place": i + 1,
-                            "categid": category[0].category_id,
-                            "name": category[0].name,
-                            "sppageid": category[1].room_id,
-                            "splinktext": category[1].news,
+                            "categid": category.category_id,
+                            "name": category.name,
+                            "sppageid": 0,
+                            "splinktext": "Link text",
                         }
                     )
                 )
@@ -57,8 +53,20 @@ def list_category_n(list_id):
                     )
                 )
         case "03":
-            # TODO: Rooms
-            pass
+            queried_data = Rooms.query.order_by(Rooms.news.asc()).all()
+            for i, room in enumerate(queried_data):
+                # Items must be indexed by 1.
+                results.append(
+                    RepeatedElement(
+                        {
+                            "place": i + 1,
+                            "categid": 30000 + room.room_id,
+                            "name": room.news,
+                            "sppageid": room.room_id,
+                            "splinktext": room.news,
+                        }
+                    )
+                )
 
     return {
         "type": 3,
