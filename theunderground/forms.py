@@ -242,3 +242,8 @@ class RoomCouponData(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])
     coupon = FileField("Coupon", validators=[FileRequired()])
     upload = SubmitField("Upload")
+
+
+class ConciergeMovieForm(FlaskForm):
+    movie_id = StringField("Movie ID", validators=[DataRequired()])
+    submit = SubmitField("Submit")

@@ -1,0 +1,83 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}concierge movies{% endblock %}
+{% block type_name_singular %}concierge movie{% endblock %}
+
+{% block table_listing %}
+    <br>
+    <a href="{{ url_for('list_concierge') }}">Return to Concierge Listing</a>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Wii Movie ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Length</th>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mii, movie in movies.items %}
+            <tr>
+                <td>{{ movie.movie_id }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.length }}</td>
+                <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
+                         alt="Thumbnail for {{ movie.movie_id }}"/></td>
+                <td>
+                   <div class="field has-addons" style="display:flex; flex-direction: column; gap: 8px;">
+                        <p class="control">
+                            <a href="{{ url_for('remove_concierge_movie', mii_id=mii.mii_id, movie_id=movie.movie_id) }}"
+                               class="button is-danger">
+                                <span class="icon is-small">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <!-- Previous/Next -->
+    {% if movies.has_prev %}
+        <a href="{{ url_for('list_concierge_movies', mii_id=mii_id, page=movies.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if movies.has_next %}
+        <a href="{{ url_for('list_concierge_movies', mii_id=mii_id, page=movies.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <!-- First/Last -->
+    <!-- Ensure we are not on the first page. -->
+    {% if movies.page != 1 %}
+        <a href="{{ url_for('list_concierge_movies', mii_id=mii_id, page=1) }}">&lt;&lt; First</a>
+    {% else %}
+        &lt;&lt; First
+    {% endif %}
+    |
+    <!-- Ensure we are not on the last page. -->
+    {% if movies.page != movies.pages %}
+        <a href="{{ url_for('list_concierge_movies', mii_id=mii_id, page=movies.pages) }}">Last &gt;&gt;</a>
+    {% else %}
+        Last &gt;&gt;
+    {% endif %}
+
+    <br/>
+    <a href="{{ url_for('add_concierge_movie', mii_id=mii_id) }}">
+        <button class="button is-success">
+            <span>Add a Movie</span>
+        </button>
+    </a>
+{% endblock %}

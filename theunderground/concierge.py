@@ -1,10 +1,10 @@
 from io import BytesIO
 
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request
 
-from models import db, ConciergeMiis, MiiMsgInfo, MiiData
+from models import db, ConciergeMiis, MiiMsgInfo, MiiData, ConciergeMovies, Movies
 from room import app
-from theunderground.forms import ConciergeForm
+from theunderground.forms import ConciergeForm, ConciergeMovieForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.encodemii import encode_mii_category
@@ -49,6 +49,11 @@ def add_concierge(mii_id):
             voice=False,  # The web console does not currently support this
         )
 
+        concierge_movie = ConciergeMovies(
+            mii_id=mii_id,
+            movie_id=form.movieid.data,
+        )
+
         for i in range(1, 8):
             msg = MiiMsgInfo(
                 mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1
@@ -69,6 +74,7 @@ def add_concierge(mii_id):
         # We assign concierge categories IDs 20000 - 29999.
         NormalCategoryAsset(20000 + int(mii_id)).encode(img)
 
+        db.session.add(concierge_movie)
         db.session.add(concierge_data)
         db.session.commit()
 
@@ -147,3 +153,56 @@ def update_mii_on_s3(mii_id):
         # Actual Mii
         mii = obtain_mii(mii_id)
         s3.upload_fileobj(BytesIO(mii), config.r2_bucket_name, f"mii/{mii_id}.mii")
+
+
+@app.route("/theunderground/concierge/<mii_id>/movies", methods=["GET", "POST"])
+@oidc.require_login
+def list_concierge_movies(mii_id):
+    page_num = request.args.get("page", default=1, type=int)
+
+    movies = (
+        db.session.query(ConciergeMovies, Movies)
+        .filter(ConciergeMovies.movie_id == Movies.movie_id)
+        .filter(ConciergeMovies.mii_id == mii_id)
+        .paginate(page=page_num, per_page=20, error_out=False)
+    )
+
+    return render_template(
+        "concierge_movies_list.html",
+        mii_id=mii_id,
+        movies=movies,
+        type_length=movies.total,
+        type_max_count=20,
+    )
+
+
+@app.route("/theunderground/concierge/<mii_id>/movies/add", methods=["GET", "POST"])
+@oidc.require_login
+def add_concierge_movie(mii_id):
+    form = ConciergeMovieForm()
+    if form.validate_on_submit():
+        movie = ConciergeMovies(movie_id=form.movie_id.data, mii_id=int(mii_id))
+        db.session.add(movie)
+        db.session.commit()
+
+        return redirect(url_for("list_concierge_movies", mii_id=mii_id))
+
+    return render_template("concierge_movie_add.html", form=form)
+
+
+@app.route(
+    "/theunderground/concierge/<mii_id>/movies/<movie_id>/remove",
+    methods=["GET", "POST"],
+)
+@oidc.require_login
+def remove_concierge_movie(mii_id, movie_id):
+    def drop_concierge_movie():
+        db.session.delete(
+            ConciergeMovies.query.filter_by(mii_id=mii_id)
+            .filter_by(movie_id=movie_id)
+            .first()
+        )
+        db.session.commit()
+        return redirect(url_for("list_concierge"))
+
+    return manage_delete_item(movie_id, "Concierge Mii Movie", drop_concierge_movie)
