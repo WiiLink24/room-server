@@ -1,5 +1,3 @@
-# TODO: This is so flawed must fix later
-
 from io import BytesIO
 
 from flask import render_template, url_for, redirect
@@ -9,12 +7,15 @@ from room import app
 from theunderground.forms import ConciergeForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.encodemii import encode_mii_category
 from room import s3
 from url1.event_today import event_today
 from url1.mii import obtain_mii, mii_met
 from werkzeug import exceptions
+from asset_data import NormalCategoryAsset
 
 import config
+import requests
 
 
 @app.route("/theunderground/concierge")
@@ -53,6 +54,20 @@ def add_concierge(mii_id):
                 mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1
             )
             db.session.add(msg)
+
+        # Create the category image.
+        mii_data = MiiData.query.filter_by(mii_id=mii_id).first()
+        if not mii_data:
+            return exceptions.NotFound()
+
+        # Request the PNG from Nintendo
+        mii_img = requests.get(
+            f"https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={mii_data.data.hex()}"
+        )
+
+        img = encode_mii_category(mii_img.content)
+        # We assign concierge categories IDs 20000 - 29999.
+        NormalCategoryAsset(20000 + int(mii_id)).encode(img)
 
         db.session.add(concierge_data)
         db.session.commit()

@@ -43,3 +43,27 @@ def generic_encode(in_bytes: bytes, w: int, h: int) -> bytes:
     im.save(result, "jpeg", subsampling="4:2:0", progressive=False)
 
     return result.getvalue()
+
+
+def encode_mii_category(mii: bytes) -> bytes:
+    dim = (160, 120)
+    rgb = (253, 246, 178)
+    base = Image.new("RGB", dim, rgb)
+
+    mii_img = Image.open(io.BytesIO(mii))
+    mii_img = mii_img.resize((140, 140))
+
+    # Calculate the position to paste the PNG in the center
+    base_width, base_height = base.size
+    mii_width, mii_height = mii_img.size
+
+    x = (base_width - mii_width) // 2
+    y = (base_height - mii_height) // 2
+
+    # Paste the PNG onto the base image
+    base.paste(mii_img, (x, y), mii_img)
+
+    result = io.BytesIO()
+    base.save(result, "jpeg", subsampling="4:2:0", progressive=False)
+
+    return result.getvalue()
