@@ -360,3 +360,13 @@ class MovieCredits(db.Model):
     role = db.Column(db.String, nullable=False)
     name = db.Column(db.String, nullable=False)
     order = db.Column(db.Integer, nullable=False)
+
+
+class ConciergeMovies(db.Model):
+    """Movies that are linked to a concierge."""
+
+    id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+    )
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), nullable=False)
+    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
