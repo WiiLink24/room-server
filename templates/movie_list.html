@@ -31,7 +31,8 @@
                 <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
                          alt="Thumbnail for {{ movie.movie_id }}"/></td>
                 <td>
-                    <div class="field has-addons">
+                   <div class="field has-addons" style="display:flex; flex-direction: column; gap: 8px;">
+                        <div style="display:flex; flex-direction:row;">
                         <p class="control">
                             <a href="{{ url_for('save_movie', movie_id=movie.movie_id) }}"
                                class="button is-info">
@@ -73,6 +74,8 @@
                             </a>
                         </p>
                         {% endif %}
+                        </div>
+                        <div style="display:flex; flex-direction:row;">
                         <p class="control">
                             <a href="{{ url_for('edit_movie', movie_id=movie.movie_id) }}"
                                class="button is-info">
@@ -91,6 +94,7 @@
                                 <span>Delete</span>
                             </a>
                         </p>
+                        </div>
                     </div>
                 </td>
             </tr>
