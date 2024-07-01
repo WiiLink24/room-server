@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for
 
 from werkzeug import exceptions
 
-from asset_data import RoomLogoAsset, ParadeBannerAsset
+from asset_data import RoomLogoAsset, ParadeBannerAsset, NormalCategoryAsset
 from models import db, Rooms, RoomMiis
 from theunderground.forms import RoomForm
 from room import app, s3
@@ -44,6 +44,9 @@ def edit_room(room_id):
         if form.parade_banner.data:
             ParadeBannerAsset(room.room_id).encode(form.parade_banner)
 
+        if form.category_logo.data:
+            NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
+
         mii.mii_id = form.mii.data
         mii.mii_msg = form.mii_msg.data
         db.session.add(mii)
@@ -82,6 +85,7 @@ def create_room():
     form = RoomForm()
     form.parade_banner.flags.required = True
     form.room_logo.flags.required = True
+    form.category_logo.flags.required = True
 
     if form.validate_on_submit():
         # First, add our room. Auto-increment will give us a
@@ -108,6 +112,7 @@ def create_room():
         # Finally, handle room data - our room logo, and parade banner.
         RoomLogoAsset(room.room_id).encode(form.room_logo)
         ParadeBannerAsset(room.room_id).encode(form.parade_banner)
+        NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
 
         return redirect(url_for("list_room"))
 
@@ -122,6 +127,7 @@ def remove_room(room_id):
         db.session.delete(Rooms.query.filter_by(room_id=room_id).first())
         db.session.commit()
         shutil.rmtree(f"./assets/special/{room_id}")
+        NormalCategoryAsset(room_id + 30000).delete()
 
         if s3:
             # Delete from S3
@@ -148,3 +154,9 @@ def get_parade_banner(room_id):
         return redirect(f"{config.url1_cdn_url}/special/{room_id}/img/g1234.img")
 
     return ParadeBannerAsset(room_id).send_file()
+
+
+@app.route("/theunderground/rooms/<int:room_id>/category_logo.jpg")
+@oidc.require_login
+def get_category_logo(room_id):
+    return NormalCategoryAsset(room_id + 30000).send_file()

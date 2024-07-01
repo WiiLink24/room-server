@@ -54,6 +54,12 @@
             {{ existing_image('parade banner', url_for('get_parade_banner', room_id=room_id)) }}
             {% endif %}
             {{ form.parade_banner(class_="block") }}
+
+            {{ form.category_logo.label(class_="label block") }}
+            {% if room_id %}
+            {{ existing_image('category logo', url_for('get_category_logo', room_id=room_id)) }}
+            {% endif %}
+            {{ form.category_logo(class_="block") }}
         </p>
         <p>{{ form.submit(class_="button is-success block") }}</p>
     </form>
