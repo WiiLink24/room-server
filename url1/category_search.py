@@ -1,18 +1,31 @@
 from werkzeug import exceptions
 
-from models import Movies
+from models import Movies, ConciergeMovies
 from room import app
 from helpers import xml_node_name, RepeatedElement, current_date_and_time
 
 
-@app.route("/url1/list/category/search/<categ_id>")
+@app.route("/url1/list/category/search/<int:categ_id>")
 @xml_node_name("SearchMovies")
 def list_category_search(categ_id):
-    retrieved_data = (
-        Movies.query.filter(Movies.category_id == categ_id)
-        .order_by(Movies.date_added.desc())
-        .all()
-    )
+    if categ_id < 20000:
+        retrieved_data = (
+            Movies.query.filter(Movies.category_id == categ_id)
+            .order_by(Movies.date_added.desc())
+            .all()
+        )
+    elif 20000 <= categ_id <= 29999:
+        # Concierge Movies
+        retrieved_data = (
+            Movies.query.filter(Movies.movie_id == ConciergeMovies.movie_id)
+            .filter(ConciergeMovies.mii_id == categ_id - 20000)
+            .order_by(Movies.date_added.desc())
+            .all()
+        )
+    else:
+        # TODO: This will be rooms
+        retrieved_data = None
+
     results = []
 
     if not retrieved_data:
