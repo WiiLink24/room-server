@@ -17,6 +17,11 @@ else:
 
 
 def get_config_url(service_type: str) -> str:
+    if service_type == "url1" and config.url1_cdn_url != "":
+        return config.url1_cdn_url
+    elif service_type == "url3" and config.url3_cdn_url != "":
+        return config.url3_cdn_url
+
     if config.root_separate_subdomain:
         # https://url1.dev.wiilink24.com/
         return f"{root_protocol}://{service_type}.{config.root_domain}/"
@@ -29,7 +34,7 @@ def get_config_url(service_type: str) -> str:
 def conf_first_bin_xml():
     return {
         "maint": 0,
-        "url1": f"{config.url1_cdn_url}/",
+        "url1": get_config_url("url1"),
         "url2": get_config_url("url2"),
         "url3": get_config_url("url3"),
         "eulaver": 3,
