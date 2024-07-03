@@ -122,7 +122,6 @@ class MiiMsgInfo(db.Model):
     )
     type = db.Column(db.Integer, primary_key=True, nullable=False)
     seq = db.Column(db.Integer, primary_key=True, nullable=False)
-    type = db.Column(db.Integer, primary_key=True, nullable=False)
     msg = db.Column(db.String, nullable=False)
     face = db.Column(db.Integer, nullable=False)
 
