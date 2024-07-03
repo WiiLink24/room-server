@@ -6,6 +6,7 @@ from helpers import current_date_and_time, RepeatedElement, xml_node_name
 from models import Rooms, MiiData, RoomMenu, RoomMiis, db
 from room import app
 from flask import send_from_directory
+from textwrap import wrap
 
 
 @app.route("/url1/special/<page>/page.xml")
@@ -35,14 +36,14 @@ def special_page_n(page):
             RepeatedElement(
                 {
                     "inmsgseq": i + 1,
-                    "inmsg": msg,
+                    "inmsg": "\n".join(wrap(msg, 23)),
                 }
             )
         )
 
     mii_msgs = []
     for i, msg in enumerate(room_mii.mii_msg.split("\n")):
-        mii_msgs.append(RepeatedElement({"msgseq": i + 1, "msg": msg}))
+        mii_msgs.append(RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 23))}))
 
     return {
         "sppageid": page,
