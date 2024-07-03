@@ -31,7 +31,7 @@ Reference:
 
 
 class NewsForm(FlaskForm):
-    news = TextAreaField("News Contents", validators=[DataRequired()])
+    news = TextAreaField("News Contents", validators=[DataRequired(), Length(max=146)])
     create = SubmitField("Create!")
 
 
@@ -50,7 +50,7 @@ class MiiUploadForm(FlaskForm):
 class MovieUploadForm(FlaskForm):
     movie = FileField("Movie")
     ds_movie = FileField("DSi Movie")
-    title = StringField("Movie title", validators=[DataRequired(), Length(max=48)])
+    title = StringField("Movie title", validators=[DataRequired(), Length(max=47)])
     thumbnail = FileField("Movie thumbnail")
     genre = SelectField(
         "Genre",
@@ -68,7 +68,7 @@ class PayMovieUploadForm(FlaskForm):
     poster = FileField("Poster", validators=[FileRequired()])
     thumbnail = FileField("Thumbnail", validators=[FileRequired()])
     # For now there is a 15 char limit for the title. If we edit the brlyt we can unlock this.
-    title = StringField("Title", validators=[DataRequired(), Length(max=48)])
+    title = StringField("Title", validators=[DataRequired(), Length(max=47)])
     release = StringField(
         "Release Date(YYYY-MM-DD)", validators=[DataRequired(), Length(max=10)]
     )
@@ -81,7 +81,7 @@ class PayMovieUploadForm(FlaskForm):
 
 
 class CategoryForm(FlaskForm):
-    category_name = StringField("Category Name", validators=[DataRequired()])
+    category_name = StringField("Category Name", validators=[DataRequired(), Length(max=61)])
     room = SelectField("Room", validators=[DataRequired()])
     thumbnail = FileField("Category Thumbnail")
     submit = SubmitField("Add")
@@ -98,9 +98,9 @@ class RoomForm(FlaskForm):
     parade_banner = FileField("Parade Banner")
     category_logo = FileField("Category Logo")
     has_mascot = BooleanField("Mascot Enabled")
-    intro_msg = StringField("Intro Message", validators=[DataRequired()])
-    mii_msg = StringField("Mii Message", validators=[DataRequired()])
-    news = StringField("Company", validators=[DataRequired()])
+    intro_msg = TextAreaField("Intro Message", validators=[DataRequired()])
+    mii_msg = TextAreaField("Mii Message", validators=[DataRequired()])
+    news = StringField("Company", validators=[DataRequired(), Length(41)])
     # PostgreSQL treats an empty string ('') separately from NULL (None in Python).
     # https://stackoverflow.com/a/21853689
     contact = StringField("Contact Information", filters=[lambda x: x or None])
@@ -117,20 +117,20 @@ class PreRoomData(FlaskForm):
 
 class RoomDeliveryData(FlaskForm):
     movie = FileField("Movie", validators=[FileRequired()])
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
     image = FileField("Image After Movie", validators=[FileRequired()])
     upload = SubmitField("Upload")
 
 
 class RoomVoteData(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
     image1 = FileField("Answer Photo 1", validators=[FileRequired()])
     image2 = FileField("Answer Photo 2", validators=[FileRequired()])
     image3 = FileField("Answer Photo 3", validators=[FileRequired()])
-    question = StringField("Question", validators=[DataRequired()])
-    mii_msg = StringField("Mii Message", validators=[DataRequired()])
+    question = StringField("Question", validators=[DataRequired(), Length(41)])
+    mii_msg = StringField("Mii Message", validators=[DataRequired(), Length(51)])
     upload = SubmitField("Upload")
 
 
@@ -139,7 +139,7 @@ class RoomMovieData(FlaskForm):
         "Movie ID(Make sure you know the ID of the movie you want)",
         validators=[DataRequired()],
     )
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
     image = FileField("TV Screen Image", validators=[FileRequired()])
     upload = SubmitField("Upload")
 
@@ -150,8 +150,8 @@ class RoomLinkData(FlaskForm):
         choices=RoomContentBGMTypes.choices(),
         coerce=RoomContentBGMTypes.coerce,
     )
-    title = StringField("Title", validators=[DataRequired()])
-    link = StringField("Link", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
+    link = StringField("Link", validators=[DataRequired(), Length(100)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
     image1 = FileField("Image After Movie", validators=[FileRequired()])
     image2 = FileField("Link Image", validators=[FileRequired()])
@@ -165,7 +165,7 @@ class RoomPicData(FlaskForm):
         choices=RoomContentBGMTypes.choices(),
         coerce=RoomContentBGMTypes.coerce,
     )
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
     image1 = FileField("Image 1", validators=[FileRequired()])
     image2 = FileField("Image 2", validators=[FileRequired()])
@@ -221,7 +221,7 @@ class IntroInfoForm(FlaskForm):
         "Link Type", choices=LinkTypes.choices(), coerce=LinkTypes.coerce
     )
     link_id = IntegerField("Link ID")
-    cat_name = StringField("Category Name")
+    cat_name = StringField("Category Name", validators=[Length(61)])
     asset = FileField("Asset", validators=[FileRequired()])
     upload = SubmitField("Create Intro Info!")
 
@@ -237,7 +237,7 @@ class CreditsForm(FlaskForm):
 
 
 class RoomCouponData(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(47)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
     image_after = FileField("Image After Movie", validators=[FileRequired()])
     movie = FileField("Movie", validators=[FileRequired()])
