@@ -46,7 +46,7 @@ class Posters(db.Model):
 
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    msg = db.Column(db.String, nullable=False)
+    msg = db.Column(db.String(146), nullable=False)
 
 
 class PayPosters(db.Model):
@@ -122,7 +122,7 @@ class MiiMsgInfo(db.Model):
     )
     type = db.Column(db.Integer, primary_key=True, nullable=False)
     seq = db.Column(db.Integer, primary_key=True, nullable=False)
-    msg = db.Column(db.String, nullable=False)
+    msg = db.Column(db.String(51), nullable=False)
     face = db.Column(db.Integer, nullable=False)
 
 
@@ -162,7 +162,7 @@ class Movies(db.Model):
         primary_key=True,
         nullable=False,
     )
-    title = db.Column(db.String(48), nullable=False)
+    title = db.Column(db.String(47), nullable=False)
     length = db.Column(db.String(8), nullable=False)
     aspect = db.Column(db.Boolean, nullable=False)
     genre = db.Column(db.Enum(MovieGenres), nullable=False)
@@ -178,8 +178,8 @@ class PayMovies(db.Model):
     query_class = FullTextSearchable
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
-    title = db.Column(db.String, nullable=False)
-    length = db.Column(db.String(), nullable=False)
+    title = db.Column(db.String(47), nullable=False)
+    length = db.Column(db.String, nullable=False)
     note = db.Column(db.String(76), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     released = db.Column(db.String(10), nullable=False)
@@ -198,18 +198,18 @@ class PayMovies(db.Model):
 
 class PayCategories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String(61))
     # Starts at 10, goes up by 1 each time
     genre_id = db.Column(db.Integer)
 
 
 class PayCategoryHeaders(db.Model):
-    title = db.Column(db.String, primary_key=True, unique=True)
+    title = db.Column(db.String(30), primary_key=True, unique=True)
 
 
 class Categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True, unique=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String(61))
     sp_page_id = db.Column(db.Integer)
 
 
@@ -266,9 +266,11 @@ class Rooms(db.Model):
     room_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     bgm = db.Column(db.Enum(RoomBGMTypes))
     mascot = db.Column(db.Boolean)
+    # Each message has a limit of 51. However, there can be 10 sequences. How we handle sequences is by splitting the
+    # text by newline.
     intro_msg = db.Column(db.String)
-    contact_data = db.Column(db.String)
-    news = db.Column(db.String)
+    contact_data = db.Column(db.String(2599))
+    news = db.Column(db.String(41))
     level = db.Column(db.Integer, default=1)
 
 
@@ -277,6 +279,7 @@ class RoomMiis(db.Model):
         db.Integer, db.ForeignKey("rooms.room_id"), primary_key=True, unique=True
     )
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
+    # Same thing as intro_msg in Rooms.
     mii_msg = db.Column(db.String)
 
 
@@ -339,7 +342,7 @@ class IntroInfo(db.Model):
         db.BigInteger, autoincrement=True, primary_key=True, nullable=False, unique=True
     )
     cnt_type = db.Column(db.Enum(ContentTypes))
-    cat_name = db.Column(db.String)
+    cat_name = db.Column(db.String(61))
     link_type = db.Column(db.Enum(LinkTypes))
     link_id = db.Column(db.Integer)
 
@@ -358,8 +361,8 @@ class MovieCredits(db.Model):
         db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
     )
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
-    role = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=False)
+    role = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     order = db.Column(db.Integer, nullable=False)
 
 
