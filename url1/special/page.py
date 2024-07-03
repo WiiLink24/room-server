@@ -29,6 +29,21 @@ def special_page_n(page):
     for place, data in enumerate(menu_data):
         menus.append(RepeatedElement(data.data | {"place": place + 1}))
 
+    intro_msgs = []
+    for i, msg in enumerate(room_data.intro_msg.split("\n")):
+        intro_msgs.append(
+            RepeatedElement(
+                {
+                    "inmsgseq": i + 1,
+                    "inmsg": msg,
+                }
+            )
+        )
+
+    mii_msgs = []
+    for i, msg in enumerate(room_mii.mii_msg.split("\n")):
+        mii_msgs.append(RepeatedElement({"msgseq": i + 1, "msg": msg}))
+
     return {
         "sppageid": page,
         # TODO: database schema should handle proper times regarding catalog.
@@ -41,25 +56,13 @@ def special_page_n(page):
         "mascot": room_data.mascot,
         # If we have contact data, we should enable contacting.
         "contact": room_data.contact_data is not None,
-        "intro": {
-            "inmsginfo": {
-                "inmsgseq": 1,
-                "inmsg": room_data.intro_msg,
-            }
-        },
+        "intro": {"inmsginfo": intro_msgs},
         "miiinfo": {
             "seq": 1,
             "miiid": mii_data.mii_id,
             "color1": mii_data.color1,
             "color2": mii_data.color2,
-            "msginfo": [
-                RepeatedElement(
-                    {
-                        "msgseq": 1,
-                        "msg": room_mii.mii_msg,
-                    }
-                ),
-            ],
+            "msginfo": mii_msgs,
         },
         "menu": menus,
         "logo": {
