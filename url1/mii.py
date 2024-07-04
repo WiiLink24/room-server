@@ -4,6 +4,7 @@ from werkzeug import exceptions
 from room import app
 from helpers import xml_node_name, RepeatedElement
 from models import db, ConciergeMiis, MiiData, MiiMsgInfo
+from textwrap import wrap
 
 
 @app.route("/url1/mii/<int:mii_id>.mii")
@@ -62,7 +63,7 @@ def mii_met(mii_id):
 
         # As seq/msg can repeat within a single msginfo, we add with a RepeatedKey.
         separate[info.type].append(
-            RepeatedElement({"seq": info.seq, "msg": info.msg, "face": info.face})
+            RepeatedElement({"seq": info.seq, "msg": "\n".join(wrap(info.msg, 23)), "face": info.face})
         )
 
     # Then, convert all separate types to our actual msginfo type.
