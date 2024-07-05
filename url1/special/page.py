@@ -43,7 +43,9 @@ def special_page_n(page):
 
     mii_msgs = []
     for i, msg in enumerate(room_mii.mii_msg.split("\n")):
-        mii_msgs.append(RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 23))}))
+        mii_msgs.append(
+            RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 23))})
+        )
 
     return {
         "sppageid": page,

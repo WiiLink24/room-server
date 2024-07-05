@@ -57,7 +57,7 @@ def add_concierge(mii_id):
 
         for i in range(1, 8):
             msg = MiiMsgInfo(
-                mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1
+                mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1, seq=1
             )
             db.session.add(msg)
 
@@ -97,6 +97,7 @@ def edit_concierge(mii_id):
         .filter(ConciergeMiis.mii_id == mii_id)
         .filter(ConciergeMiis.mii_id == MiiMsgInfo.mii_id)
         .order_by(MiiMsgInfo.type)
+        .order_by(MiiMsgInfo.seq)
         .all()
     )
 

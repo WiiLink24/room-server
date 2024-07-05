@@ -63,7 +63,13 @@ def mii_met(mii_id):
 
         # As seq/msg can repeat within a single msginfo, we add with a RepeatedKey.
         separate[info.type].append(
-            RepeatedElement({"seq": info.seq, "msg": "\n".join(wrap(info.msg, 23)), "face": info.face})
+            RepeatedElement(
+                {
+                    "seq": info.seq,
+                    "msg": "\n".join(wrap(info.msg, 23)),
+                    "face": info.face,
+                }
+            )
         )
 
     # Then, convert all separate types to our actual msginfo type.
