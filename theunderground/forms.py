@@ -90,7 +90,7 @@ class CategoryForm(FlaskForm):
 
 
 class RoomForm(FlaskForm):
-    mii = StringField("Mii ID")
+    mii = FieldList(StringField())
     bgm = SelectField(
         "Background Music",
         choices=RoomBGMTypes.choices(),
@@ -101,7 +101,6 @@ class RoomForm(FlaskForm):
     category_logo = FileField("Category Logo")
     has_mascot = BooleanField("Mascot Enabled")
     intro_msg = TextAreaField("Intro Message", validators=[DataRequired()])
-    mii_msg = TextAreaField("Mii Message", validators=[DataRequired()])
     news = StringField("Company", validators=[DataRequired(), Length(max=41)])
     # PostgreSQL treats an empty string ('') separately from NULL (None in Python).
     # https://stackoverflow.com/a/21853689
