@@ -23,7 +23,10 @@
 
                 {# missing types 1 and 4, coupon and delivery #}
 
-                {% if type == "Voting" %}
+                {% if type == "Delivery" %}
+                    {# 1, smp #}
+                    <td>Delivery Title ・ {{ data.data['smp']['smptitle'] }}</td>
+                {% elif type == "Voting" %}
                     {# 2, enq #}
                     <td>Poll Title ・ {{ data.data['enq']['enqtitle'] }}<br/>Question ・ {{ data.data['enq']['enqq'] }}<br/>Mii Message ・ {{ data.data['enq']['enqmsginfo']['enqmsg'] }}<br/>Choices ・ {{ data.data['enq']['enqa'] }}</td>
                 {% elif type == "Movie" %}
