@@ -13,6 +13,7 @@ from url1.event_today import event_today
 from url1.mii import obtain_mii, mii_met
 from werkzeug import exceptions
 from asset_data import NormalCategoryAsset
+from url1.category_search import list_category_search
 
 import config
 import requests
@@ -56,7 +57,7 @@ def add_concierge(mii_id):
 
         for i in range(1, 8):
             msg = MiiMsgInfo(
-                mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1
+                mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1, seq=1
             )
             db.session.add(msg)
 
@@ -96,6 +97,7 @@ def edit_concierge(mii_id):
         .filter(ConciergeMiis.mii_id == mii_id)
         .filter(ConciergeMiis.mii_id == MiiMsgInfo.mii_id)
         .order_by(MiiMsgInfo.type)
+        .order_by(MiiMsgInfo.seq)
         .all()
     )
 
@@ -135,6 +137,8 @@ def remove_concierge(mii_id):
         db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
         db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
         db.session.commit()
+
+        NormalCategoryAsset(20000 + int(mii_id)).delete()
         return redirect(url_for("list_concierge"))
 
     return manage_delete_item(mii_id, "Concierge Mii", drop_concierge)
@@ -185,6 +189,12 @@ def add_concierge_movie(mii_id):
         db.session.add(movie)
         db.session.commit()
 
+        # Finally update the category if needed by S3
+        if s3:
+            cat_xml = list_category_search(20000 + int(mii_id))
+            xml_path = f"list/category/search/{20000 + int(mii_id)}"
+            s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
+
         return redirect(url_for("list_concierge_movies", mii_id=mii_id))
 
     return render_template("concierge_movie_add.html", form=form)
@@ -203,6 +213,13 @@ def remove_concierge_movie(mii_id, movie_id):
             .first()
         )
         db.session.commit()
+
+        # Reflect the change in the category
+        if s3:
+            cat_xml = list_category_search(20000 + int(mii_id))
+            xml_path = f"list/category/search/{20000 + int(mii_id)}"
+            s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
+
         return redirect(url_for("list_concierge"))
 
     return manage_delete_item(movie_id, "Concierge Mii Movie", drop_concierge_movie)

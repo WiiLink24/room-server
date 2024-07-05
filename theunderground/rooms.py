@@ -27,8 +27,8 @@ def list_room():
 def edit_room(room_id):
     form = RoomForm()
 
-    mii = RoomMiis.query.filter_by(room_id=room_id).first()
-    if not mii:
+    miis = RoomMiis.query.filter_by(room_id=room_id).all()
+    if not miis:
         return exceptions.NotFound()
 
     room = Rooms.query.filter_by(room_id=room_id).first()
@@ -47,9 +47,35 @@ def edit_room(room_id):
         if form.category_logo.data:
             NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
 
-        mii.mii_id = form.mii.data
-        mii.mii_msg = form.mii_msg.data
-        db.session.add(mii)
+        received_length = len(form.mii.data) / 2
+        original_length = RoomMiis.query.filter_by(room_id=room_id).count()
+        if received_length < original_length:
+            # If the edited credits is less than what is in the database, we must delete the removed.
+            RoomMiis.query.filter_by(room_id=room_id).where(
+                RoomMiis.seq > received_length
+            ).delete()
+
+        # We can handle any edits now.
+        seq = 1
+        for i in range(0, int(received_length) * 2, 2):
+            # Query the row
+            data = RoomMiis.query.filter_by(room_id=room_id).filter_by(seq=seq).first()
+            if not data:
+                # Brand new row.
+                db_mii = RoomMiis(
+                    room_id=room_id,
+                    mii_id=form.mii.data[i],
+                    mii_msg=form.mii.data[i + 1],
+                    seq=seq,
+                )
+
+                db.session.add(db_mii)
+            else:
+                data.mii_id = form.mii.data[i]
+                data.mii_msg = form.mii.data[i + 1]
+
+            seq += 1
+
         db.session.commit()
 
         room.bgm = form.bgm.data
@@ -64,8 +90,6 @@ def edit_room(room_id):
     else:
         # Populate our form.
         # This is long and unwieldy...
-        form.mii.data = mii.mii_id
-        form.mii_msg.data = mii.mii_msg
         form.bgm.data = room.bgm
         form.has_mascot.data = room.mascot
         form.intro_msg.data = room.intro_msg
@@ -75,7 +99,12 @@ def edit_room(room_id):
     rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
 
     return render_template(
-        "room_action.html", form=form, room_id=room_id, action="Edit", rooms=rooms
+        "room_action.html",
+        form=form,
+        room_id=room_id,
+        action="Edit",
+        rooms=rooms,
+        miis=miis,
     )
 
 
@@ -101,12 +130,18 @@ def create_room():
         db.session.commit()
 
         # Next, add our Mii.
-        mii = RoomMiis(
-            room_id=room.room_id,
-            mii_id=form.mii.data,
-            mii_msg=form.mii_msg.data,
-        )
-        db.session.add(mii)
+        seq = 1
+        for i in range(0, len(form.mii), 2):
+            # Brand new row.
+            db_mii = RoomMiis(
+                room_id=room.room_id,
+                mii_id=form.mii.data[i],
+                mii_msg=form.mii.data[i + 1],
+                seq=seq,
+            )
+            db.session.add(db_mii)
+            seq += 1
+
         db.session.commit()
 
         # Finally, handle room data - our room logo, and parade banner.

@@ -1,7 +1,14 @@
 from io import BytesIO
 
 
-from flask import render_template, request, flash, redirect, url_for, send_from_directory
+from flask import (
+    render_template,
+    request,
+    flash,
+    redirect,
+    url_for,
+    send_from_directory,
+)
 from asset_data import TVScreenAsset
 from room import app, s3
 from models import IntroInfo, db, ContentTypes

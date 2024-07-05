@@ -37,8 +37,13 @@
             </div>
 
             {{ form.has_mascot.label }}: {{ form.has_mascot(class_="block") }}
-            {{ form.mii.label(class_="label") }} {{ form.mii(class_="input block") }}
-            {{ form.mii_msg.label(class_="label") }} {{ form.mii_msg(class="textarea") }}
+
+            {{ form.mii }}
+            <br>
+            <button type="button" class="button is-info" id="addNewField">Add Mii</button>
+            <button type="button" class="button is-danger" id="removeField">Remove Mii</button>
+            <br>
+            <br>
             {{ form.intro_msg.label(class_="label") }} {{ form.intro_msg(class_="textarea") }}
             {{ form.news.label(class_="label") }} {{ form.news(class_="input block") }}
             {{ form.contact.label(class_="label") }} {{ form.contact(class_="input block") }}
@@ -63,4 +68,112 @@
         </p>
         <p>{{ form.submit(class_="button is-success block") }}</p>
     </form>
+
+    <script>
+        var fieldNum = 0;
+        function createMiiPair() {
+            // Mii ID
+            var newLabel = document.createElement("label")
+            newLabel.className = "label"
+            newLabel.htmlFor = "mii-" + fieldNum;
+            newLabel.textContent = "Mii ID"
+
+            var newTextArea = document.createElement("input");
+            newTextArea.className = "input";
+            newTextArea.id = "mii-" + fieldNum;
+            newTextArea.name = "mii-" + fieldNum;
+            fieldNum++;
+
+            // Mii Message
+            var newLabelName = document.createElement("label")
+            newLabelName.className = "label"
+            newLabelName.htmlFor = "mii-" + fieldNum;
+            newLabelName.textContent = "Mii Message"
+
+            var newTextAreaName = document.createElement("textarea");
+            newTextAreaName.className = "textarea";
+            newTextAreaName.id = "mii-" + fieldNum;
+            newTextAreaName.name = "mii-" + fieldNum;
+            fieldNum++;
+
+            document.getElementById("mii").appendChild(newLabel);
+            document.getElementById("mii").appendChild(newTextArea);
+            document.getElementById("mii").appendChild(document.createElement("br"));
+
+            document.getElementById("mii").appendChild(newLabelName);
+            document.getElementById("mii").appendChild(newTextAreaName);
+            document.getElementById("mii").appendChild(document.createElement("br"));
+
+            doDisableButtons()
+        }
+
+        function doDisableButtons() {
+            if (fieldNum === 2) {
+                document.getElementById("removeField").disabled = true;
+            } else if (fieldNum === 6) {
+                document.getElementById("addNewField").disabled = true;
+            } else {
+                document.getElementById("addNewField").disabled = false;
+                document.getElementById("removeField").disabled = false;
+            }
+        }
+
+        document.getElementById("addNewField").addEventListener("click", createMiiPair);
+        document.getElementById("removeField").addEventListener("click", function(){
+            // Remove last field pair
+            for (var i = 0; i < 6; i++) {
+                document.getElementById("mii").removeChild(document.getElementById("mii").lastChild);
+            }
+
+            // Finally decrement the fieldNum
+            fieldNum -= 2;
+            console.log(fieldNum);
+
+            doDisableButtons();
+        })
+
+        {% if miis|length == 0 %}
+            document.addEventListener("DOMContentLoaded", createMiiPair);
+        {% else %}
+            document.addEventListener("DOMContentLoaded", function () {
+                {% for mii in miis %}
+                // Mii ID
+                var newLabel = document.createElement("label")
+                newLabel.className = "label"
+                newLabel.htmlFor = "mii-" + fieldNum;
+                newLabel.textContent = "Mii ID"
+
+                var newTextArea = document.createElement("input");
+                newTextArea.className = "input";
+                newTextArea.id = "mii-" + fieldNum;
+                newTextArea.name = "mii-" + fieldNum;
+                newTextArea.value = "{{ mii.mii_id }}";
+                fieldNum++;
+
+                // Mii Message
+                var newLabelName = document.createElement("label")
+                newLabelName.className = "label"
+                newLabelName.htmlFor = "mii-" + fieldNum;
+                newLabelName.textContent = "Mii Message"
+
+                var newTextAreaName = document.createElement("textarea");
+                newTextAreaName.className = "textarea";
+                newTextAreaName.id = "mii-" + fieldNum;
+                newTextAreaName.name = "mii-" + fieldNum;
+                newTextAreaName.value = `{{ mii.mii_msg }}`
+                fieldNum++;
+
+                document.getElementById("mii").appendChild(newLabel);
+                document.getElementById("mii").appendChild(newTextArea);
+                document.getElementById("mii").appendChild(document.createElement("br"));
+
+                document.getElementById("mii").appendChild(newLabelName);
+                document.getElementById("mii").appendChild(newTextAreaName);
+                document.getElementById("mii").appendChild(document.createElement("br"));
+
+                doDisableButtons()
+                {% endfor %}
+            });
+        {% endif %}
+    </script>
 {% endblock %}

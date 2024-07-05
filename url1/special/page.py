@@ -12,18 +12,19 @@ from textwrap import wrap
 @app.route("/url1/special/<page>/page.xml")
 @xml_node_name("SpPage")
 def special_page_n(page):
+    room_data = Rooms.query.filter(Rooms.room_id == page).first()
+
     query = (
-        db.session.query(Rooms, RoomMiis, MiiData)
-        .filter(Rooms.room_id == page)
-        .filter(Rooms.room_id == RoomMiis.room_id)
+        db.session.query(RoomMiis, MiiData)
+        .filter(RoomMiis.room_id == page)
         .filter(RoomMiis.mii_id == MiiData.mii_id)
-        .first()
+        .order_by(RoomMiis.seq)
+        .all()
     )
 
     if not query:
         return exceptions.NotFound()
 
-    room_data, room_mii, mii_data = query
     menu_data = db.session.query(RoomMenu).filter(RoomMenu.room_id == page).all()
 
     menus = []
@@ -41,9 +42,26 @@ def special_page_n(page):
             )
         )
 
-    mii_msgs = []
-    for i, msg in enumerate(room_mii.mii_msg.split("\n")):
-        mii_msgs.append(RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 23))}))
+    miis = []
+    for room_mii, mii_data in query:
+        mii_msgs = []
+        for i, msg in enumerate(room_mii.mii_msg.split("\n")):
+            mii_msgs.append(
+                RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 23))})
+            )
+
+        print(room_mii.seq)
+        miis.append(
+            RepeatedElement(
+                {
+                    "seq": room_mii.seq,
+                    "miiid": mii_data.mii_id,
+                    "color1": mii_data.color1,
+                    "color2": mii_data.color2,
+                    "msginfo": mii_msgs,
+                },
+            )
+        )
 
     return {
         "sppageid": page,
@@ -58,13 +76,7 @@ def special_page_n(page):
         # If we have contact data, we should enable contacting.
         "contact": room_data.contact_data is not None,
         "intro": {"inmsginfo": intro_msgs},
-        "miiinfo": {
-            "seq": 1,
-            "miiid": mii_data.mii_id,
-            "color1": mii_data.color1,
-            "color2": mii_data.color2,
-            "msginfo": mii_msgs,
-        },
+        "miiinfo": miis,
         "menu": menus,
         "logo": {
             # We hardcode all parade logo IDs to g1234.

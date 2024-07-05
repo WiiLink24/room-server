@@ -63,7 +63,13 @@ def mii_met(mii_id):
 
         # As seq/msg can repeat within a single msginfo, we add with a RepeatedKey.
         separate[info.type].append(
-            RepeatedElement({"seq": info.seq, "msg": "\n".join(wrap(info.msg, 23)), "face": info.face})
+            RepeatedElement(
+                {
+                    "seq": info.seq,
+                    "msg": "\n".join(wrap(info.msg, 23)),
+                    "face": info.face,
+                }
+            )
         )
 
     # Then, convert all separate types to our actual msginfo type.
@@ -82,7 +88,7 @@ def mii_met(mii_id):
         "color1": mii_metadata.color1,
         "color2": mii_metadata.color2,
         "action": concierge_mii.action.value,
-        "prof": concierge_mii.prof,
+        "prof": "\n".join(wrap(concierge_mii.prof, 20)),
         "name": mii_metadata.name,
         "msginfo": msginfo,
         "movieid": concierge_mii.movie_id,
