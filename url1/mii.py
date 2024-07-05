@@ -88,7 +88,7 @@ def mii_met(mii_id):
         "color1": mii_metadata.color1,
         "color2": mii_metadata.color2,
         "action": concierge_mii.action.value,
-        "prof": concierge_mii.prof,
+        "prof": "\n".join(wrap(concierge_mii.prof, 20)),
         "name": mii_metadata.name,
         "msginfo": msginfo,
         "movieid": concierge_mii.movie_id,
