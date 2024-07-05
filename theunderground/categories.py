@@ -95,7 +95,7 @@ def remove_category(category):
     def drop_category():
         db.session.delete(current_category)
         db.session.commit()
-        os.unlink(NormalCategoryAsset(category).asset_path())
+        NormalCategoryAsset(category).delete()
 
         return redirect(url_for("list_categories"))
 

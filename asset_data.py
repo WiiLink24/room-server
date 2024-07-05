@@ -147,6 +147,31 @@ class NormalCategoryAsset(Asset):
             ExtraArgs={"ContentType": "text/xml"},
         )
 
+    def remove_from_s3(self):
+        s3.delete_object(Bucket=config.r2_bucket_name, Key=self.s3_path())
+
+        # Regenerate the categories
+        s3.upload_fileobj(
+            io.BytesIO(list_category_n("01")),
+            config.r2_bucket_name,
+            "list/category/01.xml",
+            ExtraArgs={"ContentType": "text/xml"},
+        )
+
+        s3.upload_fileobj(
+            io.BytesIO(list_category_n("02")),
+            config.r2_bucket_name,
+            "list/category/02.xml",
+            ExtraArgs={"ContentType": "text/xml"},
+        )
+
+        s3.upload_fileobj(
+            io.BytesIO(list_category_n("03")),
+            config.r2_bucket_name,
+            "list/category/03.xml",
+            ExtraArgs={"ContentType": "text/xml"},
+        )
+
 
 class PayCategoryAsset(Asset):
     """Used for categories within the Theater."""
