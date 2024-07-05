@@ -50,7 +50,6 @@ def special_page_n(page):
                 RepeatedElement({"msgseq": i + 1, "msg": "\n".join(wrap(msg, 20))})
             )
 
-        print(room_mii.seq)
         miis.append(
             RepeatedElement(
                 {
