@@ -16,6 +16,7 @@ def special_page_n(page):
 
     query = (
         db.session.query(RoomMiis, MiiData)
+        .filter(RoomMiis.room_id == page)
         .filter(RoomMiis.mii_id == MiiData.mii_id)
         .order_by(RoomMiis.seq)
         .all()

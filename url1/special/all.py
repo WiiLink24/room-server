@@ -12,6 +12,7 @@ def special_all():
         db.session.query(Rooms, RoomMiis, MiiData)
         .filter(Rooms.room_id == RoomMiis.room_id)
         .filter(RoomMiis.mii_id == MiiData.mii_id)
+        .filter(RoomMiis.seq == 1)
         .order_by(RoomMiis.room_id)
         .all()
     )
