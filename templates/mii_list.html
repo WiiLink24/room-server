@@ -9,6 +9,7 @@
         <tr>
             <th scope="col">Mii ID</th>
             <th scope="col">Avatar</th>
+            <th scope="col">Name</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -18,6 +19,7 @@
                 <td>{{ mii.mii_id }}</td>
                 <td><img width="75" src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii.data.hex() }}"
                          alt="Mii avatar"></td>
+                <td>{{ mii.name }}</td>
                 <td style="text-align: center;">
                     <div class="field has-addons">
                         <p class="control">
