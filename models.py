@@ -281,6 +281,7 @@ class RoomMiis(db.Model):
     )
     # Same thing as intro_msg in Rooms.
     mii_msg = db.Column(db.String)
+    seq = db.Column(db.Integer, nullable=False)
 
 
 class EvaluateData(db.Model):
