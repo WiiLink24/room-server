@@ -275,10 +275,10 @@ class Rooms(db.Model):
 
 
 class RoomMiis(db.Model):
-    room_id = db.Column(
-        db.Integer, db.ForeignKey("rooms.room_id"), primary_key=True, unique=True
+    room_id = db.Column(db.Integer, db.ForeignKey("rooms.room_id"), nullable=False)
+    mii_id = db.Column(
+        db.Integer, db.ForeignKey("mii_data.mii_id"), unique=True, primary_key=True
     )
-    mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
     # Same thing as intro_msg in Rooms.
     mii_msg = db.Column(db.String)
 
