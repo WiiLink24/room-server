@@ -1,7 +1,7 @@
 from io import BytesIO
 
 
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, send_from_directory
 from asset_data import TVScreenAsset
 from room import app, s3
 from models import IntroInfo, db, ContentTypes
@@ -98,3 +98,12 @@ def update_intro_info_on_s3():
     if s3:
         event_xml = event_today()
         s3.upload_fileobj(BytesIO(event_xml), config.r2_bucket_name, "event/today.xml")
+
+
+@app.route("/theunderground/intro_info/<cnt_id>/thumbnail.jpg")
+@oidc.require_login
+def get_info_image(cnt_id):
+    if s3:
+        return redirect(f"{config.url1_cdn_url}/normal-intro/{cnt_id}-1.img")
+
+    return send_from_directory("assets/normal-intro/", f"{cnt_id}-1.img")
