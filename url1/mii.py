@@ -66,7 +66,7 @@ def mii_met(mii_id):
             RepeatedElement(
                 {
                     "seq": info.seq,
-                    "msg": "\n".join(wrap(info.msg, 23)),
+                    "msg": "\n".join(wrap(info.msg, 20)),
                     "face": info.face,
                 }
             )
