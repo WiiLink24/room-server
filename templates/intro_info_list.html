@@ -22,7 +22,7 @@
 
                 {% if info.cnt_type.name == "Image" %}
                     <td><img src="{{ url_for('get_info_image', cnt_id=info.cnt_id) }}" width="200"
-                        alt="Thumbnail for {{ 5 }}"/></td>
+                        alt="Thumbnail for {{ info.cnt_id }}"/></td>
                 {% else %}
                     <td>Not an image</td>
                 {% endif %}
