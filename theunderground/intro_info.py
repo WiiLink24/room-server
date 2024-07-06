@@ -56,7 +56,7 @@ def add_intro_info():
 
         if intro_db.cnt_type == ContentTypes.Video:
             # Videos require the ID to be padded to 16 characters.
-            intro_db.cnt_id = int(str(intro_db.cnt_id).ljust(16, "0"))
+            intro_db.cnt_id = 1000000000000000 + intro_db.cnt_id
             db.session.add(intro_db)
             db.session.commit()
 
