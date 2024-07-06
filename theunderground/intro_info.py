@@ -54,10 +54,12 @@ def add_intro_info():
         db.session.add(intro_db)
         db.session.commit()
 
-        # Max size for IDs is 16.
-        intro_db.cnt_id = 1000000000000000 + intro_db.cnt_id
-        db.session.add(intro_db)
-        db.session.commit()
+        # Wii Room requires video content id's to be 16 characters long.
+        if intro_db.cnt_type == ContentTypes.Video:
+            intro_db.cnt_id = 1000000000000000 + intro_db.cnt_id
+            db.session.add(intro_db)
+            db.session.commit()
+
         update_intro_info_on_s3()
 
         # Now encode image/video.
