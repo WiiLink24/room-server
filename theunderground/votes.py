@@ -6,24 +6,16 @@ import csv
 from flask import (
     render_template,
     redirect,
-    flash,
     send_from_directory,
     request,
-    url_for,
     make_response,
 )
-from flask_wtf.file import FileRequired
-from werkzeug import exceptions
 
 from asset_data import NormalCategoryAsset
 from models import Categories, Movies, EvaluateData
 from room import app, s3
 from theunderground.admin import oidc
-from theunderground.forms import CategoryForm
-from theunderground.operations import manage_delete_item
-from theunderground.mobiclip import (
-    get_movie_path,
-)
+from theunderground.mobiclip import get_movie_path
 
 
 @app.route("/theunderground/votes")
@@ -35,7 +27,7 @@ def votes_list_categories():
     )
 
     votes = {}
-    evaluatedata = movie_vote = EvaluateData.query
+    evaluatedata = EvaluateData.query
 
     movie_vote_count = evaluatedata.count()
 
@@ -103,29 +95,19 @@ def votes_list_movies(category):
     for movie in movies.items:
         movie_vote = evaluatedata.filter_by(movie_id=movie.movie_id)
 
-        movie_vote_count = movie_vote.count()
-
-        movie_vote_t1 = movie_vote.filter_by(vote=1).count()
-        movie_vote_t2 = movie_vote.filter_by(vote=2).count()
-        movie_vote_t3 = movie_vote.filter_by(vote=3).count()
-        movie_vote_t4 = movie_vote.filter_by(vote=4).count()
-
-        movie_gender_t1 = movie_vote.filter_by(gender=1).count()
-        movie_gender_t2 = movie_vote.filter_by(gender=2).count()
-
         votes[movie.movie_id] = {
-            "count": movie_vote_count,
-            "vote.1": movie_vote_t1,
-            "vote.2": movie_vote_t2,
-            "vote.3": movie_vote_t3,
-            "vote.4": movie_vote_t4,
-            "gender.1": movie_gender_t1,
-            "gender.2": movie_gender_t2,
-            "blood.0": 0,
-            "blood.1": 0,
-            "blood.2": 0,
-            "blood.3": 0,
-            "blood.4": 0,
+            "count": movie_vote.count(),
+            "vote.1": movie_vote.filter_by(vote=1).count(),
+            "vote.2": movie_vote.filter_by(vote=2).count(),
+            "vote.3": movie_vote.filter_by(vote=3).count(),
+            "vote.4": movie_vote.filter_by(vote=4).count(),
+            "gender.1": movie_vote.filter_by(gender=1).count(),
+            "gender.2": movie_vote.filter_by(gender=2).count(),
+            "blood.0": movie_vote.filter_by(blood=0).count(),
+            "blood.1": movie_vote.filter_by(blood=1).count(),
+            "blood.2": movie_vote.filter_by(blood=2).count(),
+            "blood.3": movie_vote.filter_by(blood=3).count(),
+            "blood.4": movie_vote.filter_by(blood=4).count(),
             "blood.avg": 0,
             "age.avg": 0,
         }
