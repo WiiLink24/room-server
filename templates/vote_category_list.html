@@ -6,6 +6,23 @@
 {% block table_listing %}
 
     <p>
+        {% if g.oidc_user.logged_in %}
+        <div class="field has-addons" style="display:flex; flex-direction: column; gap: 8px;">
+            <div style="display:flex; flex-direction:row;">
+            <p class="control">
+                <a href="{{ url_for('votes_download') }}"
+                   class="button is-info">
+                    <span class="icon is-small">
+                        <i class="fas fa-download"></i>
+                    </span>
+                    <span>Download CSV</span>
+                </a>
+            </p>
+        </div>
+        {% endif %}
+    </p>
+
+    <p>
         There is a total of {{ votes['count'] }} vote entries.
         <br><br>
         ◎ {{ votes['vote.4'] }} ・ 〇 {{ votes['vote.3'] }} ・ △ {{ votes['vote.2'] }} ・ × {{ votes['vote.1'] }}

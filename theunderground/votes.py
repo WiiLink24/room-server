@@ -1,5 +1,7 @@
 import os
 import config
+import io
+import csv
 
 from flask import (
     render_template,
@@ -8,6 +10,7 @@ from flask import (
     send_from_directory,
     request,
     url_for,
+    make_response,
 )
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
@@ -15,6 +18,7 @@ from werkzeug import exceptions
 from asset_data import NormalCategoryAsset
 from models import Categories, Movies, EvaluateData
 from room import app, s3
+from theunderground.admin import oidc
 from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 from theunderground.mobiclip import (
@@ -143,3 +147,42 @@ def votes_get_movie_thumbnail(movie_id):
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}.img")
 
     return send_from_directory(movie_dir, f"{movie_id}.img")
+
+
+@app.route("/theunderground/votes/data.csv")
+@oidc.require_login
+def votes_download():
+
+    evaluatedata = EvaluateData.query.all()
+
+    si = io.StringIO()
+    cw = csv.writer(si)
+
+    cw.writerow(
+        [
+            "id",
+            "movie_id",
+            "gender",
+            "blood",
+            "age",
+            "vote"
+        ]
+    )
+
+    for data in evaluatedata:
+        cw.writerow(
+            [
+                data.id,
+                data.movie_id,
+                data.gender,
+                data.blood,
+                data.age,
+                data.vote
+            ]
+        )
+
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=votes.csv"
+    output.headers["Content-Type"] = "text/csv"
+
+    return output
