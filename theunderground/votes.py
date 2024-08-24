@@ -140,27 +140,11 @@ def votes_download():
     si = io.StringIO()
     cw = csv.writer(si)
 
-    cw.writerow(
-        [
-            "id",
-            "movie_id",
-            "gender",
-            "blood",
-            "age",
-            "vote"
-        ]
-    )
+    cw.writerow(["id", "movie_id", "gender", "blood", "age", "vote"])
 
     for data in evaluatedata:
         cw.writerow(
-            [
-                data.id,
-                data.movie_id,
-                data.gender,
-                data.blood,
-                data.age,
-                data.vote
-            ]
+            [data.id, data.movie_id, data.gender, data.blood, data.age, data.vote]
         )
 
     output = make_response(si.getvalue())

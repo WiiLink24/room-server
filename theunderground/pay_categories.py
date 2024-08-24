@@ -37,7 +37,9 @@ def add_pay_category():
     form.thumbnail.flags.required = True
 
     if form.validate_on_submit():
-        new_category = PayCategories(name=form.category_name.data)
+        new_category = PayCategories(
+            name=form.category_name.data, sp_page_id=form.room.data
+        )
 
         # Add to retrieve the category ID.
         db.session.add(new_category)
@@ -65,6 +67,7 @@ def edit_pay_category(category):
 
     if form.validate_on_submit():
         current_category.name = form.category_name.data
+        current_category.sp_page_id = form.room.data
         db.session.commit()
 
         # Check if we have a new thumbnail.

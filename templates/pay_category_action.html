@@ -15,6 +15,10 @@
             {{ existing_image('category', url_for('get_pay_category_thumbnail', category=category.category_id)) }}
             {% endif %}
             {{ form.thumbnail(class="block") }}
+            <br>
+            {{ form.room.label(class_="label") }} {{ form.room }}
+            <br>
+            <br>
         </p>
         <p>{{ form.submit(class_="button is-success block") }}</p>
     </form>
