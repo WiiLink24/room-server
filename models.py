@@ -201,6 +201,7 @@ class PayCategories(db.Model):
     name = db.Column(db.String(61))
     # Starts at 10, goes up by 1 each time
     genre_id = db.Column(db.Integer)
+    sp_page_id = db.Column(db.Integer)
 
 
 class PayCategoryHeaders(db.Model):
