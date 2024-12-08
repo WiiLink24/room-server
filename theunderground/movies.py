@@ -159,6 +159,8 @@ def edit_movie(movie_id):
                 flash("Invalid DS movie")
                 return render_template("movie_action.html", form=form, action="Edit")
 
+            movie.ds_mov_id = movie.movie_id
+
         save_movie_data(movie.movie_id, thumbnail_data, movie_data, ds_movie_data)
 
         # Finally update the title, genre and category.
