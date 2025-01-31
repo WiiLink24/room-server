@@ -36,7 +36,15 @@
                                 <span>Edit Poster</span>
                             </a>
                         </p>
-
+                        <p class="control">
+                            <a href="{{ url_for('get_pay_poster_movie', poster_id=poster.poster_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span>Download</span>
+                            </a>
+                        </p>
                         <p class="control">
                             <a href="{{ url_for('remove_pay_poster', poster=poster.poster_id) }}" class="button is-danger">
                             <span class="icon is-small">

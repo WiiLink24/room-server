@@ -1,6 +1,6 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
-from flask import render_template, flash, url_for, redirect
+from flask import render_template, flash, url_for, redirect, send_file
 from werkzeug import exceptions
 
 from theunderground.forms import PayPosterForm
@@ -124,3 +124,10 @@ def remove_pay_poster(poster):
 @oidc.require_login
 def get_pay_poster(poster):
     return PosterAsset(poster, is_theatre=True).send_file()
+
+
+
+@app.route("/theunderground/payposters/<poster_id>/movie.emo", methods=["GET", "POST"])
+@oidc.require_login
+def get_pay_poster_movie(poster_id):
+    return send_file(PayMovieAsset(poster_id).asset_path())
