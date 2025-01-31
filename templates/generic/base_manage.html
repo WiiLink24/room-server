@@ -28,14 +28,14 @@
 
     {% if type_length == 0 %}
         <div class="notification is-danger">
-            You have no {{ type_name }}. Wii no Ma will break. Please add some {{ type_name }}.
+            You have no {{ type_name }}. Wii Room (Wiiの間) will break. Please add some {{ type_name }}.
         </div>
     {% elif type_length == 1 %}
         <h2 class="subtitle">There is currently <strong>1</strong> {{ self.type_name_singular() }}.</h2>
     {% elif type_length >= type_max_count %}
         <span class="warning">
             There are currently <strong>{{ type_length }}</strong> {{ type_name }}.
-            Wii no Ma can only handle up to {{ type_max_count }}.
+            Wii Room (Wiiの間) can only handle up to {{ type_max_count }}.
             Please remove some {{ type_name }}.
         </span>
     {% else %}
