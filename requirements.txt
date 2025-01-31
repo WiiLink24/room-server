@@ -17,3 +17,4 @@ APScheduler
 wtforms>=3.1.2
 rsa>=4.9
 requests>=2.32.3
+pytz
