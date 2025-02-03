@@ -27,7 +27,7 @@ def list_pay_posters():
         posters=posters,
         type_length=posters.total,
         # I mean not really, but we should never have this much ever
-        type_max_count=2,
+        type_max_count=20,
     )
 
 
