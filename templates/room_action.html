@@ -70,6 +70,23 @@
     </form>
 
     <script>
+        function unSanitize(string) {
+            const map = {
+                "&amp;": "&",
+                "&lt;": "<",
+                "&gt;": ">",
+                '&#39;': "'",
+                "&#x2F;": "/"
+            }
+
+            let str = string;
+            for (const [key, value] of Object.entries(map)) {
+                str = str.replace(key, value);
+            }
+
+            return str;
+        }
+
         var fieldNum = 0;
         function createMiiPair() {
             // Mii ID
@@ -160,7 +177,7 @@
                 newTextAreaName.className = "textarea";
                 newTextAreaName.id = "mii-" + fieldNum;
                 newTextAreaName.name = "mii-" + fieldNum;
-                newTextAreaName.value = `{{ mii.mii_msg }}`
+                newTextAreaName.value = unSanitize(`{{ mii.mii_msg }}`)
                 fieldNum++;
 
                 document.getElementById("mii").appendChild(newLabel);
