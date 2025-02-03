@@ -13,6 +13,7 @@
             <th scope="col">DSi Movie ID</th>
             <th scope="col">Name</th>
             <th scope="col">Length</th>
+            <th scope="col">Unlisted</th>
             <th scope="col">Thumbnail</th>
             <th scope="col">Actions</th>
         </tr>
@@ -28,6 +29,7 @@
                 {% endif %}
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.length }}</td>
+                <td>{{ movie.unlisted }}</td>
                 <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
                          alt="Thumbnail for {{ movie.movie_id }}"/></td>
                 <td>
@@ -83,6 +85,15 @@
                                     <i class="fa-solid fa-edit"></i>
                                 </span>
                                 <span>Edit</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('toggle_movie_listed', category=category_id, movie_id=movie.movie_id) }}"
+                               class="button is-info">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-edit"></i>
+                                </span>
+                                <span>Toggle Listed</span>
                             </a>
                         </p>
                         <p class="control">

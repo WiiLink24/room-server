@@ -170,6 +170,7 @@ class Movies(db.Model):
     ds_mov_id = db.Column(db.Integer, nullable=True)
     staff = db.Column(db.Boolean, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False, server_default=func.now())
+    unlisted = db.Column(db.Boolean, nullable=False, default=False)
 
     search_vector = db.Column(TSVectorType("title"))
 

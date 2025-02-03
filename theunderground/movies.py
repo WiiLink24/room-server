@@ -52,6 +52,14 @@ def list_movies(category):
     )
 
 
+@app.route("/theunderground/movies/<category>/<movie_id>/listed")
+def toggle_movie_listed(category, movie_id):
+    movie = Movies.query.filter_by(movie_id=movie_id).first()
+    movie.unlisted = not movie.unlisted
+    db.session.commit()
+    return redirect(url_for("list_movies", category=category))
+
+
 @app.route("/theunderground/movies/add", methods=["GET", "POST"])
 @oidc.require_login
 def add_movie():
