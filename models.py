@@ -376,3 +376,12 @@ class ConciergeMovies(db.Model):
     )
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), nullable=False)
     mii_id = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"), nullable=False)
+
+
+class Logs(db.Model):
+    id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True, nullable=False, unique=True
+    )
+    action = db.Column(db.String, nullable=False)
+    user = db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)

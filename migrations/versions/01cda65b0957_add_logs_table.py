@@ -25,6 +25,7 @@ create table logs
         primary key,
     action varchar not null,
     "user" varchar not null
+    timestamp timestamp not null
 );
      """
     )
