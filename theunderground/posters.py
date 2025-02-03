@@ -11,6 +11,7 @@ from models import Posters, db
 from room import app, s3
 from url1.event_today import event_today
 from flask_wtf.file import FileRequired
+from theunderground.logging import log_action
 import config
 
 
@@ -53,6 +54,7 @@ def add_poster():
         else:
             flash("Error uploading asset!")
 
+        log_action(f"Poster {db_poster.poster_id} was added")
         return redirect(url_for("list_posters"))
 
     return render_template("poster_action.html", form=form, action="Upload")
@@ -84,6 +86,7 @@ def edit_poster(poster_id):
                 BytesIO(event_xml), config.r2_bucket_name, "event/today.xml"
             )
 
+        log_action(f"Poster {poster_id} was edited")
         return redirect(url_for("list_posters"))
     else:
         form.title.data = poster.title
@@ -104,6 +107,7 @@ def remove_poster(poster: int):
 
         PosterAsset(poster, False).delete()
 
+        log_action(f"Poster {poster} was removed")
         return redirect(url_for("list_posters"))
 
     return manage_delete_item(poster, "poster", drop_poster)

@@ -18,6 +18,7 @@ from theunderground.forms import (
 from theunderground.mobiclip import validate_mobiclip, validate_mobi_dsi
 from url1.special import room_content_types as tv
 from url1.special.page import special_page_n
+from theunderground.logging import log_action
 from theunderground.room_paths import (
     save_delivery_data,
     save_vote_data,
@@ -108,6 +109,8 @@ def delivery(room_id):
                 db.session.commit()
 
                 save_page_xml_to_s3(room_id)
+
+                log_action(f"Delivery content {db_json.id} for room {room_id} was added")
                 return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")
@@ -157,6 +160,8 @@ def poll(room_id):
             db.session.commit()
 
             save_page_xml_to_s3(room_id)
+
+            log_action(f"Poll content {db_json.id} for room {room_id} was added")
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading movie!")
@@ -185,6 +190,8 @@ def movie(room_id):
             db.session.commit()
 
             save_page_xml_to_s3(room_id)
+
+            log_action(f"Movie content {db_json.id} for room {room_id} was added")
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading movie!")
@@ -233,6 +240,8 @@ def link(room_id):
                 db.session.commit()
 
                 save_page_xml_to_s3(room_id)
+
+                log_action(f"Link content {db_json.id} for room {room_id} was added")
                 return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")
@@ -282,6 +291,8 @@ def pic(room_id):
             db.session.commit()
 
             save_page_xml_to_s3(room_id)
+
+            log_action(f"Picture content {db_json.id} for room {room_id} was added")
             return redirect(url_for("list_room_data", room_id=room_id))
         else:
             flash("Error uploading picture!")
@@ -336,6 +347,8 @@ def coupon(room_id):
                     db.session.commit()
 
                     save_page_xml_to_s3(room_id)
+
+                    log_action(f"Coupon content {db_json.id} for room {room_id} was added")
                     return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")

@@ -10,6 +10,7 @@ from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from url1.event_today import event_today
+from theunderground.logging import log_action
 
 import config
 
@@ -41,6 +42,7 @@ def edit_news(news_id):
         db.session.commit()
 
         update_news_on_s3()
+        log_action(f"News {news_id} edited")
         return redirect(url_for("list_news"))
 
     # Populate with existing news.
@@ -59,6 +61,8 @@ def add_news():
         db.session.commit()
 
         update_news_on_s3()
+
+        log_action(f"News {created_news.id} added")
         return redirect(url_for("list_news"))
 
     return render_template("news_action.html", action="Add", form=form)
@@ -70,6 +74,8 @@ def remove_news(news_id):
     def drop_news():
         db.session.delete(News.query.filter_by(id=news_id).first())
         db.session.commit()
+
+        log_action(f"News {news_id} removed")
         return redirect(url_for("list_news"))
 
     return manage_delete_item(news_id, "news", drop_news)

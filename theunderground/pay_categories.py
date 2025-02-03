@@ -11,6 +11,7 @@ from theunderground.forms import CategoryForm, PayCategoryHeaderForm
 from theunderground.mobiclip import get_room_list
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/paycategories")
@@ -49,6 +50,8 @@ def add_pay_category():
 
         # With this ID, write the thumbnail.
         PayCategoryAsset(new_category.category_id).encode(form.thumbnail)
+
+        log_action(f"Pay category {new_category.category_id} added")
         return redirect(url_for("list_pay_categories"))
 
     return render_template("pay_category_action.html", form=form, action="Add")
@@ -77,6 +80,7 @@ def edit_pay_category(category):
         if form.thumbnail.data:
             PayCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
+        log_action(f"Pay category {category} edited")
         return redirect(url_for("list_pay_categories"))
     else:
         # Populate the current name.
@@ -96,6 +100,7 @@ def remove_pay_category(category):
         db.session.delete(current_category)
         db.session.commit()
 
+        log_action(f"Pay category {category} removed")
         return redirect(url_for("list_pay_categories"))
 
     current_category = PayCategories.query.filter(
@@ -133,6 +138,7 @@ def add_pay_category_header():
         db.session.add(new_header)
         db.session.commit()
 
+        log_action(f"Pay category header {new_header.title} added")
         return redirect(url_for("list_pay_category_headers"))
 
     return render_template("pay_category_header_action.html", form=form, action="Add")
@@ -157,6 +163,7 @@ def edit_pay_category_header(title):
         current_category.title = form.title.data
         db.session.commit()
 
+        log_action(f"Pay category header {title} edited")
         return redirect(url_for("list_pay_category_headers"))
     else:
         # Populate the current name.
@@ -175,6 +182,7 @@ def remove_pay_category_header(title):
         db.session.delete(current_category)
         db.session.commit()
 
+        log_action(f"Pay category header {title} removed")
         return redirect(url_for("list_pay_category_headers"))
 
     current_category = PayCategoryHeaders.query.filter(

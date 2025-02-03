@@ -4,6 +4,7 @@ from . import (
     concierge,
     credits,
     intro_info,
+    logging,
     miis,
     movies,
     news,

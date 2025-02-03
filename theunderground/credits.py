@@ -9,6 +9,7 @@ from room import app
 from theunderground.forms import CreditsForm
 from theunderground.admin import oidc
 from werkzeug import exceptions
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/movies/<movie_id>/credits/add", methods=["GET", "POST"])
@@ -36,6 +37,7 @@ def add_credits(movie_id):
             order += 1
 
         db.session.commit()
+        log_action(f"Credits for movie ID {movie_id} was added")
         return redirect(url_for("list_categories"))
 
     return render_template("credits_add.html", form=form)
@@ -86,6 +88,7 @@ def edit_credits(movie_id):
             order += 1
 
         db.session.commit()
+        log_action(f"Credits for movie ID {movie_id} was removed")
         return redirect(url_for("list_categories"))
     else:
         queried_credits = (

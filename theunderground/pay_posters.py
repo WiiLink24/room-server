@@ -6,6 +6,7 @@ from werkzeug import exceptions
 from theunderground.forms import PayPosterForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 from asset_data import PosterAsset, PayMovieAsset
 from models import PayPosters, db
 from room import app
@@ -66,6 +67,7 @@ def add_pay_poster():
             flash("Error uploading poster!")
             return redirect(url_for("list_pay_posters"))
 
+        log_action(f"Pay Poster {db_poster.poster_id} was added")
         return redirect(url_for("list_pay_posters"))
 
     return render_template("pay_poster_action.html", form=form, action="Upload")
@@ -97,6 +99,8 @@ def edit_pay_poster(poster_id):
             PosterAsset(poster.poster_id, True).encode(form.poster)
 
         db.session.commit()
+
+        log_action(f"Pay Poster {poster_id} was edited")
         return redirect(url_for("list_pay_posters"))
     else:
         form.msg.data = poster.msg
@@ -115,6 +119,7 @@ def remove_pay_poster(poster):
         db.session.delete(PayPosters.query.filter_by(poster_id=poster).first())
         db.session.commit()
 
+        log_action(f"Pay Poster {poster} was removed")
         return redirect(url_for("list_pay_posters"))
 
     return manage_delete_item(poster, "pay poster", drop_pay_poster)

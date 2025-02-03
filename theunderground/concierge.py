@@ -14,6 +14,7 @@ from url1.mii import obtain_mii, mii_met
 from werkzeug import exceptions
 from asset_data import NormalCategoryAsset
 from url1.category_search import list_category_search
+from theunderground.logging import log_action
 
 import config
 import requests
@@ -79,6 +80,7 @@ def add_concierge(mii_id):
         db.session.add(concierge_data)
         db.session.commit()
 
+        log_action(f"Concierge Mii {concierge_data.mii_id} added")
         update_mii_on_s3(mii_id)
         return redirect(url_for("list_concierge"))
 
@@ -118,6 +120,7 @@ def edit_concierge(mii_id):
         db.session.commit()
 
         update_mii_on_s3(mii_id)
+        log_action(f"Concierge Mii {retrieved_data[0][0].mii_id} added")
         return redirect(url_for("list_concierge"))
     else:
         # Populate the data
@@ -138,6 +141,7 @@ def remove_concierge(mii_id):
         db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
         db.session.commit()
 
+        log_action(f"Concierge Mii {mii_id} added")
         NormalCategoryAsset(20000 + int(mii_id)).delete()
         return redirect(url_for("list_concierge"))
 
@@ -195,6 +199,7 @@ def add_concierge_movie(mii_id):
             xml_path = f"list/category/search/{20000 + int(mii_id)}"
             s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
+        log_action(f"Concierge Mii {mii_id}'s movie with ID {form.movie_id.data} added")
         return redirect(url_for("list_concierge_movies", mii_id=mii_id))
 
     return render_template("concierge_movie_add.html", form=form)
@@ -220,6 +225,7 @@ def remove_concierge_movie(mii_id, movie_id):
             xml_path = f"list/category/search/{20000 + int(mii_id)}"
             s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
+        log_action(f"Concierge Mii {mii_id}'s movie with ID {movie_id} added")
         return redirect(url_for("list_concierge"))
 
     return manage_delete_item(movie_id, "Concierge Mii Movie", drop_concierge_movie)

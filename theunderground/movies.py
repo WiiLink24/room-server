@@ -28,6 +28,7 @@ from theunderground.admin import oidc
 from room import s3
 import config
 from url1.category_search import list_category_search
+from theunderground.logging import log_action
 from io import BytesIO
 
 
@@ -111,6 +112,7 @@ def add_movie():
                     xml_path = f"list/category/search/{form.category.data}"
                     s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
+                log_action(f"Movie ID {db_movie.movie_id} added")
                 return redirect(url_for("list_categories"))
             else:
                 flash("Invalid movie!")
@@ -175,6 +177,7 @@ def edit_movie(movie_id):
             xml_path = f"list/category/search/{form.category.data}"
             s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
+        log_action(f"Movie ID {movie_id} edited")
         return redirect(url_for("list_categories"))
     else:
         form.title.data = movie.title
@@ -217,6 +220,7 @@ def remove_movie(movie_id):
 
         delete_movie_data(movie_id, has_ds)
 
+        log_action(f"Movie ID {movie_id} removed")
         return redirect(url_for("list_categories"))
 
     return manage_delete_item(movie_id, "movie", drop_movie)

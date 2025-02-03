@@ -8,6 +8,7 @@ from models import MiiData, db
 from room import app
 from theunderground.forms import MiiUploadForm
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/miis")
@@ -47,6 +48,8 @@ def add_mii():
                 )
                 db.session.add(insert_row)
                 db.session.commit()
+
+                log_action(f"Mii ID {insert_row.mii_id} was added")
                 return redirect(url_for("list_miis"))
             else:
                 flash("Invalid Mii uploaded")

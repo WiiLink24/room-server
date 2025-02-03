@@ -18,6 +18,7 @@ from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from werkzeug import exceptions
 from url1.event_today import event_today
+from theunderground.logging import log_action
 
 import config
 
@@ -79,6 +80,7 @@ def add_intro_info():
         else:
             flash("Error uploading asset!")
 
+        log_action(f"Intro Info {intro_db.cnt_id} was added")
         return redirect(url_for("list_intro_info"))
 
     return render_template("intro_info_add.html", form=form)
@@ -91,6 +93,7 @@ def remove_intro_info(id):
         db.session.delete(current_info)
         db.session.commit()
 
+        log_action(f"Intro Info {id} was removed")
         return redirect(url_for("list_intro_info"))
 
     current_info = IntroInfo.query.filter(IntroInfo.cnt_id == id).first()

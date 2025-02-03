@@ -21,6 +21,7 @@ from theunderground.mobiclip import (
 from theunderground.forms import PayMovieUploadForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/paycategories/<category>")
@@ -83,6 +84,7 @@ def add_pay_movie():
                     db_movie.movie_id, thumbnail_data, movie_data, poster_data
                 )
 
+                log_action(f"Pay Movie {db_movie.movie_id} added")
                 return redirect(url_for("list_pay_categories"))
             else:
                 flash("Invalid movie!")
@@ -101,6 +103,7 @@ def remove_pay_movie(movie_id):
 
         delete_pay_movie_data(movie_id)
 
+        log_action(f"Pay Movie {movie_id} removed")
         return redirect(url_for("list_pay_categories"))
 
     return manage_delete_item(movie_id, "pay movie", drop_pay_movie)

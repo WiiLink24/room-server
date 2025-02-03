@@ -10,6 +10,7 @@ from theunderground.forms import RoomForm
 from room import app, s3
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 import config
 
 
@@ -86,6 +87,7 @@ def edit_room(room_id):
         db.session.add(room)
         db.session.commit()
 
+        log_action(f"Room ID {room_id} was edited")
         return redirect(url_for("list_room"))
     else:
         # Populate our form.
@@ -149,6 +151,7 @@ def create_room():
         ParadeBannerAsset(room.room_id).encode(form.parade_banner)
         NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
 
+        log_action(f"Room ID {room.room_id} was added")
         return redirect(url_for("list_room"))
 
     return render_template("room_action.html", form=form, action="Create")
@@ -168,6 +171,7 @@ def remove_room(room_id):
             # Delete from S3
             ParadeBannerAsset(room_id).remove_from_s3()
 
+        log_action(f"Room ID {room_id} was removed")
         return redirect(url_for("list_room"))
 
     return manage_delete_item(room_id, "room", drop_room)

@@ -7,6 +7,7 @@ from flask import render_template, send_from_directory, redirect, url_for
 from models import RoomMenu, db
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/rooms/<room_id>")
@@ -49,6 +50,8 @@ def remove_tv_item(room_id, data_id, image_id):
         db.session.delete(RoomMenu.query.filter_by(id=data_id).first())
         db.session.commit()
         os.remove(f"./assets/special/{room_id}/{image_id}.img")
+
+        log_action(f"Content {data_id} for room {room_id} was removed")
         return redirect(url_for("list_room_data", room_id=room_id))
 
     return manage_delete_item(data_id, "Room Data", drop_tv_item)

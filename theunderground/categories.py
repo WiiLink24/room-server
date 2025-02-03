@@ -12,6 +12,7 @@ from theunderground.forms import CategoryForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.mobiclip import get_room_list
+from theunderground.logging import log_action
 
 
 @app.route("/theunderground/categories")
@@ -50,6 +51,8 @@ def add_category():
 
         # With this ID, write the thumbnail.
         NormalCategoryAsset(new_category.category_id).encode(form.thumbnail)
+
+        log_action(f"Category {new_category.category_id} added")
         return redirect(url_for("list_categories"))
 
     return render_template("category_action.html", form=form, action="Add")
@@ -78,6 +81,7 @@ def edit_category(category):
         if form.thumbnail.data:
             NormalCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
+        log_action(f"Category {current_category.category_id} edited")
         return redirect(url_for("list_categories"))
     else:
         # Populate the current name.
@@ -97,6 +101,7 @@ def remove_category(category):
         db.session.commit()
         NormalCategoryAsset(category).delete()
 
+        log_action(f"Category {category} removed")
         return redirect(url_for("list_categories"))
 
     current_category = Categories.query.filter(
