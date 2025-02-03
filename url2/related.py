@@ -24,6 +24,7 @@ def related():
 
     movies = (
         Movies.query.filter(Movies.category_id == category_id)
+        .filter(Movies.unlisted == False)
         .order_by(Movies.date_added)
         .limit(15)
         .all()
@@ -79,6 +80,7 @@ def pay_related():
 
     movies = (
         PayMovies.query.filter(PayMovies.category_id == category_id)
+        .filter(Movies.unlisted == False)
         .order_by(PayMovies.date_added)
         .limit(4)
         .all()

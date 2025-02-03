@@ -11,6 +11,7 @@ def list_category_search(categ_id):
     if categ_id < 20000:
         retrieved_data = (
             Movies.query.filter(Movies.category_id == categ_id)
+            .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())
             .limit(100)
             .all()
@@ -20,6 +21,7 @@ def list_category_search(categ_id):
         retrieved_data = (
             Movies.query.filter(Movies.movie_id == ConciergeMovies.movie_id)
             .filter(ConciergeMovies.mii_id == categ_id - 20000)
+            .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())
             .limit(100)
             .all()
@@ -28,6 +30,7 @@ def list_category_search(categ_id):
         retrieved_data = (
             Movies.query.filter(Movies.sp_page_id == Rooms.room_id)
             .filter(Rooms.room_id == categ_id - 30000)
+            .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())
             .limit(100)
             .all()
