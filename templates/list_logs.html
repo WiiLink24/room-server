@@ -1,0 +1,58 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}logs{% endblock %}
+{% block type_name_singular %}log{% endblock %}
+
+{% block table_listing %}
+    <br>
+    <a href="{{ url_for('admin') }}">Return to Main</a>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Action</th>
+            <th scope="col">User</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in logs.items %}
+            <tr>
+                <td>{{ log.timestamp }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.user }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <!-- Previous/Next -->
+    {% if logs.has_prev %}
+        <a href="{{ url_for('show_logs', page=logs.prev_num) }}">&lt; Previous</a>
+    {% else %}
+        &lt; Previous
+    {% endif %}
+    |
+    {% if logs.has_next %}
+        <a href="{{ url_for('show_logs', page=logs.next_num) }}">Next &gt;</a>
+    {% else %}
+        Next &gt;
+    {% endif %}
+    <br/>
+
+    <!-- First/Last -->
+    <!-- Ensure we are not on the first page. -->
+    {% if logs.page != 1 %}
+        <a href="{{ url_for('show_logs', page=1) }}">&lt;&lt; First</a>
+    {% else %}
+        &lt;&lt; First
+    {% endif %}
+    |
+    <!-- Ensure we are not on the last page. -->
+    {% if logs.page != logs.pages %}
+        <a href="{{ url_for('show_logs', page=logs.pages) }}">Last &gt;&gt;</a>
+    {% else %}
+        Last &gt;&gt;
+    {% endif %}
+{% endblock %}
