@@ -5,11 +5,12 @@ from flask import session, render_template, request
 import datetime
 from theunderground.admin import oidc
 
+
 def log_action(action: str):
     obj = Logs(
         action=action,
         user=session["oidc_auth_profile"]["nickname"],
-        timestamp= datetime.datetime.now()
+        timestamp=datetime.datetime.now(),
     )
 
     db.session.add(obj)

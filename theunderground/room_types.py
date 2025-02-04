@@ -110,7 +110,9 @@ def delivery(room_id):
 
                 save_page_xml_to_s3(room_id)
 
-                log_action(f"Delivery content {db_json.id} for room {room_id} was added")
+                log_action(
+                    f"Delivery content {db_json.id} for room {room_id} was added"
+                )
                 return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")
@@ -348,7 +350,9 @@ def coupon(room_id):
 
                     save_page_xml_to_s3(room_id)
 
-                    log_action(f"Coupon content {db_json.id} for room {room_id} was added")
+                    log_action(
+                        f"Coupon content {db_json.id} for room {room_id} was added"
+                    )
                     return redirect(url_for("list_room_data", room_id=room_id))
             else:
                 flash("Invalid movie!")

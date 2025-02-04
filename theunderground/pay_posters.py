@@ -131,7 +131,6 @@ def get_pay_poster(poster):
     return PosterAsset(poster, is_theatre=True).send_file()
 
 
-
 @app.route("/theunderground/payposters/<poster_id>/movie.emo", methods=["GET", "POST"])
 @oidc.require_login
 def get_pay_poster_movie(poster_id):
