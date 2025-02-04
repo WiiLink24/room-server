@@ -36,7 +36,7 @@ class NewsForm(FlaskForm):
 
 
 class MiiUploadForm(FlaskForm):
-    mii = FileField("Mii Selection", validators=[FileRequired()])
+    mii = FileField("Mii Selection")
     name = StringField("Mii Name", validators=[DataRequired(), Length(max=10)])
     color1 = StringField(
         "Shirt Color (Hex)", validators=[DataRequired(), Length(max=6)]
