@@ -43,11 +43,13 @@ def list_movies(category):
         page=page_num, per_page=20, error_out=False
     )
 
+    unlisted_movies = Movies.query.filter(Movies.unlisted == True).all()
+
     return render_template(
         "movie_list.html",
         movies=movies,
         category_id=category,
-        type_length=movies.total,
+        type_length=movies.total - len(unlisted_movies),
         type_max_count=64,
     )
 
