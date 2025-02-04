@@ -24,12 +24,22 @@ def list_categories():
         page=page_num, per_page=15, error_out=False
     )
 
+    unlisted_categories = Categories.query.filter(Categories.unlisted == True).all()
+
     return render_template(
         "category_list.html",
         categories=categories,
-        type_length=categories.total,
+        type_length=categories.total - len(unlisted_categories),
         type_max_count=64,
     )
+
+
+@app.route("/theunderground/movies/<category>/listed")
+def toggle_category_listed(category):
+    category = Categories.query.filter_by(category_id=category).first()
+    category.unlisted = not category.unlisted
+    db.session.commit()
+    return redirect(url_for("list_categories"))
 
 
 @app.route("/theunderground/categories/add", methods=["GET", "POST"])
