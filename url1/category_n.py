@@ -14,7 +14,7 @@ def list_category_n(list_id):
     match list_id:
         case "01":
             queried_categories = (
-                Categories.query.order_by(Categories.name.asc()).limit(64).all()
+                Categories.query.filter(Categories.unlisted == False).order_by(Categories.name.asc()).limit(64).all()
             )
 
             for i, category in enumerate(queried_categories):
