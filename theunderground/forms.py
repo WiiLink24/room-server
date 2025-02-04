@@ -151,6 +151,9 @@ class RoomLinkData(FlaskForm):
         choices=RoomContentBGMTypes.choices(),
         coerce=RoomContentBGMTypes.coerce,
     )
+    is_internet_channel = BooleanField(
+        "Launch Internet Channel", validators=[DataRequired()]
+    )
     title = TextAreaField("Title", validators=[DataRequired(), Length(max=47)])
     link = StringField("Link", validators=[DataRequired(), Length(max=100)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])

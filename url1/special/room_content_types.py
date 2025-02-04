@@ -61,14 +61,14 @@ def coupon(num, id, title):
     }
 
 
-def link(num, id, title, link, bgm):
+def link(num, id, title, link, bgm, is_internet_channel):
     return {
         "type": 5,
         "imageid": f"h{num}",
         "link": {
             "linkid": id,
             "linktitle": title,
-            "linktype": 1,
+            "linktype": is_internet_channel,
             "linkmov": 1,
             "linkmovap": 1,
             "linkpicnum": 1,

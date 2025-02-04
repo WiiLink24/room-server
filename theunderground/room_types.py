@@ -225,6 +225,7 @@ def link(room_id):
                         form.title.data,
                         form.link.data,
                         form.bgm.data.value,
+                        int(form.is_internet_channel.data),
                     ),
                 )
 
