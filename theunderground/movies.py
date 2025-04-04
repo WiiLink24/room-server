@@ -9,7 +9,7 @@ from flask import (
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
-from models import Movies, db
+from models import Movies, db, MovieCredits
 from room import app
 from theunderground.mobiclip import (
     get_category_list,
@@ -227,6 +227,9 @@ def save_ds_movie(movie_id):
 @oidc.require_login
 def remove_movie(movie_id):
     def drop_movie():
+        # Remove the credits first
+        MovieCredits.query.filter_by(movie_id=movie_id).delete()
+
         movie = Movies.query.filter_by(movie_id=movie_id).first()
         has_ds = movie.ds_mov_id is not None
         db.session.delete(movie)
