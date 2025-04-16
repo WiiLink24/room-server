@@ -1,7 +1,7 @@
 """Reset Migrations
 
 Revision ID: 357b58eaf27b
-Revises: 
+Revises:
 Create Date: 2024-06-29 17:02:21.005371
 
 """
