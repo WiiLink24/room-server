@@ -57,6 +57,38 @@ def xml_node_name(node_name):
     return decorator
 
 
+def xml_node_name_update(node_name):
+    """Custom decorator to serialize a returned dictionary as XML with a given name."""
+
+    def decorator(func):
+        @functools.wraps(func)
+        def serialization_wrapper(*args, **kwargs):
+            returned_value = func(*args, **kwargs)
+
+            # Ensure we are truly dealing with a dictionary.
+            if isinstance(returned_value, dict):
+                # First, serialize to an ETree.
+                elements = dict_to_etree(node_name, returned_value)
+
+                # Next, insert a 'ver' key at the very top.
+                # In v1025, versions must equate to 3 once divided by 100.
+                # As such, 399 was chosen for no other reason than the fact this is true.
+                # v770 requires a version of 1.
+                ver = etree.SubElement(elements, "ver")
+                ver.text = "9998"
+                elements.insert(0, ver)
+
+                # We now must convert from ETree to actual XML we can respond with.
+                return etree.tostring(elements, pretty_print=True)
+            else:
+                # We only apply XML operations to dicts.
+                return returned_value
+
+        return serialization_wrapper
+
+    return decorator
+
+
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     """Derived from https://stackoverflow.com/a/10076823."""
 
