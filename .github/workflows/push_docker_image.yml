@@ -8,7 +8,7 @@ on:
 jobs:
   push_docker_image:
     name: Push Docker image to GitHub Packages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
