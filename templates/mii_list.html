@@ -84,14 +84,20 @@
                                 <div class="flex items-center space-x-5">
                                     <div class="relative flex-shrink-0">
                                         <!-- Color accent ring based on shirt color -->
-                                        <div class="absolute inset-0 rounded-full blur-md opacity-50" 
+                                        <div class="absolute inset-0 rounded-full opacity-50" 
                                              style="background-color: #{{ mii.color1 }}"></div>
                                              
-                                        <!-- Mii avatar -->
-                                        <div class="relative flex-shrink-0 h-20 w-20 rounded-full overflow-hidden ring-2 ring-gray-600 ring-offset-2 ring-offset-gray-800">
+                                        <div class="relative flex-shrink-0 h-20 w-20 rounded-full overflow-hidden ring-2 ring-gray-600 ring-offset-2 ring-offset-gray-800 bg-gradient-to-br from-pink-900/30 to-purple-900/30">
+                                            <!-- Loading spinner (shows while image loads) -->
+                                            <div class="absolute inset-0 flex items-center justify-center loading-indicator">
+                                                <img src="/static/icon/loading.gif" alt="Loading" class="h-5 w-5 brightness-[5000%]" />
+                                            </div>
+                                            
+                                            <!-- Mii image (hidden until loaded) -->
                                             <img src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii.data.hex() }}" 
                                                  alt="Mii avatar for {{ mii.name }}" 
-                                                 class="h-full w-full object-cover bg-gradient-to-br from-pink-900/30 to-purple-900/30" />
+                                                 class="h-full w-full object-cover opacity-0 transition-opacity duration-300"
+                                                 onload="this.classList.replace('opacity-0', 'opacity-100'); this.previousElementSibling.style.display = 'none';" />
                                         </div>
                                     </div>
                                     

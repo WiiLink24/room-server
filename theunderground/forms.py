@@ -183,23 +183,44 @@ class DeleteForm(FlaskForm):
 
 
 class ConciergeForm(FlaskForm):
+    prof = TextAreaField("Profession", validators=[DataRequired(), Length(max=129)])
+
     action = SelectField(
         "Mii Action",
         choices=ConciergeMiiActions.choices(),
         coerce=ConciergeMiiActions.coerce,
     )
-
-    prof = TextAreaField("Profession", validators=[DataRequired(), Length(max=129)])
+    
+    # Message fields
     message1 = TextAreaField("Message 1", validators=[DataRequired()])
-    message2 = TextAreaField("Message 2", validators=[DataRequired()])
-    message3 = TextAreaField("Message 3", validators=[DataRequired()])
-    message4 = TextAreaField("Message 4", validators=[DataRequired()])
-    message5 = TextAreaField("Message 5", validators=[DataRequired()])
-    message6 = TextAreaField("Message 6", validators=[DataRequired()])
-    message7 = TextAreaField("Message 7", validators=[DataRequired()])
+    message2 = TextAreaField("Message 2", validators=[])
+    message3 = TextAreaField("Message 3", validators=[])
+    message4 = TextAreaField("Message 4", validators=[])
+    message5 = TextAreaField("Message 5", validators=[])
+    message6 = TextAreaField("Message 6", validators=[])
+    message7 = TextAreaField("Message 7", validators=[])
+    
+    face_choices = [
+        (1, "Neutral"),
+        (2, "Smiley"),
+        (3, "Angry"),
+        (4, "Sad"),
+        (5, "Astonished"),
+        (6, "Blissed"),
+        (7, "Shocked")
+    ]
+    
+    # Face expression fields for each message
+    action1 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action2 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action3 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action4 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action5 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action6 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    action7 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
+    
     movieid = StringField("Movie ID", validators=[DataRequired()])
-    submit = SubmitField("Create!")
-
+    submit = SubmitField("Save")
 
 class PosterForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(max=47)])

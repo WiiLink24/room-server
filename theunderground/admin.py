@@ -1,11 +1,9 @@
 import uuid
-
-from flask import url_for, flash, render_template, send_from_directory
+from flask import url_for, flash, render_template, send_from_directory, session
 from werkzeug.utils import redirect
 from flask_oidc import OpenIDConnect
 from first import conf_first_bin_xml
 from room import app
-
 import config
 
 
@@ -94,11 +92,22 @@ def forbidden(e):
 
 @app.errorhandler(Exception)
 def handle_exception(e):
-    if hasattr(e, 'code') and 400 <= e.code < 600:
-        return e
+    # First check for HTTP exceptions with code attribute
+    if hasattr(e, 'code'):
+        try:
+            code = int(e.code)
+            if 400 <= code < 600:
+                return e
+        except (ValueError, TypeError):
+            pass
     
-    if "MismatchingStateError" in str(e) or "invalid_request" in str(e):
-        session.clear()
+    # Handle authentication errors
+    if isinstance(e, str) or "MismatchingStateError" in str(e) or "invalid_request" in str(e):
+        try:
+            session.clear()
+        except Exception:
+            pass  # In case session is not available
+        
         return render_template('errors/error.html',
                               error_code="Auth",
                               error_title="Authentication Error",
@@ -106,6 +115,7 @@ def handle_exception(e):
                               error_details=str(e),
                               auto_redirect=True), 400
     
+    # Default: handle as general server error
     return render_template('errors/error.html',
                           error_code=500,
                           error_title="Server Error",

@@ -84,13 +84,20 @@
                                 <div class="flex items-center space-x-5">
                                     <div class="relative flex-shrink-0">
                                         <!-- Golden concierge glow effect -->
-                                        <div class="absolute inset-0 rounded-full blur-md opacity-50 bg-amber-500"></div>
+                                        <div class="absolute inset-0 rounded-full opacity-50 bg-amber-500"></div>
                                              
-                                        <!-- Mii avatar -->
-                                        <div class="relative flex-shrink-0 h-20 w-20 rounded-full overflow-hidden ring-2 ring-amber-500 ring-offset-2 ring-offset-gray-800">
+                                        <!-- Mii avatar with loading indicator -->
+                                        <div class="relative flex-shrink-0 h-20 w-20 rounded-full overflow-hidden ring-2 ring-amber-500 ring-offset-2 ring-offset-gray-800 bg-gradient-to-br from-amber-900/30 to-yellow-900/30">
+                                            <!-- Loading spinner (shows while image loads) -->
+                                            <div class="absolute inset-0 flex items-center justify-center loading-indicator">
+                                                <img src="/static/icon/loading.gif" alt="Loading" class="h-5 w-5 brightness-[5000%]" />
+                                            </div>
+                                            
+                                            <!-- Mii image (hidden until loaded) -->
                                             <img src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii_data.data.hex() }}" 
                                                  alt="Concierge avatar for {{ mii_data.name }}" 
-                                                 class="h-full w-full object-cover bg-gradient-to-br from-amber-900/30 to-yellow-900/30" />
+                                                 class="h-full w-full object-cover opacity-0 transition-opacity duration-300"
+                                                 onload="this.classList.replace('opacity-0', 'opacity-100'); this.previousElementSibling.style.display = 'none';" />
                                         </div>
                                     </div>
                                     

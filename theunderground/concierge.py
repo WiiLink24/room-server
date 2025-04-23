@@ -4,7 +4,7 @@ from flask import render_template, url_for, redirect, request
 
 from models import db, ConciergeMiis, MiiMsgInfo, MiiData, ConciergeMovies, Movies
 from room import app
-from theunderground.forms import ConciergeForm, ConciergeMovieForm
+from theunderground.forms import ConciergeForm, ConciergeMovieForm, ConciergeMiiActions
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.encodemii import encode_mii_category
@@ -41,48 +41,100 @@ def list_concierge():
 @oidc.require_login
 def add_concierge(mii_id):
     form = ConciergeForm()
-    if form.validate_on_submit():
-        concierge_data = ConciergeMiis(
-            mii_id=mii_id,
-            clothes=1,  # TODO: Allow disabling of custom clothes
-            action=form.action.data,
-            prof=form.prof.data,
-            movie_id=form.movieid.data,
-            voice=False,  # The web console does not currently support this
-        )
-
-        concierge_movie = ConciergeMovies(
-            mii_id=mii_id,
-            movie_id=form.movieid.data,
-        )
-
-        for i in range(1, 8):
-            msg = MiiMsgInfo(
-                mii_id=mii_id, type=i, msg=form[f"message{i}"].data, face=1, seq=1
+    
+    if request.method == "POST":
+        try:
+            # Get the action value as an integer
+            action_value = request.form.get('action')
+            print(f"Action value: {action_value}", "debug")
+            
+            # Convert integer to enum instance
+            action_enum = ConciergeMiiActions(int(action_value))
+            
+            # Create concierge data with enum instance
+            concierge_data = ConciergeMiis(
+                mii_id=mii_id,
+                clothes=1,
+                action=action_enum,  # Use the enum instance instead of int
+                prof=request.form.get('prof', ''),
+                movie_id=request.form.get('movieid', ''),
+                voice=False,
             )
-            db.session.add(msg)
 
-        # Create the category image.
-        mii_data = MiiData.query.filter_by(mii_id=mii_id).first()
-        if not mii_data:
-            return exceptions.NotFound()
+            concierge_movie = ConciergeMovies(
+                mii_id=mii_id,
+                movie_id=request.form.get('movieid', ''),
+            )
 
-        # Request the PNG from Nintendo
-        mii_img = requests.get(
-            f"https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={mii_data.data.hex()}"
-        )
+            # Process message sequences for all 7 types
+            for message_type in range(1, 8):
+                seq_num = 1
+                while True:
+                    message_name = f"message{message_type}_{seq_num}"
+                    
+                    if message_name not in request.form or not request.form[message_name].strip():
+                        break
+                        
+                    face_name = f"face{message_type}_{seq_num}"
+                    face_value = int(request.form.get(face_name, 1))
+                    
+                    # Create message entry
+                    msg = MiiMsgInfo(
+                        mii_id=mii_id,
+                        type=message_type,
+                        msg=request.form[message_name],
+                        face=face_value,
+                        seq=seq_num
+                    )
+                    db.session.add(msg)
+                    
+                    seq_num += 1
+                
+                # If no sequences were found for this type and it's not type 1, add an empty message
+                if seq_num == 1 and message_type > 1:
+                    msg = MiiMsgInfo(
+                        mii_id=mii_id,
+                        type=message_type,
+                        msg="",
+                        face=1,  # Default to neutral
+                        seq=1
+                    )
+                    db.session.add(msg)
+                
+                # Error if no messages for type 1
+                if message_type == 1 and seq_num == 1:
+                    print("At least one message is required for message type 1", "error")
+                    return render_template("concierge_action.html", form=form, action="Add")
 
-        img = encode_mii_category(mii_img.content)
-        # We assign concierge categories IDs 20000 - 29999.
-        NormalCategoryAsset(20000 + int(mii_id)).encode(img)
+            # Create the category image
+            mii_data = MiiData.query.filter_by(mii_id=mii_id).first()
+            if not mii_data:
+                return exceptions.NotFound()
 
-        db.session.add(concierge_movie)
-        db.session.add(concierge_data)
-        db.session.commit()
+            # Request the PNG from Nintendo
+            mii_img = requests.get(
+                f"https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={mii_data.data.hex()}"
+            )
 
-        log_action(f"Concierge Mii {concierge_data.mii_id} added")
-        update_mii_on_s3(mii_id)
-        return redirect(url_for("list_concierge"))
+            img = encode_mii_category(mii_img.content)
+            # We assign concierge categories IDs 20000 - 29999.
+            NormalCategoryAsset(20000 + int(mii_id)).encode(img)
+
+            db.session.add(concierge_movie)
+            db.session.add(concierge_data)
+            db.session.commit()
+
+            log_action(f"Concierge Mii {concierge_data.mii_id} added")
+            update_mii_on_s3(mii_id)
+            print("Concierge created successfully!", "success")
+            return redirect(url_for("list_concierge"))
+            
+        except Exception as e:
+            db.session.rollback()
+            # Log the error for debugging
+            app.logger.error(f"Error saving concierge: {str(e)}")
+            # Flash a user-friendly message
+            print(f"Error saving concierge: {str(e)}", "error")
 
     return render_template("concierge_action.html", form=form, action="Add")
 
@@ -137,8 +189,12 @@ def edit_concierge(mii_id):
 @oidc.require_login
 def remove_concierge(mii_id):
     def drop_concierge():
-        db.session.delete(ConciergeMiis.query.filter_by(mii_id=mii_id).first())
-        db.session.delete(MiiMsgInfo.query.filter_by(mii_id=mii_id).first())
+        concierge = ConciergeMiis.query.filter_by(mii_id=mii_id).first()
+        if concierge:
+            db.session.delete(concierge)
+    
+        MiiMsgInfo.query.filter_by(mii_id=mii_id).delete()
+        ConciergeMovies.query.filter_by(mii_id=mii_id).delete()
         db.session.commit()
 
         log_action(f"Concierge Mii {mii_id} added")

@@ -5,37 +5,412 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        {{ form.action.label(class_="label") }}
-        <div class="control has-icons-left block">
-            <div class="select">{{ form.action }}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Concierge Mii</h1>
+
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                    <img src="/static/icon/star.svg" alt="Concierge Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Concierge Messages</h2>
             </div>
-            <div class="icon is-small is-left">
-                <i class="fa-solid fa-circle-exclamation"></i>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div
+                class="mb-6 p-4 rounded-lg {% if category == 'error' %}bg-red-900/30 border border-red-700 text-red-300{% else %}bg-green-900/30 border border-green-700 text-green-300{% endif %}">
+                <div class="flex items-start">
+                    <div
+                        class="p-1 rounded-lg {% if category == 'error' %}text-red-400{% else %}text-green-400{% endif %} mr-3">
+                        <img src="/static/icon/{% if category == 'error' %}triangle-alert{% else %}check-circle{% endif %}.svg"
+                            alt="Alert" class="h-5 w-5 invert" />
+                    </div>
+                    <div>
+                        <p class="text-sm">{{ message }}</p>
+                        {% if category == 'error' and 'duplicate key value violates unique constraint' in message %}
+                        <p class="mt-2 text-xs opacity-80">This concierge already has messages. Use "Edit" action to
+                            modify existing messages.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6" id="conciergeForm">
+                {{ form.hidden_tag() }}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.action.id }}" class="block text-sm font-medium text-gray-300 mb-2">{{
+                            form.action.label.text }}:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/folder.svg" alt="Action" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.action(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500
+                            focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Choose the Mii's pose when entering a room
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.movieid.id }}" class="block text-sm font-medium text-gray-300 mb-2">{{
+                            form.movieid.label.text }}:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/film.svg" alt="Movie" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.movieid(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500
+                            focus:border-transparent", placeholder="Enter movie ID") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">The movie this concierge is associated with</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="{{ form.prof.id }}" class="block text-sm font-medium text-gray-300 mb-2">{{
+                        form.prof.label.text }}:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/user.svg" alt="Profile" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.prof(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                        rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500
+                        focus:border-transparent min-h-[100px]", placeholder="Enter concierge profile text") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The concierge's profile description</p>
+                </div>
+
+                <!-- Messages section -->
+                <div class="space-y-6 pt-6 border-t border-gray-700">
+                    <h3 class="text-lg font-medium text-white">Concierge Messages</h3>
+
+                    <div class="grid grid-cols-1 gap-8">
+                        {% for i in range(1, 8) %}
+                        {% set message_type = i %}
+
+                        <div id="messageType{{ i }}" class="message-type p-6 border border-gray-700 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center">
+                                    <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                                        <img src="/static/icon/message-square.svg" alt="Message Type"
+                                            class="h-5 w-5 invert" />
+                                    </div>
+                                    <h4 class="text-md font-medium text-white">Message Type {{ i }}</h4>
+                                </div>
+
+                                <button type="button"
+                                    class="add-sequence-btn px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 flex items-center text-sm"
+                                    onclick="addSequence({{ i }})" data-type="{{ i }}">
+                                    <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-1.5 invert" />
+                                    Add Sequence
+                                </button>
+                            </div>
+
+                            <div
+                                class="message-type-description mb-4 p-3 bg-gray-700/50 rounded-lg text-sm text-gray-300">
+                                {% set type_descriptions = {
+                                1: "Introduction when met for the first time",
+                                2: "Introduction when chosen from the message board",
+                                3: "Message shown before the video (first time)",
+                                4: "Message shown before the video (message board)",
+                                5: "User decides not to view another concierge",
+                                6: "Message shown after the video",
+                                7: "Final question"
+                                } %}
+                                <p>{{ type_descriptions[i] }}</p>
+                            </div>
+
+                            <div id="sequences{{ i }}" class="sequences space-y-4">
+                                <!-- The first sequence is required for message type 1 -->
+                                <div id="sequence{{ i }}_1"
+                                    class="sequence p-4 bg-gray-700/30 rounded-lg border border-gray-600 {% if i > 1 %}relative{% endif %}">
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-900/50 text-blue-300 rounded-md mb-3">Sequence
+                                        1</span>
+
+                                    <div class="flex flex-col md:flex-row gap-4">
+                                        <div class="flex-grow">
+                                            <label for="message{{ i }}_1"
+                                                class="block text-sm font-medium text-gray-300 mb-2">Message
+                                                Text:</label>
+                                            <div class="relative rounded-md shadow-sm">
+                                                <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                                                    <img src="/static/icon/message-square.svg" alt="Message"
+                                                        class="w-5 h-5 invert opacity-70" />
+                                                </div>
+                                                <textarea id="message{{ i }}_1" name="message{{ i }}_1" rows="2"
+                                                    class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                                                    placeholder="Enter message text" {% if i==1 %}required{% endif
+                                                    %}></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="md:w-1/3">
+                                            <label for="face{{ i }}_1"
+                                                class="block text-sm font-medium text-gray-300 mb-2">Face
+                                                Expression:</label>
+                                            <div class="relative rounded-md shadow-sm">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <img src="/static/icon/smile.svg" alt="Face"
+                                                        class="w-5 h-5 invert opacity-70" />
+                                                </div>
+                                                <select id="face{{ i }}_1" name="face{{ i }}_1"
+                                                    class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent events-none appearance-none">
+                                                    <option value="1">Neutral</option>
+                                                    <option value="2">Smiley</option>
+                                                    <option value="3">Angry</option>
+                                                    <option value="4">Sad</option>
+                                                    <option value="5">Astonished</option>
+                                                    <option value="6">Blissed</option>
+                                                    <option value="7">Shocked</option>
+                                                </select>
+                                            </div>
+                                            <div class="mt-2 grid grid-cols-4 gap-2">
+                                                {% for expr in range(1, 8) %}
+                                                <button type="button"
+                                                    class="p-2 bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-600 transition-colors face-btn"
+                                                    onclick="selectFace({{ i }}, 1, {{ expr }})" data-face="{{ expr }}"
+                                                    data-type="{{ i }}" data-seq="1">
+                                                    <div class="w-full h-10 flex items-center justify-center">
+                                                        <img src="/static/icon/{{ ["neutral", "smile" , "angry"
+                                                            , "sad" , "astonished" , "blissed" , "shocked" ][expr-1]
+                                                            }}.svg" alt="{{ [" Neutral", "Smiley" , "Angry" , "Sad"
+                                                            , "Astonished" , "Blissed" , "Shocked" ][expr-1] }}"
+                                                            class="w-6 h-6 invert" />
+                                                    </div>
+                                                </button>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Additional sequences will be added here dynamically -->
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_concierge') }}"
+                        class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/check.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        Save Concierge
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Message Types & Sequences</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Each message type represents a different context in which your concierge Mii can speak.</p>
+                        <p>You can add up to 10 sequential messages for each type - Wii Room will display them in order.</p>
+                        <p>Each message can have its own facial expression to match the tone of the message.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <p>{{ form.prof.label(class_="label") }}</p>
-        {{ form.prof(class_="textarea") }}
-        <p>{{ form.message1.label(class_="label") }}</p>
-        {{ form.message1(class_="textarea") }}
-        <p>{{ form.message2.label(class_="label") }}</p>
-        {{ form.message2(class_="textarea") }}
-        <p>{{ form.message3.label(class_="label") }}</p>
-        {{ form.message3(class_="textarea") }}
-        <p>{{ form.message4.label(class_="label") }}</p>
-        {{ form.message4(class_="textarea") }}
-        <p>{{ form.message5.label(class_="label") }}</p>
-        {{ form.message5(class_="textarea") }}
-        <p>{{ form.message6.label(class_="label") }}</p>
-        {{ form.message6(class_="textarea") }}
-        <p>{{ form.message7.label(class_="label") }}</p>
-        {{ form.message7(class_="textarea") }}
-        <p>{{ form.movieid.label(class_="label") }}</p>
-        {{ form.movieid(class_="input") }}
-        <br>
-        <br>
-        <p>{{ form.submit(class_="button is-success") }}</p>
-    </form>
+<script>
+    // Keep track of sequence counts for each type
+    const sequenceCounts = {
+        1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1
+    };
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        // Load existing sequences if in edit mode
+        // This would be populated from backend data
+    });
+
+    // Add a new sequence for a message type
+    function addSequence(typeId) {
+        if (sequenceCounts[typeId] >= 10) {
+            showAlert("Maximum of 10 sequences reached for this message type", "error");
+            return;
+        }
+
+        sequenceCounts[typeId]++;
+        const seqNum = sequenceCounts[typeId];
+
+        const sequencesContainer = document.getElementById(`sequences${typeId}`);
+
+        // Create new sequence element
+        const newSequence = document.createElement('div');
+        newSequence.id = `sequence${typeId}_${seqNum}`;
+        newSequence.className = 'sequence p-4 bg-gray-700/30 rounded-lg border border-gray-600 relative';
+
+        // Add sequence number label and remove button
+        newSequence.innerHTML = `
+            <button type="button" onclick="removeSequence(${typeId}, ${seqNum})" 
+                class="absolute top-2 right-2 p-1 rounded-full bg-red-900/30 hover:bg-red-800/50 text-red-400 transition-colors">
+                <img src="/static/icon/x.svg" alt="Remove" class="h-4 w-4 invert" />
+            </button>
+            <span class="inline-block px-2 py-1 text-xs font-medium bg-blue-900/50 text-blue-300 rounded-md mb-3">Sequence ${seqNum}</span>
+            
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow">
+                    <label for="message${typeId}_${seqNum}" class="block text-sm font-medium text-gray-300 mb-2">Message Text:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/message-square.svg" alt="Message" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        <textarea id="message${typeId}_${seqNum}" name="message${typeId}_${seqNum}" rows="2" 
+                                class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                                placeholder="Enter message text"></textarea>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/3">
+                    <label for="face${typeId}_${seqNum}" class="block text-sm font-medium text-gray-300 mb-2">Face Expression:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/smile.svg" alt="Face" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        <select id="face${typeId}_${seqNum}" name="face${typeId}_${seqNum}" 
+                                class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent appearance-none">
+                            <option value="1">Neutral</option>
+                            <option value="2">Smiley</option>
+                            <option value="3">Angry</option>
+                            <option value="4">Sad</option>
+                            <option value="5">Astonished</option>
+                            <option value="6">Blissed</option>
+                            <option value="7">Shocked</option>
+                        </select>
+                    </div>
+                    <div class="mt-2 grid grid-cols-4 gap-2">
+                                                ${Array.from({ length: 7 }, (_, i) => i + 1).map(expr => `
+                            <button type="button" class="p-2 bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-600 transition-colors face-btn" 
+                                    onclick="selectFace(${typeId}, ${seqNum}, ${expr})" data-face="${expr}" data-type="${typeId}" data-seq="${seqNum}">
+                                <div class="w-full h-10 flex items-center justify-center">
+                                    <img src="/static/icon/${["neutral", "smile", "angry", "sad", "astonished", "blissed", "shocked"][expr - 1]}.svg" alt="${["Neutral", "Smiley", "Angry", "Sad", "Astonished", "Blissed", "Shocked"][expr - 1]}" class="w-6 h-6 invert" />
+                                </div>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        sequencesContainer.appendChild(newSequence);
+        updateAddButtonStates();
+    }
+
+    // Remove a sequence
+    function removeSequence(typeId, seqNum) {
+        const sequenceElement = document.getElementById(`sequence${typeId}_${seqNum}`);
+        if (sequenceElement) {
+            sequenceElement.remove();
+
+            // Reorder the remaining sequences
+            const sequences = Array.from(document.querySelectorAll(`#sequences${typeId} .sequence`));
+
+            // Recalculate the highest sequence number
+            sequenceCounts[typeId] = sequences.length;
+
+            // If we removed the last one, we need to update the count directly
+            updateAddButtonStates();
+        }
+    }
+
+    // Select a face expression
+    function selectFace(typeId, seqNum, faceValue) {
+        const selectField = document.getElementById(`face${typeId}_${seqNum}`);
+        if (selectField) {
+            selectField.value = faceValue;
+
+            // Update visual indication of selected face
+            const buttons = document.querySelectorAll(`.face-btn[data-type="${typeId}"][data-seq="${seqNum}"]`);
+            buttons.forEach(btn => {
+                if (parseInt(btn.dataset.face) === faceValue) {
+                    btn.classList.add('ring-2', 'ring-amber-500', 'ring-offset-1', 'ring-offset-gray-800');
+                } else {
+                    btn.classList.remove('ring-2', 'ring-amber-500', 'ring-offset-1', 'ring-offset-gray-800');
+                }
+            });
+        }
+    }
+
+    // Update add button states
+    function updateAddButtonStates() {
+        for (let typeId = 1; typeId <= 7; typeId++) {
+            const addButton = document.querySelector(`.add-sequence-btn[data-type="${typeId}"]`);
+            if (addButton) {
+                if (sequenceCounts[typeId] >= 10) {
+                    addButton.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    addButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+        }
+    }
+
+    // Show alert message
+    function showAlert(message, type = 'error') {
+        const alertsContainer = document.createElement('div');
+        alertsContainer.className = 'fixed top-4 right-4 z-50 space-y-2';
+        alertsContainer.id = 'alertsContainer';
+
+        const existingContainer = document.getElementById('alertsContainer');
+        if (existingContainer) {
+            existingContainer.remove();
+        }
+
+        const alert = document.createElement('div');
+        alert.className = `p-4 rounded-lg shadow-lg flex items-start ${type === 'error' ? 'bg-red-900/90 text-red-200' : 'bg-green-900/90 text-green-200'}`;
+        alert.innerHTML = `
+            <div class="p-1 rounded-lg ${type === 'error' ? 'text-red-400' : 'text-green-400'} mr-3">
+                <img src="/static/icon/${type === 'error' ? 'triangle-alert' : 'check-circle'}.svg" alt="Alert" class="h-5 w-5 invert" />
+            </div>
+            <div class="text-sm flex-1">${message}</div>
+            <button class="ml-4 p-1 rounded-full hover:bg-white/10" onclick="this.parentElement.remove()">
+                <img src="/static/icon/x.svg" alt="Close" class="h-4 w-4 invert" />
+            </button>
+        `;
+
+        document.body.appendChild(alertsContainer);
+        alertsContainer.appendChild(alert);
+
+        setTimeout(() => {
+            if (alert) alert.remove();
+            if (alertsContainer && alertsContainer.children.length === 0) {
+                alertsContainer.remove();
+            }
+        }, 5000);
+    }
+
+    // Submit form preparation
+    document.getElementById('conciergeForm').addEventListener('submit', function (e) {
+        // We don't prevent default submit since we want the form to actually submit
+        // This would be the place to add any final validations if needed
+
+        // You might want to collect all the sequences into a more structured format
+        // for your backend to process, depending on how you want to handle the data
+    });
+</script>
 {% endblock %}
