@@ -1,17 +1,69 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    {{ action }} News
+{{ action }} News - Room Server
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.news.label(class_="label") }}
-            {{ form.news(class_="textarea") }}
-            <br>
-        </p>
-        <p>{{ form.create(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} News</h1>
+
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                    <img src="/static/icon/newspaper.svg" alt="News Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">News Details</h2>
+            </div>
+
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div>
+                    <label for="{{ form.news.id }}" class="block text-sm font-medium text-gray-300 mb-2">News
+                        Content:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/file-text.svg" alt="Content" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.news(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                        rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500
+                        focus:border-transparent min-h-[200px]", placeholder="Enter news content here...") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The content of the news text</p>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_news') }}"
+                        class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        Save News
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About News Articles</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>News articles appear in the Room Channel's news section.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

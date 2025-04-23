@@ -1,44 +1,201 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    {{ action }} a Movie
+{{ action }} Movie - Room Server
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.genre.label(class_="label") }}
-            <div class="control has-icons-left block">
-                <div class="select">{{ form.genre }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Movie</h1>
+
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3">
+                    <img src="/static/icon/film.svg" alt="Movie Icon" class="h-6 w-6 invert" />
                 </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-paint-roller"></i>
-                </div>
+                <h2 class="text-xl font-bold text-white">Movie Details</h2>
             </div>
 
-            {{ form.movie.label(class_="label") }} {{ form.movie(size=32) }}
-            <br>
-            <br>
-            {{ form.ds_movie.label(class_="label") }} {{ form.ds_movie(size=32) }}
-            <br>
-            <br>
-            {{ form.title.label(class_="label") }} {{ form.title(class_="input") }}
-            <br>
-            <br>
-            {{ form.thumbnail.label(class_="label") }}
-            {% if movie_id %}
-            {{ existing_image('movie thumbnail', url_for('get_movie_thumbnail', movie_id=movie_id)) }}
-            {% endif %}
-            {{ form.thumbnail(size=32) }}
-            <br>
-            <br>
-            {{ form.category.label(class_="label") }} {{ form.category }}
-            <br>
-            <br>
-            {{ form.room.label(class_="label") }} {{ form.room }}
-        </p>
-        <br>
-        <p>{{ form.upload(class_="button is-success") }}</p>
-    </form>
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.title.id }}" class="block text-sm font-medium text-gray-300 mb-2">Movie
+                            Title:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.title(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500
+                            focus:border-transparent", placeholder="Enter movie title") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">The display title for this movie</p>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.genre.id }}"
+                            class="block text-sm font-medium text-gray-300 mb-2">Genre:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/tag.svg" alt="Genre" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.genre(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500
+                            focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Select the genre category for this movie</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.category.id }}"
+                            class="block text-sm font-medium text-gray-300 mb-2">Category:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/folder.svg" alt="Category" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.category(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4
+                            py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500
+                            focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Classification category for the movie</p>
+                    </div>
+
+                    <div>
+                        <label for="{{ form.room.id }}"
+                            class="block text-sm font-medium text-gray-300 mb-2">Room:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/layers.svg" alt="Room" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.room(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                            rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500
+                            focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Associated room for this movie</p>
+                    </div>
+                </div>
+                <span class="flex flex-row items-center gap-3">
+                    <div class="grow">
+                        <label for="{{ form.movie.id }}" class="block text-sm font-medium text-gray-300 mb-2">Movie
+                            File:</label>
+                        <div
+                            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <img src="/static/icon/upload.svg" alt="Upload"
+                                    class="mx-auto h-12 w-12 invert opacity-70" />
+                                <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                    <label for="{{ form.movie.id }}"
+                                        class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                        <span>Upload Movie</span>
+                                        {{ form.movie(class_="sr-only") }}
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    .mo Mobiclip file format
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grow">
+                        <label for="{{ form.ds_movie.id }}" class="block text-sm font-medium text-gray-300 mb-2">DS
+                            Version Movie File (optional):</label>
+                        <div
+                            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <img src="/static/icon/upload.svg" alt="Upload"
+                                    class="mx-auto h-12 w-12 invert opacity-70" />
+                                <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                    <label for="{{ form.ds_movie.id }}"
+                                        class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                        <span>Upload DS Movie</span>
+                                        {{ form.ds_movie(class_="sr-only") }}
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    DS Mobiclip File format
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+
+                <div>
+                    <label for="{{ form.thumbnail.id }}" class="block text-sm font-medium text-gray-300 mb-2">Thumbnail
+                        Image:</label>
+                    {% if movie_id %}
+                    <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-14 w-14 rounded overflow-hidden bg-gray-800">
+                                <img src="{{ url_for('get_movie_thumbnail', movie_id=movie_id) }}"
+                                    alt="Current Thumbnail" class="h-full w-full object-cover">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white">Current Thumbnail</p>
+                                <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div
+                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/image.svg" alt="Upload"
+                                class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                <label for="{{ form.thumbnail.id }}"
+                                    class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                    <span>Upload Thumbnail</span>
+                                    {{ form.thumbnail(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                PNG, JPG up to 2MB (recommended 4:3 ratio)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="/theunderground/movies"
+                        class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/plus.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        {{ action }} Movie
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Movie Uploads</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Upload a video for Wii playback and optionally a version for DS (for use with Wii Room Anywhere).
+                        </p>
+                        <p>The thumbnail image will be displayed in the movie selection menu.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,196 +1,481 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    {{ action }} Room
+    {{ action }} Room - Room Server
 {% endblock %}
 
 {% set sidebar_menu %}
-    <li>
-        <ul>
-            {% for room in rooms %}
-                <li>
-                    <a
-                        href="{{ url_for('edit_room', room_id=room.room_id) }}"
-                        {% if url_for(request.endpoint, **request.view_args) == url_for('edit_room', room_id=room.room_id) %}
-                            class="is-active"
-                        {% endif %}
-                    >
-                        {{ room.news }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </li>
+<div class="border-l-4 pl-2 border-gray-700/40 hover:border-gray-700/60 py-2 transition-all">
+    <ul class="space-y-1">
+        {% for room in rooms %}
+            <li>
+                <a href="{{ url_for('edit_room', room_id=room.room_id) }}" 
+                   class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700/50 hover:text-white rounded-lg transition-colors group">
+                    <img src="/static/icon/monitor.svg" alt="Room" class="h-4 w-4 mr-2 invert opacity-70 group-hover:opacity-100" />
+                    <span class="truncate">{{ room.news }}</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="px-4 py-2 text-sm text-gray-500 italic">
+                No rooms available
+            </li>
+        {% endfor %}
+    </ul>
+    {% if rooms|length > 0 %}
+    <div class="mt-4 px-4">
+        <a href="{{ url_for('create_room') }}" 
+           class="flex items-center justify-center w-full py-1.5 text-xs bg-green-600/20 text-green-400 hover:bg-green-600/30 rounded-lg transition-colors">
+            <img src="/static/icon/plus.svg" alt="Add" class="h-3.5 w-3.5 mr-1.5 invert" />
+            <span>New Room</span>
+        </a>
+    </div>
+    {% endif %}
+</div>
 {% endset %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p class="block">
-            {{ form.hidden_tag() }}
-            {{ form.bgm.label(class_="label") }}
-            <div class="control has-icons-left block">
-                <div class="select">{{ form.bgm }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Room Configuration</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-cyan-600/20 rounded-lg text-cyan-400 mr-3">
+                    <img src="/static/icon/layers.svg" alt="Room Icon" class="h-6 w-6 invert" />
                 </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-music"></i>
+                <h2 class="text-xl font-bold text-white">Room Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.news.id }}" class="block text-sm font-medium text-gray-300 mb-2">Room Title:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.news(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent", placeholder="Enter room title") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">The display name for this room</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.bgm.id }}" class="block text-sm font-medium text-gray-300 mb-2">Background Music:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/music.svg" alt="Music" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.bgm(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Music that plays in the room</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.intro_msg.id }}" class="block text-sm font-medium text-gray-300 mb-2">Intro Message:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/message-square.svg" alt="Intro" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.intro_msg(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent min-h-[100px]", placeholder="Enter room introduction message") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The message shown when users first enter the room</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.contact.id }}" class="block text-sm font-medium text-gray-300 mb-2">Contact Information:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/mail.svg" alt="Contact" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.contact(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent", placeholder="Enter contact information") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Contact details for room administrators</p>
+                </div>
+                
+                <div class="flex items-center py-3">
+                    <label class="flex items-center">
+                        {{ form.has_mascot(class_="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded mr-2") }}
+                        <span class="text-sm text-gray-300">Enable Mascot Character</span>
+                    </label>
+                </div>
+
+                <div class="border-t border-gray-700 pt-6 mt-6">
+                    <h3 class="text-lg font-medium text-white mb-4">Room Media</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label for="{{ form.room_logo.id }}" class="block text-sm font-medium text-gray-300 mb-2">Room Logo:</label>
+                            {% if room_id %}
+                            <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-16 w-16 rounded overflow-hidden bg-gray-800">
+                                        <img src="{{ url_for('get_room_logo', room_id=room_id) }}" alt="Current Room Logo" class="h-full w-full object-contain">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-white">Current Room Logo</p>
+                                        <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-cyan-500 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                    <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                        <label for="{{ form.room_logo.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-cyan-400 hover:text-cyan-300 focus-within:outline-none">
+                                            <span>Upload logo</span>
+                                            {{ form.room_logo(class_="sr-only") }}
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-400">
+                                        PNG, JPG up to 1MB
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.parade_banner.id }}" class="block text-sm font-medium text-gray-300 mb-2">Parade Banner:</label>
+                            {% if room_id %}
+                            <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-16 w-32 rounded overflow-hidden bg-gray-800">
+                                        <img src="{{ url_for('get_parade_banner', room_id=room_id) }}" alt="Current Parade Banner" class="h-full w-full object-cover">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-white">Current Parade Banner</p>
+                                        <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-cyan-500 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                    <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                        <label for="{{ form.parade_banner.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-cyan-400 hover:text-cyan-300 focus-within:outline-none">
+                                            <span>Upload banner</span>
+                                            {{ form.parade_banner(class_="sr-only") }}
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-400">
+                                        PNG, JPG up to 1MB
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.category_logo.id }}" class="block text-sm font-medium text-gray-300 mb-2">Category Logo:</label>
+                            {% if room_id %}
+                            <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-16 w-16 rounded overflow-hidden bg-gray-800">
+                                        <img src="{{ url_for('get_category_logo', room_id=room_id) }}" alt="Current Category Logo" class="h-full w-full object-contain">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium text-white">Current Category Logo</p>
+                                        <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-cyan-500 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                    <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                        <label for="{{ form.category_logo.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-cyan-400 hover:text-cyan-300 focus-within:outline-none">
+                                            <span>Upload logo</span>
+                                            {{ form.category_logo(class_="sr-only") }}
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-400">
+                                        PNG, JPG up to 1MB
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6 mt-6" id="mii-section">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-white">Mascot Mii Configuration</h3>
+                        <div class="flex space-x-2">
+                            <button type="button" id="addNewField" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-700 text-white rounded transition duration-200 flex items-center text-sm">
+                                <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-1 invert" />
+                                Add Mii
+                            </button>
+                            <button type="button" id="removeField" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded transition duration-200 flex items-center text-sm">
+                                <img src="/static/icon/minus.svg" alt="Remove" class="h-4 w-4 mr-1 invert" />
+                                Remove Mii
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="mii" class="space-y-4">
+                        <!-- Mii inputs will be added here by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="/theunderground/rooms" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-5 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        {{ action }} Room
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-cyan-600/20 rounded-lg text-cyan-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Room Configuration</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Configure the room's appearance, messages, and mascot settings.</p>
+                        <p>Upload high-quality images for the best visual appearance.</p>
+                        <p>You can add up to 3 Mii characters to be used as mascots.</p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            {{ form.has_mascot.label }}: {{ form.has_mascot(class_="block") }}
-
-            {{ form.mii }}
-            <br>
-            <button type="button" class="button is-info" id="addNewField">Add Mii</button>
-            <button type="button" class="button is-danger" id="removeField">Remove Mii</button>
-            <br>
-            <br>
-            {{ form.intro_msg.label(class_="label") }} {{ form.intro_msg(class_="textarea") }}
-            {{ form.news.label(class_="label") }} {{ form.news(class_="input block") }}
-            {{ form.contact.label(class_="label") }} {{ form.contact(class_="input block") }}
-
-            {{ form.room_logo.label(class_="label") }}
-            {% if room_id %}
-            {{ existing_image('room logo', url_for('get_room_logo', room_id=room_id)) }}
-            {% endif %}
-            {{ form.room_logo(class_="block") }}
-
-            {{ form.parade_banner.label(class_="label block") }}
-            {% if room_id %}
-            {{ existing_image('parade banner', url_for('get_parade_banner', room_id=room_id)) }}
-            {% endif %}
-            {{ form.parade_banner(class_="block") }}
-
-            {{ form.category_logo.label(class_="label block") }}
-            {% if room_id %}
-            {{ existing_image('category logo', url_for('get_category_logo', room_id=room_id)) }}
-            {% endif %}
-            {{ form.category_logo(class_="block") }}
-        </p>
-        <p>{{ form.submit(class_="button is-success block") }}</p>
-    </form>
-
-    <script>
-        function unSanitize(string) {
-            const map = {
-                "&amp;": "&",
-                "&lt;": "<",
-                "&gt;": ">",
-                '&#39;': "'",
-                "&#x2F;": "/"
-            }
-
-            let str = string;
-            for (const [key, value] of Object.entries(map)) {
-                str = str.replace(key, value);
-            }
-
-            return str;
+<script>
+    function unSanitize(string) {
+        const map = {
+            "&amp;": "&",
+            "&lt;": "<",
+            "&gt;": ">",
+            '&#39;': "'",
+            "&#x2F;": "/"
         }
 
-        var fieldNum = 0;
-        function createMiiPair() {
-            // Mii ID
-            var newLabel = document.createElement("label")
-            newLabel.className = "label"
-            newLabel.htmlFor = "mii-" + fieldNum;
-            newLabel.textContent = "Mii ID"
+        let str = string;
+        for (const [key, value] of Object.entries(map)) {
+            str = str.replace(key, value);
+        }
 
+        return str;
+    }
+
+    var fieldNum = 0;
+    function createMiiPair() {
+        // Create container
+        var container = document.createElement("div");
+        container.className = "bg-gray-700/50 rounded-md p-4 border border-gray-600";
+        
+        // Mii ID
+        var idContainer = document.createElement("div");
+        idContainer.className = "mb-4";
+        
+        var newLabel = document.createElement("label");
+        newLabel.className = "block text-sm font-medium text-gray-300 mb-2";
+        newLabel.htmlFor = "mii-" + fieldNum;
+        newLabel.textContent = "Mii ID";
+
+        var inputWrapper = document.createElement("div");
+        inputWrapper.className = "relative rounded-md shadow-sm";
+        
+        var iconDiv = document.createElement("div");
+        iconDiv.className = "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none";
+        
+        var icon = document.createElement("img");
+        icon.src = "/static/icon/user.svg";
+        icon.alt = "Mii ID";
+        icon.className = "w-5 h-5 invert opacity-70";
+        
+        iconDiv.appendChild(icon);
+        
+        var newTextArea = document.createElement("input");
+        newTextArea.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent";
+        newTextArea.id = "mii-" + fieldNum;
+        newTextArea.name = "mii-" + fieldNum;
+        newTextArea.placeholder = "Enter Mii ID";
+        
+        inputWrapper.appendChild(iconDiv);
+        inputWrapper.appendChild(newTextArea);
+        
+        idContainer.appendChild(newLabel);
+        idContainer.appendChild(inputWrapper);
+        
+        fieldNum++;
+
+        // Mii Message
+        var msgContainer = document.createElement("div");
+        
+        var newLabelName = document.createElement("label");
+        newLabelName.className = "block text-sm font-medium text-gray-300 mb-2";
+        newLabelName.htmlFor = "mii-" + fieldNum;
+        newLabelName.textContent = "Mii Message";
+
+        var textareaWrapper = document.createElement("div");
+        textareaWrapper.className = "relative rounded-md shadow-sm";
+        
+        var msgIconDiv = document.createElement("div");
+        msgIconDiv.className = "absolute top-3 left-3 flex items-start pointer-events-none";
+        
+        var msgIcon = document.createElement("img");
+        msgIcon.src = "/static/icon/message-square.svg";
+        msgIcon.alt = "Message";
+        msgIcon.className = "w-5 h-5 invert opacity-70";
+        
+        msgIconDiv.appendChild(msgIcon);
+
+        var newTextAreaName = document.createElement("textarea");
+        newTextAreaName.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent min-h-[100px]";
+        newTextAreaName.id = "mii-" + fieldNum;
+        newTextAreaName.name = "mii-" + fieldNum;
+        newTextAreaName.placeholder = "Enter message for this Mii";
+        
+        textareaWrapper.appendChild(msgIconDiv);
+        textareaWrapper.appendChild(newTextAreaName);
+        
+        msgContainer.appendChild(newLabelName);
+        msgContainer.appendChild(textareaWrapper);
+        
+        fieldNum++;
+
+        container.appendChild(idContainer);
+        container.appendChild(msgContainer);
+        
+        document.getElementById("mii").appendChild(container);
+
+        doDisableButtons();
+    }
+
+    function doDisableButtons() {
+        if (fieldNum === 2) {
+            document.getElementById("removeField").disabled = true;
+            document.getElementById("removeField").classList.add("opacity-50", "cursor-not-allowed");
+        } else if (fieldNum === 6) {
+            document.getElementById("addNewField").disabled = true;
+            document.getElementById("addNewField").classList.add("opacity-50", "cursor-not-allowed");
+        } else {
+            document.getElementById("addNewField").disabled = false;
+            document.getElementById("removeField").disabled = false;
+            document.getElementById("addNewField").classList.remove("opacity-50", "cursor-not-allowed");
+            document.getElementById("removeField").classList.remove("opacity-50", "cursor-not-allowed");
+        }
+    }
+
+    document.getElementById("addNewField").addEventListener("click", createMiiPair);
+    document.getElementById("removeField").addEventListener("click", function(){
+        // Remove last field pair
+        document.getElementById("mii").removeChild(document.getElementById("mii").lastChild);
+        
+        // Decrement the fieldNum
+        fieldNum -= 2;
+        
+        doDisableButtons();
+    });
+
+    {% if miis|length == 0 %}
+        document.addEventListener("DOMContentLoaded", createMiiPair);
+    {% else %}
+        document.addEventListener("DOMContentLoaded", function () {
+            {% for mii in miis %}
+            // Create container
+            var container = document.createElement("div");
+            container.className = "bg-gray-700/50 rounded-md p-4 border border-gray-600";
+            
+            // Mii ID
+            var idContainer = document.createElement("div");
+            idContainer.className = "mb-4";
+            
+            var newLabel = document.createElement("label");
+            newLabel.className = "block text-sm font-medium text-gray-300 mb-2";
+            newLabel.htmlFor = "mii-" + fieldNum;
+            newLabel.textContent = "Mii ID";
+
+            var inputWrapper = document.createElement("div");
+            inputWrapper.className = "relative rounded-md shadow-sm";
+            
+            var iconDiv = document.createElement("div");
+            iconDiv.className = "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none";
+            
+            var icon = document.createElement("img");
+            icon.src = "/static/icon/user.svg";
+            icon.alt = "Mii ID";
+            icon.className = "w-5 h-5 invert opacity-70";
+            
+            iconDiv.appendChild(icon);
+            
             var newTextArea = document.createElement("input");
-            newTextArea.className = "input";
+            newTextArea.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent";
             newTextArea.id = "mii-" + fieldNum;
             newTextArea.name = "mii-" + fieldNum;
+            newTextArea.value = "{{ mii.mii_id }}";
+            
+            inputWrapper.appendChild(iconDiv);
+            inputWrapper.appendChild(newTextArea);
+            
+            idContainer.appendChild(newLabel);
+            idContainer.appendChild(inputWrapper);
+            
             fieldNum++;
 
             // Mii Message
-            var newLabelName = document.createElement("label")
-            newLabelName.className = "label"
+            var msgContainer = document.createElement("div");
+            
+            var newLabelName = document.createElement("label");
+            newLabelName.className = "block text-sm font-medium text-gray-300 mb-2";
             newLabelName.htmlFor = "mii-" + fieldNum;
-            newLabelName.textContent = "Mii Message"
+            newLabelName.textContent = "Mii Message";
+
+            var textareaWrapper = document.createElement("div");
+            textareaWrapper.className = "relative rounded-md shadow-sm";
+            
+            var msgIconDiv = document.createElement("div");
+            msgIconDiv.className = "absolute top-3 left-3 flex items-start pointer-events-none";
+            
+            var msgIcon = document.createElement("img");
+            msgIcon.src = "/static/icon/message-circle.svg";
+            msgIcon.alt = "Message";
+            msgIcon.className = "w-5 h-5 invert opacity-70";
+            
+            msgIconDiv.appendChild(msgIcon);
 
             var newTextAreaName = document.createElement("textarea");
-            newTextAreaName.className = "textarea";
+            newTextAreaName.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent min-h-[100px]";
             newTextAreaName.id = "mii-" + fieldNum;
             newTextAreaName.name = "mii-" + fieldNum;
+            newTextAreaName.value = unSanitize(`{{ mii.mii_msg }}`);
+            
+            textareaWrapper.appendChild(msgIconDiv);
+            textareaWrapper.appendChild(newTextAreaName);
+            
+            msgContainer.appendChild(newLabelName);
+            msgContainer.appendChild(textareaWrapper);
+            
             fieldNum++;
 
-            document.getElementById("mii").appendChild(newLabel);
-            document.getElementById("mii").appendChild(newTextArea);
-            document.getElementById("mii").appendChild(document.createElement("br"));
-
-            document.getElementById("mii").appendChild(newLabelName);
-            document.getElementById("mii").appendChild(newTextAreaName);
-            document.getElementById("mii").appendChild(document.createElement("br"));
-
-            doDisableButtons()
-        }
-
-        function doDisableButtons() {
-            if (fieldNum === 2) {
-                document.getElementById("removeField").disabled = true;
-            } else if (fieldNum === 6) {
-                document.getElementById("addNewField").disabled = true;
-            } else {
-                document.getElementById("addNewField").disabled = false;
-                document.getElementById("removeField").disabled = false;
-            }
-        }
-
-        document.getElementById("addNewField").addEventListener("click", createMiiPair);
-        document.getElementById("removeField").addEventListener("click", function(){
-            // Remove last field pair
-            for (var i = 0; i < 6; i++) {
-                document.getElementById("mii").removeChild(document.getElementById("mii").lastChild);
-            }
-
-            // Finally decrement the fieldNum
-            fieldNum -= 2;
-            console.log(fieldNum);
+            container.appendChild(idContainer);
+            container.appendChild(msgContainer);
+            
+            document.getElementById("mii").appendChild(container);
 
             doDisableButtons();
-        })
-
-        {% if miis|length == 0 %}
-            document.addEventListener("DOMContentLoaded", createMiiPair);
-        {% else %}
-            document.addEventListener("DOMContentLoaded", function () {
-                {% for mii in miis %}
-                // Mii ID
-                var newLabel = document.createElement("label")
-                newLabel.className = "label"
-                newLabel.htmlFor = "mii-" + fieldNum;
-                newLabel.textContent = "Mii ID"
-
-                var newTextArea = document.createElement("input");
-                newTextArea.className = "input";
-                newTextArea.id = "mii-" + fieldNum;
-                newTextArea.name = "mii-" + fieldNum;
-                newTextArea.value = "{{ mii.mii_id }}";
-                fieldNum++;
-
-                // Mii Message
-                var newLabelName = document.createElement("label")
-                newLabelName.className = "label"
-                newLabelName.htmlFor = "mii-" + fieldNum;
-                newLabelName.textContent = "Mii Message"
-
-                var newTextAreaName = document.createElement("textarea");
-                newTextAreaName.className = "textarea";
-                newTextAreaName.id = "mii-" + fieldNum;
-                newTextAreaName.name = "mii-" + fieldNum;
-                newTextAreaName.value = unSanitize(`{{ mii.mii_msg }}`)
-                fieldNum++;
-
-                document.getElementById("mii").appendChild(newLabel);
-                document.getElementById("mii").appendChild(newTextArea);
-                document.getElementById("mii").appendChild(document.createElement("br"));
-
-                document.getElementById("mii").appendChild(newLabelName);
-                document.getElementById("mii").appendChild(newTextAreaName);
-                document.getElementById("mii").appendChild(document.createElement("br"));
-
-                doDisableButtons()
-                {% endfor %}
-            });
-        {% endif %}
-    </script>
+            {% endfor %}
+        });
+    {% endif %}
+</script>
 {% endblock %}

@@ -4,64 +4,142 @@
 {% block type_name_singular %}Concierge Mii{% endblock %}
 
 {% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Mii ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Avatar</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for mii, mii_data in miis %}
-            <tr>
-                <td>{{ mii.mii_id }}</td>
-                <td>{{ mii_data.name }}</td>
-                <td><img width="75"
-                         src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii_data.data.hex() }}"
-                         alt="Mii avatar"></td>
-                <td style="text-align: center;">
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                                <span>Edit</span>
-                            </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-end justify-between gap-6 mb-10">
+        <a href="{{ url_for('index') }}" 
+            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
+            Return to Dashboard
+        </a>
+        
+        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+            <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                            Total Concierges
                         </p>
-
-                        <p class="control">
-                            <a href="{{ url_for('remove_concierge', mii_id=mii.mii_id) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
-                        </p>
-
-                        <p class="control">
-                            <a href="{{ url_for('list_concierge_movies', mii_id=mii.mii_id) }}" class="button is-link">
-                            <span class="icon is-small">
-                                <i class="fas fa-list"></i>
-                            </span>
-                                <span>List Movies</span>
-                            </a>
+                        <p class="text-3xl text-white font-bold mt-1">
+                            {{ miis|length }}
                         </p>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <div class="p-3 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 shadow-lg">
+                        <img src="/static/icon/star.svg" alt="Concierge Icon" class="h-6 w-6 invert" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="concierges" class="relative group mb-10">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                        <img src="/static/icon/star.svg" alt="Concierge Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Concierge Management</h2>
+                </div>
+                <a href="{{ url_for('list_miis') }}"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                    <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
+                    <span>Add Concierge</span>
+                </a>
+            </div>
+            
+            {% if miis|length == 0 %}
+            <div class="p-12 text-center">
+                <div class="mx-auto rounded-full bg-gray-700/50 p-4 w-16 h-16 flex items-center justify-center mb-4">
+                    <img src="/static/icon/user.svg" alt="No Concierges" class="h-8 w-8 invert opacity-50" />
+                </div>
+                <h3 class="text-lg font-medium text-gray-400 mb-2">No Concierges Available</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
+                    You haven't added any concierges yet.
+                </p>
+                <a href="{{ url_for('list_miis') }}"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
+                    <img src="/static/icon/circle-plus.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
+                    <span>Add Your First Concierge</span>
+                </a>
+            </div>
+            {% else %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Concierge Profile
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for mii, mii_data in miis %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            <!-- Concierge Profile Column -->
+                            <td class="px-6 py-4">
+                                <div class="flex items-center space-x-5">
+                                    <div class="relative flex-shrink-0">
+                                        <!-- Golden concierge glow effect -->
+                                        <div class="absolute inset-0 rounded-full blur-md opacity-50 bg-amber-500"></div>
+                                             
+                                        <!-- Mii avatar -->
+                                        <div class="relative flex-shrink-0 h-20 w-20 rounded-full overflow-hidden ring-2 ring-amber-500 ring-offset-2 ring-offset-gray-800">
+                                            <img src="https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={{ mii_data.data.hex() }}" 
+                                                 alt="Concierge avatar for {{ mii_data.name }}" 
+                                                 class="h-full w-full object-cover bg-gradient-to-br from-amber-900/30 to-yellow-900/30" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2">
+                                            <h3 class="text-lg font-medium text-white">{{ mii_data.name }}</h3>
+                                        </div>
+                                        
+                                        <div class="mt-3 flex items-center space-x-2 text-xs text-gray-400">
+                                            <span class="inline-flex items-center px-2.5 py-1 bg-amber-900/30 text-amber-300 rounded-md text-xs font-mono">
+                                                <img src="/static/icon/fingerprint.svg" alt="ID" class="h-3 w-3 mr-1.5 invert opacity-70" />
+                                                {{ mii.mii_id }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <!-- Actions Column -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center space-x-3">
+                                    <a href="{{ url_for('edit_concierge', mii_id=mii.mii_id) }}"
+                                       class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/pencil.svg" alt="Edit" class="h-4 w-4 mr-2 invert" />
+                                        <span>Edit</span>
+                                    </a>
+                                    
+                                    <a href="{{ url_for('list_concierge_movies', mii_id=mii.mii_id) }}"
+                                       class="inline-flex items-center px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/film.svg" alt="Movies" class="h-4 w-4 mr-2 invert" />
+                                        <span>Movies</span>
+                                    </a>
+                                    
+                                    <a href="{{ url_for('remove_concierge', mii_id=mii.mii_id) }}"
+                                       class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/trash.svg" alt="Delete" class="h-4 w-4 mr-2 invert" />
+                                        <span>Delete</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block add_footer %}
-    <a href="{{ url_for('list_miis') }}">
-        <button class="button is-success">
-            <span>Add a Concierge Mii</span>
-        </button>
-    </a>
-{% endblock %}
-
+{% block add_footer %}{% endblock %}

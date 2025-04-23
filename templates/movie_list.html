@@ -4,150 +4,271 @@
 {% block type_name_singular %}movie{% endblock %}
 
 {% block table_listing %}
-    <br>
-    <a href="{{ url_for('list_categories') }}">Return to Category Listing</a>
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Wii Movie ID</th>
-            <th scope="col">DSi Movie ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Length</th>
-            <th scope="col">Unlisted</th>
-            <th scope="col">Thumbnail</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for movie in movies.items %}
-            <tr>
-                <td>{{ movie.movie_id }}</td>
-                {% if movie.ds_mov_id is not none %}
-                    <td>{{ movie.ds_mov_id }}</td>
-                {% else %}
-                    <td> </td>
-                {% endif %}
-                <td>{{ movie.title }}</td>
-                <td>{{ movie.length }}</td>
-                <td>{{ movie.unlisted }}</td>
-                <td><img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}"
-                         alt="Thumbnail for {{ movie.movie_id }}"/></td>
-                <td>
-                   <div class="field has-addons" style="display:flex; flex-direction: column; gap: 8px;">
-                        <div style="display:flex; flex-direction:row;">
-                        <p class="control">
-                            <a href="{{ url_for('save_movie', movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fas fa-download"></i>
-                                </span>
-                                <span>Download</span>
-                            </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-end justify-between gap-6 mb-10">
+        <a href="{{ url_for('list_categories') }}" 
+            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
+            Return to Category Listing
+        </a>
+        
+        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+            <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                            Total Movies
                         </p>
-                        {% if movie.ds_mov_id is not none %}
-                        <p class="control">
-                            <a href="{{ url_for('save_ds_movie', movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fas fa-download"></i>
-                                </span>
-                                <span>Download DS</span>
-                            </a>
+                        <p class="text-3xl text-white font-bold mt-1">
+                            {{ movies.total }}
                         </p>
-                        {% endif %}
-                        {% if movie.staff %}
-                        <p class="control">
-                            <a href="{{ url_for('edit_credits', movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fa-solid fa-scroll"></i>
-                                </span>
-                                <span>Edit Credits</span>
-                            </a>
-                        </p>
-                        {% else %}
-                        <p class="control">
-                            <a href="{{ url_for('add_credits', movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fa-solid fa-scroll"></i>
-                                </span>
-                                <span>Add Credits</span>
-                            </a>
-                        </p>
-                        {% endif %}
-                        </div>
-                        <div style="display:flex; flex-direction:row;">
-                        <p class="control">
-                            <a href="{{ url_for('edit_movie', movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fa-solid fa-edit"></i>
-                                </span>
-                                <span>Edit</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="{{ url_for('toggle_movie_listed', category=category_id, movie_id=movie.movie_id) }}"
-                               class="button is-info">
-                                <span class="icon is-small">
-                                    <i class="fa-solid fa-edit"></i>
-                                </span>
-                                <span>Toggle Listed</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
-                               class="button is-danger">
-                                <span class="icon is-small">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span>Delete</span>
-                            </a>
-                        </p>
-                        </div>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <div class="p-3 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800 shadow-lg">
+                        <img src="/static/icon/film.svg" alt="Movie Icon" class="h-6 w-6 invert" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="movies" class="relative group mb-10">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+                        <img src="/static/icon/film.svg" alt="Movies Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Movie Management</h2>
+                </div>
+                <a href="{{ url_for('add_movie') }}"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                    <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
+                    <span>Add Movie</span>
+                </a>
+            </div>
+            
+            {% if movies.items|length == 0 %}
+            <div class="p-12 text-center">
+                <div class="mx-auto rounded-full bg-gray-700/50 p-4 w-16 h-16 flex items-center justify-center mb-4">
+                    <img src="/static/icon/video-off.svg" alt="No Movies" class="h-8 w-8 invert opacity-50" />
+                </div>
+                <h3 class="text-lg font-medium text-gray-400 mb-2">No Movies Available</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
+                    This category doesn't have any movies yet.
+                </p>
+                <a href="{{ url_for('add_movie') }}"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
+                    <img src="/static/icon/circle-plus.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
+                    <span>Add Your First Movie</span>
+                </a>
+            </div>
+            {% else %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Movie
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Details
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for movie in movies.items %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            <!-- Movie Column: Thumbnail + Titles -->
+                            <td class="px-6 py-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0 relative h-20 w-36 rounded-lg overflow-hidden border border-gray-600 shadow-md">
+                                        <img src="{{ url_for('get_movie_thumbnail', movie_id=movie.movie_id) }}" 
+                                             alt="Thumbnail for {{ movie.movie_id }}" 
+                                             class="h-full w-full object-cover" />
+                                             
+                                        {% if movie.unlisted %}
+                                        <div class="absolute top-1 right-1 px-2 py-1 rounded-xl bg-orange-700/90 text-white text-xs font-medium">
+                                            <img src="/static/icon/eye-off.svg" alt="Unlisted" class="-translate-y-[2px] h-3 w-3 inline-block invert" />
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-md font-medium text-white truncate mb-1">{{ movie.title }}</h3>
+                                        <div class="flex items-center text-xs text-gray-400 space-x-3">
+                                            <span class="inline-flex items-center">
+                                                <img src="/static/icon/clock.svg" alt="Length" class="h-3 w-3 mr-1 invert opacity-70" />
+                                                {{ movie.length }}
+                                            </span>
+                                            {% if movie.staff %}
+                                            <span class="inline-flex items-center text-amber-400">
+                                                <img src="/static/icon/scroll.svg" alt="Credits" class="h-3 w-3 mr-1 invert opacity-70" />
+                                                Has Credits
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <!-- Details Column: IDs, Status -->
+                            <td class="px-6 py-4">
+                                <div class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-indigo-900/30 text-indigo-300 rounded-md text-xs inline-flex items-center">
+                                            <img src="/static/icon/tv.svg" alt="Wii" class="h-3 w-3 mr-1.5 invert opacity-70" />
+                                            <span class="font-mono">{{ movie.movie_id }}</span>
+                                        </span>
+                                        
+                                        {% if movie.ds_mov_id is not none %}
+                                        <span class="px-2.5 py-1 bg-purple-900/30 text-purple-300 rounded-md text-xs inline-flex items-center">
+                                            <img src="/static/icon/smartphone.svg" alt="DSi" class="h-3 w-3 mr-1.5 invert opacity-70" />
+                                            <span class="font-mono">{{ movie.ds_mov_id }}</span>
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div>
+                                        {% if movie.unlisted %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-orange-900/30 text-orange-300">
+                                            <img src="/static/icon/eye-off.svg" alt="Unlisted" class="h-3 w-3 mr-1.5 invert" />
+                                            Unlisted
+                                        </span>
+                                        {% else %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-900/30 text-green-300">
+                                            <img src="/static/icon/eye.svg" alt="Listed" class="h-3 w-3 mr-1.5 invert" />
+                                            Listed
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <!-- Actions Column -->
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="{{ url_for('edit_movie', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/pencil.svg" alt="Edit" class="h-3.5 w-3.5 mr-1.5 invert" />
+                                            <span>Edit</span>
+                                        </a>
+                                        
+                                        <a href="{{ url_for('toggle_movie_listed', category=category_id, movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/eye.svg" alt="Toggle" class="h-3.5 w-3.5 mr-1.5 invert" />
+                                            <span>Toggle</span>
+                                        </a>
+                                        
+                                        <a href="{{ url_for('remove_movie', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/trash.svg" alt="Delete" class="h-3.5 w-3.5 mr-1.5 invert" />
+                                            <span>Delete</span>
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="{{ url_for('save_movie', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/download.svg" alt="Download" class="h-3.5 w-3.5 mr-1 invert" />
+                                            <span>Wii</span>
+                                        </a>
+                                        
+                                        {% if movie.ds_mov_id is not none %}
+                                        <a href="{{ url_for('save_ds_movie', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-2.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/smartphone.svg" alt="Download DS" class="h-3.5 w-3.5 mr-1 invert" />
+                                            <span>DSi</span>
+                                        </a>
+                                        {% endif %}
+                                        
+                                        {% if movie.staff %}
+                                        <a href="{{ url_for('edit_credits', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-2.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/scroll.svg" alt="Edit Credits" class="h-3.5 w-3.5 mr-1 invert" />
+                                            <span>Credits</span>
+                                        </a>
+                                        {% else %}
+                                        <a href="{{ url_for('add_credits', movie_id=movie.movie_id) }}"
+                                            class="inline-flex items-center px-2.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 text-xs">
+                                            <img src="/static/icon/scroll.svg" alt="Add Credits" class="h-3.5 w-3.5 mr-1 invert" />
+                                            <span>Credits</span>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    {% if movies.has_prev %}
+                    <a href="{{ url_for('list_movies', category=category_id, page=movies.prev_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </a>
+                    {% else %}
+                    <span class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </span>
+                    {% endif %}
+            
+                    {% if movies.has_next %}
+                    <a href="{{ url_for('list_movies', category=category_id, page=movies.next_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </a>
+                    {% else %}
+                    <span class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <div class="flex space-x-4">
+                    {% if movies.page != 1 %}
+                    <a href="{{ url_for('list_movies', category=category_id, page=1) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/chevrons-left.svg" alt="First" class="h-4 w-4 mr-2 invert" />
+                        <span>First</span>
+                    </a>
+                    {% else %}
+                    <span class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <img src="/static/icon/chevrons-left.svg" alt="First" class="h-4 w-4 mr-2 invert" />
+                        <span>First</span>
+                    </span>
+                    {% endif %}
+            
+                    {% if movies.page != movies.pages %}
+                    <a href="{{ url_for('list_movies', category=category_id, page=movies.pages) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <span>Last</span>
+                        <img src="/static/icon/chevrons-right.svg" alt="Last" class="h-4 w-4 ml-2 invert" />
+                    </a>
+                    {% else %}
+                    <span class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <span>Last</span>
+                        <img src="/static/icon/chevrons-right.svg" alt="Last" class="h-4 w-4 ml-2 invert" />
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block add_footer %}
-    <!-- Previous/Next -->
-    {% if movies.has_prev %}
-        <a href="{{ url_for('list_movies', category=category_id, page=movies.prev_num) }}">&lt; Previous</a>
-    {% else %}
-        &lt; Previous
-    {% endif %}
-    |
-    {% if movies.has_next %}
-        <a href="{{ url_for('list_movies', category=category_id, page=movies.next_num) }}">Next &gt;</a>
-    {% else %}
-        Next &gt;
-    {% endif %}
-    <br/>
-
-    <!-- First/Last -->
-    <!-- Ensure we are not on the first page. -->
-    {% if movies.page != 1 %}
-        <a href="{{ url_for('list_movies', category=category_id, page=1) }}">&lt;&lt; First</a>
-    {% else %}
-        &lt;&lt; First
-    {% endif %}
-    |
-    <!-- Ensure we are not on the last page. -->
-    {% if movies.page != movies.pages %}
-        <a href="{{ url_for('list_movies', category=category_id, page=movies.pages) }}">Last &gt;&gt;</a>
-    {% else %}
-        Last &gt;&gt;
-    {% endif %}
-
-    <br/>
-    <a href="{{ url_for('add_movie') }}">
-        <button class="button is-success">
-            <span>Add a Movie</span>
-        </button>
-    </a>
-{% endblock %}
+{% block add_footer %}{% endblock %}

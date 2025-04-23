@@ -1,43 +1,199 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Upload a Pay Movie
+    Upload a Pay Movie - Room Server
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.movie.label(class_="label") }} {{ form.movie(size=32) }}
-            <br>
-            <br>
-            {{ form.poster.label(class_="label") }} {{ form.poster(size=32) }}
-            <br>
-            <br>
-            {{ form.thumbnail.label(class_="label") }} {{ form.thumbnail(size=32) }}
-            <br>
-            <br>
-            {{ form.title.label(class_="label") }} {{ form.title(class_="input") }}
-            <br>
-            <br>
-            {{ form.release.label(class_="label") }} {{ form.release(class_="input") }}
-            <br>
-            <br>
-            {{ form.note.label(class_="label") }} {{ form.note(class_="input") }}
-            <br>
-            <br>
-            {{ form.price.label(class_="label") }} {{ form.price(class_="input") }}
-            <br>
-            <br>
-            {{ form.price_code.label(class_="label") }} {{ form.price_code(class_="input") }}
-            <br>
-            <br>
-            {{ form.ref_id.label(class_="label") }} {{ form.ref_id(class_="input") }}
-            <br>
-            <br>
-            {{ form.category.label(class_="label") }} {{ form.category }}
-        </p>
-        <br>
-        <p>{{ form.upload(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Upload Premium Movie</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3">
+                    <img src="/static/icon/film.svg" alt="Movie Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Premium Movie Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.movie.id }}" class="block text-sm font-medium text-gray-300 mb-2">Movie File:</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/film.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                <label for="{{ form.movie.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                    <span>Upload movie file</span>
+                                    {{ form.movie(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                .mo video format
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.poster.id }}" class="block text-sm font-medium text-gray-300 mb-2">Poster Image:</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                    <label for="{{ form.poster.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                        <span>Upload poster</span>
+                                        {{ form.poster(class_="sr-only") }}
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    PNG, JPG up to 1MB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.thumbnail.id }}" class="block text-sm font-medium text-gray-300 mb-2">Thumbnail Image:</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-purple-500 transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                    <label for="{{ form.thumbnail.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-purple-400 hover:text-purple-300 focus-within:outline-none">
+                                        <span>Upload thumbnail</span>
+                                        {{ form.thumbnail(class_="sr-only") }}
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    PNG, JPG up to 1MB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.title.id }}" class="block text-sm font-medium text-gray-300 mb-2">Movie Title:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.title(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent", placeholder="Enter movie title") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">The display title for this movie</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.release.id }}" class="block text-sm font-medium text-gray-300 mb-2">Release Year:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/calendar.svg" alt="Release" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.release(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent", placeholder="YYYY") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Year when the movie was released</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.price.id }}" class="block text-sm font-medium text-gray-300 mb-2">Price:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/dollar-sign.svg" alt="Price" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.price(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent", placeholder="Enter price") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Price for purchasing this movie</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.price_code.id }}" class="block text-sm font-medium text-gray-300 mb-2">Price Code:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/code.svg" alt="Price Code" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.price_code(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent", placeholder="Enter price code") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Internal code for pricing system</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.ref_id.id }}" class="block text-sm font-medium text-gray-300 mb-2">Reference ID:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/hash.svg" alt="Reference" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.ref_id(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent", placeholder="Enter reference ID") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Unique identifier for this movie</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.category.id }}" class="block text-sm font-medium text-gray-300 mb-2">Category:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/folder.svg" alt="Category" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.category(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Classification category for this movie</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.note.id }}" class="block text-sm font-medium text-gray-300 mb-2">Notes:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-1/2 left-3 -translate-y-1/2 flex items-start pointer-events-none">
+                            <img src="/static/icon/file-text.svg" alt="Notes" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.note(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[100px]", placeholder="Enter notes about this movie") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Additional information about this movie</p>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="/theunderground/paymovies" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        Upload Movie
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Premium Movies</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Premium movies require payment for users to view them.</p>
+                        <p>Make sure to include high-quality poster and thumbnail images.</p>
+                        <p>All pricing information must be accurate before uploading.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
