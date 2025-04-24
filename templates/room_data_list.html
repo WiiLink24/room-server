@@ -200,15 +200,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                <div class="flex space-x-2">
-                                    {% if type == "Voting" %}
-                                    <a href="{{ url_for('view_voting_results', room_id=data.room_id, voting_id=data.id) }}"
-                                        class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 text-sm">
-                                        <img src="/static/icon/bar-chart-3.svg" alt="Results" class="h-4 w-4 mr-2 invert" />
-                                        <span>Results</span>
-                                    </a>
-                                    {% endif %}
-                                    
+                                <div class="flex space-x-2">                         
                                     <a href="{{ url_for('remove_tv_item', room_id=data.room_id, data_id=data.id, image_id=data.data['imageid']) }}"
                                         class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-sm">
                                         <img src="/static/icon/trash.svg" alt="Delete" class="h-4 w-4 mr-2 invert" />
@@ -225,7 +217,7 @@
             {% if datas|length == 0 %}
             <div class="p-12 text-center">
                 <div class="mx-auto rounded-full bg-gray-700/50 p-4 w-16 h-16 flex items-center justify-center mb-4">
-                    <img src="/static/icon/tv-off.svg" alt="No Content" class="h-8 w-8 invert opacity-50" />
+                    <img src="/static/icon/tv.svg" alt="No Content" class="h-8 w-8 invert opacity-50" />
                 </div>
                 <h3 class="text-lg font-medium text-gray-400 mb-2">No TV Content Available</h3>
                 <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
@@ -233,7 +225,7 @@
                 </p>
                 <a href="{{ url_for('choose_type', room_id=room_id) }}"
                     class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
-                    <img src="/static/icon/plus-circle.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
+                    <img src="/static/icon/circle-plus.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
                     <span>Add First TV Item</span>
                 </a>
             </div>
