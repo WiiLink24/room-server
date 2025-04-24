@@ -1,33 +1,89 @@
 {% extends "generic/base.html" %}
 
 {% set sidebar_menu %}
-    <li>
-        <ul>
-                <li>
-                    <a
-                        href="{{ url_for('list_pay_category_headers') }}"
-                        {% if url_for(request.endpoint, **request.view_args) == url_for('list_pay_category_headers') %}
-                            class="is-active"
-                        {% endif %}
-                    >
-                        Genres
-                    </a>
-                </li>
-        </ul>
-    </li>
+<div class="border-l-4 pl-2 border-gray-700/40 hover:border-gray-700/60 py-2 transition-all">
+    <ul class="space-y-1">
+        <li>
+            <a href="{{ url_for('list_pay_category_headers') }}"
+                class="flex items-center px-4 py-2 text-sm {% if url_for(request.endpoint, **request.view_args) == url_for('list_pay_category_headers') %}bg-gray-700/70 text-white{% else %}text-gray-300 hover:bg-gray-700/50 hover:text-white{% endif %} rounded-lg transition-colors group">
+                <img src="/static/icon/tag.svg" alt="Genres"
+                    class="h-4 w-4 mr-2 invert {% if url_for(request.endpoint, **request.view_args) == url_for('list_pay_category_headers') %}opacity-100{% else %}opacity-70 group-hover:opacity-100{% endif %}" />
+                <span>Genres</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('list_pay_categories') }}"
+                class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700/50 hover:text-white rounded-lg transition-colors group">
+                <img src="/static/icon/folder.svg" alt="Categories"
+                    class="h-4 w-4 mr-2 invert opacity-70 group-hover:opacity-100" />
+                <span>Categories</span>
+            </a>
+        </li>
+    </ul>
+</div>
 {% endset %}
-
 {% block title %}
-    {{ action }} a Category
+    {{ action }} a Category - The Underground
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p class="block">
-            {{ form.hidden_tag() }}
-            {{ form.title.label(class_="label") }} {{ form.title(class_="input block") }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Payment Genre</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                    <img src="/static/icon/tag.svg" alt="Genre Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Genre Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.title.id }}" class="block text-sm font-medium text-gray-300 mb-2">Genre Title:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.title(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent", placeholder="Enter genre title") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The display title for this payment genre</p>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_pay_category_headers') }}" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        {{ action }} Genre
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        </p>
-        <p>{{ form.submit(class_="button is-success block") }}</p>
-    </form>
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Payment Genres</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Genres are used to group similar categories together.</p>
+                        <p>Each genre appears as a section header in the interface.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

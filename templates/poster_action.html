@@ -1,29 +1,120 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    {{ action }} a Movie
+    {{ action }} a Poster - The Underground
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.title.label(class_="label") }} {{ form.title(class_="input") }}
-            <br>
-            <br>
-            {{ form.msg.label(class_="label") }} {{ form.msg(class_="input") }}
-            <br>
-            <br>
-            {{ form.movie_id.label(class_="label") }} {{ form.movie_id(class_="input") }}
-            <br>
-            <br>
-            {{ form.poster.label(class_="label") }}
-            {% if poster_id %}
-            {{ existing_image('poster', url_for('get_poster', poster=poster_id)) }}
-            {% endif %}
-            {{ form.poster(size=32) }}
-        </p>
-        <br>
-        <p>{{ form.upload(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Movie Poster</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-rose-600/20 rounded-lg text-rose-400 mr-3">
+                    <img src="/static/icon/image.svg" alt="Poster Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Poster Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.title.id }}" class="block text-sm font-medium text-gray-300 mb-2">Poster Title:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.title(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent", placeholder="Enter poster title") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The display title for this poster</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.msg.id }}" class="block text-sm font-medium text-gray-300 mb-2">Message:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-1/2 left-3 -translate-y-1/2 flex items-start pointer-events-none">
+                            <img src="/static/icon/message-square.svg" alt="Message" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.msg(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent min-h-[100px]", placeholder="Enter poster message") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The message to display with this poster</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.movie_id.id }}" class="block text-sm font-medium text-gray-300 mb-2">Associated Movie:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/film.svg" alt="Movie" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.movie_id(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Movie this poster promotes</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.poster.id }}" class="block text-sm font-medium text-gray-300 mb-2">Poster Image:</label>
+                    {% if poster_id %}
+                    <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-20 w-20 rounded overflow-hidden bg-gray-800">
+                                <img src="{{ url_for('get_poster', poster=poster_id) }}" alt="Current Poster" class="h-full w-full object-cover">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white">Current Poster Image</p>
+                                <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-rose-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/upload.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                <label for="{{ form.poster.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-rose-400 hover:text-rose-300 focus-within:outline-none">
+                                    <span>Upload poster image</span>
+                                    {{ form.poster(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                PNG, JPG up to 1MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_posters') }}" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/plus.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        {{ action }} Poster
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-rose-600/20 rounded-lg text-rose-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Movie Posters</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Posters are shown in the left side of the main room.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

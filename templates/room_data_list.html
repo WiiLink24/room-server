@@ -4,69 +4,307 @@
 {% block type_name_singular %}room data{% endblock %}
 
 {% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Image</th>
-            <th scope="col">Title / Data</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for data in datas %}
-            <tr>
-                {% set type = data.data["type"] %}
-
-                <td>{{ type }}</td>
-                <td><img alt="Banner for {{ data.room_id }} ・ TV ID: {{ data.id }}" src="{{ url_for('serve_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}"/></td>
-
-                {# missing types 1 and 4, coupon and delivery #}
-
-                {% if type == "Delivery" %}
-                    {# 1, smp #}
-                    <td>Delivery Title ・ {{ data.data['smp']['smptitle'] }}</td>
-                {% elif type == "Voting" %}
-                    {# 2, enq #}
-                    <td>Poll Title ・ {{ data.data['enq']['enqtitle'] }}<br/>Question ・ {{ data.data['enq']['enqq'] }}<br/>Mii Message ・ {{ data.data['enq']['enqmsginfo']['enqmsg'] }}<br/>Choices ・ {{ data.data['enq']['enqa'] }}</td>
-                {% elif type == "Movie" %}
-                    {# 3, mov #}
-                    <td>Movie Title ・ {{ data.data['mov']['title'] }}<br/>Movie ID ・ {{ data.data['mov']['movieid'] }}</td>
-                {% elif type == "Coupon" %}
-                    {# 4, coupon #}
-                    <td>Coupon Title ・ {{ data.data['coup']['couptitle'] }}<br/>Coupon ID ・ {{ data.data['coup']['coupid'] }}</td>
-                {% elif type == "Website Link" %}
-                    {# 5, link #}
-                    <td>Link Title ・ {{ data.data['link']['linktitle'] }}<br/>URL ・ {{ data.data['link']['linkurl'] }}</td>
-                {% elif type == "Picture" %}
-                    {# 6, pic #}
-                    <td>Picture Title ・ {{ data.data['pic']['pictitle'] }}<br/>Picture Count ・ {{ data.data['pic']['picnum'] }}</td>
-                {% else %}
-                <td>{{ data.data }}</td>
-                {% endif %}
-                <td style="text-align: center;">
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('remove_tv_item', room_id=data.room_id, data_id=data.id, image_id=data.data['imageid']) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-end justify-between gap-6 mb-10">
+        <a href="{{ url_for('edit_room', room_id=room_id) }}" 
+            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
+            Return to Room Management
+        </a>
+        
+        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+            <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                            Total TV Items
+                        </p>
+                        <p class="text-3xl text-white font-bold mt-1">
+                            {{ datas|length }}
                         </p>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <div class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                        <img src="/static/icon/tv.svg" alt="TV Icon" class="h-6 w-6 invert" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tv-content" class="relative group mb-10">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                        <img src="/static/icon/tv.svg" alt="TV Content Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Room TV Content</h2>
+                </div>
+                <a href="{{ url_for('choose_type', room_id=room_id) }}"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                    <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
+                    <span>Add New TV Item</span>
+                </a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Type
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Image
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Content Details
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for data in datas %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            {% set type = data.data["type"] %}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="flex items-center">
+                                    {% if type == "Delivery" %}
+                                    <div class="p-1.5 bg-purple-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/box.svg" alt="Delivery" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-purple-400">{{ type }}</span>
+                                    {% elif type == "Voting" %}
+                                    <div class="p-1.5 bg-green-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/bar-chart-2.svg" alt="Voting" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-green-400">{{ type }}</span>
+                                    {% elif type == "Movie" %}
+                                    <div class="p-1.5 bg-blue-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/film.svg" alt="Movie" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-blue-400">{{ type }}</span>
+                                    {% elif type == "Coupon" %}
+                                    <div class="p-1.5 bg-yellow-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/ticket.svg" alt="Coupon" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-yellow-400">{{ type }}</span>
+                                    {% elif type == "Website Link" %}
+                                    <div class="p-1.5 bg-indigo-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/link.svg" alt="Website" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-indigo-400">{{ type }}</span>
+                                    {% elif type == "Picture" %}
+                                    <div class="p-1.5 bg-pink-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/image.svg" alt="Picture" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-pink-400">{{ type }}</span>
+                                    {% else %}
+                                    <div class="p-1.5 bg-gray-500/20 rounded-lg mr-2">
+                                        <img src="/static/icon/help-circle.svg" alt="Unknown" class="h-4 w-4 invert" />
+                                    </div>
+                                    <span class="text-gray-400">{{ type }}</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <img src="{{ url_for('serve_room_data_image', room_id=data.room_id, image_id=data.data['imageid']) }}" 
+                                     alt="Banner for {{ data.room_id }} ・ TV ID: {{ data.id }}" 
+                                     class="h-20 w-auto rounded-lg border border-gray-600 shadow-md" />
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-300">
+                                <div class="space-y-2 max-w-xl">
+                                    {% if type == "Delivery" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Delivery Title:</span>
+                                            <span>{{ data.data['smp']['smptitle'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% elif type == "Voting" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Poll Title:</span>
+                                            <span>{{ data.data['enq']['enqtitle'] }}</span>
+                                        </div>
+                                        <div class="flex items-start text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">Question:</span>
+                                            <span>{{ data.data['enq']['enqq'] }}</span>
+                                        </div>
+                                        <div class="flex items-start text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">Message:</span>
+                                            <span>{{ data.data['enq']['enqmsginfo']['enqmsg'] }}</span>
+                                        </div>
+                                        <div class="mt-2 bg-gray-700/40 rounded-lg p-2">
+                                            <div class="text-xs text-gray-400 mb-1">Choices:</div>
+                                            <div class="text-sm">{{ data.data['enq']['enqa'] }}</div>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% elif type == "Movie" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Movie Title:</span>
+                                            <span>{{ data.data['mov']['title'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">Movie ID:</span>
+                                            <span class="font-mono">{{ data.data['mov']['movieid'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% elif type == "Coupon" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Coupon Title:</span>
+                                            <span>{{ data.data['coup']['couptitle'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">Coupon ID:</span>
+                                            <span class="font-mono">{{ data.data['coup']['coupid'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% elif type == "Website Link" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Link Title:</span>
+                                            <span>{{ data.data['link']['linktitle'] }}</span>
+                                        </div>
+                                        <div class="flex items-start text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">URL:</span>
+                                            <span class="text-blue-400 break-all">{{ data.data['link']['linkurl'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% elif type == "Picture" %}
+                                        <div class="flex items-center text-sm">
+                                            <span class="font-medium text-white mr-2">Picture Title:</span>
+                                            <span>{{ data.data['pic']['pictitle'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-sm mt-1">
+                                            <span class="font-medium text-white mr-2">Picture Count:</span>
+                                            <span>{{ data.data['pic']['picnum'] }}</span>
+                                        </div>
+                                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                                            <span class="font-mono bg-gray-700/50 px-2 py-0.5 rounded">ID: {{ data.id }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="flex items-start text-sm font-mono text-gray-400 overflow-auto max-h-40">
+                                            <pre>{{ data.data }}</pre>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    {% if type == "Voting" %}
+                                    <a href="{{ url_for('view_voting_results', room_id=data.room_id, voting_id=data.id) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/bar-chart-3.svg" alt="Results" class="h-4 w-4 mr-2 invert" />
+                                        <span>Results</span>
+                                    </a>
+                                    {% endif %}
+                                    
+                                    <a href="{{ url_for('remove_tv_item', room_id=data.room_id, data_id=data.id, image_id=data.data['imageid']) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/trash.svg" alt="Delete" class="h-4 w-4 mr-2 invert" />
+                                        <span>Delete</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            {% if datas|length == 0 %}
+            <div class="p-12 text-center">
+                <div class="mx-auto rounded-full bg-gray-700/50 p-4 w-16 h-16 flex items-center justify-center mb-4">
+                    <img src="/static/icon/tv-off.svg" alt="No Content" class="h-8 w-8 invert opacity-50" />
+                </div>
+                <h3 class="text-lg font-medium text-gray-400 mb-2">No TV Content Available</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
+                    This room doesn't have any TV content yet. Click the button below to add your first TV item.
+                </p>
+                <a href="{{ url_for('choose_type', room_id=room_id) }}"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
+                    <img src="/static/icon/plus-circle.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
+                    <span>Add First TV Item</span>
+                </a>
+            </div>
+            {% endif %}
+            
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center">
+                <div class="text-sm text-gray-500">
+                    Showing {{ datas|length }} TV item{{ "s" if datas|length != 1 else "" }}
+                </div>
+                
+                <div class="flex items-center">
+                    <a href="{{ url_for('choose_type', room_id=room_id) }}"
+                        class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
+                        <span>Add New TV Item</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Type Icons Reference -->
+    <div class="flex flex-row items-center gap-4 mb-8">
+        <div class="p-4 bg-gray-800/60 border border-gray-700 rounded-xl shadow-lg">
+            <div class="flex items-center mb-3">
+                <div class="p-1.5 bg-blue-500/20 rounded-lg mr-2">
+                    <img src="/static/icon/circle-help.svg" alt="Info" class="h-4 w-4 invert" />
+                </div>
+                <h3 class="text-sm font-medium text-white">Content Types</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-purple-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/box.svg" alt="Delivery" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Delivery</span>
+                </div>
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-green-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/chart-pie.svg" alt="Voting" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Voting</span>
+                </div>
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-blue-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/film.svg" alt="Movie" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Movie</span>
+                </div>
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-yellow-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/ticket.svg" alt="Coupon" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Coupon</span>
+                </div>
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-indigo-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/link.svg" alt="Website" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Website Link</span>
+                </div>
+                <div class="flex items-center text-xs text-gray-400">
+                    <div class="p-1 bg-pink-500/20 rounded-lg mr-1.5">
+                        <img src="/static/icon/image.svg" alt="Picture" class="h-3 w-3 invert" />
+                    </div>
+                    <span>Picture</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block add_footer %}
-    <a href="{{ url_for('choose_type', room_id=room_id) }}">
-        <button class="button is-success">
-            <span>Create a Room TV</span>
-        </button>
-    </a>
-{% endblock %}
-
+{% block add_footer %}{% endblock %}

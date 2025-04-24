@@ -4,75 +4,139 @@
 {% block type_name_singular %}intro info{% endblock %}
 
 {% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Sequence Number</th>
-            <th scope="col">Content Type</th>
-            <th scope="col">Thumbnail</th>
-            <th scope="col">Link Type</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for info in infos.items %}
-            <tr>
-                <td>{{ info.cnt_id }}</td>
-                <td>{{ info.cnt_type.name }}</td>
-
-                {% if info.cnt_type.name == "Image" %}
-                    <td><img src="{{ url_for('get_info_image', cnt_id=info.cnt_id) }}" width="200"
-                        alt="Thumbnail for {{ info.cnt_id }}"/></td>
-                {% else %}
-                    <td>Not an image</td>
-                {% endif %}
-
-                {% if info.link_type.name == "TheatreMovie" or info.link_type.name == "Shop" or info.link_type.name == "Room" %}
-                    <td>{{ info.link_type.name }}<br>Link ID ・ {{ info.link_id }}</td>
-                {% elif info.link_type.name == "TheatreCategory" or info.link_type.name == "Category" %}
-                    <td>{{ info.link_type.name }}<br>Link ID ・ {{ info.link_id }}<br>Name ・ {{ info.cat_name }}</td>
-                {% else %}
-                    <td>{{ info.link_type.name }}</td>
-                {% endif %}
-
-                {% if info.cnt_id != 1 %}
-                <!-- We will not allow for the first info to be deleted, things will tragically break if it is.-->
-                <td>
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('remove_intro_info', id=info.cnt_id) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-center justify-end gap-6 mb-10">
+        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+            <div
+                class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                            Total Room TV Content
+                        </p>
+                        <p class="text-3xl text-white font-bold mt-1">
+                            {{ infos.total }}
                         </p>
                     </div>
-                </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
+                    <div class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                        <img src="/static/icon/info.svg" alt="Info Icon" class="h-6 w-6 invert text-white" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% block add_footer %}
-    {% if infos.has_prev %}
-        <a href="{{ url_for('list_intro_info', page=infos.prev_num) }}">&lt; Previous</a>
-    {% else %}
-        &lt; Previous
-    {% endif %}
-    |
-    {% if infos.has_next %}
-        <a href="{{ url_for('list_intro_info', page=infos.next_num) }}">Next &gt;</a>
-    {% else %}
-        Next &gt;
-    {% endif %}
-    <br/>
+    <div id="intro-info" class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                        <img src="/static/icon/info.svg" alt="Intro Info Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Room TV Content</h2>
+                </div>
+                <a href="{{ url_for('add_intro_info') }}"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                    <img src="/static/icon/plus.svg" alt="Add Icon" class="h-4 w-4 invert mr-2" />
+                    Add Room Content
+                </a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Sequence Number
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Content Type
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Thumbnail
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Link Type
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for info in infos.items %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-blue-300">
+                                {{ info.cnt_id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                                {{ info.cnt_type.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                {% if info.cnt_type.name == "Image" %}
+                                <img src="{{ url_for('get_info_image', cnt_id=info.cnt_id) }}" width="200"
+                                    alt="Thumbnail for {{ info.cnt_id }}" />
+                                {% else %}
+                                Not an image
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                {% if info.link_type.name in ["TheatreMovie", "Shop", "Room"] %}
+                                {{ info.link_type.name }}<br>Link ID ・ {{ info.link_id }}
+                                {% elif info.link_type.name in ["TheatreCategory", "Category"] %}
+                                {{ info.link_type.name }}<br>Link ID ・ {{ info.link_id }}<br>Name ・ {{ info.cat_name }}
+                                {% else %}
+                                {{ info.link_type.name }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    <a href="{{ url_for('remove_intro_info', id=info.cnt_id) }}"
+                                        class="inline-flex items-center px-3 py-1 rounded-md bg-red-700/30 text-red-300 hover:bg-red-600/50 hover:text-white transition-colors duration-200">
+                                        <img src="/static/icon/trash.svg" alt="Delete Icon" class="h-4 w-4 invert mr-1.5" />
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    {% if infos.has_prev %}
+                    <a href="{{ url_for('list_intro_info', page=infos.prev_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center gap-3 text-sm">
+                        <img src="/static/icon/chevron-down.svg" alt="Previous Icon" class="h-4 w-4 invert mr-1 rotate-90" />
+                        Previous
+                    </a>
+                    {% else %}
+                    <span class="inline-flex items-center gap-3 px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed">
+                        <img src="/static/icon/chevron-down.svg" alt="Previous Icon" class="h-4 w-4 invert mr-1 opacity-30 rotate-90" />
+                        Previous
+                    </span>
+                    {% endif %}
 
-    <a href="{{ url_for('add_intro_info') }}">
-        <button class="button is-success">
-            <span>Add a screen</span>
-        </button>
-    </a>
+                    {% if infos.has_next %}
+                    <a href="{{ url_for('list_intro_info', page=infos.next_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center gap-3 text-sm">
+                        Next
+                        <img src="/static/icon/chevron-down.svg" alt="Previous Icon" class="h-4 w-4 invert -rotate-90" />
+                    </a>
+                    {% else %}
+                    <span class="inline-flex items-center gap-3 px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed">
+                        Next
+                        <img src="/static/icon/chevron-down.svg" alt="Previous Icon" class="h-4 w-4 invert opacity-30 -rotate-90" />
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

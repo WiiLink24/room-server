@@ -1,35 +1,134 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Add Poll Content
+    Add Poll Content - The Underground
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            <br>
-            {{ form.title.label(class_="label") }} {{ form.title(class_="textarea") }}
-            <br>
-            <br>
-            {{ form.question.label(class_="label") }} {{ form.question(class_="input") }}
-            <br>
-            <br>
-            {{ form.mii_msg.label(class_="label") }} {{ form.mii_msg(class_="textarea") }}
-            <br>
-            <br>
-            {{ form.tv.label(class_="label") }} {{ form.tv(size=32) }}
-            <br>
-            <br>
-            {{ form.image1.label(class_="label") }} {{ form.image1(size=32) }}
-            <br>
-            <br>
-            {{ form.image2.label(class_="label") }} {{ form.image2(size=32) }}
-            <br>
-            <br>
-            {{ form.image3.label(class_="label") }} {{ form.image3(size=32) }}
-        </p>
-        <br>
-        <p>{{ form.upload(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Add Poll Content</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+                    <img src="/static/icon/Poll.svg" alt="Poll Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Poll Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.title.id }}" class="block text-sm font-medium text-gray-300 mb-2">Title:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/type.svg" alt="Title" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.title(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent min-h-[100px]", placeholder="Enter poll title") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The main title for this poll</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.question.id }}" class="block text-sm font-medium text-gray-300 mb-2">Question:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/circle-help.svg" alt="Question" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.question(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent", placeholder="Enter poll question") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The specific question users will answer</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.mii_msg.id }}" class="block text-sm font-medium text-gray-300 mb-2">Mii Message:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/message-square.svg" alt="Message" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.mii_msg(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent min-h-[100px]", placeholder="Enter message for Mii character") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Message displayed by the Mii character</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.tv.id }}" class="block text-sm font-medium text-gray-300 mb-2">TV Program:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/tv.svg" alt="TV" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.tv(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent", placeholder="Enter TV program ID") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Associated TV program identifier</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="{{ form.image1.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 1:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.image1(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent", placeholder="Enter image 1 ID") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">First poll choice image</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.image2.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 2:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.image2(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent", placeholder="Enter image 2 ID") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Second poll choice image</p>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.image3.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 3:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.image3(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent", placeholder="Enter image 3 ID") }}
+                        </div>
+                        <p class="mt-1 text-xs text-gray-400">Third poll choice image</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="/thepollbooth/rooms" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-1.5 invert" />
+                        Add Poll
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Poll Content</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Polls allow users to vote on multiple options and see results.</p>
+                        <p>Make sure to enter valid IDs for all image options.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

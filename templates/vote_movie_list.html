@@ -4,78 +4,422 @@
 {% block type_name_singular %}movie{% endblock %}
 
 {% block table_listing %}
-    <br>
-    <a href="{{ url_for('votes_list_categories') }}">Return to Category Listing</a>
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Movie ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Length</th>
-            <th scope="col">Thumbnail</th>
-            <th scope="col">Votes</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for movie in movies.items %}
-            <tr>
-                <td>{{ movie.movie_id }}</td>
-                <td>{{ movie.title }}</td>
-                <td>{{ movie.length }}</td>
-                <td><img src="{{ url_for('votes_get_movie_thumbnail', movie_id=movie.movie_id) }}"
-                         alt="Thumbnail for {{ movie.movie_id }}"/></td>
-                <td>
-                    <div class="field has-addons">
-                        <p class="control">
-                            {{ votes[movie.movie_id]['count'] }} votes
-                            <br>
-                            ◎ {{ votes[movie.movie_id]['vote.4'] }} ・ 〇 {{ votes[movie.movie_id]['vote.3'] }} ・ △ {{ votes[movie.movie_id]['vote.2'] }} ・ × {{ votes[movie.movie_id]['vote.1'] }}
-                            <br>
-                            {% if votes[movie.movie_id]['count'] == 0 %}
-                                ♂ {{ votes[movie.movie_id]['gender.1'] }} (0%)
-                                ・ 
-                                ♀ {{ votes[movie.movie_id]['gender.2'] }} (0%)
-                            {% else %}
-                                ♂ {{ votes[movie.movie_id]['gender.1'] }} ({{ ((votes[movie.movie_id]['gender.1'] / votes[movie.movie_id]['count']) * 100)|round|int }}%)
-                                ・ 
-                                ♀ {{ votes[movie.movie_id]['gender.2'] }} ({{ ((votes[movie.movie_id]['gender.2'] / votes[movie.movie_id]['count']) * 100)|round|int }}%)
-                            {% endif %}
-                        </p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {% set total_votes = namespace(value=0) %}
+    {% set love_votes = namespace(value=0) %}
+    {% set like_votes = namespace(value=0) %}
+    {% set okay_votes = namespace(value=0) %}
+    {% set dislike_votes = namespace(value=0) %}
+
+    {% for movie in movies.items %}
+    {% set total_votes.value = total_votes.value + votes[movie.movie_id]['count'] %}
+    {% set love_votes.value = love_votes.value + votes[movie.movie_id]['vote.4'] %}
+    {% set like_votes.value = like_votes.value + votes[movie.movie_id]['vote.3'] %}
+    {% set okay_votes.value = okay_votes.value + votes[movie.movie_id]['vote.2'] %}
+    {% set dislike_votes.value = dislike_votes.value + votes[movie.movie_id]['vote.1'] %}
+    {% endfor %}
+
+    <div class="flex flex-col sm:flex-row items-end justify-between gap-6 mb-10">
+        <a href="{{ url_for('votes_list_categories') }}"
+            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
+            Return to Category Listing
+        </a>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+            <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+                <div
+                    class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                Total Votes
+                            </p>
+                            <p class="text-3xl text-white font-bold mt-1">
+                                {{ total_votes.value }}
+                            </p>
+                        </div>
+                        <div class="p-3 rounded-full bg-gradient-to-br from-green-600 to-green-800 shadow-lg">
+                            <img src="/static/icon/chart-pie.svg" alt="Vote Stats Icon" class="h-6 w-6 invert" />
+                        </div>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </div>
+            <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+                <div
+                    class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                Total Movies
+                            </p>
+                            <p class="text-3xl text-white font-bold mt-1">
+                                {{ movies.total }}
+                            </p>
+                        </div>
+                        <div class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                            <img src="/static/icon/film.svg" alt="Movie Icon" class="h-6 w-6 invert" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Vote Breakdown -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div class="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl shadow-lg">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-blue-400 font-xl tracking-wider uppercase font-medium">Love it</h3>
+                <div class="p-2 rounded-full bg-blue-500/20">
+                    <img src="/static/icon/circle-dot.svg" alt="Love" class="h-4 w-4 invert" />
+                </div>
+            </div>
+            <p class="text-2xl font-bold text-blue-500">{{ love_votes.value }}</p>
+            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                <div class="bg-blue-500 h-1.5 rounded-full"
+                {% if total_votes.value > 0 %}
+                    style="width: {{ (love_votes.value / total_votes.value * 100) if total_votes.value > 0 else 0 }}%;">
+                {% else %}
+                    style="width: 0%;">
+                {% endif %}
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-2">
+                {% if total_votes.value > 0 %}
+                    {{ ((love_votes.value / total_votes.value) * 100)|round|int }}% of total votes
+                {% else %}
+                    0% of total votes
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="p-4 bg-green-500/10 border border-green-500/20 rounded-xl shadow-lg">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-green-400 font-xl tracking-wider uppercase font-medium">Like it</h3>
+                <div class="p-2 rounded-full bg-green-500/20">
+                    <img src="/static/icon/circle.svg" alt="Like" class="h-4 w-4 invert" />
+                </div>
+            </div>
+            <p class="text-2xl font-bold text-green-500">{{ like_votes.value }}</p>
+            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                <div class="bg-green-500 h-1.5 rounded-full"
+                    {% if total_votes.value > 0 %}
+                        style="width: {{ (like_votes.value / total_votes.value * 100) if total_votes.value > 0 else 0 }}%;">
+                    {% else %}
+                        style="width: 0%;">
+                    {% endif %}
+                </div>
+            </div>
+            {% if total_votes.value > 0 %}
+                <p class="text-gray-400 text-xs mt-2">{{ ((like_votes.value / total_votes.value) * 100)|round|int }}% of
+                    total votes</p>
+            {% else %}
+                <p class="text-gray-400 text-xs mt-2">0% of total votes</p>
+            {% endif %}
+        </div>
+
+        <div class="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl shadow-lg">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-yellow-400 font-xl tracking-wider uppercase font-medium">It's okay</h3>
+                <div class="p-2 rounded-full bg-yellow-500/20">
+                    <img src="/static/icon/triangle.svg" alt="Okay" class="h-4 w-4 invert" />
+                </div>
+            </div>
+            <p class="text-2xl font-bold text-yellow-500">{{ okay_votes.value }}</p>
+            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                <div class="bg-yellow-500 h-1.5 rounded-full"
+                    {% if total_votes.value > 0 %}
+                        style="width: {{ (okay_votes.value / total_votes.value * 100) if total_votes.value > 0 else 0 }}%;">
+                    {% else %}
+                        style="width: 0%;">
+                    {% endif %}
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-2">
+                {% if total_votes.value > 0 %}
+                    {{ ((okay_votes.value / total_votes.value) * 100)|round|int }}% of total votes
+                {% else %}
+                    0% of total votes
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl shadow-lg">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-red-400 font-xl tracking-wider uppercase font-medium">Dislike</h3>
+                <div class="p-2 rounded-full bg-red-500/20">
+                    <img src="/static/icon/x.svg" alt="Dislike" class="h-4 w-4 invert" />
+                </div>
+            </div>
+            <p class="text-2xl font-bold text-red-500">{{ dislike_votes.value }}</p>
+            <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                <div class="bg-red-500 h-1.5 rounded-full"
+                {% if total_votes.value > 0 %}
+                    style="width: {{ (dislike_votes.value / total_votes.value * 100) if total_votes.value > 0 else 0 }}%;">
+                {% else %}
+                    style="width: 0%;">
+                {% endif %}
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-2">
+                {% if total_votes.value > 0 %}
+                    {{ ((dislike_votes.value / total_votes.value) * 100)|round|int }}% of total votes
+                {% else %}
+                    0% of total votes
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div id="movies" class="relative group mb-10">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                        <img src="/static/icon/film.svg" alt="Movies Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Movie Voting Statistics</h2>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Movie ID
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Length
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Thumbnail
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Votes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for movie in movies.items %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-blue-300">
+                                {{ movie.movie_id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                                {{ movie.title }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                {{ movie.length }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <img src="{{ url_for('votes_get_movie_thumbnail', movie_id=movie.movie_id) }}"
+                                    alt="Thumbnail for {{ movie.movie_id }}"
+                                    class="h-16 w-auto rounded-lg border border-gray-600" />
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-300 w-80">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-medium text-white">{{ votes[movie.movie_id]['count'] }}
+                                            votes</span>
+                                        <div class="flex space-x-2">
+                                            <span class="flex items-center text-xs text-blue-300">
+                                                <img src="/static/icon/mars.svg" alt="Male"
+                                                    class="h-3.5 w-3.5 mr-1 invert" />
+                                                {{ votes[movie.movie_id]['gender.1'] }} | 
+                                                {% if votes[movie.movie_id]['count'] > 0 %}
+                                                    {{ ((votes[movie.movie_id]['gender.1'] / votes[movie.movie_id]['count']) * 100)|round|int }}%
+                                                {% else %}
+                                                    0%
+                                                {% endif %}
+                                            </span>
+                                            <span class="flex items-center text-xs text-pink-300">
+                                                <img src="/static/icon/venus.svg" alt="Female"
+                                                    class="h-3.5 w-3.5 mr-1 invert" />
+                                                    {% if votes[movie.movie_id]['count'] > 0 %}
+                                                {{ votes[movie.movie_id]['gender.2'] }} | {{
+                                                ((votes[movie.movie_id]['gender.2'] / votes[movie.movie_id]['count']) *
+                                                100)|round|int }}%
+                                                {% else %}
+                                                    0%
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <!-- Love it -->
+                                        <div class="space-y-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs text-gray-400 flex items-center">
+                                                    <img src="/static/icon/circle-dot.svg" alt="Love"
+                                                        class="h-3.5 w-3.5 mr-1 invert" />
+                                                    Love it
+                                                </span>
+                                                <span class="text-xs font-medium text-blue-400">
+                                                    {{ votes[movie.movie_id]['vote.4'] }}
+                                                </span>
+                                            </div>
+                                            <div class="w-full bg-gray-700 rounded-full h-1.5">
+                                                <div class="bg-blue-500 h-1.5 rounded-full"
+                                                    {% if votes[movie.movie_id]['count'] > 0 %}
+                                                        style="width: {{ (votes[movie.movie_id]['vote.4'] / votes[movie.movie_id]['count'] * 100) if votes[movie.movie_id]['count'] > 0 else 0 }}%;">
+                                                    {% else %}
+                                                        style="width: 0%;">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Like it -->
+                                        <div class="space-y-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs text-gray-400 flex items-center">
+                                                    <img src="/static/icon/circle.svg" alt="Like"
+                                                        class="h-3.5 w-3.5 mr-1 invert" />
+                                                    Like it
+                                                </span>
+                                                <span class="text-xs font-medium text-green-400">
+                                                    {{ votes[movie.movie_id]['vote.3'] }}
+                                                </span>
+                                            </div>
+                                            <div class="w-full bg-gray-700 rounded-full h-1.5">
+                                                <div class="bg-blue-500 h-1.5 rounded-full"
+                                                    {% if votes[movie.movie_id]['count'] > 0 %}
+                                                        style="width: {{ (votes[movie.movie_id]['vote.4'] / votes[movie.movie_id]['count'] * 100) if votes[movie.movie_id]['count'] > 0 else 0 }}%;">
+                                                    {% else %}
+                                                        style="width: 0%;">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Okay -->
+                                        <div class="space-y-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs text-gray-400 flex items-center">
+                                                    <img src="/static/icon/triangle.svg" alt="Okay"
+                                                        class="h-3.5 w-3.5 mr-1 invert" />
+                                                    It's okay
+                                                </span>
+                                                <span class="text-xs font-medium text-yellow-400">
+                                                    {{ votes[movie.movie_id]['vote.2'] }}
+                                                </span>
+                                            </div>
+                                            <div class="w-full bg-gray-700 rounded-full h-1.5">
+                                                <div class="bg-blue-500 h-1.5 rounded-full"
+                                                    {% if votes[movie.movie_id]['count'] > 0 %}
+                                                        style="width: {{ (votes[movie.movie_id]['vote.4'] / votes[movie.movie_id]['count'] * 100) if votes[movie.movie_id]['count'] > 0 else 0 }}%;">
+                                                    {% else %}
+                                                        style="width: 0%;">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dislike -->
+                                        <div class="space-y-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs text-gray-400 flex items-center">
+                                                    <img src="/static/icon/x.svg" alt="Dislike"
+                                                        class="h-3.5 w-3.5 mr-1 invert" />
+                                                    Dislike
+                                                </span>
+                                                <span class="text-xs font-medium text-red-400">
+                                                    {{ votes[movie.movie_id]['vote.1'] }}
+                                                </span>
+                                            </div>
+                                            <div class="w-full bg-gray-700 rounded-full h-1.5">
+                                                <div class="bg-blue-500 h-1.5 rounded-full"
+                                                    {% if votes[movie.movie_id]['count'] > 0 %}
+                                                        style="width: {{ (votes[movie.movie_id]['vote.4'] / votes[movie.movie_id]['count'] * 100) if votes[movie.movie_id]['count'] > 0 else 0 }}%;">
+                                                    {% else %}
+                                                        style="width: 0%;">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    {% if movies.has_prev %}
+                    <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.prev_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </span>
+                    {% endif %}
+
+                    {% if movies.has_next %}
+                    <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.next_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </span>
+                    {% endif %}
+                </div>
+
+                <div class="flex space-x-4">
+                    {% if movies.page != 1 %}
+                    <a href="{{ url_for('votes_list_movies', category=category_id, page=1) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/chevrons-left.svg" alt="First" class="h-4 w-4 mr-2 invert" />
+                        <span>First</span>
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <img src="/static/icon/chevrons-left.svg" alt="First" class="h-4 w-4 mr-2 invert" />
+                        <span>First</span>
+                    </span>
+                    {% endif %}
+
+                    {% if movies.page != movies.pages %}
+                    <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.pages) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <span>Last</span>
+                        <img src="/static/icon/chevrons-right.svg" alt="Last" class="h-4 w-4 ml-2 invert" />
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <span>Last</span>
+                        <img src="/static/icon/chevrons-right.svg" alt="Last" class="h-4 w-4 ml-2 invert" />
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block add_footer %}
-    <!-- Previous/Next -->
-    {% if movies.has_prev %}
-        <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.prev_num) }}">&lt; Previous</a>
-    {% else %}
-        &lt; Previous
-    {% endif %}
-    |
-    {% if movies.has_next %}
-        <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.next_num) }}">Next &gt;</a>
-    {% else %}
-        Next &gt;
-    {% endif %}
-    <br/>
-
-    <!-- First/Last -->
-    <!-- Ensure we are not on the first page. -->
-    {% if movies.page != 1 %}
-        <a href="{{ url_for('votes_list_movies', category=category_id, page=1) }}">&lt;&lt; First</a>
-    {% else %}
-        &lt;&lt; First
-    {% endif %}
-    |
-    <!-- Ensure we are not on the last page. -->
-    {% if movies.page != movies.pages %}
-        <a href="{{ url_for('votes_list_movies', category=category_id, page=movies.pages) }}">Last &gt;&gt;</a>
-    {% else %}
-        Last &gt;&gt;
-    {% endif %}
-{% endblock %}
+{% block add_footer %}{% endblock %}

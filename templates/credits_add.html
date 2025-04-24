@@ -1,69 +1,191 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Add Credits
+Add Credits - The Underground
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.role_and_name_list }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Add Credits</h1>
 
-            <button type="button" class="button is-info" id="addNewField">Add Field</button>
-            <button type="button" class="button is-danger" id="removeField">Remove Field</button>
-        </p>
-        <br>
-        <p>{{ form.submit(class_="button is-success") }}</p>
-    </form>
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3">
+                    <img src="/static/icon/users.svg" alt="Credits Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Staff Credits</h2>
+            </div>
 
-    <script>
-        var fieldNum = 0;
-        function createStaffPair() {
-            // Staff Roll
-            var newLabel = document.createElement("label")
-            newLabel.className = "label"
-            newLabel.htmlFor = "role_and_name_list-" + fieldNum;
-            newLabel.textContent = "Role"
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
 
-            var newTextArea = document.createElement("input");
-            newTextArea.className = "input";
-            newTextArea.id = "role_and_name_list-" + fieldNum;
-            newTextArea.name = "role_and_name_list-" + fieldNum;
-            fieldNum++;
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-md font-semibold text-white">Credit Entries</h3>
+                    <div class="flex space-x-2">
+                        <button type="button" id="addNewField"
+                            class="inline-flex items-center px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200 text-sm">
+                            <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-1.5 invert" />
+                            <span>Add Entry</span>
+                        </button>
+                        <button type="button" id="removeField"
+                            class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-sm">
+                            <img src="/static/icon/minus.svg" alt="Remove" class="h-4 w-4 mr-1.5 invert" />
+                            <span>Remove Entry</span>
+                        </button>
+                    </div>
+                </div>
 
-            // Staff Name
-            var newLabelName = document.createElement("label")
-            newLabelName.className = "label"
-            newLabelName.htmlFor = "role_and_name_list-" + fieldNum;
-            newLabelName.textContent = "Name"
+                <div class="space-y-5 mb-4" id="staff-entries">
+                    <div id="role_and_name_list" class="space-y-6">
+                        <!-- Dynamic fields will be inserted here -->
+                    </div>
+                </div>
 
-            var newTextAreaName = document.createElement("input");
-            newTextAreaName.className = "input";
-            newTextAreaName.id = "role_and_name_list-" + fieldNum;
-            newTextAreaName.name = "role_and_name_list-" + fieldNum;
-            fieldNum++;
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('index') }}"
+                        class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        Save Credits
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            document.getElementById("role_and_name_list").appendChild(newLabel);
-            document.getElementById("role_and_name_list").appendChild(newTextArea);
-            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-purple-600/20 rounded-lg text-purple-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info Icon" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Staff Credits</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Credits appear at the end of movies to acknowledge contributors and their roles.</p>
+                        <p>Each credit entry consists of a role (such as "Director") and a name.</p>
+                        <p>Add as many entries as needed by clicking the "Add Entry" button.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            document.getElementById("role_and_name_list").appendChild(newLabelName);
-            document.getElementById("role_and_name_list").appendChild(newTextAreaName);
-            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
-            document.getElementById("role_and_name_list").appendChild(document.createElement("br"));
+<script>
+    var fieldNum = 0;
+
+    function createStaffPair() {
+        const entryContainer = document.createElement("div");
+        entryContainer.className = "p-4 bg-gray-700/40 rounded-lg border border-gray-600 staff-entry-pair";
+
+        // Create a grid layout for the role and name
+        const gridLayout = document.createElement("div");
+        gridLayout.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+        // Role Field
+        const roleGroup = document.createElement("div");
+
+        const newLabel = document.createElement("label");
+        newLabel.className = "block text-sm font-medium text-gray-300 mb-2";
+        newLabel.htmlFor = "role_and_name_list-" + fieldNum;
+        newLabel.textContent = "Role";
+
+        const roleInputWrapper = document.createElement("div");
+        roleInputWrapper.className = "relative rounded-md shadow-sm";
+
+        const roleIconWrapper = document.createElement("div");
+        roleIconWrapper.className = "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none";
+
+        const roleIcon = document.createElement("img");
+        roleIcon.src = "/static/icon/briefcase.svg";
+        roleIcon.alt = "Role";
+        roleIcon.className = "h-5 w-5 text-gray-400 invert opacity-50";
+
+        const newTextArea = document.createElement("input");
+        newTextArea.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent";
+        newTextArea.id = "role_and_name_list-" + fieldNum;
+        newTextArea.name = "role_and_name_list-" + fieldNum;
+        newTextArea.placeholder = "e.g. Director, Producer, Writer";
+
+        roleIconWrapper.appendChild(roleIcon);
+        roleInputWrapper.appendChild(roleIconWrapper);
+        roleInputWrapper.appendChild(newTextArea);
+        roleGroup.appendChild(newLabel);
+        roleGroup.appendChild(roleInputWrapper);
+
+        fieldNum++;
+
+        // Name Field
+        const nameGroup = document.createElement("div");
+
+        const newLabelName = document.createElement("label");
+        newLabelName.className = "block text-sm font-medium text-gray-300 mb-2";
+        newLabelName.htmlFor = "role_and_name_list-" + fieldNum;
+        newLabelName.textContent = "Name";
+
+        const nameInputWrapper = document.createElement("div");
+        nameInputWrapper.className = "relative rounded-md shadow-sm";
+
+        const nameIconWrapper = document.createElement("div");
+        nameIconWrapper.className = "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none";
+
+        const nameIcon = document.createElement("img");
+        nameIcon.src = "/static/icon/user.svg";
+        nameIcon.alt = "Name";
+        nameIcon.className = "h-5 w-5 text-gray-400 invert opacity-50";
+
+        const newTextAreaName = document.createElement("input");
+        newTextAreaName.className = "bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent";
+        newTextAreaName.id = "role_and_name_list-" + fieldNum;
+        newTextAreaName.name = "role_and_name_list-" + fieldNum;
+        newTextAreaName.placeholder = "Staff member's name";
+
+        nameIconWrapper.appendChild(nameIcon);
+        nameInputWrapper.appendChild(nameIconWrapper);
+        nameInputWrapper.appendChild(newTextAreaName);
+        nameGroup.appendChild(newLabelName);
+        nameGroup.appendChild(nameInputWrapper);
+
+        fieldNum++;
+
+        // Assemble the grid
+        gridLayout.appendChild(roleGroup);
+        gridLayout.appendChild(nameGroup);
+
+        // Add a drag handle and entry number
+        const entryHeader = document.createElement("div");
+        entryHeader.className = "flex justify-between items-center mb-3 pb-2 border-b border-gray-600";
+
+        const entryNumber = document.createElement("span");
+        entryNumber.className = "text-sm font-medium text-purple-300 flex items-center";
+        entryNumber.innerHTML = `<img src="/static/icon/award.svg" alt="Entry" class="h-4 w-4 mr-1.5 invert opacity-70" />Credit Entry ${document.querySelectorAll('.staff-entry-pair').length + 1}`;
+
+        entryHeader.appendChild(entryNumber);
+
+        // Add everything to the container
+        entryContainer.appendChild(entryHeader);
+        entryContainer.appendChild(gridLayout);
+
+        // Add the container to the DOM
+        document.getElementById("role_and_name_list").appendChild(entryContainer);
+    }
+
+    document.addEventListener("DOMContentLoaded", createStaffPair);
+    document.getElementById("addNewField").addEventListener("click", createStaffPair);
+    document.getElementById("removeField").addEventListener("click", function () {
+        const entries = document.querySelectorAll('.staff-entry-pair');
+        if (entries.length > 0) {
+            const lastEntry = entries[entries.length - 1];
+            lastEntry.remove();
+            // Decrement the fieldNum by 2 (one for role, one for name)
+            fieldNum -= 2;
         }
-
-        document.addEventListener("DOMContentLoaded", createStaffPair);
-        document.getElementById("addNewField").addEventListener("click", createStaffPair);
-        document.getElementById("removeField").addEventListener("click", function(){
-            // Remove last field pair
-            for (var i = 0; i < 7; i++) {
-                document.getElementById("role_and_name_list").removeChild(document.getElementById("role_and_name_list").lastChild);
-            }
-
-            // Finally decrement the fieldNum
-            fieldNum--;
-        })
-    </script>
+    });
+</script>
 {% endblock %}

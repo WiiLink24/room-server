@@ -1,50 +1,213 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Dashboard
+    Dashboard - The Underground
 {% endblock %}
 
 {% block content %}
-    <h1 class="title">Welcome, {{ g.oidc_user.profile.name }}.</h1>
-    <h2 class="subtitle">Click on an operation below to get started:</h2>
-    <p class="buttons" style="display: block">
-        <a href="{{ url_for('list_intro_info') }}">
-            <button class="button is-link">Manage Intro Info</button>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Welcome, {{ g.oidc_user.profile.name }}</h1>
+        <p class="text-gray-300">Manage Wii Room by choosing from any of the options below:</p>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Intro Info Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                        <img src="/static/icon/monitor.svg" alt="Intro Info" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Intro Info</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage introductory information displayed to users.</p>
+                <a href="{{ url_for('list_intro_info') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Intro Info
+                </a>
+            </div>
+        </div>
+
+        <!-- Miis Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-green-600/20 rounded-lg text-green-400 mr-3">
+                        <img src="/static/icon/smile.svg" alt="Miis" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Miis</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage Mii characters and their details.</p>
+                <a href="{{ url_for('list_miis') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Miis
+                </a>
+            </div>
+        </div>
+
+        <!-- Concierge Miis Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-yellow-600/20 rounded-lg text-yellow-400 mr-3">
+                        <img src="/static/icon/star.svg" alt="Concierge Miis" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Concierge Miis</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage concierge Mii characters and their roles.</p>
+                <a href="{{ url_for('list_concierge') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Concierge Miis
+                </a>
+            </div>
+        </div>
+
+        <!-- Categories and Movies Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-purple-600/20 rounded-lg text-purple-400 mr-3">
+                        <img src="/static/icon/video.svg" alt="Categories and Movies" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Categories and Movies</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage categories and movies available to users.</p>
+                <a href="{{ url_for('list_categories') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Categories and Movies
+                </a>
+            </div>
+        </div>
+
+        <!-- Pay Categories and Movies Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+                        <img src="/static/icon/film.svg" alt="Pay Categories and Movies" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Pay Categories and Movies</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage paid categories and movies available to users.</p>
+                <a href="{{ url_for('list_pay_categories') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Pay Categories and Movies
+                </a>
+            </div>
+        </div>
+
+        <!-- Rooms Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-teal-600/20 rounded-lg text-teal-400 mr-3">
+                        <img src="/static/icon/door-open.svg" alt="Rooms" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Rooms</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage rooms and their configurations.</p>
+                <a href="{{ url_for('list_room') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Rooms
+                </a>
+            </div>
+        </div>
+
+        <!-- Posters Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-pink-600/20 rounded-lg text-pink-400 mr-3">
+                        <img src="/static/icon/file-text.svg" alt="Posters" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Posters</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage posters displayed in the application.</p>
+                <a href="{{ url_for('list_posters') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Posters
+                </a>
+            </div>
+        </div>
+
+        <!-- Pay Posters Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-orange-600/20 rounded-lg text-orange-400 mr-3">
+                        <img src="/static/icon/file-text.svg" alt="Pay Posters" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Pay Posters</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage paid posters displayed in the application.</p>
+                <a href="{{ url_for('list_pay_posters') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Pay Posters
+                </a>
+            </div>
+        </div>
+
+        <!-- News Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-gray-600/20 rounded-lg text-gray-400 mr-3">
+                        <img src="/static/icon/newspaper.svg" alt="News" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">News</h2>
+                </div>
+                <p class="text-gray-300 mb-6">Manage news and updates displayed in the spasl screen.</p>
+                <a href="{{ url_for('list_news') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage News
+                </a>
+            </div>
+        </div>
+
+        <!-- Logs Card -->
+        <div class="relative group">
+            <div class="relative h-full bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-gray-600/20 rounded-lg text-gray-400 mr-3">
+                        <img src="/static/icon/clipboard-list.svg" alt="Logs" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Logs</h2>
+                </div>
+                <p class="text-gray-300 mb-6">View system logs and activity history.</p>
+                <a href="{{ url_for('show_logs') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    View Logs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-start">
+        <a href="{{ url_for('logout') }}" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/log-out.svg" alt="Logout" class="h-5 w-5 invert mr-2" />
+            Logout
         </a>
-        <br/>
-        <a href="{{ url_for('list_miis') }}">
-            <button class="button is-link">Manage Miis</button>
-        </a>
-        <a href="{{ url_for('list_concierge') }}">
-            <button class="button is-link">Manage Concierge Miis</button>
-        </a>
-        <br/>
-        <a href="{{ url_for('list_categories') }}">
-            <button class="button is-link">Manage Categories and Movies</button>
-        </a>
-        <br/>
-        <a href="{{ url_for('list_pay_categories') }}">
-            <button class="button is-link">Manage Pay Categories and Movies</button>
-        </a>
-        <br/>
-        <a href="{{ url_for('list_room') }}">
-            <button class="button is-link">Manage Rooms</button>
-        </a>
-        <br/>
-        <a href="{{ url_for('list_posters') }}">
-            <button class="button is-link">Manage Posters</button>
-        </a>
-        <a href="{{ url_for('list_pay_posters') }}">
-            <button class="button is-link">Manage Pay Posters</button>
-        </a>
-        <br/>
-        <a href="{{ url_for('list_news') }}">
-            <button class="button is-link">Manage News</button>
-        </a>
-        <br/>
-        <br/>
-        <a href="{{ url_for('logout') }}">
-            <button class="button is-danger">Logout</button>
-        </a>
-    </p>
+    </div>
+</div>
 {% endblock %}

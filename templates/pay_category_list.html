@@ -1,94 +1,189 @@
 {% extends "generic/base_manage.html" %}
 
 {% set sidebar_menu %}
-    <li>
-        <ul>
-                <li>
-                    <a href="{{ url_for('list_pay_category_headers') }}">
-                        Genres
-                    </a>
-                </li>
-        </ul>
-    </li>
+<div class="border-l-4 pl-2 border-gray-700/40 hover:border-gray-700/60 py-2 transition-all">
+    <ul class="space-y-1">
+        <li>
+            <a href="{{ url_for('list_pay_category_headers') }}"
+                class="mb-3 flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700/50 hover:text-white rounded-lg transition-colors group">
+                <img src="/static/icon/tag.svg" alt="Genres"
+                    class="h-4 w-4 mr-2 invert opacity-70 group-hover:opacity-100" />
+                <span>Genres</span>
+            </a>
+        </li>
+        <div class="mt-4 px-4">
+            <a href="{{ url_for('create_room') }}" 
+               class="flex items-center justify-center w-full py-1.5 text-xs bg-green-600/20 text-green-400 hover:bg-green-600/30 rounded-lg transition-colors">
+                <img src="/static/icon/plus.svg" alt="Add" class="h-3.5 w-3.5 mr-1.5 invert" />
+                <span>New Category</span>
+            </a>
+        </div>
+    </ul>
+</div>
 {% endset %}
 
 {% block type_name %}pay categories{% endblock %}
 {% block type_name_singular %}pay category{% endblock %}
 
 {% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Pay Category ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Thumbnail</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for category in categories.items %}
-            <tr>
-                <td>{{ category.category_id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <img src="{{ url_for('get_pay_category_thumbnail', category=category.category_id) }}"
-                         alt="Thumbnail for category ID {{ categories.category_id }}"
-                         width="50%"
-                    />
-                </td>
-                <td>
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('edit_pay_category', category=category.category_id) }}" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                                <span>Edit Category</span>
-                            </a>
-                        </p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-end justify-between gap-6 mb-10">
+        <a href="{{ url_for('index') }}"
+            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
+            Return to Dashboard
+        </a>
 
-                        <p class="control">
-                            <a href="{{ url_for('list_pay_movies', category=category.category_id) }}" class="button is-link">
-                            <span class="icon is-small">
-                                <i class="fas fa-list"></i>
-                            </span>
-                                <span>List Movies</span>
-                            </a>
+        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+            <div
+                class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                            Total Categories
                         </p>
-
-                        <p class="control">
-                            <a href="{{ url_for('remove_pay_category', category=category.category_id) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
+                        <p class="text-3xl text-white font-bold mt-1">
+                            {{ categories.total }}
                         </p>
                     </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <div class="p-3 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 shadow-lg">
+                        <img src="/static/icon/folder.svg" alt="Category Icon" class="h-6 w-6 invert" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="categories" class="relative group mb-10">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                        <img src="/static/icon/folder.svg" alt="Categories Icon" class="h-5 w-5 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Pay Categories</h2>
+                </div>
+                <a href="{{ url_for('add_pay_category') }}"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                    <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
+                    <span>Add Category</span>
+                </a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-900/50 backdrop-blur-sm">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Pay Category ID
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Thumbnail
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700 bg-gray-800">
+                        {% for category in categories.items %}
+                        <tr class="transition-colors hover:bg-gray-700/50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-amber-300">
+                                {{ category.category_id }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                                {{ category.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <img src="{{ url_for('get_pay_category_thumbnail', category=category.category_id) }}"
+                                    alt="Thumbnail for category ID {{ category.category_id }}"
+                                    class="h-16 w-auto rounded-lg border border-gray-600 shadow-md" />
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="{{ url_for('edit_pay_category', category=category.category_id) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/pencil.svg" alt="Edit" class="h-4 w-4 mr-2 invert" />
+                                        <span>Edit</span>
+                                    </a>
+
+                                    <a href="{{ url_for('list_pay_movies', category=category.category_id) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/list.svg" alt="List" class="h-4 w-4 mr-2 invert" />
+                                        <span>Movies</span>
+                                    </a>
+
+                                    <a href="{{ url_for('remove_pay_category', category=category.category_id) }}"
+                                        class="inline-flex items-center px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 text-sm">
+                                        <img src="/static/icon/trash.svg" alt="Delete" class="h-4 w-4 mr-2 invert" />
+                                        <span>Delete</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if categories.items|length == 0 %}
+            <div class="p-12 text-center">
+                <div class="mx-auto rounded-full bg-gray-700/50 p-4 w-16 h-16 flex items-center justify-center mb-4">
+                    <img src="/static/icon/folder-closed.svg" alt="No Categories" class="h-8 w-8 invert opacity-50" />
+                </div>
+                <h3 class="text-lg font-medium text-gray-400 mb-2">No Premium Categories Available</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
+                    You haven't added any premium categories yet.
+                </p>
+                <a href="{{ url_for('add_pay_category') }}"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
+                    <img src="/static/icon/plus-circle.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
+                    <span>Add First Category</span>
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    {% if categories.has_prev %}
+                    <a href="{{ url_for('list_pay_categories', page=categories.prev_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
+                        <span>Previous</span>
+                    </span>
+                    {% endif %}
+
+                    {% if categories.has_next %}
+                    <a href="{{ url_for('list_pay_categories', page=categories.next_num) }}"
+                        class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </a>
+                    {% else %}
+                    <span
+                        class="px-4 py-2 bg-gray-700/50 text-gray-500 rounded-lg text-sm cursor-not-allowed inline-flex items-center">
+                        <span>Next</span>
+                        <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
-{% block add_footer %}
-    {% if categories.has_prev %}
-        <a href="{{ url_for('list_pay_categories', page=categories.prev_num) }}">&lt; Previous</a>
-    {% else %}
-        &lt; Previous
-    {% endif %}
-    |
-    {% if categories.has_next %}
-        <a href="{{ url_for('list_pay_categories', page=categories.next_num) }}">Next &gt;</a>
-    {% else %}
-        Next &gt;
-    {% endif %}
-    <br/>
-
-    <a href="{{ url_for('add_pay_category') }}">
-        <button class="button is-success">
-            <span>Add a Category</span>
-        </button>
-    </a>
-{% endblock %}
+{% block add_footer %}{% endblock %}

@@ -1,25 +1,109 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    {{ action }} a Pay Category
+    {{ action }} Pay Category - The Underground
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p class="block">
-            {{ form.hidden_tag() }}
-            {{ form.category_name.label(class_="label") }} {{ form.category_name(class_="input block") }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Pay Category</h1>
+    
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                    <img src="/static/icon/film.svg" alt="Pay Category Icon" class="h-6 w-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Pay Category Details</h2>
+            </div>
+            
+            <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.category_name.id }}" class="block text-sm font-medium text-gray-300 mb-2">Category Name:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/tag.svg" alt="Category Name" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.category_name(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent", placeholder="Enter category name") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">The name for this payment category</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.thumbnail.id }}" class="block text-sm font-medium text-gray-300 mb-2">Thumbnail Image:</label>
+                    {% if category %}
+                    <div class="mb-3 p-3 border border-gray-600 rounded-md bg-gray-700/50">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-14 w-14 rounded overflow-hidden bg-gray-800">
+                                <img src="{{ url_for('get_pay_category_thumbnail', category=category.category_id) }}" alt="Current Thumbnail" class="h-full w-full object-cover">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white">Current Thumbnail</p>
+                                <p class="text-xs text-gray-400">Upload a new image to replace</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-amber-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                <label for="{{ form.thumbnail.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-amber-400 hover:text-amber-300 focus-within:outline-none">
+                                    <span>Upload image</span>
+                                    {{ form.thumbnail(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                PNG, JPG up to 2MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.room.id }}" class="block text-sm font-medium text-gray-300 mb-2">Associated Room:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/layers.svg" alt="Room" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.room(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Room where this payment category will be available</p>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_pay_categories') }}" 
+                       class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">
+                        <img src="/static/icon/x.svg" alt="Cancel" class="h-4 w-4 mr-1.5 invert" />
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 flex items-center">
+                        <img src="/static/icon/save.svg" alt="Save" class="h-4 w-4 mr-1.5 invert" />
+                        {{ action }} Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            {{ form.thumbnail.label(class_="label") }}
-            {% if category %}
-            {{ existing_image('category', url_for('get_pay_category_thumbnail', category=category.category_id)) }}
-            {% endif %}
-            {{ form.thumbnail(class="block") }}
-            <br>
-            {{ form.room.label(class_="label") }} {{ form.room }}
-            <br>
-            <br>
-        </p>
-        <p>{{ form.submit(class_="button is-success block") }}</p>
-    </form>
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Info" class="h-5 w-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">About Pay Categories</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>Each category requires a name, thumbnail image, and associated room.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
