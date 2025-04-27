@@ -5,6 +5,7 @@ from flask_oidc import OpenIDConnect
 from first import conf_first_bin_xml
 from room import app
 import config
+import traceback
 
 
 oidc = OpenIDConnect(app)
@@ -120,4 +121,4 @@ def handle_exception(e):
                           error_code=500,
                           error_title="Server Error",
                           error_message="An unexpected error occurred.",
-                          error_details=str(e)), 500
+                          error_details=traceback.format_exc()), 500
