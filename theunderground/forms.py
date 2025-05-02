@@ -99,6 +99,7 @@ class RoomForm(FlaskForm):
     room_logo = FileField("Room Logo")
     parade_banner = FileField("Parade Banner")
     category_logo = FileField("Category Logo")
+    mascot = FileField("Mascot")
     has_mascot = BooleanField("Mascot Enabled")
     intro_msg = TextAreaField("Intro Message", validators=[DataRequired()])
     news = StringField("Company", validators=[DataRequired(), Length(max=41)])
@@ -190,7 +191,7 @@ class ConciergeForm(FlaskForm):
         choices=ConciergeMiiActions.choices(),
         coerce=ConciergeMiiActions.coerce,
     )
-    
+
     # Message fields
     message1 = TextAreaField("Message 1", validators=[DataRequired()])
     message2 = TextAreaField("Message 2", validators=[])
@@ -199,7 +200,7 @@ class ConciergeForm(FlaskForm):
     message5 = TextAreaField("Message 5", validators=[])
     message6 = TextAreaField("Message 6", validators=[])
     message7 = TextAreaField("Message 7", validators=[])
-    
+
     face_choices = [
         (1, "Neutral"),
         (2, "Smiley"),
@@ -207,20 +208,35 @@ class ConciergeForm(FlaskForm):
         (4, "Sad"),
         (5, "Astonished"),
         (6, "Blissed"),
-        (7, "Shocked")
+        (7, "Shocked"),
     ]
-    
+
     # Face expression fields for each message
-    action1 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action2 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action3 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action4 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action5 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action6 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    action7 = SelectField("Face Expression", choices=face_choices, coerce=int, default=1)
-    
+    action1 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action2 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action3 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action4 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action5 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action6 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+    action7 = SelectField(
+        "Face Expression", choices=face_choices, coerce=int, default=1
+    )
+
     movieid = StringField("Movie ID", validators=[DataRequired()])
     submit = SubmitField("Save")
+
 
 class PosterForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(max=47)])

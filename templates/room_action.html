@@ -201,6 +201,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <label for="{{ form.mascot.id }}" class="block text-sm font-medium text-gray-300 mb-2">Mascot:</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-cyan-500 transition-colors duration-200">
+                                <div class="space-y-1 text-center">
+                                    <img src="/static/icon/image.svg" alt="Upload" class="mx-auto h-12 w-12 invert opacity-70" />
+                                    <div class="flex flex-row items-center justify-center text-sm text-gray-400">
+                                        <label for="{{ form.mascot.id }}" class="p-1 px-3 relative cursor-pointer bg-gray-700 rounded-md font-medium text-cyan-400 hover:text-cyan-300 focus-within:outline-none">
+                                            <span>Upload</span>
+                                            {{ form.mascot(class_="sr-only") }}
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-400">
+                                        BRESS, LZX Compressed
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

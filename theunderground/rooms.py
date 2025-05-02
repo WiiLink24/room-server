@@ -1,10 +1,15 @@
 import shutil
 
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 
 from werkzeug import exceptions
 
-from asset_data import RoomLogoAsset, ParadeBannerAsset, NormalCategoryAsset
+from asset_data import (
+    RoomLogoAsset,
+    ParadeBannerAsset,
+    NormalCategoryAsset,
+    RoomMascotAsset,
+)
 from models import db, Rooms, RoomMiis
 from theunderground.forms import RoomForm
 from room import app, s3
@@ -47,6 +52,9 @@ def edit_room(room_id):
 
         if form.category_logo.data:
             NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
+
+        if form.mascot.data and form.has_mascot.data:
+            RoomMascotAsset(room.room_id).upload(form.mascot)
 
         received_length = len(form.mii.data) / 2
         original_length = RoomMiis.query.filter_by(room_id=room_id).count()
@@ -119,6 +127,13 @@ def create_room():
     form.category_logo.flags.required = True
 
     if form.validate_on_submit():
+        if form.has_mascot.data and not form.mascot.data:
+            flash("Mascot enabled but no mascot uploaded")
+            return render_template("room_action.html", form=form, action="Create")
+        elif not form.has_mascot.data and form.mascot.data:
+            flash("Mascot uploaded but not enabled")
+            return render_template("room_action.html", form=form, action="Create")
+
         # First, add our room. Auto-increment will give us a
         # room ID to associate images and Miis with.
         room = Rooms(
@@ -150,6 +165,9 @@ def create_room():
         RoomLogoAsset(room.room_id).encode(form.room_logo)
         ParadeBannerAsset(room.room_id).encode(form.parade_banner)
         NormalCategoryAsset(room.room_id + 30000).encode(form.category_logo)
+
+        if form.has_mascot.data:
+            RoomMascotAsset(room.room_id).upload(form.mascot)
 
         log_action(f"Room ID {room.room_id} was added")
         return redirect(url_for("list_room"))

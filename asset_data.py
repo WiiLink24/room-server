@@ -270,3 +270,20 @@ class PayMovieAsset(Asset):
 
         with open(self.asset_path(), "wb") as file:
             file.write(content)
+
+
+class RoomMascotAsset(Asset):
+    def __init__(self, room_id):
+        self.asset_dir = self.base_asset_dir / "special" / f"{room_id}"
+        self.asset_name = "mascot.bin"
+
+    def upload(self, in_bytes: Union[bytes, FileField]):
+        if isinstance(in_bytes, FileField):
+            content = in_bytes.data.read()
+        else:
+            content = in_bytes
+
+        self.ensure_exists()
+
+        with open(self.asset_path(), "wb") as file:
+            file.write(content)
