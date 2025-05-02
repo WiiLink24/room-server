@@ -41,29 +41,29 @@ def list_concierge():
 @oidc.require_login
 def add_concierge(mii_id):
     form = ConciergeForm()
-    
+
     if request.method == "POST":
         try:
             # Get the action value as an integer
-            action_value = request.form.get('action')
+            action_value = request.form.get("action")
             print(f"Action value: {action_value}", "debug")
-            
+
             # Convert integer to enum instance
             action_enum = ConciergeMiiActions(int(action_value))
-            
+
             # Create concierge data with enum instance
             concierge_data = ConciergeMiis(
                 mii_id=mii_id,
                 clothes=1,
                 action=action_enum,  # Use the enum instance instead of int
-                prof=request.form.get('prof', ''),
-                movie_id=request.form.get('movieid', ''),
+                prof=request.form.get("prof", ""),
+                movie_id=request.form.get("movieid", ""),
                 voice=False,
             )
 
             concierge_movie = ConciergeMovies(
                 mii_id=mii_id,
-                movie_id=request.form.get('movieid', ''),
+                movie_id=request.form.get("movieid", ""),
             )
 
             # Process message sequences for all 7 types
@@ -71,25 +71,28 @@ def add_concierge(mii_id):
                 seq_num = 1
                 while True:
                     message_name = f"message{message_type}_{seq_num}"
-                    
-                    if message_name not in request.form or not request.form[message_name].strip():
+
+                    if (
+                        message_name not in request.form
+                        or not request.form[message_name].strip()
+                    ):
                         break
-                        
+
                     face_name = f"face{message_type}_{seq_num}"
                     face_value = int(request.form.get(face_name, 1))
-                    
+
                     # Create message entry
                     msg = MiiMsgInfo(
                         mii_id=mii_id,
                         type=message_type,
                         msg=request.form[message_name],
                         face=face_value,
-                        seq=seq_num
+                        seq=seq_num,
                     )
                     db.session.add(msg)
-                    
+
                     seq_num += 1
-                
+
                 # If no sequences were found for this type and it's not type 1, add an empty message
                 if seq_num == 1 and message_type > 1:
                     msg = MiiMsgInfo(
@@ -97,14 +100,18 @@ def add_concierge(mii_id):
                         type=message_type,
                         msg="",
                         face=1,  # Default to neutral
-                        seq=1
+                        seq=1,
                     )
                     db.session.add(msg)
-                
+
                 # Error if no messages for type 1
                 if message_type == 1 and seq_num == 1:
-                    print("At least one message is required for message type 1", "error")
-                    return render_template("concierge_action.html", form=form, action="Add")
+                    print(
+                        "At least one message is required for message type 1", "error"
+                    )
+                    return render_template(
+                        "concierge_action.html", form=form, action="Add"
+                    )
 
             # Create the category image
             mii_data = MiiData.query.filter_by(mii_id=mii_id).first()
@@ -128,7 +135,7 @@ def add_concierge(mii_id):
             update_mii_on_s3(mii_id)
             print("Concierge created successfully!", "success")
             return redirect(url_for("list_concierge"))
-            
+
         except Exception as e:
             db.session.rollback()
             # Log the error for debugging
@@ -192,7 +199,7 @@ def remove_concierge(mii_id):
         concierge = ConciergeMiis.query.filter_by(mii_id=mii_id).first()
         if concierge:
             db.session.delete(concierge)
-    
+
         MiiMsgInfo.query.filter_by(mii_id=mii_id).delete()
         ConciergeMovies.query.filter_by(mii_id=mii_id).delete()
         db.session.commit()
