@@ -286,4 +286,5 @@ class RoomMascotAsset(Asset):
         self.ensure_exists()
 
         with open(self.asset_path(), "wb") as file:
-            file.write(content)
+            from theunderground import nlzss
+            file.write(nlzss.encode(content))
