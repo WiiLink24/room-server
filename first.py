@@ -62,6 +62,10 @@ def conf_first_bin_xml():
         data["url1"] = "http://url1.it.room.wiilink.ca/"
         data["url2"] = "http://url2.it.room.wiilink.ca/"
         data["url3"] = "http://url3.it.room.wiilink.ca/"
+    elif "jp" in request.headers.get("User-Agent"):
+        data["url1"] = "http://url1.jpn.room.wiilink.ca/"
+        data["url2"] = "http://url2.jpn.room.wiilink.ca/"
+        data["url3"] = "http://url3.jpn.room.wiilink.ca/"
 
     return data
 
