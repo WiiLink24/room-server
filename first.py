@@ -50,19 +50,7 @@ def conf_first_bin_xml():
         "upddt": current_date_and_time(),
     }
 
-    if "ptbr" in request.headers.get("User-Agent"):
-        data["url1"] = "http://url1.ptbr.room.wiilink.ca/"
-        data["url2"] = "http://url2.ptbr.room.wiilink.ca/"
-        data["url3"] = "http://url3.ptbr.room.wiilink.ca/"
-    elif "Du" in request.headers.get("User-Agent"):
-        data["url1"] = "http://url1.ndl.room.wiilink.ca/"
-        data["url2"] = "http://url2.ndl.room.wiilink.ca/"
-        data["url3"] = "http://url3.ndl.room.wiilink.ca/"
-    elif "It" in request.headers.get("User-Agent"):
-        data["url1"] = "http://url1.it.room.wiilink.ca/"
-        data["url2"] = "http://url2.it.room.wiilink.ca/"
-        data["url3"] = "http://url3.it.room.wiilink.ca/"
-    elif "jp" in request.headers.get("User-Agent"):
+    if "jp" in request.headers.get("User-Agent"):
         data["url1"] = "http://url1.jpn.room.wiilink.ca/"
         data["url2"] = "http://url2.jpn.room.wiilink.ca/"
         data["url3"] = "http://url3.jpn.room.wiilink.ca/"
