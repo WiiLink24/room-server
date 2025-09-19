@@ -53,39 +53,36 @@
                     <p class="mt-1 text-xs text-gray-400">Associated TV program identifier</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="{{ form.image1.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 1:</label>
-                        <div class="relative rounded-md shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
-                            </div>
-                            {{ form.image1(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent", placeholder="Enter image 1 ID") }}
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <label class="block text-sm font-medium text-gray-300">Images:</label>
+                        <div class="flex space-x-2">
+                            <button type="button" id="addImageBtn" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm transition duration-200">
+                                Add Image
+                            </button>
+                            <button type="button" id="removeImageBtn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition duration-200">
+                                Remove
+                            </button>
                         </div>
-                        <p class="mt-1 text-xs text-gray-400">First image in the gallery</p>
                     </div>
                     
-                    <div>
-                        <label for="{{ form.image2.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 2:</label>
-                        <div class="relative rounded-md shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                    <div id="imageContainer" class="space-y-4">
+                        {% for i in range(1, 4) %}
+                        <div class="image-field" data-image-index="{{ i }}">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Image {{ i }}:</label>
+                            <div class="relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                                </div>
+                                <input type="text" name="image{{ i }}" id="image{{ i }}" 
+                                       class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                                       placeholder="Enter image {{ i }} ID" />
                             </div>
-                            {{ form.image2(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent", placeholder="Enter image 2 ID") }}
+                            <p class="mt-1 text-xs text-gray-400">Image {{ i }} in the gallery</p>
                         </div>
-                        <p class="mt-1 text-xs text-gray-400">Second image in the gallery</p>
+                        {% endfor %}
                     </div>
-                </div>
-                
-                <div>
-                    <label for="{{ form.image3.id }}" class="block text-sm font-medium text-gray-300 mb-2">Image 3:</label>
-                    <div class="relative rounded-md shadow-sm">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
-                        </div>
-                        {{ form.image3(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent", placeholder="Enter image 3 ID") }}
-                    </div>
-                    <p class="mt-1 text-xs text-gray-400">Third image in the gallery</p>
+                    <p class="mt-2 text-xs text-gray-400">You can add between 1 and 10 images to your gallery</p>
                 </div>
                 
                 <div class="flex justify-end space-x-3 pt-6">
@@ -113,11 +110,75 @@
                     <h3 class="text-sm font-medium text-white mb-2">About Picture Content</h3>
                     <div class="text-sm text-gray-300 space-y-2">
                         <p>Picture galleries allow users to view multiple images in a slideshow.</p>
-                        <p>You can add up to three images for each gallery.</p>
+                        <p>You can add between 1 and 10 images for each gallery. Use the "Add Image" and "Remove" buttons to adjust the number of images.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addBtn = document.getElementById('addImageBtn');
+    const removeBtn = document.getElementById('removeImageBtn');
+    const container = document.getElementById('imageContainer');
+    let imageCount = 3; // Start with 3 default images
+    const maxImages = 10;
+    const minImages = 1;
+
+    function updateButtons() {
+        addBtn.disabled = imageCount >= maxImages;
+        removeBtn.disabled = imageCount <= minImages;
+        
+        if (imageCount >= maxImages) {
+            addBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            addBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+        
+        if (imageCount <= minImages) {
+            removeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            removeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    addBtn.addEventListener('click', function() {
+        if (imageCount < maxImages) {
+            imageCount++;
+            const imageField = document.createElement('div');
+            imageField.className = 'image-field';
+            imageField.setAttribute('data-image-index', imageCount);
+            imageField.innerHTML = `
+                <label class="block text-sm font-medium text-gray-300 mb-2">Image ${imageCount}:</label>
+                <div class="relative rounded-md shadow-sm">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
+                    </div>
+                    <input type="text" name="image${imageCount}" id="image${imageCount}" 
+                           class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                           placeholder="Enter image ${imageCount} ID" />
+                </div>
+                <p class="mt-1 text-xs text-gray-400">Image ${imageCount} in the gallery</p>
+            `;
+            container.appendChild(imageField);
+            updateButtons();
+        }
+    });
+
+    removeBtn.addEventListener('click', function() {
+        if (imageCount > minImages) {
+            const lastField = container.querySelector(`[data-image-index="${imageCount}"]`);
+            if (lastField) {
+                lastField.remove();
+                imageCount--;
+                updateButtons();
+            }
+        }
+    });
+
+    updateButtons();
+});
+</script>
 {% endblock %}
