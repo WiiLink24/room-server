@@ -92,7 +92,7 @@ Add Picture Content - The Underground
                         </div>
                         {% endfor %}
                     </div>
-                    <p class="mt-2 text-xs text-gray-400">You can add between 1 and 10 images to your gallery</p>
+                    <p class="mt-2 text-xs text-gray-400">You can add between 1 and 50 images to your gallery</p>
                 </div>
 
                 <div class="flex justify-end space-x-3 pt-6">
@@ -121,7 +121,7 @@ Add Picture Content - The Underground
                     <h3 class="text-sm font-medium text-white mb-2">About Picture Content</h3>
                     <div class="text-sm text-gray-300 space-y-2">
                         <p>Picture galleries allow users to view multiple images in a slideshow.</p>
-                        <p>You can add between 1 and 10 images for each gallery. Use the "Add Image" and "Remove"
+                        <p>You can add between 1 and 50 images for each gallery. Use the "Add Image" and "Remove"
                             buttons to adjust the number of images.</p>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ Add Picture Content - The Underground
         const removeBtn = document.getElementById('removeImageBtn');
         const container = document.getElementById('imageContainer');
         let imageCount = 3; // Start with 3 default images
-        const maxImages = 10;
+        const maxImages = 50;
         const minImages = 1;
 
         function updateButtons() {
@@ -168,9 +168,9 @@ Add Picture Content - The Underground
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <img src="/static/icon/image.svg" alt="Image" class="w-5 h-5 invert opacity-70" />
                     </div>
-                                                    <input type="file" name="image{{ i }}" id="image{{ i }}" 
+                                                    <input type="file" name="image${imageCount}" id="image${imageCount}"
                                        class="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
-                                       placeholder="Upload file for Image {{ i }}" />
+                                       placeholder="Upload file for Image ${imageCount}" />
                 </div>
                 <p class="mt-1 text-xs text-gray-400">Image ${imageCount} in the gallery</p>
             `;

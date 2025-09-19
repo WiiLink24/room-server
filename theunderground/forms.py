@@ -172,9 +172,6 @@ class RoomPicData(FlaskForm):
     )
     title = TextAreaField("Title", validators=[DataRequired(), Length(max=47)])
     tv = FileField("TV Screen Image", validators=[FileRequired()])
-    image1 = FileField("Image 1", validators=[FileRequired()])
-    image2 = FileField("Image 2", validators=[FileRequired()])
-    image3 = FileField("Image 3", validators=[FileRequired()])
     upload = SubmitField("Upload")
 
 

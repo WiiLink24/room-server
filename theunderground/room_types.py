@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from theunderground.admin import oidc
 
 from room import app, s3
@@ -261,14 +261,24 @@ def pic(room_id):
 
     if form.validate_on_submit():
         thumbnail = form.tv.data
-        image1 = form.image1.data
-        image2 = form.image2.data
-        image3 = form.image3.data
-        if tv:
+        if thumbnail:
             tv_data = thumbnail.read()
-            image1_data = image1.read()
-            image2_data = image2.read()
-            image3_data = image3.read()
+            images = []
+            for i in range(1, 50):
+                img = request.files.get(f"image{i}")
+                if not img:
+                    # We are guaranteed to have images exist sequentially.
+                    break
+
+                images.append(img.read())
+
+            save_pic_data(
+                images,
+                tv_data,
+                x_id(),
+                photo_id(),
+                room_id,
+            )
 
             db_json = RoomMenu(
                 room_id=room_id,
@@ -277,17 +287,8 @@ def pic(room_id):
                     x_id(),
                     form.title.data,
                     form.bgm.data.value,
+                    len(images),
                 ),
-            )
-
-            save_pic_data(
-                image1_data,
-                image2_data,
-                image3_data,
-                tv_data,
-                x_id(),
-                photo_id(),
-                room_id,
             )
 
             db.session.add(db_json)

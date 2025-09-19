@@ -79,7 +79,7 @@ def link(num, id, title, link, bgm, is_internet_channel):
     }
 
 
-def pic(num, id, title, bgm):
+def pic(num, id, title, bgm, num_of_pics):
     return {
         "type": 6,
         "imageid": f"i{num}",
@@ -87,7 +87,7 @@ def pic(num, id, title, bgm):
             "picid": id,
             "pictitle": title,
             "picmov": 0,
-            "picnum": 3,
+            "picnum": num_of_pics,
             "picbgm": bgm,
         },
     }

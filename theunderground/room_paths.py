@@ -180,36 +180,22 @@ def save_link_data(
 
 
 def save_pic_data(
-    image1_data: bytes,
-    image2_data: bytes,
-    image3_data: bytes,
+    images_data: list[bytes],
     tv_data: bytes,
     pic_id: int,
     pic_num: int,
     room_id: int,
 ):
-    image1_data = room_big_img_encode(image1_data)
-    image2_data = room_big_img_encode(image2_data)
-    image3_data = room_big_img_encode(image3_data)
     tv_data = room_tv_encode(tv_data)
+
     if s3:
-        s3.upload_fileobj(
-            BytesIO(image1_data), config.r2_bucket_name, f"picture/{pic_id}-1.img"
-        )
-
-        s3.upload_fileobj(
-            BytesIO(image2_data),
-            config.r2_bucket_name,
-            f"picture/{pic_id}-2.img",
-            ExtraArgs={"ContentType": "image/jpeg"},
-        )
-
-        s3.upload_fileobj(
-            BytesIO(image3_data),
-            config.r2_bucket_name,
-            f"picture/{pic_id}-3.img",
-            ExtraArgs={"ContentType": "image/jpeg"},
-        )
+        for i, img in enumerate(images_data):
+            s3.upload_fileobj(
+                BytesIO(room_big_img_encode(img)),
+                config.r2_bucket_name,
+                f"picture/{pic_id}-{i+1}.img",
+                ExtraArgs={"ContentType": "image/jpeg"},
+            )
 
         s3.upload_fileobj(
             BytesIO(tv_data),
@@ -220,10 +206,9 @@ def save_pic_data(
     else:
         pic_dir = "assets/picture"
 
-        # Resize and write thumbnail
-        write_to_path(f"{pic_dir}/{pic_id}-1.img", image1_data)
-        write_to_path(f"{pic_dir}/{pic_id}-2.img", image2_data)
-        write_to_path(f"{pic_dir}/{pic_id}-3.img", image3_data)
+        for i, img in enumerate(images_data):
+            # Resize and write thumbnail
+            write_to_path(f"{pic_dir}/{pic_id}-{i+1}.img", room_big_img_encode(img))
 
         # Resize and write poster
         write_to_path(f"assets/special/{room_id}/i{pic_num}.img", tv_data)
