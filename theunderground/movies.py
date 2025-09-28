@@ -59,6 +59,7 @@ def list_movies(category):
 
 
 @app.route("/theunderground/movies/<category>/<movie_id>/listed")
+@oidc.require_login
 def toggle_movie_listed(category, movie_id):
     movie = Movies.query.filter_by(movie_id=movie_id).first()
     movie.unlisted = not movie.unlisted

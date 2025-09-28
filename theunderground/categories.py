@@ -35,6 +35,7 @@ def list_categories():
 
 
 @app.route("/theunderground/movies/<category>/listed")
+@oidc.require_login
 def toggle_category_listed(category):
     category = Categories.query.filter_by(category_id=category).first()
     category.unlisted = not category.unlisted
