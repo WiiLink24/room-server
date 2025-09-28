@@ -25,7 +25,7 @@ def encode(data: bytes) -> bytes | None:
         return None
 
     out = bytearray()
-    header = struct.pack('<I', 0x11 | (len(data) << 8))
+    header = struct.pack("<I", 0x11 | (len(data) << 8))
     out.extend(header)
 
     mask = 0
@@ -46,7 +46,6 @@ def encode(data: bytes) -> bytes | None:
             comp_pos += 1
             mask = DefaultMask
 
-
         len_best = MaxNotEncode
 
         if index >= MaxOffset:
@@ -55,8 +54,8 @@ def encode(data: bytes) -> bytes | None:
             pos = index
 
         while pos > VRAMCompatible:
-            for _len in range (MaxCoded3):
-                if index+_len == len(data):
+            for _len in range(MaxCoded3):
+                if index + _len == len(data):
                     break
 
                 if index + _len >= len(data):
@@ -76,7 +75,7 @@ def encode(data: bytes) -> bytes | None:
 
         if len_best > MaxNotEncode:
             index += len_best
-            out[flag] |= (mask & 0xFF)
+            out[flag] |= mask & 0xFF
 
             if len_best > MaxCoded2:
                 len_best -= MaxCoded2 + 1
