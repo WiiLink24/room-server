@@ -52,12 +52,12 @@
 
                     {% macro menu_item(name, redirect_func, icon_name) %}
                     <a href="{{ url_for(redirect_func) }}"
-                        class="block w-full px-4 py-2 {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}bg-indigo-600 {% else %}bg-gray-700/40 hover:bg-gray-700/60{% endif %} text-white rounded-xl transition duration-200 flex items-center mb-2">
+                        class="block w-full px-4 py-2 {% if request.endpoint and request.view_args and url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}bg-indigo-600 {% else %}bg-gray-700/40 hover:bg-gray-700/60{% endif %} text-white rounded-xl transition duration-200 flex items-center mb-2">
                         <img src="/static/icon/{{ icon_name }}.svg" alt="{{ name }}" class="w-5 h-5 invert mr-2" />{{
                         name }}
                     </a>
 
-                    {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}
+                    {% if request.endpoint and request.view_args and url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}
                     {% if sidebar_menu %}
                     <div class="ml-4 mt-1 mb-3">
                         {{ sidebar_menu }}
