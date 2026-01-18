@@ -1,10 +1,13 @@
-FROM python:3.10
+FROM python:3.10-alpine
 
-RUN addgroup --gid 1000 server && adduser --uid 1000 --gid 1000 --system server
+RUN adduser -D server
 WORKDIR /home/server
 
 # Copy requirements first as to not disturb cache for other changes.
 COPY requirements.txt .
+
+# Install dependencies
+RUN apk add -U --no-cache libpq-dev build-base git
 
 RUN pip3 install -r requirements.txt && \
   pip3 install gunicorn
