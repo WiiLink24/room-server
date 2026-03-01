@@ -3,7 +3,7 @@ import enum
 from flask_sqlalchemy import BaseQuery, SQLAlchemy
 from sqlalchemy import func
 from sqlalchemy.types import TypeDecorator
-from sqlalchemy_searchable import SearchQueryMixin
+from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils import TSVectorType
 
 import sqlalchemy
@@ -126,7 +126,10 @@ class MiiMsgInfo(db.Model):
     face = db.Column(db.Integer, nullable=False)
 
 
-class FullTextSearchable(BaseQuery, SearchQueryMixin):
+make_searchable(db.metadata)
+
+
+class FullTextSearchable(BaseQuery):
     pass
 
 
