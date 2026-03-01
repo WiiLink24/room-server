@@ -9,7 +9,6 @@ Create Date: 2024-07-02 17:17:27.054317
 from alembic import op
 import sqlalchemy as sa
 
-
 # revision identifiers, used by Alembic.
 revision = "e68ac4fc8fee"
 down_revision = "42bc7a8c4eb9"
@@ -23,12 +22,10 @@ def upgrade():
         batch_op.add_column(sa.Column("seq", sa.Integer()))
     # ### end Alembic commands ###
 
-    op.execute(
-        """
+    op.execute("""
      UPDATE mii_msg_info
      SET seq = 1;
-     """
-    )
+     """)
 
     # Finally re-add the constraint.
     op.alter_column(

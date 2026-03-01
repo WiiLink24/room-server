@@ -7,7 +7,6 @@ from room import app
 import config
 import traceback
 
-
 oidc = OpenIDConnect(app)
 
 

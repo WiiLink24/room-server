@@ -9,7 +9,6 @@ Create Date: 2025-02-03 18:16:16.326263
 from alembic import op
 import sqlalchemy as sa
 
-
 # revision identifiers, used by Alembic.
 revision = "f42ed9c3bbc1"
 down_revision = "01cda65b0957"
@@ -26,12 +25,10 @@ def upgrade():
     with op.batch_alter_table("movies", schema=None) as batch_op:
         batch_op.add_column(sa.Column("unlisted", sa.Boolean(), nullable=True))
     # Set all to false
-    op.execute(
-        """
+    op.execute("""
         UPDATE movies
         SET unlisted = False
-        """
-    )
+        """)
 
     with op.batch_alter_table("movies", schema=None) as batch_op:
         batch_op.alter_column("unlisted", existing_type=sa.Boolean(), nullable=False)
