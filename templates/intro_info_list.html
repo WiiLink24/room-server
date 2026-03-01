@@ -51,6 +51,10 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                                Content ID
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                                 Content Type
                             </th>
                             <th scope="col"
@@ -70,6 +74,9 @@
                     <tbody class="divide-y divide-gray-700 bg-gray-800">
                         {% for info in infos.items %}
                         <tr class="transition-colors hover:bg-gray-700/50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-blue-300">
+                                {{ info.position }}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-blue-300">
                                 {{ info.cnt_id }}
                             </td>
@@ -101,6 +108,22 @@
                                         Delete
                                     </a>
                                 </div>
+                                {% if info.position > 2 %}
+                                <div class="flex space-x-2">
+                                    <a href="{{ url_for('move_info', position=info.position, direction="up") }}"
+                                        class="inline-flex items-center px-3 py-1 rounded-md bg-blue-700/30 text-blue-300 hover:bg-blue-600/50 hover:text-white transition-colors duration-200">
+                                        Arrow Up
+                                    </a>
+                                </div>
+                                {% endif %}
+                                {% if info.position != infos.total and info.position > 1 %}
+                                <div class="flex space-x-2">
+                                    <a href="{{ url_for('move_info', position=info.position, direction="down") }}"
+                                        class="inline-flex items-center px-3 py-1 rounded-md bg-blue-700/30 text-blue-300 hover:bg-blue-600/50 hover:text-white transition-colors duration-200">
+                                        Arrow Down
+                                    </a>
+                                </div>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

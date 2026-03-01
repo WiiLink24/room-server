@@ -28,7 +28,7 @@ import config
 def list_intro_info():
     page_num = request.args.get("page", default=1, type=int)
 
-    infos = IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).paginate(
+    infos = IntroInfo.query.order_by(IntroInfo.position.asc()).paginate(
         page=page_num, per_page=15, error_out=False
     )
 
@@ -37,13 +37,44 @@ def list_intro_info():
     )
 
 
+@app.route("/theunderground/intro_info/move/<position>/<direction>")
+@oidc.require_login
+def move_info(position, direction):
+    position = int(position)
+    if direction == "up":
+        # We require the current banner and the one before it.
+        infos = (
+            IntroInfo.query.filter(IntroInfo.position.between(position - 1, position))
+            .order_by(IntroInfo.position.asc())
+            .all()
+        )
+        infos[0].position += 1
+        infos[1].position -= 1
+    elif direction == "down":
+        # We require the current banner and the one after it.
+        infos = (
+            IntroInfo.query.filter(IntroInfo.position.between(position, position + 1))
+            .order_by(IntroInfo.position.asc())
+            .all()
+        )
+        infos[0].position += 1
+        infos[1].position -= 1
+
+    db.session.commit()
+    return redirect(url_for("list_intro_info"))
+
+
 @app.route("/theunderground/intro_info/add", methods=["GET", "POST"])
 @oidc.require_login
 def add_intro_info():
     form = IntroInfoForm()
 
     if form.is_submitted():
-        intro_db = IntroInfo(cnt_type=form.cnt_type.data, link_type=form.link_type.data)
+        intro_db = IntroInfo(
+            position=IntroInfo.query.count() + 1,
+            cnt_type=form.cnt_type.data,
+            link_type=form.link_type.data,
+        )
 
         if form.cat_name:
             intro_db.cat_name = form.cat_name.data
