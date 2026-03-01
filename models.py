@@ -349,6 +349,7 @@ class IntroInfo(db.Model):
     cat_name = db.Column(db.String(61))
     link_type = db.Column(db.Enum(LinkTypes))
     link_id = db.Column(db.Integer)
+    position = db.Column(db.Integer, nullable=False)
 
 
 class Giveaways(db.Model):

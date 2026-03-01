@@ -13,7 +13,7 @@ def event_today():
     queried_miis = (
         ConciergeMiis.query.order_by(ConciergeMiis.mii_id.asc()).limit(20).all()
     )
-    queried_intro_info = IntroInfo.query.order_by(IntroInfo.cnt_id.asc()).all()
+    queried_intro_info = IntroInfo.query.order_by(IntroInfo.position.asc()).all()
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
@@ -35,9 +35,9 @@ def event_today():
         miiinfos.append(RepeatedElement({"seq": seq + 1, "miiid": mii.mii_id}))
     for page, news in enumerate(News.query.order_by(News.id).all()):
         newsinfos.append(RepeatedElement({"page": page + 1, "news": news.msg}))
-    for seq, info in enumerate(queried_intro_info):
+    for info in queried_intro_info:
         data = {
-            "seq": seq + 1,
+            "seq": info.position,
             "cntid": info.cnt_id,
             "cnttype": info.cnt_type.value,
             "random": 0,
