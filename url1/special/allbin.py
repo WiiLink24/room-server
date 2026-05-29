@@ -1,7 +1,7 @@
 from asset_data import ParadeBannerAsset
 from helpers import xml_node_name, RepeatedElement
 from room import app
-from models import MiiData, Rooms, RoomMiis, db
+from models import MiiData, Rooms, db
 
 
 @app.route("/url1/special/allbin.xml")
@@ -10,16 +10,15 @@ def special_allbin():
     bin_info = []
 
     # Join queries. We select all ParadeMii data alongside MiiData table data with equal Mii IDs.
-    # TODO: determine maximum limit we can select and return.
-    queried_data = (
-        db.session.query(Rooms, RoomMiis, MiiData)
-        .filter(Rooms.room_id == RoomMiis.room_id)
-        .filter(RoomMiis.mii_id == MiiData.mii_id)
-        .order_by(RoomMiis.room_id)
+    parade_miis = (
+        db.session.query(Rooms, MiiData)
+        .filter(Rooms.parade_mii == MiiData.mii_id)
+        .order_by(Rooms.room_id)
+        .limit(30)
         .all()
     )
 
-    for room_data, room_mii, mii_data in queried_data:
+    for room_data, mii_data in parade_miis:
         # Read the parade banner image for this room ID.
         room_id = room_data.room_id
 

@@ -1,4 +1,4 @@
-from models import MiiData, Rooms, RoomMiis, db
+from models import MiiData, Rooms, db
 from room import app
 from helpers import current_date_and_time, xml_node_name, RepeatedElement
 
@@ -9,15 +9,13 @@ def special_all():
     page_info = []
 
     parade_miis = (
-        db.session.query(Rooms, RoomMiis, MiiData)
-        .filter(Rooms.room_id == RoomMiis.room_id)
-        .filter(RoomMiis.mii_id == MiiData.mii_id)
-        .filter(RoomMiis.seq == 1)
-        .order_by(RoomMiis.room_id)
+        db.session.query(Rooms, MiiData)
+        .filter(Rooms.parade_mii == MiiData.mii_id)
+        .order_by(Rooms.room_id)
         .all()
     )
 
-    for room_data, room_mii, mii_data in parade_miis:
+    for room_data, mii_data in parade_miis:
         page_info.append(
             RepeatedElement(
                 {
