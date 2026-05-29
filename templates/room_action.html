@@ -94,6 +94,17 @@
                     </div>
                     <p class="mt-1 text-xs text-gray-400">Contact details for room administrators</p>
                 </div>
+
+                <div>
+                    <label for="{{ form.parade_mii.id }}" class="block text-sm font-medium text-gray-300 mb-2">Parade Mii:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/user.svg" alt="Contact" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.parade_mii(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent", placeholder="Enter Mii ID") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Mii that will march in the parade</p>
+                </div>
                 
                 <div class="flex items-center py-3">
                     <label class="flex items-center">
