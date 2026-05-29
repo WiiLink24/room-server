@@ -271,6 +271,7 @@ class RoomContentBGMTypes(enum.Enum):
 class Rooms(db.Model):
     room_id = db.Column(db.Integer, autoincrement=True, primary_key=True, unique=True)
     bgm = db.Column(db.Enum(RoomBGMTypes))
+    parade_mii = db.Column(db.Integer, db.ForeignKey("mii_data.mii_id"))
     mascot = db.Column(db.Boolean)
     # Each message has a limit of 51. However, there can be 10 sequences. How we handle sequences is by splitting the
     # text by newline.
