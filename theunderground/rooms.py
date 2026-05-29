@@ -144,7 +144,7 @@ def create_room():
             intro_msg=form.intro_msg.data,
             contact_data=form.contact.data,
             news=form.news.data,
-            parade_mii=form.parade_mii.data
+            parade_mii=form.parade_mii.data,
         )
         db.session.add(room)
         db.session.commit()
