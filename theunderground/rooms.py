@@ -92,6 +92,7 @@ def edit_room(room_id):
         room.intro_msg = form.intro_msg.data
         room.contact_data = form.contact.data
         room.news = form.news.data
+        room.parade_mii = form.parade_mii.data
         db.session.add(room)
         db.session.commit()
 
@@ -105,6 +106,7 @@ def edit_room(room_id):
         form.intro_msg.data = room.intro_msg
         form.contact.data = room.contact_data
         form.news.data = room.news
+        form.parade_mii.data = room.parade_mii
 
     rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
 
@@ -142,6 +144,7 @@ def create_room():
             intro_msg=form.intro_msg.data,
             contact_data=form.contact.data,
             news=form.news.data,
+            parade_mii=form.parade_mii.data,
         )
         db.session.add(room)
         db.session.commit()

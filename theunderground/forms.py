@@ -98,6 +98,7 @@ class RoomForm(FlaskForm):
     )
     room_logo = FileField("Room Logo")
     parade_banner = FileField("Parade Banner")
+    parade_mii = IntegerField("Parade Mii", validators=[DataRequired()])
     category_logo = FileField("Category Logo")
     mascot = FileField("Mascot")
     has_mascot = BooleanField("Mascot Enabled")
