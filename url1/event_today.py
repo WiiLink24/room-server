@@ -3,6 +3,29 @@ from flask import send_from_directory
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey, is_v770
 from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes
+import os
+import config
+import random
+import shutil
+
+
+def set_current_community_photo():
+    """As of June 2026, the first image seen when loading up Wii Room will be one uploaded by the community
+    in the Discord server. We cycle through selected images every 24h at random."""
+    photos = os.listdir(config.community_photos_dir)
+    if len(photos) == 0:
+        # Empty, do nothing
+        return
+
+    # Pick at random
+    idx = random.randint(0, len(photos) - 1)
+    photo_name = photos[idx]
+
+    full_path = os.path.join(config.community_photos_dir, photo_name)
+    intro_assets_path = f"assets/normal-intro/1-1.img"
+
+    # Copy and rename image
+    shutil.copy(full_path, intro_assets_path)
 
 
 @app.route("/url1/event/today.xml")
