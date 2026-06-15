@@ -23,8 +23,8 @@ create table logs
     id     serial
         primary key,
     action varchar not null,
-    "user" varchar not null
-    timestamp timestamp not null
+    "user" varchar not null,
+    "timestamp" timestamp not null
 );
      """)
 
