@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
 import config
-from helpers import xml_node_name, current_date_and_time, xml_node_name_update
+from helpers import xml_node_name, current_date_and_time, xml_node_name_update, is_v770
 from room import app
 from flask import request
 
@@ -83,7 +83,7 @@ def conf_first_bin():
     # first.bin is expected to be returned in an encrypted format.
     # First, we generate our response.
     ua = request.headers.get("User-Agent")
-    if len(ua.split("/")) != 5:
+    if len(ua.split("/")) != 5 and not is_v770:
         returned_xml = conf_first_bin_xml_update()
     else:
         returned_xml = conf_first_bin_xml()
