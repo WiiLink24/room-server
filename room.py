@@ -50,6 +50,7 @@ with app.app_context():
 db.configure_mappers()
 
 s3 = None
+scheduler = BackgroundScheduler()
 if config.use_s3:
     # Start the S3 client
     s3 = boto3.client(
@@ -64,9 +65,13 @@ if config.use_s3:
     # Finally, start the popular list scheduler.
     from url1.popular_all import generate_all_popular
 
-    scheduler = BackgroundScheduler()
     scheduler.add_job(generate_all_popular, "cron", hour=0, minute=0, timezone=utc)
-    scheduler.start()
+
+# Add community image cycle job
+from url1.event_today import set_current_community_photo
+
+scheduler.add_job(set_current_community_photo, "cron", hour=0, minute=0, timezone=utc)
+scheduler.start()
 
 # Import routes here.
 import first
