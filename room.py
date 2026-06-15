@@ -69,6 +69,7 @@ if config.use_s3:
 
 # Add community image cycle job
 from url1.event_today import set_current_community_photo
+
 scheduler.add_job(set_current_community_photo, "cron", hour=0, minute=0, timezone=utc)
 scheduler.start()
 
