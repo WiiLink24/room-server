@@ -100,7 +100,14 @@
                                 {{ info.link_type.name }}
                                 {% endif %}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <td class="px-8 py-6 whitespace-nowrap text-sm">
+                                <div class="flex space-x-2">
+                                    <a href="{{ url_for('edit_intro_info', id=info.cnt_id) }}"
+                                            class="inline-flex items-center px-3 py-1 rounded-md bg-indigo-700/30 text-indigo-300 hover:bg-indigo-600/50 transition-colors duration-200">
+                                            <img src="/static/icon/pencil.svg" alt="Edit" class="h-3.5 w-3.5 mr-1.5 invert mr-1.5" />
+                                            <span>Edit</span>
+                                    </a>
+                                </div>
                                 <div class="flex space-x-2">
                                     <a href="{{ url_for('remove_intro_info', id=info.cnt_id) }}"
                                         class="inline-flex items-center px-3 py-1 rounded-md bg-red-700/30 text-red-300 hover:bg-red-600/50 hover:text-white transition-colors duration-200">

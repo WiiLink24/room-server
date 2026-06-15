@@ -19,6 +19,7 @@ from theunderground.admin import oidc
 from werkzeug import exceptions
 from url1.event_today import event_today
 from theunderground.logging import log_action
+from flask_wtf.file import FileRequired
 
 import config
 
@@ -68,6 +69,7 @@ def move_info(position, direction):
 @oidc.require_login
 def add_intro_info():
     form = IntroInfoForm()
+    form.asset.validators = [FileRequired()]
 
     if form.is_submitted():
         intro_db = IntroInfo(
@@ -95,7 +97,7 @@ def add_intro_info():
         update_intro_info_on_s3()
 
         # Now encode image/video.
-        if form.asset:
+        if form.asset.data:
             if intro_db.cnt_type == ContentTypes.Image:
                 TVScreenAsset(intro_db.cnt_id, is_theatre=False, is_movie=False).encode(
                     form.asset
@@ -114,7 +116,55 @@ def add_intro_info():
         log_action(f"Intro Info {intro_db.cnt_id} was added")
         return redirect(url_for("list_intro_info"))
 
-    return render_template("intro_info_add.html", form=form)
+    return render_template("intro_info_action.html", form=form, action="Add")
+
+
+@app.route("/theunderground/intro_info/<id>/edit", methods=["GET", "POST"])
+@oidc.require_login
+def edit_intro_info(id):
+    current_info = IntroInfo.query.filter(IntroInfo.cnt_id == id).first()
+    if not current_info:
+        return exceptions.NotFound()
+
+    form = IntroInfoForm()
+
+    if form.is_submitted():
+        current_info.cnt_type = form.cnt_type.data
+        current_info.link_type = form.link_type.data
+        current_info.cat_name = form.cat_name.data
+        current_info.link_id = form.link_id.data
+
+        # Wii Room requires video content id's to be 16 characters long.
+        if current_info.cnt_type == ContentTypes.Video:
+            current_info.cnt_id = int(str(current_info.cnt_id).ljust(16, "0"))
+
+        db.session.commit()
+        update_intro_info_on_s3()
+
+        # Now encode image/video.
+        if form.asset.data:
+            if current_info.cnt_type == ContentTypes.Image:
+                TVScreenAsset(
+                    current_info.cnt_id, is_theatre=False, is_movie=False
+                ).encode(form.asset)
+            else:
+                video = form.asset.data.read()
+                if validate_mobiclip(video):
+                    TVScreenAsset(
+                        current_info.cnt_id, is_theatre=False, is_movie=True
+                    ).upload_movie(video)
+                else:
+                    flash("Invalid movie!")
+
+        log_action(f"Intro Info {current_info.cnt_id} was edited")
+        return redirect(url_for("list_intro_info"))
+    else:
+        form.cnt_type.data = current_info.cnt_type
+        form.link_type.data = current_info.link_type
+        form.link_id.data = current_info.link_id
+        form.cat_name.data = current_info.cat_name
+
+    return render_template("intro_info_action.html", form=form, action="Edit")
 
 
 @app.route("/theunderground/intro_info/<id>/remove", methods=["GET", "POST"])
