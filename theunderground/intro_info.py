@@ -171,6 +171,11 @@ def edit_intro_info(id):
 @oidc.require_login
 def remove_intro_info(id):
     def drop_intro_info():
+        # All positioning after the current info needs to be updated.
+        infos = IntroInfo.query.filter(IntroInfo.position > current_info.position).all()
+        for info in infos:
+            info.position -= 1
+
         db.session.delete(current_info)
         db.session.commit()
 
