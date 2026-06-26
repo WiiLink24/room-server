@@ -19,8 +19,7 @@ def set_current_community_photo():
             return
 
         # Pick at random
-        idx = random.randint(0, len(photos) - 1)
-        photo_name = photos[idx]
+        photo_name = random.choice(photos)
 
         full_path = os.path.join(config.community_photos_dir, photo_name)
         first_intro_info_id = (
