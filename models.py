@@ -16,6 +16,22 @@ import json
 db = SQLAlchemy()
 
 
+class Locale(enum.Enum):
+    """Locale are the codes for various languages.
+    TODO: We do not follow any standard which is not terrible but still, we should fix in the next patch release.
+    """
+
+    jp = "Japanese"
+    Ge = "German"
+    En = "English"
+    Fr = "French"
+    Sp = "Spanish"
+    Du = "Dutch"
+    It = "Italian"
+    ptbr = "Portuguese"
+    ru = "Russian"
+
+
 class RoomMenu(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     room_id: Mapped[int]
@@ -93,6 +109,7 @@ class ConciergeMiis(db.Model):
     prof: Mapped[str] = mapped_column(String(129))
     movie_id: Mapped[int]
     voice: Mapped[bool] = mapped_column(default=False)
+    locale: Mapped[Locale]
 
 
 # MiiData provides the genuine Mii alongside other common information.
@@ -164,6 +181,7 @@ class Movies(db.Model):
     unlisted: Mapped[bool] = mapped_column(default=False)
 
     search_vector = mapped_column(TSVectorType("title"))
+    locale: Mapped[Locale]
 
 
 class PayMovies(db.Model):
@@ -186,6 +204,7 @@ class PayMovies(db.Model):
     price_code: Mapped[int] = mapped_column(autoincrement=True)
     date_added: Mapped[datetime] = mapped_column(server_default=func.now())
     search_vector = db.Column(TSVectorType("title", "note"))
+    locale: Mapped[Locale]
 
 
 class PayCategories(db.Model):
@@ -194,6 +213,7 @@ class PayCategories(db.Model):
     # Starts at 10, goes up by 1 each time
     genre_id: Mapped[Optional[int]]
     sp_page_id: Mapped[Optional[int]]
+    locale: Mapped[Locale]
 
 
 class PayCategoryHeaders(db.Model):
@@ -205,6 +225,7 @@ class Categories(db.Model):
     name: Mapped[str] = mapped_column(String(61))
     sp_page_id: Mapped[Optional[int]]
     unlisted: Mapped[bool] = mapped_column(default=False)
+    locale: Mapped[Locale]
 
 
 class RoomBGMTypes(enum.Enum):
@@ -269,6 +290,7 @@ class Rooms(db.Model):
     contact_data: Mapped[str] = mapped_column(String(2599))
     news: Mapped[str] = mapped_column(String(41))
     level: Mapped[int] = mapped_column(default=1)
+    locale: Mapped[Locale]
 
 
 class RoomMiis(db.Model):
@@ -288,6 +310,7 @@ class EvaluateData(db.Model):
     blood: Mapped[int]
     age: Mapped[int]
     vote: Mapped[int]
+    locale: Mapped[Locale]
 
 
 class PollData(db.Model):
@@ -297,6 +320,7 @@ class PollData(db.Model):
     choice: Mapped[int]
     age: Mapped[int]
     gender: Mapped[int]
+    locale: Mapped[Locale]
 
 
 class ContentTypes(enum.Enum):
@@ -344,6 +368,7 @@ class IntroInfo(db.Model):
     link_type: Mapped[LinkTypes]
     link_id: Mapped[Optional[int]]
     position: Mapped[int]
+    locale: Mapped[Locale]
 
 
 class Giveaways(db.Model):
@@ -351,6 +376,7 @@ class Giveaways(db.Model):
     giveaway_id: Mapped[int]
     wii_id: Mapped[str]
     email: Mapped[str]
+    locale: Mapped[Locale]
 
 
 class MovieCredits(db.Model):
@@ -359,6 +385,7 @@ class MovieCredits(db.Model):
     role: Mapped[str] = mapped_column(String(30), nullable=False)
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     order: Mapped[int]
+    locale: Mapped[Locale]
 
 
 class ConciergeMovies(db.Model):
