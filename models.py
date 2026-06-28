@@ -9,6 +9,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils import TSVectorType
 from datetime import datetime
 from typing import Optional
+from wtforms.fields import SelectField
 
 import sqlalchemy
 import json
@@ -30,6 +31,17 @@ class Locale(enum.Enum):
     It = "Italian"
     ptbr = "Portuguese"
     ru = "Russian"
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.value) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(int(item)) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
 
 
 class RoomMenu(db.Model):

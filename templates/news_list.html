@@ -11,7 +11,17 @@
             <img src="/static/icon/arrow-left.svg" alt="Back Icon" class="h-4 w-4 mr-2 invert" />
             Return to Dashboard
         </a>
-        
+
+        <label for="{{ locale.locale.id }}" class="block text-sm font-medium text-gray-300 mb-2">Locale:</label>
+        <div class="relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <img src="/static/icon/layers.svg" alt="Content Type" class="w-5 h-5 invert opacity-70" />
+            </div>
+            <div class="w-full" id="cnt_type">
+                            {{ locale.locale(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500") }}
+            </div>
+        </div>
+
         <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
             <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
                 <div class="flex items-center justify-between gap-3">

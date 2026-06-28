@@ -1,12 +1,12 @@
 from io import BytesIO
 
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request
 
 from werkzeug import exceptions
 
-from models import News, db
+from models import News, db, Locale
 from room import app, s3
-from theunderground.forms import NewsForm
+from theunderground.forms import NewsForm, LocaleForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from url1.event_today import event_today
@@ -18,9 +18,18 @@ import config
 @app.route("/theunderground/news")
 @oidc.require_login
 def list_news():
-    news = News.query.all()
+    if not request.args.get("l"):
+        locale = Locale.En
+    else:
+        locale = Locale(request.args.get("l"))
+
+    news = db.session.query(News).where(News.locale == locale).all()
     return render_template(
-        "news_list.html", news=news, type_length=len(news), type_max_count=64
+        "news_list.html",
+        news=news,
+        type_length=len(news),
+        type_max_count=64,
+        locale=LocaleForm(),
     )
 
 
