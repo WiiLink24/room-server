@@ -2,9 +2,9 @@ import enum
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy.query import Query
-from sqlalchemy import func, String, ForeignKey, LargeBinary, BigInteger
+from sqlalchemy import func, String, ForeignKey, LargeBinary, BigInteger, JSON
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.types import TypeDecorator
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils import TSVectorType
 from datetime import datetime
@@ -16,26 +16,12 @@ import json
 db = SQLAlchemy()
 
 
-class DictType(TypeDecorator):
-    impl = sqlalchemy.Text()
-
-    def process_bind_param(self, value, dialect):
-        if value is not None:
-            value = json.dumps(value)
-
-        return value
-
-    def process_result_value(self, value, dialect):
-        if value is not None:
-            value = json.loads(value)
-        return value
-
-
 class RoomMenu(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     room_id: Mapped[int]
-    data = db.Column(DictType)  # This is a dict with keys in it for that type.
-    # TODO: Figure out a suitable UI, maybe even using Javascript?
+    data: Mapped[bytes] = mapped_column(
+        JSONB
+    )  # This is a dict with keys in it for that type.
 
 
 class Posters(db.Model):
