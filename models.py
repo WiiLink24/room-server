@@ -48,11 +48,13 @@ class Posters(db.Model):
     # It appears they mandate the last byte in their char array is null (and sprintf),
     # so perhaps the internal type is char[48]?
     title: Mapped[str] = mapped_column(String(47))
+    locale: Mapped[Locale]
 
 
 class News(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     msg: Mapped[str] = mapped_column(String(146))
+    locale: Mapped[Locale]
 
 
 class PayPosters(db.Model):
@@ -61,6 +63,7 @@ class PayPosters(db.Model):
     title: Mapped[str] = mapped_column(String(47))
     type: Mapped[int]
     aspect: Mapped[bool]
+    locale: Mapped[Locale]
 
 
 class ConciergeMiiActions(enum.Enum):
