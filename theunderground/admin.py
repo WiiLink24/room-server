@@ -6,6 +6,7 @@ from first import conf_first_bin_xml
 from room import app
 import config
 import traceback
+from models import Locale
 
 oidc = OpenIDConnect(app)
 
@@ -13,6 +14,11 @@ oidc = OpenIDConnect(app)
 @app.context_processor
 def inject_oidc():
     return dict(oidc=oidc)
+
+
+@app.context_processor
+def inject_locales():
+    return dict(locales=Locale.choices())
 
 
 def is_maintenance():

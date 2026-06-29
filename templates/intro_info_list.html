@@ -1,4 +1,5 @@
 {% extends "generic/base_manage.html" %}
+{% from "includes/language_dropdown.html" import language_dropdown %}
 
 {% block type_name %}intro info{% endblock %}
 {% block type_name_singular %}intro info{% endblock %}
@@ -6,20 +7,23 @@
 {% block table_listing %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex flex-col sm:flex-row items-center justify-end gap-6 mb-10">
-        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
-            <div
-                class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="flex items-center justify-between gap-3">
-                    <div>
-                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
-                            Total Room TV Content
-                        </p>
-                        <p class="text-3xl text-white font-bold mt-1">
-                            {{ infos.total }}
-                        </p>
-                    </div>
-                    <div class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
-                        <img src="/static/icon/info.svg" alt="Info Icon" class="h-6 w-6 invert text-white" />
+        <div class="flex flex-row justify-end items-end gap-3">
+            {{ language_dropdown() }}
+            <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+                <div
+                    class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                Total Room TV Content
+                            </p>
+                            <p class="text-3xl text-white font-bold mt-1">
+                                {{ infos.total }}
+                            </p>
+                        </div>
+                        <div class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                            <img src="/static/icon/info.svg" alt="Info Icon" class="h-6 w-6 invert text-white" />
+                        </div>
                     </div>
                 </div>
             </div>
