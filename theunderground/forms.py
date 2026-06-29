@@ -288,9 +288,3 @@ class RoomCouponData(FlaskForm):
 class ConciergeMovieForm(FlaskForm):
     movie_id = StringField("Movie ID", validators=[DataRequired()])
     submit = SubmitField("Submit")
-
-
-class LocaleForm(FlaskForm):
-    locale = SelectField(
-        "Locale", choices=Locale.choices(), coerce=Locale.coerce, default=Locale.En
-    )

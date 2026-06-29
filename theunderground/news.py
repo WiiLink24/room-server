@@ -7,7 +7,7 @@ from werkzeug import exceptions
 from models import News, db
 from theunderground.locale import get_current_locale
 from room import app, s3
-from theunderground.forms import NewsForm, LocaleForm
+from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from url1.event_today import event_today
@@ -21,11 +21,7 @@ import config
 def list_news():
     news = db.session.query(News).where(News.locale == get_current_locale()).all()
     return render_template(
-        "news_list.html",
-        news=news,
-        type_length=len(news),
-        type_max_count=64,
-        locale=LocaleForm(),
+        "news_list.html", news=news, type_length=len(news), type_max_count=64
     )
 
 
