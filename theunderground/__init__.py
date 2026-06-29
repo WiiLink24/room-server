@@ -1,4 +1,5 @@
 from . import (
+    locale,
     admin,
     categories,
     concierge,
