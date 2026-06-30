@@ -43,7 +43,7 @@ def edit_news(news_id):
 
         update_news_on_s3()
         log_action(f"News {news_id} edited")
-        return redirect(url_for("list_news"))
+        return redirect(url_for("list_news", l=form.locale.data))
 
     # Populate with existing news.
     form.news.data = news_item.msg
@@ -64,7 +64,7 @@ def add_news():
         update_news_on_s3()
 
         log_action(f"News {created_news.id} added")
-        return redirect(url_for("list_news"))
+        return redirect(url_for("list_news", l=form.locale.data))
 
     return render_template("news_action.html", action="Add", form=form)
 
