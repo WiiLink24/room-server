@@ -5,6 +5,7 @@ from werkzeug import exceptions
 
 from theunderground.forms import PayPosterForm
 from theunderground.operations import manage_delete_item
+from theunderground.locale import get_current_locale
 from theunderground.admin import oidc
 from theunderground.logging import log_action
 from asset_data import PosterAsset, PayMovieAsset
@@ -22,7 +23,11 @@ PAY_POSTER_IV = b"\x09\xd4\xfb\xfc\xa4\x00\xc1\x3d\xa0\x1c\xbf\x83\x5d\xa3\x24\x
 @oidc.require_login
 def list_pay_posters():
     # Displays a table of posters with options to add and remove them
-    posters = PayPosters.query.paginate()
+    posters = (
+        db.session.query(PayPosters)
+        .where(PayPosters.locale == get_current_locale())
+        .paginate()
+    )
     return render_template(
         "pay_poster_list.html",
         posters=posters,
@@ -43,7 +48,11 @@ def add_pay_poster():
 
     if form.validate_on_submit():
         db_poster = PayPosters(
-            msg=form.msg.data, title=form.title.data, type=1, aspect=False
+            msg=form.msg.data,
+            title=form.title.data,
+            type=1,
+            aspect=False,
+            locale=form.locale.data,
         )
 
         db.session.add(db_poster)
@@ -78,13 +87,14 @@ def add_pay_poster():
 def edit_pay_poster(poster_id):
     form = PayPosterForm()
 
-    poster = PayPosters.query.filter_by(poster_id=poster_id).first()
+    poster = db.session.query(PayPosters).filter_by(poster_id=poster_id).first()
     if not poster:
         return exceptions.NotFound()
 
     if form.validate_on_submit():
         poster.msg = form.msg.data
         poster.title = form.title.data
+        poster.locale = form.locale.data
 
         # Encrypt movie
         if form.movie.data:
@@ -105,6 +115,7 @@ def edit_pay_poster(poster_id):
     else:
         form.msg.data = poster.msg
         form.title.data = poster.title
+        form.locale.data = poster.locale
 
     return render_template(
         "pay_poster_action.html", form=form, action="Edit", poster_id=poster_id
