@@ -3,11 +3,10 @@ from flask import send_from_directory
 
 from room import app
 from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey, is_v770
-from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes
+from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes, db
 import os
 import config
 import random
-import shutil
 
 
 def set_current_community_photo():
@@ -23,15 +22,19 @@ def set_current_community_photo():
         photo_name = random.choice(photos)
 
         full_path = os.path.join(config.community_photos_dir, photo_name)
-        first_intro_info_id = (
-            IntroInfo.query.order_by(IntroInfo.position.asc()).first().cnt_id
+
+        # Copy for every locale.
+        first_intro_infos = (
+            db.session.query(IntroInfo).where(IntroInfo.position == 1).all()
         )
 
-        # Encode and write image
+        photo_bytes = None
         with open(full_path, "rb") as photo:
-            TVScreenAsset(first_intro_info_id, is_theatre=False, is_movie=False).encode(
-                photo
-            )
+            photo_bytes = photo.read()
+        print(full_path)
+        for info in first_intro_infos:
+            # Encode and write image
+            TVScreenAsset(info.cnt_id, is_theatre=False, is_movie=False).encode(photo_bytes)
 
 
 @app.route("/url1/event/today.xml")
