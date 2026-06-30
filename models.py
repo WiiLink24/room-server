@@ -196,7 +196,6 @@ class Movies(db.Model):
     unlisted: Mapped[bool] = mapped_column(default=False)
 
     search_vector = mapped_column(TSVectorType("title"))
-    locale: Mapped[Locale]
 
 
 class PayMovies(db.Model):
@@ -219,7 +218,6 @@ class PayMovies(db.Model):
     price_code: Mapped[int] = mapped_column(autoincrement=True)
     date_added: Mapped[datetime] = mapped_column(server_default=func.now())
     search_vector = db.Column(TSVectorType("title", "note"))
-    locale: Mapped[Locale]
 
 
 class PayCategories(db.Model):

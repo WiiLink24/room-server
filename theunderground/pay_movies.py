@@ -8,7 +8,7 @@ from flask import (
 )
 
 
-from models import PayMovies, db
+from models import PayMovies, db, PayCategories
 from room import app
 from theunderground.mobiclip import (
     get_pay_category_list,
@@ -31,14 +31,23 @@ def list_pay_movies(category):
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 10 posters per page.
-    movies = PayMovies.query.filter(PayMovies.category_id == category).paginate(
-        page=page_num, per_page=20, error_out=False
+    movies = (
+        db.session.query(PayMovies)
+        .filter(PayMovies.category_id == category)
+        .paginate(page=page_num, per_page=20, error_out=False)
+    )
+
+    category_name = db.session.scalar(
+        db.session.query(PayCategories.name).filter(
+            PayCategories.category_id == category
+        )
     )
 
     return render_template(
         "pay_movie_list.html",
         movies=movies,
         category_id=category,
+        category_name=category_name,
         type_length=movies.total,
         type_max_count=64,
     )

@@ -9,7 +9,7 @@ from flask import (
 from flask_wtf.file import FileRequired
 from werkzeug import exceptions
 
-from models import Movies, db, MovieCredits
+from models import Movies, db, MovieCredits, Categories
 from room import app
 from theunderground.mobiclip import (
     get_category_list,
@@ -39,8 +39,11 @@ def list_movies(category):
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 20 movies per page.
-    movies = Movies.query.filter(Movies.category_id == category).paginate(
-        page=page_num, per_page=20, error_out=False
+    movies = (
+        db.session.query(Movies)
+        .filter(Movies.category_id == category)
+        .order_by(Movies.movie_id.asc())
+        .paginate(page=page_num, per_page=20, error_out=False)
     )
 
     unlisted_movies = (
@@ -49,10 +52,15 @@ def list_movies(category):
         .all()
     )
 
+    category_name = db.session.scalar(
+        db.session.query(Categories.name).filter(Categories.category_id == category)
+    )
+
     return render_template(
         "movie_list.html",
         movies=movies,
         category_id=category,
+        category_name=category_name,
         type_length=movies.total - len(unlisted_movies),
         type_max_count=64,
     )
@@ -61,7 +69,7 @@ def list_movies(category):
 @app.route("/theunderground/movies/<category>/<movie_id>/listed")
 @oidc.require_login
 def toggle_movie_listed(category, movie_id):
-    movie = Movies.query.filter_by(movie_id=movie_id).first()
+    movie = db.session.query(Movies).filter_by(movie_id=movie_id).first()
     movie.unlisted = not movie.unlisted
     db.session.commit()
     return redirect(url_for("list_movies", category=category))
