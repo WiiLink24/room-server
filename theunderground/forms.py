@@ -109,6 +109,7 @@ class RoomForm(FlaskForm):
     # PostgreSQL treats an empty string ('') separately from NULL (None in Python).
     # https://stackoverflow.com/a/21853689
     contact = StringField("Contact Information", filters=[lambda x: x or None])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Create")
 
 
