@@ -88,6 +88,7 @@ class CategoryForm(FlaskForm):
     )
     room = SelectField("Room", validators=[DataRequired()])
     thumbnail = FileField("Category Thumbnail")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Add")
 
 
