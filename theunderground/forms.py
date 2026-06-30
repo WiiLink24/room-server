@@ -245,6 +245,7 @@ class PosterForm(FlaskForm):
     msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     movie_id = IntegerField("Movie ID", validators=[DataRequired()])
     poster = FileField("Poster")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     upload = SubmitField("Create Poster!")
 
 
