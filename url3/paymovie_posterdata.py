@@ -3,8 +3,8 @@ from werkzeug import exceptions
 from werkzeug.security import safe_join
 
 from room import app
-from helpers import RepeatedElement, xml_node_name, current_date_and_time
-from models import PayMovies, db
+from helpers import RepeatedElement, xml_node_name, current_date_and_time, wii_locale
+from models import PayMovies, db, PayCategories
 
 
 @app.route("/url3/pay/list/category/search/<category_id>")
@@ -12,8 +12,9 @@ from models import PayMovies, db
 @xml_node_name("SearchMovies")
 def search_movies(category_id):
     retrieved_data = (
-        db.session.query(PayMovies)
+        db.session.query(PayMovies, PayCategories)
         .filter(PayMovies.category_id == category_id)
+        .where(PayCategories.locale == wii_locale)
         .order_by(PayMovies.movie_id)
         .all()
     )

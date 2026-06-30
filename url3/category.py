@@ -1,6 +1,6 @@
 from asset_data import PayCategoryAsset
 from room import app
-from helpers import xml_node_name, RepeatedElement
+from helpers import xml_node_name, RepeatedElement, wii_locale
 from models import PayCategories, db
 
 from werkzeug import exceptions
@@ -10,11 +10,17 @@ from flask import send_from_directory
 @app.route("/url3/pay/list/category/<int:list_id>.xml")
 @xml_node_name("PayCategoryList")
 def pay_list_category(list_id: int):
-    queried_categories = PayCategories.query.order_by(PayCategories.name.asc()).all()
+    queried_categories = (
+        db.session.query(PayCategories)
+        .where(PayCategories.locale == wii_locale)
+        .order_by(PayCategories.name.asc())
+        .all()
+    )
 
     retrieved_data = (
         db.session.query(PayCategories)
         .filter(PayCategories.genre_id == list_id)
+        .where(PayCategories.locale == wii_locale)
         .order_by(PayCategories.category_id)
         .all()
     )
