@@ -387,7 +387,6 @@ class Giveaways(db.Model):
     giveaway_id: Mapped[int]
     wii_id: Mapped[str]
     email: Mapped[str]
-    locale: Mapped[Locale]
 
 
 class MovieCredits(db.Model):
@@ -396,7 +395,6 @@ class MovieCredits(db.Model):
     role: Mapped[str] = mapped_column(String(30), nullable=False)
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     order: Mapped[int]
-    locale: Mapped[Locale]
 
 
 class ConciergeMovies(db.Model):
