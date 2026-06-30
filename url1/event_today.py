@@ -1,3 +1,4 @@
+from asset_data import TVScreenAsset
 from flask import send_from_directory
 
 from room import app
@@ -25,10 +26,12 @@ def set_current_community_photo():
         first_intro_info_id = (
             IntroInfo.query.order_by(IntroInfo.position.asc()).first().cnt_id
         )
-        intro_assets_path = f"assets/normal-intro/{first_intro_info_id}-1.img"
 
-        # Copy and rename image
-        shutil.copy(full_path, intro_assets_path)
+        # Encode and write image
+        with open(full_path, "rb") as photo:
+            TVScreenAsset(first_intro_info_id, is_theatre=False, is_movie=False).encode(
+                photo
+            )
 
 
 @app.route("/url1/event/today.xml")
