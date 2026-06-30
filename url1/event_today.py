@@ -2,7 +2,14 @@ from asset_data import TVScreenAsset
 from flask import send_from_directory
 
 from room import app
-from helpers import current_date, xml_node_name, RepeatedElement, RepeatedKey, is_v770
+from helpers import (
+    current_date,
+    xml_node_name,
+    RepeatedElement,
+    RepeatedKey,
+    is_v770,
+    wii_locale,
+)
 from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes, db
 import os
 import config
@@ -34,18 +41,35 @@ def set_current_community_photo():
         print(full_path)
         for info in first_intro_infos:
             # Encode and write image
-            TVScreenAsset(info.cnt_id, is_theatre=False, is_movie=False).encode(photo_bytes)
+            TVScreenAsset(info.cnt_id, is_theatre=False, is_movie=False).encode(
+                photo_bytes
+            )
 
 
 @app.route("/url1/event/today.xml")
 @xml_node_name("Event")
 def event_today():
     # Retrieve all registered posters.
-    queried_posters = Posters.query.order_by(Posters.poster_id.asc()).limit(20).all()
-    queried_miis = (
-        ConciergeMiis.query.order_by(ConciergeMiis.mii_id.asc()).limit(20).all()
+    queried_posters = (
+        db.session.query(Posters)
+        .where(Posters.locale == wii_locale)
+        .order_by(Posters.poster_id.asc())
+        .limit(20)
+        .all()
     )
-    queried_intro_info = IntroInfo.query.order_by(IntroInfo.position.asc()).all()
+    queried_miis = (
+        db.session.query(ConciergeMiis)
+        .where(ConciergeMiis.locale == wii_locale)
+        .order_by(ConciergeMiis.mii_id.asc())
+        .limit(20)
+        .all()
+    )
+    queried_intro_info = (
+        db.session.query(IntroInfo)
+        .where(IntroInfo.locale == wii_locale)
+        .order_by(IntroInfo.position.asc())
+        .all()
+    )
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.
     posters = []
