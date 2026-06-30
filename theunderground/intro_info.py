@@ -30,8 +30,11 @@ import config
 def list_intro_info():
     page_num = request.args.get("page", default=1, type=int)
 
-    infos = db.session.query(IntroInfo).where(IntroInfo.locale == get_current_locale()).order_by(IntroInfo.position.asc()).paginate(
-        page=page_num, per_page=15, error_out=False
+    infos = (
+        db.session.query(IntroInfo)
+        .where(IntroInfo.locale == get_current_locale())
+        .order_by(IntroInfo.position.asc())
+        .paginate(page=page_num, per_page=15, error_out=False)
     )
 
     return render_template(
@@ -46,7 +49,8 @@ def move_info(position, direction):
     if direction == "up":
         # We require the current banner and the one before it.
         infos = (
-            db.session.query(IntroInfo).filter(IntroInfo.position.between(position - 1, position))
+            db.session.query(IntroInfo)
+            .filter(IntroInfo.position.between(position - 1, position))
             .where(IntroInfo.locale == get_current_locale())
             .order_by(IntroInfo.position.asc())
             .all()
@@ -56,7 +60,8 @@ def move_info(position, direction):
     elif direction == "down":
         # We require the current banner and the one after it.
         infos = (
-            db.session.query(IntroInfo).filter(IntroInfo.position.between(position, position + 1))
+            db.session.query(IntroInfo)
+            .filter(IntroInfo.position.between(position, position + 1))
             .where(IntroInfo.locale == get_current_locale())
             .order_by(IntroInfo.position.asc())
             .all()
@@ -76,7 +81,12 @@ def add_intro_info():
 
     if form.is_submitted():
         # Get next position for current locale
-        position = db.session.query(IntroInfo).where(IntroInfo.locale == form.locale.data).count() + 1
+        position = (
+            db.session.query(IntroInfo)
+            .where(IntroInfo.locale == form.locale.data)
+            .count()
+            + 1
+        )
         intro_db = IntroInfo(
             position=position,
             cnt_type=form.cnt_type.data,
@@ -142,12 +152,21 @@ def edit_intro_info(id):
 
         # If the locale changes, we have to also change the positioning of the info we are editing, as well as everything after it.
         if form.locale.data != current_info.locale:
-            infos = db.session.query(IntroInfo).where(IntroInfo.locale == current_info.locale).filter(
-                IntroInfo.position > current_info.position).all()
+            infos = (
+                db.session.query(IntroInfo)
+                .where(IntroInfo.locale == current_info.locale)
+                .filter(IntroInfo.position > current_info.position)
+                .all()
+            )
             for info in infos:
                 info.position -= 1
 
-            position = db.session.query(IntroInfo).where(IntroInfo.locale == form.locale.data).count() + 1
+            position = (
+                db.session.query(IntroInfo)
+                .where(IntroInfo.locale == form.locale.data)
+                .count()
+                + 1
+            )
             current_info.position = position
             current_info.locale = form.locale.data
 
@@ -190,7 +209,12 @@ def edit_intro_info(id):
 def remove_intro_info(id):
     def drop_intro_info():
         # All positioning after the current info needs to be updated.
-        infos = db.session.query(IntroInfo).where(IntroInfo.locale == current_info.locale).filter(IntroInfo.position > current_info.position).all()
+        infos = (
+            db.session.query(IntroInfo)
+            .where(IntroInfo.locale == current_info.locale)
+            .filter(IntroInfo.position > current_info.position)
+            .all()
+        )
         for info in infos:
             info.position -= 1
 
