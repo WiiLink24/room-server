@@ -33,7 +33,7 @@ def get_config_url(service_type: str) -> str:
 
 @xml_node_name("Config")
 def conf_first_bin_xml():
-    data = {
+    return {
         "maint": 0,
         "url1": get_config_url("url1"),
         "url2": get_config_url("url2"),
@@ -49,13 +49,6 @@ def conf_first_bin_xml():
         "bmax": 10,
         "upddt": current_date_and_time(),
     }
-
-    if "jp" in request.headers.get("User-Agent"):
-        data["url1"] = "http://url1.jpn.room.wiilink.ca/"
-        data["url2"] = "http://url2.jpn.room.wiilink.ca/"
-        data["url3"] = "http://url3.jpn.room.wiilink.ca/"
-
-    return data
 
 
 @xml_node_name_update("Config")
