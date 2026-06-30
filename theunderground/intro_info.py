@@ -16,6 +16,7 @@ from theunderground.forms import IntroInfoForm
 from theunderground.mobiclip import validate_mobiclip
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
+from theunderground.locale import get_current_locale
 from werkzeug import exceptions
 from url1.event_today import event_today
 from theunderground.logging import log_action
@@ -29,7 +30,7 @@ import config
 def list_intro_info():
     page_num = request.args.get("page", default=1, type=int)
 
-    infos = IntroInfo.query.order_by(IntroInfo.position.asc()).paginate(
+    infos = db.session.query(IntroInfo).where(IntroInfo.locale == get_current_locale()).order_by(IntroInfo.position.asc()).paginate(
         page=page_num, per_page=15, error_out=False
     )
 
@@ -45,7 +46,8 @@ def move_info(position, direction):
     if direction == "up":
         # We require the current banner and the one before it.
         infos = (
-            IntroInfo.query.filter(IntroInfo.position.between(position - 1, position))
+            db.session.query(IntroInfo).filter(IntroInfo.position.between(position - 1, position))
+            .where(IntroInfo.locale == get_current_locale())
             .order_by(IntroInfo.position.asc())
             .all()
         )
@@ -54,7 +56,8 @@ def move_info(position, direction):
     elif direction == "down":
         # We require the current banner and the one after it.
         infos = (
-            IntroInfo.query.filter(IntroInfo.position.between(position, position + 1))
+            db.session.query(IntroInfo).filter(IntroInfo.position.between(position, position + 1))
+            .where(IntroInfo.locale == get_current_locale())
             .order_by(IntroInfo.position.asc())
             .all()
         )
@@ -62,7 +65,7 @@ def move_info(position, direction):
         infos[1].position -= 1
 
     db.session.commit()
-    return redirect(url_for("list_intro_info"))
+    return redirect(url_for("list_intro_info", l=get_current_locale()))
 
 
 @app.route("/theunderground/intro_info/add", methods=["GET", "POST"])
@@ -72,10 +75,13 @@ def add_intro_info():
     form.asset.validators = [FileRequired()]
 
     if form.is_submitted():
+        # Get next position for current locale
+        position = db.session.query(IntroInfo).where(IntroInfo.locale == form.locale.data).count() + 1
         intro_db = IntroInfo(
-            position=IntroInfo.query.count() + 1,
+            position=position,
             cnt_type=form.cnt_type.data,
             link_type=form.link_type.data,
+            locale=form.locale.data,
         )
 
         if form.cat_name:
@@ -114,7 +120,7 @@ def add_intro_info():
             flash("Error uploading asset!")
 
         log_action(f"Intro Info {intro_db.cnt_id} was added")
-        return redirect(url_for("list_intro_info"))
+        return redirect(url_for("list_intro_info", l=form.locale.data))
 
     return render_template("intro_info_action.html", form=form, action="Add")
 
@@ -122,7 +128,7 @@ def add_intro_info():
 @app.route("/theunderground/intro_info/<id>/edit", methods=["GET", "POST"])
 @oidc.require_login
 def edit_intro_info(id):
-    current_info = IntroInfo.query.filter(IntroInfo.cnt_id == id).first()
+    current_info = db.session.query(IntroInfo).filter(IntroInfo.cnt_id == id).first()
     if not current_info:
         return exceptions.NotFound()
 
@@ -133,6 +139,17 @@ def edit_intro_info(id):
         current_info.link_type = form.link_type.data
         current_info.cat_name = form.cat_name.data
         current_info.link_id = form.link_id.data
+
+        # If the locale changes, we have to also change the positioning of the info we are editing, as well as everything after it.
+        if form.locale.data != current_info.locale:
+            infos = db.session.query(IntroInfo).where(IntroInfo.locale == current_info.locale).filter(
+                IntroInfo.position > current_info.position).all()
+            for info in infos:
+                info.position -= 1
+
+            position = db.session.query(IntroInfo).where(IntroInfo.locale == form.locale.data).count() + 1
+            current_info.position = position
+            current_info.locale = form.locale.data
 
         # Wii Room requires video content id's to be 16 characters long.
         if current_info.cnt_type == ContentTypes.Video:
@@ -157,12 +174,13 @@ def edit_intro_info(id):
                     flash("Invalid movie!")
 
         log_action(f"Intro Info {current_info.cnt_id} was edited")
-        return redirect(url_for("list_intro_info"))
+        return redirect(url_for("list_intro_info", l=form.locale.data))
     else:
         form.cnt_type.data = current_info.cnt_type
         form.link_type.data = current_info.link_type
         form.link_id.data = current_info.link_id
         form.cat_name.data = current_info.cat_name
+        form.locale.data = current_info.locale
 
     return render_template("intro_info_action.html", form=form, action="Edit")
 
@@ -172,7 +190,7 @@ def edit_intro_info(id):
 def remove_intro_info(id):
     def drop_intro_info():
         # All positioning after the current info needs to be updated.
-        infos = IntroInfo.query.filter(IntroInfo.position > current_info.position).all()
+        infos = db.session.query(IntroInfo).where(IntroInfo.locale == current_info.locale).filter(IntroInfo.position > current_info.position).all()
         for info in infos:
             info.position -= 1
 
@@ -182,7 +200,7 @@ def remove_intro_info(id):
         log_action(f"Intro Info {id} was removed")
         return redirect(url_for("list_intro_info"))
 
-    current_info = IntroInfo.query.filter(IntroInfo.cnt_id == id).first()
+    current_info = db.session.query(IntroInfo).filter(IntroInfo.cnt_id == id).first()
     if not current_info:
         return exceptions.NotFound()
 

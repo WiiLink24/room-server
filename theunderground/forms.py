@@ -264,6 +264,7 @@ class IntroInfoForm(FlaskForm):
     link_id = IntegerField("Link ID")
     cat_name = StringField("Category Name", validators=[Length(max=61)])
     asset = FileField("Asset")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     upload = SubmitField("Create Intro Info!")
 
 

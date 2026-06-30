@@ -121,7 +121,7 @@
                                 </div>
                                 {% if info.position > 2 %}
                                 <div class="flex space-x-2">
-                                    <a href="{{ url_for('move_info', position=info.position, direction="up") }}"
+                                    <a href="{{ url_for('move_info', position=info.position, direction="up") }}?l={{ g.current_locale }}"
                                         class="inline-flex items-center px-3 py-1 rounded-md bg-blue-700/30 text-blue-300 hover:bg-blue-600/50 hover:text-white transition-colors duration-200">
                                         Arrow Up
                                     </a>
@@ -129,7 +129,7 @@
                                 {% endif %}
                                 {% if info.position != infos.total and info.position > 1 %}
                                 <div class="flex space-x-2">
-                                    <a href="{{ url_for('move_info', position=info.position, direction="down") }}"
+                                    <a href="{{ url_for('move_info', position=info.position, direction="down") }}?l={{ g.current_locale }}"
                                         class="inline-flex items-center px-3 py-1 rounded-md bg-blue-700/30 text-blue-300 hover:bg-blue-600/50 hover:text-white transition-colors duration-200">
                                         Arrow Down
                                     </a>
