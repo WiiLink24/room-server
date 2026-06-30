@@ -235,6 +235,7 @@ class ConciergeForm(FlaskForm):
     )
 
     movieid = StringField("Movie ID", validators=[DataRequired()])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Save")
 
 
