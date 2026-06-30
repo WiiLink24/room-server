@@ -1,4 +1,5 @@
 {% extends "generic/base_manage.html" %}
+{% from "includes/language_dropdown.html" import language_dropdown %}
 
 {% set sidebar_menu %}
 <div class="border-l-4 pl-2 border-gray-700/40 hover:border-gray-700/60 py-2 transition-all">
@@ -43,19 +44,22 @@
             </a>
         </div>
         
-        <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
-            <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="flex items-center justify-between gap-3">
-                    <div>
-                        <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
-                            Total Rooms
-                        </p>
-                        <p class="text-3xl text-white font-bold mt-1">
-                            {{ rooms|length }}
-                        </p>
-                    </div>
-                    <div class="p-3 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg">
-                        <img src="/static/icon/monitor.svg" alt="Rooms Icon" class="h-6 w-6 invert" />
+        <div class="flex flex-row justify-end items-end gap-3">
+            {{ language_dropdown(locales) }}
+            <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+                <div class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium uppercase tracking-wider">
+                                Total Rooms
+                            </p>
+                            <p class="text-3xl text-white font-bold mt-1">
+                                {{ rooms|length }}
+                            </p>
+                        </div>
+                        <div class="p-3 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg">
+                            <img src="/static/icon/monitor.svg" alt="Rooms Icon" class="h-6 w-6 invert" />
+                        </div>
                     </div>
                 </div>
             </div>

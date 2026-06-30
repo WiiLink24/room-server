@@ -1,8 +1,8 @@
 from werkzeug import exceptions
 
-from models import Movies, ConciergeMovies, Rooms
+from models import Movies, ConciergeMovies, Rooms, db
 from room import app
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
+from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
 
 
 @app.route("/url1/list/category/search/<int:categ_id>")
@@ -10,7 +10,8 @@ from helpers import xml_node_name, RepeatedElement, current_date_and_time
 def list_category_search(categ_id):
     if categ_id < 20000:
         retrieved_data = (
-            Movies.query.filter(Movies.category_id == categ_id)
+            db.session.query(Movies)
+            .filter(Movies.category_id == categ_id)
             .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())
             .limit(100)
@@ -19,7 +20,8 @@ def list_category_search(categ_id):
     elif 20000 <= categ_id <= 29999:
         # Concierge Movies
         retrieved_data = (
-            Movies.query.filter(Movies.movie_id == ConciergeMovies.movie_id)
+            db.session.query(Movies)
+            .filter(Movies.movie_id == ConciergeMovies.movie_id)
             .filter(ConciergeMovies.mii_id == categ_id - 20000)
             .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())
@@ -28,7 +30,8 @@ def list_category_search(categ_id):
         )
     else:
         retrieved_data = (
-            Movies.query.filter(Movies.sp_page_id == Rooms.room_id)
+            db.session.query(Movies)
+            .filter(Movies.sp_page_id == Rooms.room_id)
             .filter(Rooms.room_id == categ_id - 30000)
             .filter(Movies.unlisted == False)
             .order_by(Movies.date_added.desc())

@@ -1,10 +1,11 @@
 from io import BytesIO
 
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request
 
 from werkzeug import exceptions
 
 from models import News, db
+from theunderground.locale import get_current_locale
 from room import app, s3
 from theunderground.forms import NewsForm
 from theunderground.operations import manage_delete_item
@@ -18,7 +19,7 @@ import config
 @app.route("/theunderground/news")
 @oidc.require_login
 def list_news():
-    news = News.query.all()
+    news = db.session.query(News).where(News.locale == get_current_locale()).all()
     return render_template(
         "news_list.html", news=news, type_length=len(news), type_max_count=64
     )
@@ -30,23 +31,23 @@ def edit_news(news_id):
     form = NewsForm()
 
     # Obtain the news with that id
-    news_item = News.query.filter_by(id=news_id).first()
+    news_item = db.session.query(News).where(News.id == news_id).first()
     if not news_item:
         return exceptions.NotFound()
 
     if form.validate_on_submit():
         # Now we change the message
         news_item.msg = form.news.data
-        # Now commit it
-        db.session.add(news_item)
+        news_item.locale = form.locale.data
         db.session.commit()
 
         update_news_on_s3()
         log_action(f"News {news_id} edited")
-        return redirect(url_for("list_news"))
+        return redirect(url_for("list_news", l=form.locale.data))
 
     # Populate with existing news.
     form.news.data = news_item.msg
+    form.locale.data = news_item.locale
 
     return render_template("news_action.html", action="Edit", form=form)
 
@@ -56,14 +57,14 @@ def edit_news(news_id):
 def add_news():
     form = NewsForm()
     if form.validate_on_submit():
-        created_news = News(msg=form.news.data)
+        created_news = News(msg=form.news.data, locale=form.locale.data)
         db.session.add(created_news)
         db.session.commit()
 
         update_news_on_s3()
 
         log_action(f"News {created_news.id} added")
-        return redirect(url_for("list_news"))
+        return redirect(url_for("list_news", l=form.locale.data))
 
     return render_template("news_action.html", action="Add", form=form)
 
@@ -72,7 +73,7 @@ def add_news():
 @oidc.require_login
 def remove_news(news_id):
     def drop_news():
-        db.session.delete(News.query.filter_by(id=news_id).first())
+        db.session.delete(db.session.query(News).where(News.id == news_id).first())
         db.session.commit()
 
         log_action(f"News {news_id} removed")

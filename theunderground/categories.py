@@ -13,6 +13,7 @@ from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.mobiclip import get_room_list
 from theunderground.logging import log_action
+from theunderground.locale import get_current_locale
 
 
 @app.route("/theunderground/categories")
@@ -20,16 +21,21 @@ from theunderground.logging import log_action
 def list_categories():
     page_num = request.args.get("page", default=1, type=int)
 
-    categories = Categories.query.order_by(Categories.category_id.asc()).paginate(
-        page=page_num, per_page=15, error_out=False
+    categories = (
+        db.session.query(Categories)
+        .where(Categories.locale == get_current_locale())
+        .order_by(Categories.category_id.asc())
+        .paginate(page=page_num, per_page=15, error_out=False)
     )
 
-    unlisted_categories = Categories.query.filter(Categories.unlisted == True).all()
+    unlisted_categories = (
+        db.session.query(Categories).filter(Categories.unlisted == True).count()
+    )
 
     return render_template(
         "category_list.html",
         categories=categories,
-        type_length=categories.total - len(unlisted_categories),
+        type_length=categories.total - unlisted_categories,
         type_max_count=64,
     )
 
@@ -37,10 +43,10 @@ def list_categories():
 @app.route("/theunderground/movies/<category>/listed")
 @oidc.require_login
 def toggle_category_listed(category):
-    category = Categories.query.filter_by(category_id=category).first()
+    category = db.session.query(Categories).filter_by(category_id=category).first()
     category.unlisted = not category.unlisted
     db.session.commit()
-    return redirect(url_for("list_categories"))
+    return redirect(url_for("list_categories", l=category.locale))
 
 
 @app.route("/theunderground/categories/add", methods=["GET", "POST"])
@@ -53,7 +59,9 @@ def add_category():
 
     if form.validate_on_submit():
         new_category = Categories(
-            name=form.category_name.data, sp_page_id=form.room.data
+            name=form.category_name.data,
+            sp_page_id=form.room.data,
+            locale=form.locale.data,
         )
 
         # Add to retrieve the category ID.
@@ -64,7 +72,7 @@ def add_category():
         NormalCategoryAsset(new_category.category_id).encode(form.thumbnail)
 
         log_action(f"Category {new_category.category_id} added")
-        return redirect(url_for("list_categories"))
+        return redirect(url_for("list_categories", l=form.locale.data))
 
     return render_template("category_action.html", form=form, action="Add")
 
@@ -77,15 +85,16 @@ def edit_category(category):
     form.room.choices = get_room_list()
 
     # Populate data
-    current_category = Categories.query.filter(
-        Categories.category_id == category
-    ).first()
+    current_category = (
+        db.session.query(Categories).filter(Categories.category_id == category).first()
+    )
     if not current_category:
         return exceptions.NotFound()
 
     if form.validate_on_submit():
         current_category.name = form.category_name.data
         current_category.sp_page_id = form.room.data
+        current_category.locale = form.locale.data
         db.session.commit()
 
         # Check if we have a new thumbnail.
@@ -93,11 +102,12 @@ def edit_category(category):
             NormalCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
         log_action(f"Category {current_category.category_id} edited")
-        return redirect(url_for("list_categories"))
+        return redirect(url_for("list_categories", l=form.locale.data))
     else:
         # Populate the current name.
         # category_action.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
+        form.locale.data = current_category.locale
 
     return render_template(
         "category_action.html", category=current_category, form=form, action="Edit"

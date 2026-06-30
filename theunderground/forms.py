@@ -19,6 +19,7 @@ from models import (
     LinkTypes,
     ConciergeMiiActions,
     MovieGenres,
+    Locale,
 )
 
 """
@@ -32,6 +33,7 @@ Reference:
 
 class NewsForm(FlaskForm):
     news = TextAreaField("News Contents", validators=[DataRequired(), Length(max=146)])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     create = SubmitField("Create!")
 
 
@@ -86,6 +88,7 @@ class CategoryForm(FlaskForm):
     )
     room = SelectField("Room", validators=[DataRequired()])
     thumbnail = FileField("Category Thumbnail")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Add")
 
 
@@ -107,6 +110,7 @@ class RoomForm(FlaskForm):
     # PostgreSQL treats an empty string ('') separately from NULL (None in Python).
     # https://stackoverflow.com/a/21853689
     contact = StringField("Contact Information", filters=[lambda x: x or None])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Create")
 
 
@@ -233,6 +237,7 @@ class ConciergeForm(FlaskForm):
     )
 
     movieid = StringField("Movie ID", validators=[DataRequired()])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Save")
 
 
@@ -241,6 +246,7 @@ class PosterForm(FlaskForm):
     msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     movie_id = IntegerField("Movie ID", validators=[DataRequired()])
     poster = FileField("Poster")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     upload = SubmitField("Create Poster!")
 
 
@@ -249,6 +255,7 @@ class PayPosterForm(FlaskForm):
     msg = StringField("Message", validators=[DataRequired(), Length(max=15)])
     poster = FileField("Poster")
     movie = FileField("Movie")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     upload = SubmitField("Create Poster!")
 
 
@@ -262,6 +269,7 @@ class IntroInfoForm(FlaskForm):
     link_id = IntegerField("Link ID")
     cat_name = StringField("Category Name", validators=[Length(max=61)])
     asset = FileField("Asset")
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     upload = SubmitField("Create Intro Info!")
 
 

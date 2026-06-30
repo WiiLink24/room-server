@@ -2,7 +2,7 @@ from flask import send_from_directory
 from werkzeug import exceptions
 
 from room import app
-from helpers import xml_node_name, RepeatedElement
+from helpers import xml_node_name, RepeatedElement, wii_locale
 from models import db, ConciergeMiis, MiiData, MiiMsgInfo
 from textwrap import wrap
 
@@ -29,6 +29,7 @@ def mii_met(mii_id):
     # Do we have this Mii?
     retrieved_data = (
         db.session.query(ConciergeMiis, MiiData)
+        .where(ConciergeMiis.locale == wii_locale)
         .filter(MiiData.mii_id == mii_id)
         .filter(ConciergeMiis.mii_id == MiiData.mii_id)
         .order_by(ConciergeMiis.mii_id)

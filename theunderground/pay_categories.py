@@ -12,6 +12,7 @@ from theunderground.mobiclip import get_room_list
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.logging import log_action
+from theunderground.locale import get_current_locale
 
 
 @app.route("/theunderground/paycategories")
@@ -19,8 +20,11 @@ from theunderground.logging import log_action
 def list_pay_categories():
     page_num = request.args.get("page", default=1, type=int)
 
-    categories = PayCategories.query.order_by(PayCategories.category_id.asc()).paginate(
-        page=page_num, per_page=15, error_out=False
+    categories = (
+        db.session.query(PayCategories)
+        .where(PayCategories.locale == get_current_locale())
+        .order_by(PayCategories.category_id.asc())
+        .paginate(page=page_num, per_page=15, error_out=False)
     )
 
     return render_template(
@@ -41,7 +45,9 @@ def add_pay_category():
 
     if form.validate_on_submit():
         new_category = PayCategories(
-            name=form.category_name.data, sp_page_id=form.room.data
+            name=form.category_name.data,
+            sp_page_id=form.room.data,
+            locale=form.locale.data,
         )
 
         # Add to retrieve the category ID.
@@ -52,7 +58,7 @@ def add_pay_category():
         PayCategoryAsset(new_category.category_id).encode(form.thumbnail)
 
         log_action(f"Pay category {new_category.category_id} added")
-        return redirect(url_for("list_pay_categories"))
+        return redirect(url_for("list_pay_categories", l=form.locale.data))
 
     return render_template("pay_category_action.html", form=form, action="Add")
 
@@ -74,6 +80,7 @@ def edit_pay_category(category):
     if form.validate_on_submit():
         current_category.name = form.category_name.data
         current_category.sp_page_id = form.room.data
+        current_category.locale = form.locale.data
         db.session.commit()
 
         # Check if we have a new thumbnail.
@@ -81,11 +88,12 @@ def edit_pay_category(category):
             PayCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
         log_action(f"Pay category {category} edited")
-        return redirect(url_for("list_pay_categories"))
+        return redirect(url_for("list_pay_categories", l=form.locale.data))
     else:
         # Populate the current name.
         # category_add.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
+        form.locale.data = current_category.locale
 
     return render_template(
         "pay_category_action.html", category=current_category, form=form, action="Edit"

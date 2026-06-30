@@ -1,8 +1,8 @@
 from flask import send_from_directory
 
 from room import app
-from helpers import current_date, xml_node_name, RepeatedElement, is_v770
-from models import PayPosters, Categories
+from helpers import current_date, xml_node_name, RepeatedElement, is_v770, wii_locale
+from models import PayPosters, Categories, db
 
 
 @app.route("/url3/pay/event/today.xml")
@@ -10,7 +10,11 @@ from models import PayPosters, Categories
 def pay_event_today():
     # Retrieve all registered posters.
     queried_posters = (
-        PayPosters.query.order_by(PayPosters.poster_id.asc()).limit(20).all()
+        db.session.query(PayPosters)
+        .where(PayPosters.locale == wii_locale)
+        .order_by(PayPosters.poster_id.asc())
+        .limit(20)
+        .all()
     )
 
     if is_v770:
@@ -34,7 +38,12 @@ def pay_event_today_v1025(queried_posters):
 
     # In order to avoid hardcoding a category ID, we get the
     # first category's ID.
-    first_category = Categories.query.order_by(Categories.category_id.asc()).first()
+    first_category = (
+        db.session.query(Categories)
+        .where(Categories.locale == wii_locale)
+        .order_by(Categories.category_id.asc())
+        .first()
+    )
 
     return {
         "date": current_date(),

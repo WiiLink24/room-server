@@ -9,11 +9,39 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils import TSVectorType
 from datetime import datetime
 from typing import Optional
+from wtforms.fields import SelectField
 
 import sqlalchemy
 import json
 
 db = SQLAlchemy()
+
+
+class Locale(enum.Enum):
+    """Locale are the codes for various languages.
+    TODO: We do not follow any standard which is not terrible but still, we should fix in the next patch release.
+    """
+
+    jp = "Japanese"
+    Ge = "German"
+    En = "English"
+    Fr = "French"
+    Sp = "Spanish"
+    Du = "Dutch"
+    It = "Italian"
+    ptbr = "Portuguese"
+    ru = "Russian"
+
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.value) for choice in cls]
+
+    @classmethod
+    def coerce(cls, item):
+        return cls(item) if not isinstance(item, cls) else item
+
+    def __str__(self):
+        return str(self.value)
 
 
 class RoomMenu(db.Model):
@@ -32,11 +60,13 @@ class Posters(db.Model):
     # It appears they mandate the last byte in their char array is null (and sprintf),
     # so perhaps the internal type is char[48]?
     title: Mapped[str] = mapped_column(String(47))
+    locale: Mapped[Locale]
 
 
 class News(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     msg: Mapped[str] = mapped_column(String(146))
+    locale: Mapped[Locale]
 
 
 class PayPosters(db.Model):
@@ -45,6 +75,7 @@ class PayPosters(db.Model):
     title: Mapped[str] = mapped_column(String(47))
     type: Mapped[int]
     aspect: Mapped[bool]
+    locale: Mapped[Locale]
 
 
 class ConciergeMiiActions(enum.Enum):
@@ -93,6 +124,7 @@ class ConciergeMiis(db.Model):
     prof: Mapped[str] = mapped_column(String(129))
     movie_id: Mapped[int]
     voice: Mapped[bool] = mapped_column(default=False)
+    locale: Mapped[Locale]
 
 
 # MiiData provides the genuine Mii alongside other common information.
@@ -194,6 +226,7 @@ class PayCategories(db.Model):
     # Starts at 10, goes up by 1 each time
     genre_id: Mapped[Optional[int]]
     sp_page_id: Mapped[Optional[int]]
+    locale: Mapped[Locale]
 
 
 class PayCategoryHeaders(db.Model):
@@ -205,6 +238,7 @@ class Categories(db.Model):
     name: Mapped[str] = mapped_column(String(61))
     sp_page_id: Mapped[Optional[int]]
     unlisted: Mapped[bool] = mapped_column(default=False)
+    locale: Mapped[Locale]
 
 
 class RoomBGMTypes(enum.Enum):
@@ -269,6 +303,7 @@ class Rooms(db.Model):
     contact_data: Mapped[str] = mapped_column(String(2599))
     news: Mapped[str] = mapped_column(String(41))
     level: Mapped[int] = mapped_column(default=1)
+    locale: Mapped[Locale]
 
 
 class RoomMiis(db.Model):
@@ -344,6 +379,7 @@ class IntroInfo(db.Model):
     link_type: Mapped[LinkTypes]
     link_id: Mapped[Optional[int]]
     position: Mapped[int]
+    locale: Mapped[Locale]
 
 
 class Giveaways(db.Model):

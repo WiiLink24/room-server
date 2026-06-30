@@ -84,7 +84,18 @@
                         </div>
                     </div>
                 </div>
-                
+
+                <div>
+                    <label for="{{ form.locale.id }}" class="block text-sm font-medium text-gray-300 mb-2">Locale:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                            <img src="/static/icon/globe.svg" alt="Language" class="h-4 w-4 mr-2 invert" />
+                        </div>
+                        {{ form.locale(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Locale you want to upload to</p>
+                </div>
+
                 <div class="flex justify-end space-x-3 pt-6">
                     <a href="{{ url_for('list_pay_posters') }}" 
                        class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200 flex items-center">

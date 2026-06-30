@@ -8,6 +8,7 @@ from theunderground.forms import ConciergeForm, ConciergeMovieForm, ConciergeMii
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.encodemii import encode_mii_category
+from theunderground.locale import get_current_locale
 from room import s3
 from url1.event_today import event_today
 from url1.mii import obtain_mii, mii_met
@@ -25,6 +26,7 @@ import requests
 def list_concierge():
     concierge_miis = (
         db.session.query(ConciergeMiis, MiiData)
+        .where(ConciergeMiis.locale == get_current_locale())
         .filter(ConciergeMiis.mii_id == MiiData.mii_id)
         .all()
     )
@@ -59,6 +61,7 @@ def add_concierge(mii_id):
                 prof=request.form.get("prof", ""),
                 movie_id=request.form.get("movieid", ""),
                 voice=False,
+                locale=form.locale.data,
             )
 
             concierge_movie = ConciergeMovies(
@@ -134,7 +137,7 @@ def add_concierge(mii_id):
             log_action(f"Concierge Mii {concierge_data.mii_id} added")
             update_mii_on_s3(mii_id)
             print("Concierge created successfully!", "success")
-            return redirect(url_for("list_concierge"))
+            return redirect(url_for("list_concierge", l=form.locale.data))
 
         except Exception as e:
             db.session.rollback()
@@ -172,6 +175,7 @@ def edit_concierge(mii_id):
         mii_msg_infos[0][0].action = form.action.data
         mii_msg_infos[0][0].prof = form.prof.data
         mii_msg_infos[0][0].movie_id = form.movieid.data
+        mii_msg_infos[0][0].locale = form.locale.data
 
         for _, info in mii_msg_infos:
             info.msg = form[f"message{info.type}"].data
@@ -180,12 +184,13 @@ def edit_concierge(mii_id):
 
         update_mii_on_s3(mii_id)
         log_action(f"Concierge Mii {retrieved_data[0][0].mii_id} added")
-        return redirect(url_for("list_concierge"))
+        return redirect(url_for("list_concierge", l=form.locale.data))
     else:
         # Populate the data
         form.action.data = mii_msg_infos[0][0].action
         form.prof.data = mii_msg_infos[0][0].prof
         form.movieid.data = mii_msg_infos[0][0].movie_id
+        form.locale.data = mii_msg_infos[0][0].locale
         for _, info in mii_msg_infos:
             form[f"message{info.type}"].data = info.msg
 
@@ -196,7 +201,7 @@ def edit_concierge(mii_id):
 @oidc.require_login
 def remove_concierge(mii_id):
     def drop_concierge():
-        concierge = ConciergeMiis.query.filter_by(mii_id=mii_id).first()
+        concierge = db.session.query(ConciergeMiis).filter_by(mii_id=mii_id).first()
         if concierge:
             db.session.delete(concierge)
 

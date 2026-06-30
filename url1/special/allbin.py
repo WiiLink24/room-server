@@ -1,5 +1,5 @@
 from asset_data import ParadeBannerAsset
-from helpers import xml_node_name, RepeatedElement
+from helpers import xml_node_name, RepeatedElement, wii_locale
 from room import app
 from models import MiiData, Rooms, db
 
@@ -12,6 +12,7 @@ def special_allbin():
     # Join queries. We select all ParadeMii data alongside MiiData table data with equal Mii IDs.
     parade_miis = (
         db.session.query(Rooms, MiiData)
+        .where(Rooms.locale == wii_locale)
         .filter(Rooms.parade_mii == MiiData.mii_id)
         .order_by(Rooms.room_id)
         .limit(30)

@@ -1,12 +1,18 @@
 from room import app
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
-from models import PayMovies
+from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
+from models import PayMovies, db, PayCategories
 
 
 @app.route("/url3/pay/list/new/all.xml")
 @xml_node_name("New")
 def pay_new_all():
-    queried_movies = PayMovies.query.order_by(PayMovies.date_added.desc()).limit(64)
+    queried_movies = (
+        db.session.query(PayMovies, PayCategories)
+        .filter(PayMovies.category_id == PayCategories.category_id)
+        .where(PayCategories.locale == wii_locale)
+        .order_by(PayMovies.date_added.desc())
+        .limit(64)
+    )
     filler = []
 
     for i, new_movies in enumerate(queried_movies):

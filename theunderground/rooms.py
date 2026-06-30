@@ -16,13 +16,19 @@ from room import app, s3
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.logging import log_action
+from theunderground.locale import get_current_locale
 import config
 
 
 @app.route("/theunderground/rooms")
 @oidc.require_login
 def list_room():
-    rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
+    rooms = (
+        db.session.query(Rooms)
+        .where(Rooms.locale == get_current_locale())
+        .order_by(Rooms.room_id.asc())
+        .all()
+    )
     return render_template(
         "room_list.html", rooms=rooms, type_length=len(rooms), type_max_count=30
     )
@@ -33,11 +39,11 @@ def list_room():
 def edit_room(room_id):
     form = RoomForm()
 
-    miis = RoomMiis.query.filter_by(room_id=room_id).all()
+    miis = db.session.query(RoomMiis).filter_by(room_id=room_id).all()
     if not miis:
         return exceptions.NotFound()
 
-    room = Rooms.query.filter_by(room_id=room_id).first()
+    room = db.session.query(Rooms).filter_by(room_id=room_id).first()
     if not room:
         return exceptions.NotFound()
 
@@ -57,10 +63,10 @@ def edit_room(room_id):
             RoomMascotAsset(room.room_id).upload(form.mascot)
 
         received_length = len(form.mii.data) / 2
-        original_length = RoomMiis.query.filter_by(room_id=room_id).count()
+        original_length = db.session.query(RoomMiis).filter_by(room_id=room_id).count()
         if received_length < original_length:
             # If the edited credits is less than what is in the database, we must delete the removed.
-            RoomMiis.query.filter_by(room_id=room_id).where(
+            db.session.query(RoomMiis).filter_by(room_id=room_id).where(
                 RoomMiis.seq > received_length
             ).delete()
 
@@ -68,7 +74,12 @@ def edit_room(room_id):
         seq = 1
         for i in range(0, int(received_length) * 2, 2):
             # Query the row
-            data = RoomMiis.query.filter_by(room_id=room_id).filter_by(seq=seq).first()
+            data = (
+                db.session.query(RoomMiis)
+                .filter_by(room_id=room_id)
+                .filter_by(seq=seq)
+                .first()
+            )
             if not data:
                 # Brand new row.
                 db_mii = RoomMiis(
@@ -93,11 +104,11 @@ def edit_room(room_id):
         room.contact_data = form.contact.data
         room.news = form.news.data
         room.parade_mii = form.parade_mii.data
-        db.session.add(room)
+        room.locale = form.locale.data
         db.session.commit()
 
         log_action(f"Room ID {room_id} was edited")
-        return redirect(url_for("list_room"))
+        return redirect(url_for("list_room", l=form.locale.data))
     else:
         # Populate our form.
         # This is long and unwieldy...
@@ -107,8 +118,9 @@ def edit_room(room_id):
         form.contact.data = room.contact_data
         form.news.data = room.news
         form.parade_mii.data = room.parade_mii
+        form.locale.data = room.locale
 
-    rooms = Rooms.query.order_by(Rooms.room_id.asc()).all()
+    rooms = db.session.query(Rooms).order_by(Rooms.room_id.asc()).all()
 
     return render_template(
         "room_action.html",
@@ -145,6 +157,7 @@ def create_room():
             contact_data=form.contact.data,
             news=form.news.data,
             parade_mii=form.parade_mii.data,
+            locale=form.locale.data,
         )
         db.session.add(room)
         db.session.commit()
