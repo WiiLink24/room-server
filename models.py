@@ -323,7 +323,6 @@ class EvaluateData(db.Model):
     blood: Mapped[int]
     age: Mapped[int]
     vote: Mapped[int]
-    locale: Mapped[Locale]
 
 
 class PollData(db.Model):
@@ -333,7 +332,6 @@ class PollData(db.Model):
     choice: Mapped[int]
     age: Mapped[int]
     gender: Mapped[int]
-    locale: Mapped[Locale]
 
 
 class ContentTypes(enum.Enum):
