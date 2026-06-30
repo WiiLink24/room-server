@@ -3,15 +3,19 @@ import config
 from sqlalchemy import func
 from io import BytesIO
 
-from models import EvaluateData, Movies, db
+from models import EvaluateData, Movies, db, Categories
 from room import app, s3
-from helpers import xml_node_name, RepeatedElement, current_date_and_time
+from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
 
 
 def query_popular(*criteria):
     query = (
-        db.session.query(EvaluateData, Movies)
-        # Select movie_id and title...
+        db.session.query(EvaluateData, Movies, Categories)
+        # Filter based on correct locale...
+        .filter(Movies.category_id == Categories.category_id).where(
+            Categories.locale == wii_locale
+        )
+        # ...select movie_id and title...
         .with_entities(EvaluateData.movie_id, Movies.title)
         # ...by grouping together all duplicate movie votes to their title...
         .group_by(EvaluateData.movie_id, Movies.title)
