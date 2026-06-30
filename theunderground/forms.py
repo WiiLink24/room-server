@@ -33,6 +33,7 @@ Reference:
 
 class NewsForm(FlaskForm):
     news = TextAreaField("News Contents", validators=[DataRequired(), Length(max=146)])
+    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     create = SubmitField("Create!")
 
 

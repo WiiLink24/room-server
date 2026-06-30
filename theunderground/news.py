@@ -31,15 +31,14 @@ def edit_news(news_id):
     form = NewsForm()
 
     # Obtain the news with that id
-    news_item = News.query.filter_by(id=news_id).first()
+    news_item = db.session.query(News).where(News.id == news_id).first()
     if not news_item:
         return exceptions.NotFound()
 
     if form.validate_on_submit():
         # Now we change the message
         news_item.msg = form.news.data
-        # Now commit it
-        db.session.add(news_item)
+        news_item.locale = form.locale.data
         db.session.commit()
 
         update_news_on_s3()
@@ -48,6 +47,7 @@ def edit_news(news_id):
 
     # Populate with existing news.
     form.news.data = news_item.msg
+    form.locale.data = news_item.locale
 
     return render_template("news_action.html", action="Edit", form=form)
 
@@ -57,7 +57,7 @@ def edit_news(news_id):
 def add_news():
     form = NewsForm()
     if form.validate_on_submit():
-        created_news = News(msg=form.news.data)
+        created_news = News(msg=form.news.data, locale=form.locale.data)
         db.session.add(created_news)
         db.session.commit()
 
@@ -73,7 +73,7 @@ def add_news():
 @oidc.require_login
 def remove_news(news_id):
     def drop_news():
-        db.session.delete(News.query.filter_by(id=news_id).first())
+        db.session.delete(db.session.query(News).where(News.id == news_id).first())
         db.session.commit()
 
         log_action(f"News {news_id} removed")
