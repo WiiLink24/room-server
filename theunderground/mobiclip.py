@@ -12,7 +12,7 @@ import config
 from time import gmtime, strftime
 
 from room import s3
-from models import Categories, PayCategories, Rooms
+from models import Categories, PayCategories, Rooms, db
 from theunderground.encodemii import (
     movie_thumbnail_encode,
     pay_movie_thumbnail_encode,
@@ -21,6 +21,7 @@ from theunderground.encodemii import (
 
 from url1.movie_metadata import movie_metadata
 from typing import Union
+from theunderground.locale import get_current_locale
 
 DS_NONCE = b"\x76\xdb\x26\xae\x09\xbe\x10\x24"
 DS_KEY = b"\x37\xf9\x60\x01\x85\xb4\xdc\xea\x85\x03\x7b\x32\x5d\xad\xf6\x44"
@@ -116,7 +117,11 @@ def validate_mobi_dsi(file_data: bytes) -> Union[bool, bytes]:
 
 
 def get_category_list():
-    db_categories = Categories.query.all()
+    db_categories = (
+        db.session.query(Categories)
+        .where(Categories.locale == get_current_locale())
+        .all()
+    )
 
     choice_categories = []
     for _, category in enumerate(db_categories):
@@ -126,7 +131,7 @@ def get_category_list():
 
 
 def get_room_list():
-    db_rooms = Rooms.query.all()
+    db_rooms = db.session.query(Rooms).where(Rooms.locale == get_current_locale()).all()
 
     choice_rooms = []
     for _, room in enumerate(db_rooms):
@@ -136,11 +141,15 @@ def get_room_list():
 
 
 def get_pay_category_list():
-    db_categories = PayCategories.query.all()
+    db_categories = (
+        db.session.query(PayCategories)
+        .where(PayCategories.locale == get_current_locale())
+        .all()
+    )
 
     choice_categories = []
-    for _, paycategory in enumerate(db_categories):
-        choice_categories.append([paycategory.category_id, paycategory.name])
+    for _, pay_category in enumerate(db_categories):
+        choice_categories.append([pay_category.category_id, pay_category.name])
 
     return choice_categories
 
