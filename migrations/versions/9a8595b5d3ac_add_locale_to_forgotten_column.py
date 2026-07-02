@@ -91,15 +91,6 @@ def upgrade():
     with op.batch_alter_table("posters", schema=None) as batch_op:
         batch_op.alter_column("locale", nullable=False)
 
-    with op.batch_alter_table("poll_data", schema=None) as batch_op:
-        batch_op.alter_column(
-            "locale",
-            existing_type=postgresql.ENUM(
-                "jp", "Ge", "En", "Fr", "Sp", "Du", "It", "ptbr", "ru", name="locale"
-            ),
-            nullable=False,
-        )
-
     # ### end Alembic commands ###
 
 
