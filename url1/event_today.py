@@ -8,7 +8,7 @@ from helpers import (
     RepeatedElement,
     RepeatedKey,
     is_v770,
-    wii_locale,
+    get_wii_locale,
 )
 from models import Posters, ConciergeMiis, News, IntroInfo, ContentTypes, LinkTypes, db
 import os
@@ -52,27 +52,30 @@ def event_today():
     # Retrieve all registered posters.
     queried_posters = (
         db.session.query(Posters)
-        .where(Posters.locale == wii_locale)
+        .where(Posters.locale == get_wii_locale())
         .order_by(Posters.poster_id.asc())
         .limit(20)
         .all()
     )
     queried_miis = (
         db.session.query(ConciergeMiis)
-        .where(ConciergeMiis.locale == wii_locale)
+        .where(ConciergeMiis.locale == get_wii_locale())
         .order_by(ConciergeMiis.mii_id.asc())
         .limit(20)
         .all()
     )
     queried_intro_info = (
         db.session.query(IntroInfo)
-        .where(IntroInfo.locale == wii_locale)
+        .where(IntroInfo.locale == get_wii_locale())
         .order_by(IntroInfo.position.asc())
         .all()
     )
 
     queried_news = (
-        db.session.query(News).where(News.locale == wii_locale).order_by(News.id).all()
+        db.session.query(News)
+        .where(News.locale == get_wii_locale())
+        .order_by(News.id)
+        .all()
     )
     # Create a dictionary and append contents.
     # We require separate posterinfos, so we use RepeatedElement.

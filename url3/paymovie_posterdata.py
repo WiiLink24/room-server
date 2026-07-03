@@ -3,7 +3,12 @@ from werkzeug import exceptions
 from werkzeug.security import safe_join
 
 from room import app
-from helpers import RepeatedElement, xml_node_name, current_date_and_time, wii_locale
+from helpers import (
+    RepeatedElement,
+    xml_node_name,
+    current_date_and_time,
+    get_wii_locale,
+)
 from models import PayMovies, db, PayCategories
 
 
@@ -14,7 +19,7 @@ def search_movies(category_id):
     retrieved_data = (
         db.session.query(PayMovies, PayCategories)
         .filter(PayMovies.category_id == category_id)
-        .where(PayCategories.locale == wii_locale)
+        .where(PayCategories.locale == get_wii_locale())
         .order_by(PayMovies.movie_id)
         .all()
     )

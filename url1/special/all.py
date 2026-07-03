@@ -1,6 +1,11 @@
 from models import MiiData, Rooms, db
 from room import app
-from helpers import current_date_and_time, xml_node_name, RepeatedElement, wii_locale
+from helpers import (
+    current_date_and_time,
+    xml_node_name,
+    RepeatedElement,
+    get_wii_locale,
+)
 
 
 @app.route("/url1/special/all.xml")
@@ -10,7 +15,7 @@ def special_all():
 
     parade_miis = (
         db.session.query(Rooms, MiiData)
-        .where(Rooms.locale == wii_locale)
+        .where(Rooms.locale == get_wii_locale())
         .filter(Rooms.parade_mii == MiiData.mii_id)
         .order_by(Rooms.room_id)
         .all()

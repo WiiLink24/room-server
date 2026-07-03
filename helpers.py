@@ -23,14 +23,16 @@ is_v770 = LocalProxy(check_if_v770)
 
 
 def get_wii_locale():
-    if "wii_locale" not in g:
-        # Possible that it is v770
-        return Locale.En.name
+    if "User-Agent" in request.headers:
+        user_agent = request.headers["User-Agent"]
+        ua_parts = user_agent.split("/")
+        if len(ua_parts) != 5:
+            # Default to English
+            return Locale.En.name
 
-    return g.wii_locale
+        return ua_parts[3]
 
-
-wii_locale = LocalProxy(get_wii_locale)
+    return Locale.En.name
 
 
 def xml_node_name(node_name):
@@ -250,22 +252,3 @@ def get_weekday(passed_date: datetime) -> str:
         return "SA"
     else:
         return "SU"
-
-
-@app.before_request
-def determine_wii_locale():
-    if is_v770:
-        # determine_version should fire first so this will exist
-        return None
-
-    if "User-Agent" in request.headers:
-        user_agent = request.headers["User-Agent"]
-        ua_parts = user_agent.split("/")
-        if len(ua_parts) != 5:
-            return None
-
-        g.wii_locale = ua_parts[3]
-        return None
-
-    # No User-Agent, no business.
-    return exceptions.NotFound()

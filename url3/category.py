@@ -1,6 +1,6 @@
 from asset_data import PayCategoryAsset
 from room import app
-from helpers import xml_node_name, RepeatedElement, wii_locale
+from helpers import xml_node_name, RepeatedElement, get_wii_locale
 from models import PayCategories, db
 
 from werkzeug import exceptions
@@ -12,7 +12,7 @@ from flask import send_from_directory
 def pay_list_category(list_id: int):
     queried_categories = (
         db.session.query(PayCategories)
-        .where(PayCategories.locale == wii_locale)
+        .where(PayCategories.locale == get_wii_locale())
         .order_by(PayCategories.name.asc())
         .all()
     )
@@ -20,7 +20,7 @@ def pay_list_category(list_id: int):
     retrieved_data = (
         db.session.query(PayCategories)
         .filter(PayCategories.genre_id == list_id)
-        .where(PayCategories.locale == wii_locale)
+        .where(PayCategories.locale == get_wii_locale())
         .order_by(PayCategories.category_id)
         .all()
     )

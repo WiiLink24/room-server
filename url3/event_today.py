@@ -1,7 +1,13 @@
 from flask import send_from_directory
 
 from room import app
-from helpers import current_date, xml_node_name, RepeatedElement, is_v770, wii_locale
+from helpers import (
+    current_date,
+    xml_node_name,
+    RepeatedElement,
+    is_v770,
+    get_wii_locale,
+)
 from models import PayPosters, Categories, db
 
 
@@ -11,7 +17,7 @@ def pay_event_today():
     # Retrieve all registered posters.
     queried_posters = (
         db.session.query(PayPosters)
-        .where(PayPosters.locale == wii_locale)
+        .where(PayPosters.locale == get_wii_locale())
         .order_by(PayPosters.poster_id.asc())
         .limit(20)
         .all()
@@ -40,7 +46,7 @@ def pay_event_today_v1025(queried_posters):
     # first category's ID.
     first_category = (
         db.session.query(Categories)
-        .where(Categories.locale == wii_locale)
+        .where(Categories.locale == get_wii_locale)
         .order_by(Categories.category_id.asc())
         .first()
     )

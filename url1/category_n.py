@@ -1,6 +1,6 @@
 from models import Categories, Rooms, ConciergeMiis, MiiData
 from room import app, db
-from helpers import xml_node_name, RepeatedElement, wii_locale
+from helpers import xml_node_name, RepeatedElement, get_wii_locale
 
 
 @app.route("/url1/list/category/<list_id>.xml")
@@ -16,7 +16,7 @@ def list_category_n(list_id):
             queried_categories = (
                 db.session.query(Categories)
                 .filter(Categories.unlisted == False)
-                .where(Categories.locale == wii_locale)
+                .where(Categories.locale == get_wii_locale())
                 .order_by(Categories.name.asc())
                 .limit(64)
                 .all()
@@ -38,7 +38,7 @@ def list_category_n(list_id):
         case "02":
             concierge_miis = (
                 db.session.query(ConciergeMiis, MiiData)
-                .where(ConciergeMiis.locale == wii_locale)
+                .where(ConciergeMiis.locale == get_wii_locale())
                 .filter(ConciergeMiis.mii_id == MiiData.mii_id)
                 .all()
             )
@@ -61,7 +61,7 @@ def list_category_n(list_id):
         case "03":
             queried_data = (
                 db.session.query(Rooms)
-                .where(Rooms.locale == wii_locale)
+                .where(Rooms.locale == get_wii_locale())
                 .order_by(Rooms.news.asc())
                 .all()
             )

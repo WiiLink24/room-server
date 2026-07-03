@@ -5,7 +5,12 @@ from io import BytesIO
 
 from models import EvaluateData, Movies, db, Categories
 from room import app, s3
-from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
+from helpers import (
+    xml_node_name,
+    RepeatedElement,
+    current_date_and_time,
+    get_wii_locale,
+)
 
 
 def query_popular(*criteria):
@@ -13,7 +18,7 @@ def query_popular(*criteria):
         db.session.query(EvaluateData, Movies, Categories)
         # Filter based on correct locale...
         .filter(Movies.category_id == Categories.category_id).where(
-            Categories.locale == wii_locale
+            Categories.locale == get_wii_locale()
         )
         # ...select movie_id and title...
         .with_entities(EvaluateData.movie_id, Movies.title)

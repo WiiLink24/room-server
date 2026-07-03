@@ -2,7 +2,12 @@ from werkzeug import exceptions
 
 from models import Movies, ConciergeMovies, Rooms, db
 from room import app
-from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
+from helpers import (
+    xml_node_name,
+    RepeatedElement,
+    current_date_and_time,
+    get_wii_locale,
+)
 
 
 @app.route("/url1/list/category/search/<int:categ_id>")

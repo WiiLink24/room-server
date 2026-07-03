@@ -1,5 +1,10 @@
 from room import app
-from helpers import xml_node_name, RepeatedElement, current_date_and_time, wii_locale
+from helpers import (
+    xml_node_name,
+    RepeatedElement,
+    current_date_and_time,
+    get_wii_locale,
+)
 from models import Movies, Categories, db
 
 
@@ -9,7 +14,7 @@ def new_all():
     queried_movies = (
         db.session.query(Movies, Categories)
         .filter(Movies.category_id == Categories.category_id)
-        .where(Categories.locale == wii_locale)
+        .where(Categories.locale == get_wii_locale)
         .with_entities(Movies.title, Movies.movie_id)
         .order_by(Movies.date_added.desc())
         .limit(12)
