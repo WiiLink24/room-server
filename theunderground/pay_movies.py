@@ -22,6 +22,7 @@ from theunderground.forms import PayMovieUploadForm
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.logging import log_action
+from theunderground.locale import get_current_locale
 
 
 @app.route("/theunderground/paycategories/<category>")
@@ -57,7 +58,7 @@ def list_pay_movies(category):
 @oidc.require_login
 def add_pay_movie():
     form = PayMovieUploadForm()
-    form.category.choices = get_pay_category_list()
+    form.category.choices = get_pay_category_list(get_current_locale())
 
     if form.validate_on_submit():
         movie = form.movie.data

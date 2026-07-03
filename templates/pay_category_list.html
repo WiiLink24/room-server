@@ -68,7 +68,7 @@
                     </div>
                     <h2 class="text-xl font-bold text-white">Pay Categories</h2>
                 </div>
-                <a href="{{ url_for('add_pay_category') }}"
+                <a href="{{ url_for('add_pay_category', l=g.current_locale) }}"
                     class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
                     <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
                     <span>Add Category</span>
@@ -146,7 +146,7 @@
                 <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
                     You haven't added any premium categories yet.
                 </p>
-                <a href="{{ url_for('add_pay_category') }}"
+                <a href="{{ url_for('add_pay_category', l=g.current_locale) }}"
                     class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
                     <img src="/static/icon/plus-circle.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
                     <span>Add First Category</span>
@@ -157,7 +157,7 @@
             <div class="p-6 border-t border-gray-700 flex justify-between items-center">
                 <div class="flex space-x-4">
                     {% if categories.has_prev %}
-                    <a href="{{ url_for('list_pay_categories', page=categories.prev_num) }}"
+                    <a href="{{ url_for('list_pay_categories', page=categories.prev_num, l=g.current_locale) }}"
                         class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
                         <img src="/static/icon/chevron-left.svg" alt="Previous" class="h-4 w-4 mr-2 invert" />
                         <span>Previous</span>
@@ -171,7 +171,7 @@
                     {% endif %}
 
                     {% if categories.has_next %}
-                    <a href="{{ url_for('list_pay_categories', page=categories.next_num) }}"
+                    <a href="{{ url_for('list_pay_categories', page=categories.next_num, l=g.current_locale) }}"
                         class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
                         <span>Next</span>
                         <img src="/static/icon/chevron-right.svg" alt="Next" class="h-4 w-4 ml-2 invert" />

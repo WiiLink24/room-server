@@ -126,11 +126,9 @@ def get_room_list(locale):
     return choice_rooms
 
 
-def get_pay_category_list():
+def get_pay_category_list(locale):
     db_categories = (
-        db.session.query(PayCategories)
-        .where(PayCategories.locale == get_current_locale())
-        .all()
+        db.session.query(PayCategories).where(PayCategories.locale == locale).all()
     )
 
     choice_categories = []

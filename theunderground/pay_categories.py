@@ -39,7 +39,7 @@ def list_pay_categories():
 @oidc.require_login
 def add_pay_category():
     form = CategoryForm()
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(get_current_locale())
     # As we're adding, ensure a file is required.
     form.thumbnail.flags.required = True
 
@@ -58,7 +58,7 @@ def add_pay_category():
         PayCategoryAsset(new_category.category_id).encode(form.thumbnail)
 
         log_action(f"Pay category {new_category.category_id} added")
-        return redirect(url_for("list_pay_categories", l=form.locale.data))
+        return redirect(url_for("list_pay_categories", l=get_current_locale()))
 
     return render_template("pay_category_action.html", form=form, action="Add")
 
@@ -68,7 +68,7 @@ def add_pay_category():
 def edit_pay_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(get_current_locale())
 
     # Populate data
     current_category = PayCategories.query.filter(
@@ -80,7 +80,6 @@ def edit_pay_category(category):
     if form.validate_on_submit():
         current_category.name = form.category_name.data
         current_category.sp_page_id = form.room.data
-        current_category.locale = form.locale.data
         db.session.commit()
 
         # Check if we have a new thumbnail.
@@ -88,12 +87,11 @@ def edit_pay_category(category):
             PayCategoryAsset(current_category.category_id).encode(form.thumbnail)
 
         log_action(f"Pay category {category} edited")
-        return redirect(url_for("list_pay_categories", l=form.locale.data))
+        return redirect(url_for("list_pay_categories", l=get_current_locale()))
     else:
         # Populate the current name.
         # category_add.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
-        form.locale.data = current_category.locale
 
     return render_template(
         "pay_category_action.html", category=current_category, form=form, action="Edit"
