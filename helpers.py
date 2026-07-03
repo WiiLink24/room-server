@@ -254,6 +254,10 @@ def get_weekday(passed_date: datetime) -> str:
 
 @app.before_request
 def determine_wii_locale():
+    if is_v770:
+        # determine_version should fire first so this will exist
+        return None
+
     if "User-Agent" in request.headers:
         user_agent = request.headers["User-Agent"]
         ua_parts = user_agent.split("/")
