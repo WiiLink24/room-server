@@ -12,7 +12,6 @@ from werkzeug import exceptions
 from models import Movies, db, MovieCredits, Categories
 from room import app
 from theunderground.mobiclip import (
-    get_category_list,
     validate_mobiclip,
     validate_mobi_dsi,
     get_mobiclip_length,
@@ -66,7 +65,7 @@ def list_movies(category):
     )
 
 
-@app.route("/theunderground/movies/<category>/<movie_id>/listed")
+@app.route("/theunderground/categories/<category>/<movie_id>/listed")
 @oidc.require_login
 def toggle_movie_listed(category, movie_id):
     movie = db.session.query(Movies).filter_by(movie_id=movie_id).first()
@@ -75,12 +74,21 @@ def toggle_movie_listed(category, movie_id):
     return redirect(url_for("list_movies", category=category))
 
 
-@app.route("/theunderground/movies/add", methods=["GET", "POST"])
+@app.route("/theunderground/categories/<int:category_id>/add", methods=["GET", "POST"])
 @oidc.require_login
-def add_movie():
+def add_movie(category_id):
+    category = (
+        db.session.query(Categories)
+        .filter(Categories.category_id == category_id)
+        .first()
+    )
+
+    if not category:
+        return exceptions.NotFound()
+
     form = MovieUploadForm()
-    form.category.choices = get_category_list()
-    form.room.choices = get_room_list()
+
+    form.room.choices = get_room_list(category.locale)
     form.movie.validators = [FileRequired()]
     form.thumbnail.validators = [FileRequired()]
 
@@ -101,7 +109,7 @@ def add_movie():
                 # For right now, we will assume defaults.
                 db_movie = Movies(
                     title=form.title.data,
-                    category_id=form.category.data,
+                    category_id=category_id,
                     length=length,
                     aspect=True,
                     genre=form.genre.data,
@@ -131,8 +139,8 @@ def add_movie():
 
                 # Finally update the category if needed by S3
                 if s3:
-                    cat_xml = list_category_search(form.category.data)
-                    xml_path = f"list/category/search/{form.category.data}"
+                    cat_xml = list_category_search(category_id)
+                    xml_path = f"list/category/search/{category_id}"
                     s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
                 log_action(f"Movie ID {db_movie.movie_id} added")
@@ -142,15 +150,29 @@ def add_movie():
         else:
             flash("Error uploading movie!")
 
-    return render_template("movie_action.html", form=form, action="Add")
+    return render_template(
+        "movie_action.html", form=form, action="Add", category_name=category.name
+    )
 
 
-@app.route("/theunderground/movies/<movie_id>/edit", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/categories/<int:category_id>/<movie_id>/edit",
+    methods=["GET", "POST"],
+)
 @oidc.require_login
-def edit_movie(movie_id):
+def edit_movie(category_id, movie_id):
     form = MovieUploadForm()
-    form.category.choices = get_category_list()
-    form.room.choices = get_room_list()
+
+    category = (
+        db.session.query(Categories)
+        .filter(Categories.category_id == category_id)
+        .first()
+    )
+
+    if not category:
+        return exceptions.NotFound()
+
+    form.room.choices = get_room_list(category.locale)
     form.upload.label.text = "Edit"
 
     movie = Movies.query.filter_by(movie_id=movie_id).first()
@@ -191,13 +213,12 @@ def edit_movie(movie_id):
         # Finally update the title, genre and category.
         movie.title = form.title.data
         movie.genre = form.genre.data
-        movie.category_id = form.category.data
         movie.sp_page_id = form.room.data
         db.session.commit()
 
         if s3:
-            cat_xml = list_category_search(form.category.data)
-            xml_path = f"list/category/search/{form.category.data}"
+            cat_xml = list_category_search(category_id)
+            xml_path = f"list/category/search/{category_id}"
             s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
         log_action(f"Movie ID {movie_id} edited")
@@ -205,10 +226,13 @@ def edit_movie(movie_id):
     else:
         form.title.data = movie.title
         form.genre.data = movie.genre
-        form.category.data = movie.category_id
 
     return render_template(
-        "movie_action.html", form=form, action="Edit", movie_id=movie_id
+        "movie_action.html",
+        form=form,
+        action="Edit",
+        movie_id=movie_id,
+        category_name=category.name,
     )
 
 

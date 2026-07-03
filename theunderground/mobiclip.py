@@ -116,22 +116,8 @@ def validate_mobi_dsi(file_data: bytes) -> Union[bool, bytes]:
     return True
 
 
-def get_category_list():
-    db_categories = (
-        db.session.query(Categories)
-        .where(Categories.locale == get_current_locale())
-        .all()
-    )
-
-    choice_categories = []
-    for _, category in enumerate(db_categories):
-        choice_categories.append([category.category_id, category.name])
-
-    return choice_categories
-
-
-def get_room_list():
-    db_rooms = db.session.query(Rooms).where(Rooms.locale == get_current_locale()).all()
+def get_room_list(locale):
+    db_rooms = db.session.query(Rooms).where(Rooms.locale == locale).all()
 
     choice_rooms = []
     for _, room in enumerate(db_rooms):

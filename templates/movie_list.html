@@ -44,7 +44,7 @@
                     </div>
                     <h2 class="text-xl font-bold text-white">Movie Management - {{ category_name }}</h2>
                 </div>
-                <a href="{{ url_for('add_movie') }}"
+                <a href="{{ url_for('add_movie', category_id=category_id) }}"
                     class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 inline-flex items-center text-sm">
                     <img src="/static/icon/plus.svg" alt="Add" class="h-4 w-4 mr-2 invert" />
                     <span>Add Movie</span>
@@ -60,7 +60,7 @@
                 <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">
                     This category doesn't have any movies yet.
                 </p>
-                <a href="{{ url_for('add_movie') }}"
+                <a href="{{ url_for('add_movie', category_id=category_id) }}"
                     class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm">
                     <img src="/static/icon/circle-plus.svg" alt="Create" class="h-5 w-5 mr-2 invert" />
                     <span>Add Your First Movie</span>
@@ -155,7 +155,7 @@
                             <td class="px-6 py-4">
                                 <div class="flex flex-col gap-2">
                                     <div class="flex flex-wrap gap-2">
-                                        <a href="{{ url_for('edit_movie', movie_id=movie.movie_id) }}"
+                                        <a href="{{ url_for('edit_movie', category_id=category_id, movie_id=movie.movie_id) }}"
                                             class="inline-flex items-center px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 text-xs">
                                             <img src="/static/icon/pencil.svg" alt="Edit" class="h-3.5 w-3.5 mr-1.5 invert" />
                                             <span>Edit</span>

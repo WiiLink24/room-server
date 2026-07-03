@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Movie</h1>
+    <h1 class="mb-6 text-2xl font-bold text-white">{{ action }} Movie for category: {{ category_name }} </h1>
 
     <div class="relative group mb-10">
         <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
@@ -50,21 +50,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="{{ form.category.id }}"
-                            class="block text-sm font-medium text-gray-300 mb-2">Category:</label>
-                        <div class="relative rounded-md shadow-sm">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <img src="/static/icon/folder.svg" alt="Category" class="w-5 h-5 invert opacity-70" />
-                            </div>
-                            {{ form.category(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4
-                            py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500
-                            focus:border-transparent appearance-none") }}
-                        </div>
-                        <p class="mt-1 text-xs text-gray-400">Classification category for the movie</p>
-                    </div>
-
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <div>
                         <label for="{{ form.room.id }}"
                             class="block text-sm font-medium text-gray-300 mb-2">Room:</label>
@@ -79,6 +65,7 @@
                         <p class="mt-1 text-xs text-gray-400">Associated room for this movie</p>
                     </div>
                 </div>
+
                 <span class="flex flex-row items-center gap-3">
                     <div class="grow">
                         <label for="{{ form.movie.id }}" class="block text-sm font-medium text-gray-300 mb-2">Movie

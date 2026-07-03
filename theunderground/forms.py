@@ -59,8 +59,6 @@ class MovieUploadForm(FlaskForm):
         choices=MovieGenres.choices(),
         coerce=MovieGenres.coerce,
     )
-    # Choices for the select field are only evaluated once, so we must set it when necessary.
-    category = SelectField("Movie category", validators=[DataRequired()])
     room = SelectField("Room", validators=[DataRequired()])
     upload = SubmitField("Add Movie")
 
@@ -88,7 +86,6 @@ class CategoryForm(FlaskForm):
     )
     room = SelectField("Room", validators=[DataRequired()])
     thumbnail = FileField("Category Thumbnail")
-    locale = SelectField("Locale", choices=Locale.choices(), coerce=Locale.coerce)
     submit = SubmitField("Add")
 
 

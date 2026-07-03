@@ -53,7 +53,7 @@ def toggle_category_listed(category):
 @oidc.require_login
 def add_category():
     form = CategoryForm()
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(get_current_locale())
     # As we're adding, ensure a file is required.
     form.thumbnail.validators = [FileRequired()]
 
@@ -61,7 +61,7 @@ def add_category():
         new_category = Categories(
             name=form.category_name.data,
             sp_page_id=form.room.data,
-            locale=form.locale.data,
+            locale=get_current_locale(),
         )
 
         # Add to retrieve the category ID.
@@ -72,7 +72,7 @@ def add_category():
         NormalCategoryAsset(new_category.category_id).encode(form.thumbnail)
 
         log_action(f"Category {new_category.category_id} added")
-        return redirect(url_for("list_categories", l=form.locale.data))
+        return redirect(url_for("list_categories", l=get_current_locale()))
 
     return render_template("category_action.html", form=form, action="Add")
 
@@ -82,7 +82,7 @@ def add_category():
 def edit_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(get_current_locale())
 
     # Populate data
     current_category = (
@@ -94,7 +94,6 @@ def edit_category(category):
     if form.validate_on_submit():
         current_category.name = form.category_name.data
         current_category.sp_page_id = form.room.data
-        current_category.locale = form.locale.data
         db.session.commit()
 
         # Check if we have a new thumbnail.
@@ -107,7 +106,6 @@ def edit_category(category):
         # Populate the current name.
         # category_action.html below will populate the current thumbnail.
         form.category_name.data = current_category.name
-        form.locale.data = current_category.locale
 
     return render_template(
         "category_action.html", category=current_category, form=form, action="Edit"
