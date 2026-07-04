@@ -89,8 +89,11 @@ def votes_list_movies(category):
     page_num = request.args.get("page", default=1, type=int)
 
     # We want at most 20 movies per page.
-    movies = Movies.query.filter(Movies.category_id == category).paginate(
-        page=page_num, per_page=20, error_out=False
+    movies = (
+        db.session.query(Movies)
+        .filter(Movies.category_id == category)
+        .order_by(Movies.movie_id.asc())
+        .paginate(page=page_num, per_page=20, error_out=False)
     )
 
     votes = {}
