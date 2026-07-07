@@ -8,7 +8,6 @@ from asset_data import PayCategoryAsset
 from models import PayCategories, db, PayCategoryHeaders
 from room import app
 from theunderground.forms import CategoryForm, PayCategoryHeaderForm
-from theunderground.mobiclip import get_room_list
 from theunderground.operations import manage_delete_item
 from theunderground.admin import oidc
 from theunderground.logging import log_action
@@ -39,14 +38,12 @@ def list_pay_categories():
 @oidc.require_login
 def add_pay_category():
     form = CategoryForm()
-    form.room.choices = get_room_list()
     # As we're adding, ensure a file is required.
     form.thumbnail.flags.required = True
 
     if form.validate_on_submit():
         new_category = PayCategories(
             name=form.category_name.data,
-            sp_page_id=form.room.data,
             locale=form.locale.data,
         )
 
@@ -68,7 +65,6 @@ def add_pay_category():
 def edit_pay_category(category):
     form = CategoryForm()
     form.submit.label.text = "Edit"
-    form.room.choices = get_room_list()
 
     # Populate data
     current_category = PayCategories.query.filter(
@@ -79,7 +75,6 @@ def edit_pay_category(category):
 
     if form.validate_on_submit():
         current_category.name = form.category_name.data
-        current_category.sp_page_id = form.room.data
         current_category.locale = form.locale.data
         db.session.commit()
 
