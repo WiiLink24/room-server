@@ -21,15 +21,15 @@ def pay_new_all():
             RepeatedElement(
                 {
                     "rank": i + 1,
-                    "movieid": new_movies.movie_id,
-                    "title": new_movies.title,
+                    "movieid": new_movies[0].movie_id,
+                    "title": new_movies[0].title,
                     "strdt": current_date_and_time(),
                     "pop": "1",
                     "kana": 12345678,
                     "refid": "01234567890123456789012345678912",
-                    "released": new_movies.released,
+                    "released": new_movies[0].released,
                     "term": 1,
-                    "price": new_movies.price,
+                    "price": new_movies[0].price,
                 }
             )
         )
