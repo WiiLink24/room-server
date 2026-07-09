@@ -225,7 +225,6 @@ class PayCategories(db.Model):
     name: Mapped[str] = mapped_column(String(61))
     # Starts at 10, goes up by 1 each time
     genre_id: Mapped[Optional[int]]
-    sp_page_id: Mapped[Optional[int]]
     locale: Mapped[Locale]
 
 
@@ -236,7 +235,6 @@ class PayCategoryHeaders(db.Model):
 class Categories(db.Model):
     category_id: Mapped[int] = mapped_column(primary_key=True, unique=True)
     name: Mapped[str] = mapped_column(String(61))
-    sp_page_id: Mapped[Optional[int]]
     unlisted: Mapped[bool] = mapped_column(default=False)
     locale: Mapped[Locale]
 
