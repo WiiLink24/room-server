@@ -12,7 +12,7 @@ import config
 from time import gmtime, strftime
 
 from room import s3
-from models import Categories, PayCategories, Rooms
+from models import Categories, PayCategories, Rooms, db
 from theunderground.encodemii import (
     movie_thumbnail_encode,
     pay_movie_thumbnail_encode,
@@ -115,18 +115,8 @@ def validate_mobi_dsi(file_data: bytes) -> Union[bool, bytes]:
     return True
 
 
-def get_category_list():
-    db_categories = Categories.query.all()
-
-    choice_categories = []
-    for _, category in enumerate(db_categories):
-        choice_categories.append([category.category_id, category.name])
-
-    return choice_categories
-
-
-def get_room_list():
-    db_rooms = Rooms.query.all()
+def get_room_list(locale):
+    db_rooms = db.session.query(Rooms).where(Rooms.locale == locale).all()
 
     choice_rooms = []
     for _, room in enumerate(db_rooms):

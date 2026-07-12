@@ -12,7 +12,6 @@ from werkzeug import exceptions
 from models import Movies, db, MovieCredits, Categories
 from room import app
 from theunderground.mobiclip import (
-    get_category_list,
     validate_mobiclip,
     validate_mobi_dsi,
     get_mobiclip_length,
@@ -47,9 +46,10 @@ def list_movies(category):
     )
 
     unlisted_movies = (
-        Movies.query.filter(Movies.category_id == category)
+        db.session.query(Movies)
+        .filter(Movies.category_id == category)
         .filter(Movies.unlisted == True)
-        .all()
+        .count()
     )
 
     category_name = db.session.scalar(
@@ -61,12 +61,12 @@ def list_movies(category):
         movies=movies,
         category_id=category,
         category_name=category_name,
-        type_length=movies.total - len(unlisted_movies),
+        type_length=movies.total - unlisted_movies,
         type_max_count=64,
     )
 
 
-@app.route("/theunderground/movies/<category>/<movie_id>/listed")
+@app.route("/theunderground/categories/<category>/<movie_id>/listed")
 @oidc.require_login
 def toggle_movie_listed(category, movie_id):
     movie = db.session.query(Movies).filter_by(movie_id=movie_id).first()
@@ -75,12 +75,19 @@ def toggle_movie_listed(category, movie_id):
     return redirect(url_for("list_movies", category=category))
 
 
-@app.route("/theunderground/movies/add", methods=["GET", "POST"])
+@app.route("/theunderground/categories/<int:category_id>/add", methods=["GET", "POST"])
 @oidc.require_login
-def add_movie():
+def add_movie(category_id: int):
+    category_obj = (
+        db.session.query(Categories)
+        .filter(Categories.category_id == category_id)
+        .first()
+    )
+    if not category_obj:
+        return exceptions.NotFound()
+
     form = MovieUploadForm()
-    form.category.choices = get_category_list()
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(category_obj.locale)
     form.movie.validators = [FileRequired()]
     form.thumbnail.validators = [FileRequired()]
 
@@ -101,7 +108,7 @@ def add_movie():
                 # For right now, we will assume defaults.
                 db_movie = Movies(
                     title=form.title.data,
-                    category_id=form.category.data,
+                    category_id=category_id,
                     length=length,
                     aspect=True,
                     genre=form.genre.data,
@@ -131,29 +138,41 @@ def add_movie():
 
                 # Finally update the category if needed by S3
                 if s3:
-                    cat_xml = list_category_search(form.category.data)
-                    xml_path = f"list/category/search/{form.category.data}"
+                    cat_xml = list_category_search(category_id)
+                    xml_path = f"list/category/search/{category_id}"
                     s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
                 log_action(f"Movie ID {db_movie.movie_id} added")
-                return redirect(url_for("list_categories"))
+                return redirect(url_for("list_movies", category=category_id))
             else:
                 flash("Invalid movie!")
         else:
             flash("Error uploading movie!")
 
-    return render_template("movie_action.html", form=form, action="Add")
+    return render_template(
+        "movie_action.html", form=form, action="Add", category_name=category_obj.name
+    )
 
 
-@app.route("/theunderground/movies/<movie_id>/edit", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/categories/<int:category_id>/<int:movie_id>/edit",
+    methods=["GET", "POST"],
+)
 @oidc.require_login
-def edit_movie(movie_id):
+def edit_movie(category_id: int, movie_id: int):
+    category_obj = (
+        db.session.query(Categories)
+        .filter(Categories.category_id == category_id)
+        .first()
+    )
+    if not category_obj:
+        return exceptions.NotFound()
+
     form = MovieUploadForm()
-    form.category.choices = get_category_list()
-    form.room.choices = get_room_list()
+    form.room.choices = get_room_list(category_obj.locale)
     form.upload.label.text = "Edit"
 
-    movie = Movies.query.filter_by(movie_id=movie_id).first()
+    movie = db.session.query(Movies).filter_by(movie_id=movie_id).first()
     if not movie:
         return exceptions.NotFound()
 
@@ -168,7 +187,12 @@ def edit_movie(movie_id):
                 movie.length = length
             else:
                 flash("Invalid movie")
-                return render_template("movie_action.html", form=form, action="Edit")
+                return render_template(
+                    "movie_action.html",
+                    form=form,
+                    action="Edit",
+                    category_name=category_obj.name,
+                )
 
         if form.thumbnail.data:
             thumbnail_data = form.thumbnail.data.read()
@@ -182,7 +206,12 @@ def edit_movie(movie_id):
 
             if not validation_ds:
                 flash("Invalid DS movie")
-                return render_template("movie_action.html", form=form, action="Edit")
+                return render_template(
+                    "movie_action.html",
+                    form=form,
+                    action="Edit",
+                    category_name=category_obj.name,
+                )
 
             movie.ds_mov_id = movie.movie_id
 
@@ -191,30 +220,36 @@ def edit_movie(movie_id):
         # Finally update the title, genre and category.
         movie.title = form.title.data
         movie.genre = form.genre.data
-        movie.category_id = form.category.data
         movie.sp_page_id = form.room.data
         db.session.commit()
 
         if s3:
-            cat_xml = list_category_search(form.category.data)
-            xml_path = f"list/category/search/{form.category.data}"
+            cat_xml = list_category_search(category_id)
+            xml_path = f"list/category/search/{category_id}"
             s3.upload_fileobj(BytesIO(cat_xml), config.r2_bucket_name, xml_path)
 
         log_action(f"Movie ID {movie_id} edited")
-        return redirect(url_for("list_categories"))
+        return redirect(url_for("list_movies", category=category_id))
     else:
         form.title.data = movie.title
         form.genre.data = movie.genre
-        form.category.data = movie.category_id
+        form.room.data = form.room.coerce(movie.sp_page_id)
 
     return render_template(
-        "movie_action.html", form=form, action="Edit", movie_id=movie_id
+        "movie_action.html",
+        form=form,
+        action="Edit",
+        movie_id=movie_id,
+        category_name=category_obj.name,
     )
 
 
-@app.route("/theunderground/movies/<movie_id>/save", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/categories/<int:category_id>/<int:movie_id>/save",
+    methods=["GET", "POST"],
+)
 @oidc.require_login
-def save_movie(movie_id):
+def save_movie(category_id: int, movie_id: int):
     movie_dir = get_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}-H.mov")
@@ -222,9 +257,12 @@ def save_movie(movie_id):
     return send_from_directory(movie_dir, f"{movie_id}-H.mov")
 
 
-@app.route("/theunderground/movies/<movie_id>/save_ds", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/categories/<int:category_id>/<int:movie_id>/save_ds",
+    methods=["GET", "POST"],
+)
 @oidc.require_login
-def save_ds_movie(movie_id):
+def save_ds_movie(category_id: int, movie_id: int):
     ds_movie_dir = get_ds_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{ds_movie_dir}/{movie_id}.enc")
@@ -232,14 +270,17 @@ def save_ds_movie(movie_id):
     return send_from_directory(ds_movie_dir, f"{movie_id}.enc")
 
 
-@app.route("/theunderground/movies/<movie_id>/remove", methods=["GET", "POST"])
+@app.route(
+    "/theunderground/categories/<int:category_id>/<int:movie_id>/remove",
+    methods=["GET", "POST"],
+)
 @oidc.require_login
-def remove_movie(movie_id):
+def remove_movie(category_id: int, movie_id: int):
     def drop_movie():
         # Remove the credits first
-        MovieCredits.query.filter_by(movie_id=movie_id).delete()
+        db.session.query(MovieCredits).filter_by(movie_id=movie_id).delete()
 
-        movie = Movies.query.filter_by(movie_id=movie_id).first()
+        movie = db.session.query(Movies).filter_by(movie_id=movie_id).first()
         has_ds = movie.ds_mov_id is not None
         db.session.delete(movie)
         db.session.commit()
@@ -247,14 +288,14 @@ def remove_movie(movie_id):
         delete_movie_data(movie_id, has_ds)
 
         log_action(f"Movie ID {movie_id} removed")
-        return redirect(url_for("list_categories"))
+        return redirect(url_for("list_movies", category=category_id))
 
     return manage_delete_item(movie_id, "movie", drop_movie)
 
 
-@app.route("/theunderground/movies/<movie_id>/thumbnail.jpg")
+@app.route("/theunderground/categories/<int:category_id>/<int:movie_id>/thumbnail.jpg")
 @oidc.require_login
-def get_movie_thumbnail(movie_id):
+def get_movie_thumbnail(category_id: int, movie_id: int):
     movie_dir = get_movie_path(movie_id)
     if s3:
         return redirect(f"{config.url1_cdn_url}/{movie_dir}/{movie_id}.img")
