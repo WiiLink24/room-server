@@ -29,7 +29,7 @@ def get_wii_locale():
 
     # We currently do not have full content teams outside of English,
     # Japanese and Brazilian Portuguese. Default to English for now.
-    
+
     match g.wii_locale:
         case Locale.ptbr.name | Locale.jp.name:
             return g.wii_locale
