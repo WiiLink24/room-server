@@ -27,7 +27,14 @@ def get_wii_locale():
         # Possible that it is v770
         return Locale.En.name
 
-    return g.wii_locale
+    # We currently do not have full content teams outside of English,
+    # Japanese and Brazilian Portuguese. Default to English for now.
+    
+    match g.wii_locale:
+        case Locale.ptbr.name | Locale.jp.name:
+            return g.wii_locale
+        case _:
+            return Locale.En.name
 
 
 wii_locale = LocalProxy(get_wii_locale)
