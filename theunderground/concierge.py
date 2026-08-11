@@ -123,7 +123,7 @@ def add_concierge(mii_id):
 
             # Request the PNG from Nintendo
             mii_img = requests.get(
-                f"https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={mii_data.data.hex()}"
+                f"https://mcc-panel.wiilink.ca/cgi-bin/render.cgi?data={mii_data.data.hex()}"
             )
 
             img = encode_mii_category(mii_img.content)
