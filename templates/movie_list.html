@@ -126,6 +126,11 @@
                                             <img src="/static/icon/tv.svg" alt="Wii" class="h-3 w-3 mr-1.5 invert opacity-70" />
                                             <span class="font-mono">{{ movie.movie_id }}</span>
                                         </span>
+
+                                        <span class="px-2.5 py-1 bg-blue-900/30 text-indigo-300 rounded-md text-xs inline-flex items-center">
+                                            <img src="/static/icon/door-open.svg" alt="Wii" class="h-3 w-3 mr-1.5 invert opacity-70" />
+                                            <span class="font-mono">{{ movie.sp_page_id }}</span>
+                                        </span>
                                         
                                         {% if movie.ds_mov_id is not none %}
                                         <span class="px-2.5 py-1 bg-purple-900/30 text-purple-300 rounded-md text-xs inline-flex items-center">
